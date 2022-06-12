@@ -11,18 +11,17 @@ import SessionLogout from './pages/SessionLogout.js';
 
 import Landing from './pages/Landing.js';
 import Dashboard from './pages/user/Dashboard.js';
-import Profile from './pages/user/Profile.js';
 
 const initialFormState = {
-  username:'',
+  phoneNum:'',
   password:'',
   newPw:'',
   confNewPw:'',
   email: '', 
   name: '',
-  //authCode: '',
+  authCode: '',
   formType:'signIn',
-  //idToken:'',
+  idToken:'',
   //sesObj: {}
 };
 
@@ -47,8 +46,7 @@ function App() {
     try {
       const user = await Auth.currentAuthenticatedUser();
       const groups = user.signInUserSession.accessToken.payload["cognito:groups"]; //Get user group to check if they're an organization
-      //setFormState({...formState, username: user.username, name: user.attributes.name, email: user.attributes.email, idToken: user.signInUserSession.idToken});
-      setFormState({...formState, username: user.username, name: user.attributes.name, email: user.attributes.email});
+      setFormState({...formState, phoneNum: user.username, name: user.attributes.name, email: user.attributes.email, idToken: user.signInUserSession.idToken});
       userHasAuthenticated(true);
       //Check for authorization
       if(groups) {
@@ -83,7 +81,7 @@ function App() {
     onLoad();
   }, []);
   //const {sesObj, idToken, name, email} = formState;
-  const {name, email} = formState;
+  const {name, email, phoneNum} = formState;
 
   return (
     !isAuthenticating && (
@@ -94,20 +92,14 @@ function App() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav>
 
-            {isAuthenticated===true && isEmp===false ?  
+            {isAuthenticated && (isEmp || isAdmin)  ?  
               <Nav.Item>
                 <Nav.Link href="/dashboard">Dashboard </Nav.Link>
               </Nav.Item>
               : null
             }
             
-            {isAuthenticated===true ? 
-              <Nav.Item>
-                <Nav.Link href="/profile">Profile</Nav.Link>
-              </Nav.Item> 
-              : null
-            }
-            {isAuthenticated===true ? 
+            {isAuthenticated ? 
               <Nav.Item>
                 <Nav.Link id="welcome-user"> Welcome {name}. </Nav.Link>
               </Nav.Item> 
@@ -121,7 +113,7 @@ function App() {
         </Navbar.Collapse>
       </Navbar>
 
-      {isAuthenticated===true ? <SessionLogout signOut={signOut}/> : null}
+      {isAuthenticated ? <SessionLogout signOut={signOut}/> : null}
 
       <Switch>
         <Route exact path="/">
