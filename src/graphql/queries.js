@@ -113,6 +113,8 @@ export const getItem = /* GraphQL */ `
       name
       category
       description
+      color
+      size
       remainQty
       qtyThresh
       maxAddon
@@ -134,6 +136,8 @@ export const listItems = /* GraphQL */ `
         name
         category
         description
+        color
+        size
         remainQty
         qtyThresh
         maxAddon

@@ -57,6 +57,9 @@ type Item @model @auth(rules: [{ allow: private}]) {
   category: String!
   description: String
 
+  color: String
+  size: String
+
   remainQty: Int!
   qtyThresh: Int
   maxAddon: Int

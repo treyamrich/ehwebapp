@@ -162,6 +162,8 @@ export const onCreateItem = /* GraphQL */ `
       name
       category
       description
+      color
+      size
       remainQty
       qtyThresh
       maxAddon
@@ -178,6 +180,8 @@ export const onUpdateItem = /* GraphQL */ `
       name
       category
       description
+      color
+      size
       remainQty
       qtyThresh
       maxAddon
@@ -194,6 +198,8 @@ export const onDeleteItem = /* GraphQL */ `
       name
       category
       description
+      color
+      size
       remainQty
       qtyThresh
       maxAddon
