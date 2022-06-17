@@ -11,8 +11,10 @@ export const getOrder = /* GraphQL */ `
       email
       dateNeeded
       timeNeeded
-      rushStatus
       location
+      status
+      rushStatus
+      vectorWork
       cart {
         itemName
         itemCode
@@ -56,8 +58,10 @@ export const listOrders = /* GraphQL */ `
         email
         dateNeeded
         timeNeeded
-        rushStatus
         location
+        status
+        rushStatus
+        vectorWork
         cart {
           itemName
           itemCode
@@ -112,12 +116,14 @@ export const getItem = /* GraphQL */ `
       code
       name
       category
-      description
+      remainQty
+      price
+      cost
+      qtyThresh
       color
       size
-      remainQty
-      qtyThresh
       maxAddon
+      description
       createdAt
       updatedAt
     }
@@ -135,12 +141,14 @@ export const listItems = /* GraphQL */ `
         code
         name
         category
-        description
+        remainQty
+        price
+        cost
+        qtyThresh
         color
         size
-        remainQty
-        qtyThresh
         maxAddon
+        description
         createdAt
         updatedAt
       }

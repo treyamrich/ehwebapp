@@ -14,8 +14,10 @@ export const createOrder = /* GraphQL */ `
       email
       dateNeeded
       timeNeeded
-      rushStatus
       location
+      status
+      rushStatus
+      vectorWork
       cart {
         itemName
         itemCode
@@ -57,8 +59,10 @@ export const updateOrder = /* GraphQL */ `
       email
       dateNeeded
       timeNeeded
-      rushStatus
       location
+      status
+      rushStatus
+      vectorWork
       cart {
         itemName
         itemCode
@@ -100,8 +104,10 @@ export const deleteOrder = /* GraphQL */ `
       email
       dateNeeded
       timeNeeded
-      rushStatus
       location
+      status
+      rushStatus
+      vectorWork
       cart {
         itemName
         itemCode
@@ -182,12 +188,14 @@ export const createItem = /* GraphQL */ `
       code
       name
       category
-      description
+      remainQty
+      price
+      cost
+      qtyThresh
       color
       size
-      remainQty
-      qtyThresh
       maxAddon
+      description
       createdAt
       updatedAt
     }
@@ -203,12 +211,14 @@ export const updateItem = /* GraphQL */ `
       code
       name
       category
-      description
+      remainQty
+      price
+      cost
+      qtyThresh
       color
       size
-      remainQty
-      qtyThresh
       maxAddon
+      description
       createdAt
       updatedAt
     }
@@ -224,12 +234,14 @@ export const deleteItem = /* GraphQL */ `
       code
       name
       category
-      description
+      remainQty
+      price
+      cost
+      qtyThresh
       color
       size
-      remainQty
-      qtyThresh
       maxAddon
+      description
       createdAt
       updatedAt
     }
