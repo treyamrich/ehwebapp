@@ -17,13 +17,14 @@ export const createOrder = /* GraphQL */ `
       location
       status
       rushStatus
-      vectorWork
       cart {
         itemName
         itemCode
+        services
         subItems {
           itemName
           itemCode
+          services
           quantity
           txtLines
           font
@@ -62,13 +63,14 @@ export const updateOrder = /* GraphQL */ `
       location
       status
       rushStatus
-      vectorWork
       cart {
         itemName
         itemCode
+        services
         subItems {
           itemName
           itemCode
+          services
           quantity
           txtLines
           font
@@ -107,13 +109,14 @@ export const deleteOrder = /* GraphQL */ `
       location
       status
       rushStatus
-      vectorWork
       cart {
         itemName
         itemCode
+        services
         subItems {
           itemName
           itemCode
+          services
           quantity
           txtLines
           font
@@ -242,6 +245,51 @@ export const deleteItem = /* GraphQL */ `
       size
       maxAddon
       description
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createService = /* GraphQL */ `
+  mutation CreateService(
+    $input: CreateServiceInput!
+    $condition: ModelServiceConditionInput
+  ) {
+    createService(input: $input, condition: $condition) {
+      id
+      name
+      type
+      price
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateService = /* GraphQL */ `
+  mutation UpdateService(
+    $input: UpdateServiceInput!
+    $condition: ModelServiceConditionInput
+  ) {
+    updateService(input: $input, condition: $condition) {
+      id
+      name
+      type
+      price
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteService = /* GraphQL */ `
+  mutation DeleteService(
+    $input: DeleteServiceInput!
+    $condition: ModelServiceConditionInput
+  ) {
+    deleteService(input: $input, condition: $condition) {
+      id
+      name
+      type
+      price
       createdAt
       updatedAt
     }

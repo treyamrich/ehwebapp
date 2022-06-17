@@ -14,13 +14,14 @@ export const getOrder = /* GraphQL */ `
       location
       status
       rushStatus
-      vectorWork
       cart {
         itemName
         itemCode
+        services
         subItems {
           itemName
           itemCode
+          services
           quantity
           txtLines
           font
@@ -61,10 +62,10 @@ export const listOrders = /* GraphQL */ `
         location
         status
         rushStatus
-        vectorWork
         cart {
           itemName
           itemCode
+          services
           quantity
           txtLines
           font
@@ -149,6 +150,37 @@ export const listItems = /* GraphQL */ `
         size
         maxAddon
         description
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getService = /* GraphQL */ `
+  query GetService($id: ID!) {
+    getService(id: $id) {
+      id
+      name
+      type
+      price
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listServices = /* GraphQL */ `
+  query ListServices(
+    $filter: ModelServiceFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listServices(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        type
+        price
         createdAt
         updatedAt
       }

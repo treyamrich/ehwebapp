@@ -12,8 +12,6 @@ type Order @model @auth(rules: [{ allow: private}]) {
 
   status: OrderStatus!
   rushStatus: RushStatus!
-  vectorWork: Boolean!
-
 
   cart: [CartItem]!
 }
@@ -45,7 +43,8 @@ type CartItem {
   itemName: String!
   itemCode: String!
 
-  subItems: [CartItem]
+  services: [String!]
+  subItems: [CartItem!]
   quantity: Int!
 
   txtLines: [String!]
@@ -66,12 +65,19 @@ type Item @model @auth(rules: [{ allow: private}]) {
   name: String!
   category: String!
   remainQty: Int!
-  price: Int!
-  cost: Int!
+  price: Float!
+  cost: Float!
   
-  qtyThresh: Int
+  qtyThresh: Int!
   color: String
   size: String
   maxAddon: Int
   description: String
+}
+
+type Service @model @auth(rules: [{ allow: private}]) {
+  id: ID!
+  name: String!
+  type: String!
+  price: Float!
 }

@@ -14,13 +14,14 @@ export const onCreateOrder = /* GraphQL */ `
       location
       status
       rushStatus
-      vectorWork
       cart {
         itemName
         itemCode
+        services
         subItems {
           itemName
           itemCode
+          services
           quantity
           txtLines
           font
@@ -56,13 +57,14 @@ export const onUpdateOrder = /* GraphQL */ `
       location
       status
       rushStatus
-      vectorWork
       cart {
         itemName
         itemCode
+        services
         subItems {
           itemName
           itemCode
+          services
           quantity
           txtLines
           font
@@ -98,13 +100,14 @@ export const onDeleteOrder = /* GraphQL */ `
       location
       status
       rushStatus
-      vectorWork
       cart {
         itemName
         itemCode
+        services
         subItems {
           itemName
           itemCode
+          services
           quantity
           txtLines
           font
@@ -215,6 +218,42 @@ export const onDeleteItem = /* GraphQL */ `
       size
       maxAddon
       description
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateService = /* GraphQL */ `
+  subscription OnCreateService {
+    onCreateService {
+      id
+      name
+      type
+      price
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateService = /* GraphQL */ `
+  subscription OnUpdateService {
+    onUpdateService {
+      id
+      name
+      type
+      price
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteService = /* GraphQL */ `
+  subscription OnDeleteService {
+    onDeleteService {
+      id
+      name
+      type
+      price
       createdAt
       updatedAt
     }
