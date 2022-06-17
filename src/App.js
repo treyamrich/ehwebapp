@@ -9,8 +9,11 @@ import Login from './pages/auth/Login.js';
 import PrivateRoute from './pages/PrivateRoute.js';
 import SessionLogout from './pages/SessionLogout.js';
 
-import Landing from './pages/Landing.js';
 import Dashboard from './pages/user/Dashboard.js';
+import ManageInventory from './pages/user/ManageInventory';
+
+import Landing from './pages/Landing.js';
+
 
 const initialFormState = {
   phoneNum:'',
@@ -105,9 +108,14 @@ function App() {
               </Nav.Item> 
               : null
             }
+
             <Nav.Item> {!isAuthenticated ? 
               <Nav.Link href="/login"> Login </Nav.Link> : 
               <Nav.Link onClick={()=>signOut()}> Sign out </Nav.Link>} 
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link href="/manage-inventory">Manage Inventory</Nav.Link>
             </Nav.Item>
           </Nav>
         </Navbar.Collapse>
@@ -125,6 +133,9 @@ function App() {
 
         <PrivateRoute exact path="/dashboard" auth={isAuthenticated}>
           <Dashboard email={email}/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/manage-inventory" auth={isAuthenticated}>
+          <ManageInventory isAdmin={isAdmin}/>
         </PrivateRoute>
 
         <Route>
