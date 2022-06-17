@@ -1,0 +1,63 @@
+type Order @model @auth(rules: [{ allow: private}]) {
+  id: ID!
+  createdAt: String!
+
+  name: String!
+  phoneNum: String!
+  email: String!
+
+  dateNeeded: AWSDate!
+  timeNeeded: AWSTime
+  rushStatus: RushStatus!
+  location: String!
+
+  cart: [CartItem]!
+}
+
+enum RushStatus {
+  NONE
+  ONEDAY
+  TWOTOTHREEDAYS
+}
+
+#Table for storing the locations, graphic names, and available fonts
+type OrderChoice @model @auth(rules: [{ allow: private}]) {
+  type: ChoiceType!
+  name: String!
+}
+enum ChoiceType {
+  LOCATION
+  FONT
+  GRAPHIC
+}
+
+type CartItem {
+  itemName: String!
+  itemCode: String!
+
+  subItems: [CartItem]
+  quantity: Int!
+
+  txtLines: [String!]
+  font: String
+
+  layoutImg: String
+  graphics: [String!]
+
+  #Postponed information flags
+  postGraphics: Boolean!
+  postTxt: Boolean!
+  postLayout: Boolean!
+}
+
+type Item @model @auth(rules: [{ allow: private}]) {
+  id: ID!
+  code: String!
+  name: String!
+  category: String!
+  description: String
+
+  remainQty: Int!
+  qtyThresh: Int
+  maxAddon: Int
+}
