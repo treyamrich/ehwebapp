@@ -1,7 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/inventory.css';
 
-const inventory = [1, 2, 3, 4];
+const i0 = {
+    id: 0,
+    code: "DCP21013",
+    name: "Black 10x13 Plaque",
+    category: "Plaque",
+    remainQty: 0,
+    qtyThresh: 4,
+    price: 15.59,
+    cost: 5.29,
+    maxAddon: 5,
+    description: "None"
+};
+const i1 = {
+    id: 2,
+    code: "DCP31013",
+    name: "Walnut 10x13 Plaque",
+    category: "Plaque",
+    remainQty: 0,
+    qtyThresh: 4,
+    price: 15.59,
+    cost: 5.29,
+    maxAddon: 5,
+    description: "None"
+};
+const i2 = {
+    id: 3,
+    code: "DCP11013",
+    name: "Cherry 10x13 Plaque",
+    category: "Plaque",
+    remainQty: 0,
+    qtyThresh: 4,
+    price: 15.59,
+    cost: 5.29,
+    maxAddon: 5,
+    description: "None"
+};
+const inventory = [i0, i1, i2];
 
 function ManageInventory({isAdmin}) {
     /*
@@ -29,11 +65,11 @@ function ManageInventory({isAdmin}) {
                         <th>ID</th>
                         <th>Item Code</th>
                         <th>Item Name</th>
+                        <th>Price</th>
+                        <th>Cost</th>
                         <th>Category</th>
                         <th>Qty.</th>
                         <th>Reorder Threshold</th>
-                        <th>Color</th>
-                        <th>Size</th>
                         <th>Max Add-ons</th>
                         <th>Description</th>
                     </tr>
@@ -44,13 +80,11 @@ function ManageInventory({isAdmin}) {
                                 <td> {item.id} </td>
                                 <th> {item.code} </th>
                                 <th> {item.name} </th>
-                                <th> {item.remainQty} </th>
                                 <th> {item.price} </th>
                                 <th> {item.cost} </th>
                                 <th> {item.category} </th>
+                                <th> {item.remainQty} </th>
                                 <th> {item.qtyThresh} </th>
-                                <th> {item.color} </th>
-                                <th> {item.size} </th>
                                 <th> {item.maxAddon} </th>
                                 <th> {item.description} </th>
                             </tr>
