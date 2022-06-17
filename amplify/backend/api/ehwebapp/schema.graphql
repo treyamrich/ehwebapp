@@ -8,16 +8,26 @@ type Order @model @auth(rules: [{ allow: private}]) {
 
   dateNeeded: AWSDate!
   timeNeeded: AWSTime
-  rushStatus: RushStatus!
   location: String!
+
+  status: OrderStatus!
+  rushStatus: RushStatus!
+  vectorWork: Boolean!
+
 
   cart: [CartItem]!
 }
 
+enum OrderStatus {
+  NEW
+  MOCKUP_SENT
+  STANDBY
+  COMPLETE
+}
 enum RushStatus {
   NONE
-  ONEDAY
-  TWOTOTHREEDAYS
+  ONE_DAY
+  TWO_TO_THREE_DAYS
 }
 
 #Table for storing the locations, graphic names, and available fonts
@@ -55,12 +65,13 @@ type Item @model @auth(rules: [{ allow: private}]) {
   code: String!
   name: String!
   category: String!
-  description: String
-
+  remainQty: Int!
+  price: Int!
+  cost: Int!
+  
+  qtyThresh: Int
   color: String
   size: String
-
-  remainQty: Int!
-  qtyThresh: Int
   maxAddon: Int
+  description: String
 }
