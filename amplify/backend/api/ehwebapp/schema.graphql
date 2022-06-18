@@ -1,4 +1,7 @@
-type Orders @model @auth(rules: [{ allow: public, provider: iam}]) {
+type Orders @model @auth(rules: [
+  { allow: public, provider: iam, operations: [create]}, 
+  { allow: groups, groups: ["employee"], provider: userPools, operations: [create, update, read]},
+  { allow: groups, groups: ["admin"], provider: userPools}]) {
   id: ID!
   createdAt: String!
 
@@ -29,7 +32,10 @@ enum RushStatus {
 }
 
 #Table for storing the locations, graphic names, and available fonts
-type OrderChoice @model @auth(rules: [{ allow: private, provider: iam}]) {
+type OrderChoice @model @auth(rules: [
+  { allow: groups, groups: ["admin"], provider: userPools},
+  { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
+  { allow: public, provider: iam, operations: [read]}]) {
   type: ChoiceType!
   name: String!
 }
@@ -66,7 +72,11 @@ type CartItem {
   postLayout: Boolean!
 }
 
-type Items @model @auth(rules: [{ allow: private, provider: iam}]) {
+type Items @model @auth(rules: [
+  { allow: groups, groups: ["admin"], provider: userPools},
+  { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
+  { allow: public, provider: iam, operations: [read]}]) {
+
   code: String! @primaryKey
   name: String!
   category: ItemCategory!
@@ -84,7 +94,11 @@ enum ItemCategory {
   GIFT
 }
 
-type Services @model @auth(rules: [{ allow: private, provider: iam}]) {
+type Services @model @auth(rules: [
+  { allow: groups, groups: ["admin"], provider: userPools}, 
+  { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
+  { allow: public, provider: iam, operations: [read]}]) {
+
   id: ID!
   name: String!
   type: String!
