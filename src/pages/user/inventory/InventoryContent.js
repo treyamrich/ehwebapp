@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+//This component displays all inventory items in a table, and handles checkbox select logic
 function InventoryContent({items, selItems, setSelItems}) {
     const [allSel, setAllSel] = useState(false);
 
@@ -22,7 +23,7 @@ function InventoryContent({items, selItems, setSelItems}) {
             setAllSel(true);
         } 
         else {
-            for(let i = 0; i < boxes.length; i++)
+            for(let i = 0; i < boxes.length; i++) 
                 boxes[i].checked = false;
             setSelItems(new Set());
             setAllSel(false);
