@@ -39,7 +39,7 @@ const inventory = [i0, i1, i2];
 
 function ManageInventory({isAdmin}) {
     const [op, setOp] = useState("none");
-    const [selItems, setSelItems] = useState([]);
+    const [selItems, setSelItems] = useState(new Set());
     /*
     if(!isAdmin) {
         return <h1 style={{marginTop: "100px"}}>This page is not available.</h1>;

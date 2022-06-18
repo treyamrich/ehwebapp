@@ -1,14 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function InventoryContent({items, selItems, setSelItems}) {
+    const [allSel, setAllSel] = useState(false);
+
+    //Selecting a single checkbox
+    function selectCheckbox(checked, code) {
+        
+        checked ? selItems.add(code) : selItems.delete(code);
+        setSelItems(selItems);
+        setAllSel(items.length === selItems.size && selItems.size !== 0);
+    }
+    //Selecting all the checkboxes
     function selectAllCheckbox(op) {
-        console.log(op);
+        const boxes = document.getElementsByClassName("checkbox");
+        if(op === "sel") {
+            for(let i = 0; i < boxes.length; i++) {
+                boxes[i].checked = true;
+                selItems.add(boxes[i].value);
+            }
+            setSelItems(selItems);
+            setAllSel(true);
+        } 
+        else {
+            for(let i = 0; i < boxes.length; i++)
+                boxes[i].checked = false;
+            setSelItems(new Set());
+            setAllSel(false);
+        }
     }
     return(
         <table className="inventory-items">
             <thead>
                 <tr>
-                    <th><input type="checkbox" name="checkbox-select-all" onChange={(e)=>e.currentTarget.checked ? selectAllCheckbox("sel") : selectAllCheckbox("unsel")}/></th>
+                    <th><input type="checkbox" 
+                        name="checkbox-select-all" 
+                        onChange={(e)=>e.currentTarget.checked ? selectAllCheckbox("sel") : selectAllCheckbox("unsel")}
+                        checked={allSel}/>
+                    </th>
                     <th>Item Code</th>
                     <th>Item Name</th>
                     <th>Price</th>
@@ -27,9 +55,10 @@ function InventoryContent({items, selItems, setSelItems}) {
                     <tr key={index}>
                         <td>
                             <input type="checkbox" 
-                                name={"checkbox-item-" + index} 
+                                name={"checkbox-item-" + index}
+                                className="checkbox" 
                                 value={item.code} 
-                                onChange={(e)=>e.currentTarget.checked ? setSelItems([...selItems]) : setSelItems([...selItems])}/> 
+                                onChange={(e)=>selectCheckbox(e.currentTarget.checked, item.code)}/> 
                         </td>
                         <td> {item.code} </td>
                         <td> {item.name} </td>
