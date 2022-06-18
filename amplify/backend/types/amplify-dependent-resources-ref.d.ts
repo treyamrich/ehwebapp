@@ -17,7 +17,6 @@ export type AmplifyDependentResourcesAttributes = {
     },
     "api": {
         "ehwebapp": {
-            "GraphQLAPIKeyOutput": "string",
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
         }

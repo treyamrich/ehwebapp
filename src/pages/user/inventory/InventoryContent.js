@@ -52,7 +52,7 @@ function InventoryContent({items, setNumSel, selItems, setSelItems}) {
                 </tr>
             </thead>
             <tbody>
-            {items.length === 0 ? <tr style={{padding: "10px", textAlign:"center"}}> No items </tr> : null}
+            {items.length === 0 ? <tr><td colSpan="10" style={{padding: "10px", textAlign:"center"}}> No items </td></tr> : null}
             {
                 items.map((item, index) => (
                     <tr key={index}>

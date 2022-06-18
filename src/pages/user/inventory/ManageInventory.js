@@ -1,51 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import { API } from 'aws-amplify';
+import { listItems } from '../../../graphql/queries';
 import InventoryContent from './InventoryContent.js';
 import '../../../styles/inventory.css';
 
-const i0 = {
-    code: "DCP21013",
-    name: "Black 10x13 Plaque",
-    category: "Plaque",
-    remainQty: 0,
-    qtyThresh: 4,
-    price: 15.59,
-    cost: 5.29,
-    maxAddon: 5,
-    description: "None"
-};
-const i1 = {
-    code: "DCP31013",
-    name: "Walnut 10x13 Plaque",
-    category: "Plaque",
-    remainQty: 0,
-    qtyThresh: 4,
-    price: 15.59,
-    cost: 5.29,
-    maxAddon: 5,
-    description: "None"
-};
-const i2 = {
-    code: "DCP11013",
-    name: "Cherry 10x13 Plaque",
-    category: "Plaque",
-    remainQty: 0,
-    qtyThresh: 4,
-    price: 15.59,
-    cost: 5.29,
-    maxAddon: 5,
-    description: "None"
-};
-const inventory = [i0, i1, i2];
-
 function ManageInventory({isAdmin}) {
+
+    //if(!isAdmin) return <h1 style={{marginTop: "100px"}}>This page is not available.</h1>;
+
     const [op, setOp] = useState("none");
+    const [inventory, setInventory] = useState([]);
     const [selItems, setSelItems] = useState(new Set());
     const [numSel, setNumSel] = useState(0);
 
-    /*
-    if(!isAdmin) {
-        return <h1 style={{marginTop: "100px"}}>This page is not available.</h1>;
-    }*/
+    async function fetchInventory() {
+        try {
+            const inventoryData = await API.graphql({query: listItems});
+            setInventory(inventoryData.data.listItems.items);
+        } catch(e) {
+            alert("Error fetching inventory.");
+            console.log(e);
+        }
+    }
+
+    useEffect(()=>{
+		fetchInventory();
+	}, []);
     
     return (
         <div>
