@@ -1,9 +1,9 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getOrder = /* GraphQL */ `
-  query GetOrder($id: ID!) {
-    getOrder(id: $id) {
+export const getOrders = /* GraphQL */ `
+  query GetOrders($id: ID!) {
+    getOrders(id: $id) {
       id
       createdAt
       name
@@ -17,16 +17,21 @@ export const getOrder = /* GraphQL */ `
       cart {
         itemName
         itemCode
-        services
+        itemPrice
+        services {
+          name
+          qty
+        }
         subItems {
           itemName
           itemCode
-          services
+          itemPrice
           quantity
           txtLines
           font
           layoutImg
           graphics
+          notes
           postGraphics
           postTxt
           postLayout
@@ -36,6 +41,7 @@ export const getOrder = /* GraphQL */ `
         font
         layoutImg
         graphics
+        notes
         postGraphics
         postTxt
         postLayout
@@ -46,7 +52,7 @@ export const getOrder = /* GraphQL */ `
 `;
 export const listOrders = /* GraphQL */ `
   query ListOrders(
-    $filter: ModelOrderFilterInput
+    $filter: ModelOrdersFilterInput
     $limit: Int
     $nextToken: String
   ) {
@@ -65,12 +71,13 @@ export const listOrders = /* GraphQL */ `
         cart {
           itemName
           itemCode
-          services
+          itemPrice
           quantity
           txtLines
           font
           layoutImg
           graphics
+          notes
           postGraphics
           postTxt
           postLayout
@@ -110,19 +117,17 @@ export const listOrderChoices = /* GraphQL */ `
     }
   }
 `;
-export const getItem = /* GraphQL */ `
-  query GetItem($id: ID!) {
-    getItem(id: $id) {
+export const getItems = /* GraphQL */ `
+  query GetItems($id: ID!) {
+    getItems(id: $id) {
       id
       code
       name
       category
-      remainQty
+      qty
       price
       cost
       qtyThresh
-      color
-      size
       maxAddon
       description
       createdAt
@@ -132,7 +137,7 @@ export const getItem = /* GraphQL */ `
 `;
 export const listItems = /* GraphQL */ `
   query ListItems(
-    $filter: ModelItemFilterInput
+    $filter: ModelItemsFilterInput
     $limit: Int
     $nextToken: String
   ) {
@@ -142,12 +147,10 @@ export const listItems = /* GraphQL */ `
         code
         name
         category
-        remainQty
+        qty
         price
         cost
         qtyThresh
-        color
-        size
         maxAddon
         description
         createdAt
@@ -157,9 +160,9 @@ export const listItems = /* GraphQL */ `
     }
   }
 `;
-export const getService = /* GraphQL */ `
-  query GetService($id: ID!) {
-    getService(id: $id) {
+export const getServices = /* GraphQL */ `
+  query GetServices($id: ID!) {
+    getServices(id: $id) {
       id
       name
       type
@@ -171,7 +174,7 @@ export const getService = /* GraphQL */ `
 `;
 export const listServices = /* GraphQL */ `
   query ListServices(
-    $filter: ModelServiceFilterInput
+    $filter: ModelServicesFilterInput
     $limit: Int
     $nextToken: String
   ) {

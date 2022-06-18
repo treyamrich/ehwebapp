@@ -1,4 +1,4 @@
-type Order @model @auth(rules: [{ allow: private}]) {
+type Orders @model @auth(rules: [{ allow: private}]) @aws_api_key{
   id: ID!
   createdAt: String!
 
@@ -29,7 +29,7 @@ enum RushStatus {
 }
 
 #Table for storing the locations, graphic names, and available fonts
-type OrderChoice @model @auth(rules: [{ allow: private}]) {
+type OrderChoice @model @auth(rules: [{ allow: private}]) @aws_api_key{
   type: ChoiceType!
   name: String!
 }
@@ -39,11 +39,16 @@ enum ChoiceType {
   GRAPHIC
 }
 
+type Service {
+  name: String!
+  qty: Int!
+}
 type CartItem {
   itemName: String!
   itemCode: String!
+  itemPrice: Float!
 
-  services: [String!]
+  services: [Service!]
   subItems: [CartItem!]
   quantity: Int!
 
@@ -53,29 +58,34 @@ type CartItem {
   layoutImg: String
   graphics: [String!]
 
+  notes: String
+
   #Postponed information flags
   postGraphics: Boolean!
   postTxt: Boolean!
   postLayout: Boolean!
 }
 
-type Item @model @auth(rules: [{ allow: private}]) {
+type Items @model @auth(rules: [{ allow: private}]) @aws_api_key{
   id: ID!
   code: String!
   name: String!
-  category: String!
-  remainQty: Int!
+  category: ItemCategory!
+  qty: Int
   price: Float!
   cost: Float!
   
-  qtyThresh: Int!
-  color: String
-  size: String
+  qtyThresh: Int
   maxAddon: Int
   description: String
 }
+enum ItemCategory {
+  PLAQUE
+  DRINKWARE
+  GIFT
+}
 
-type Service @model @auth(rules: [{ allow: private}]) {
+type Services @model @auth(rules: [{ allow: private}]) @aws_api_key{
   id: ID!
   name: String!
   type: String!

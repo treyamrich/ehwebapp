@@ -1,12 +1,12 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createOrder = /* GraphQL */ `
-  mutation CreateOrder(
-    $input: CreateOrderInput!
-    $condition: ModelOrderConditionInput
+export const createOrders = /* GraphQL */ `
+  mutation CreateOrders(
+    $input: CreateOrdersInput!
+    $condition: ModelOrdersConditionInput
   ) {
-    createOrder(input: $input, condition: $condition) {
+    createOrders(input: $input, condition: $condition) {
       id
       createdAt
       name
@@ -20,16 +20,21 @@ export const createOrder = /* GraphQL */ `
       cart {
         itemName
         itemCode
-        services
+        itemPrice
+        services {
+          name
+          qty
+        }
         subItems {
           itemName
           itemCode
-          services
+          itemPrice
           quantity
           txtLines
           font
           layoutImg
           graphics
+          notes
           postGraphics
           postTxt
           postLayout
@@ -39,6 +44,7 @@ export const createOrder = /* GraphQL */ `
         font
         layoutImg
         graphics
+        notes
         postGraphics
         postTxt
         postLayout
@@ -47,12 +53,12 @@ export const createOrder = /* GraphQL */ `
     }
   }
 `;
-export const updateOrder = /* GraphQL */ `
-  mutation UpdateOrder(
-    $input: UpdateOrderInput!
-    $condition: ModelOrderConditionInput
+export const updateOrders = /* GraphQL */ `
+  mutation UpdateOrders(
+    $input: UpdateOrdersInput!
+    $condition: ModelOrdersConditionInput
   ) {
-    updateOrder(input: $input, condition: $condition) {
+    updateOrders(input: $input, condition: $condition) {
       id
       createdAt
       name
@@ -66,16 +72,21 @@ export const updateOrder = /* GraphQL */ `
       cart {
         itemName
         itemCode
-        services
+        itemPrice
+        services {
+          name
+          qty
+        }
         subItems {
           itemName
           itemCode
-          services
+          itemPrice
           quantity
           txtLines
           font
           layoutImg
           graphics
+          notes
           postGraphics
           postTxt
           postLayout
@@ -85,6 +96,7 @@ export const updateOrder = /* GraphQL */ `
         font
         layoutImg
         graphics
+        notes
         postGraphics
         postTxt
         postLayout
@@ -93,12 +105,12 @@ export const updateOrder = /* GraphQL */ `
     }
   }
 `;
-export const deleteOrder = /* GraphQL */ `
-  mutation DeleteOrder(
-    $input: DeleteOrderInput!
-    $condition: ModelOrderConditionInput
+export const deleteOrders = /* GraphQL */ `
+  mutation DeleteOrders(
+    $input: DeleteOrdersInput!
+    $condition: ModelOrdersConditionInput
   ) {
-    deleteOrder(input: $input, condition: $condition) {
+    deleteOrders(input: $input, condition: $condition) {
       id
       createdAt
       name
@@ -112,16 +124,21 @@ export const deleteOrder = /* GraphQL */ `
       cart {
         itemName
         itemCode
-        services
+        itemPrice
+        services {
+          name
+          qty
+        }
         subItems {
           itemName
           itemCode
-          services
+          itemPrice
           quantity
           txtLines
           font
           layoutImg
           graphics
+          notes
           postGraphics
           postTxt
           postLayout
@@ -131,6 +148,7 @@ export const deleteOrder = /* GraphQL */ `
         font
         layoutImg
         graphics
+        notes
         postGraphics
         postTxt
         postLayout
@@ -181,22 +199,20 @@ export const deleteOrderChoice = /* GraphQL */ `
     }
   }
 `;
-export const createItem = /* GraphQL */ `
-  mutation CreateItem(
-    $input: CreateItemInput!
-    $condition: ModelItemConditionInput
+export const createItems = /* GraphQL */ `
+  mutation CreateItems(
+    $input: CreateItemsInput!
+    $condition: ModelItemsConditionInput
   ) {
-    createItem(input: $input, condition: $condition) {
+    createItems(input: $input, condition: $condition) {
       id
       code
       name
       category
-      remainQty
+      qty
       price
       cost
       qtyThresh
-      color
-      size
       maxAddon
       description
       createdAt
@@ -204,22 +220,20 @@ export const createItem = /* GraphQL */ `
     }
   }
 `;
-export const updateItem = /* GraphQL */ `
-  mutation UpdateItem(
-    $input: UpdateItemInput!
-    $condition: ModelItemConditionInput
+export const updateItems = /* GraphQL */ `
+  mutation UpdateItems(
+    $input: UpdateItemsInput!
+    $condition: ModelItemsConditionInput
   ) {
-    updateItem(input: $input, condition: $condition) {
+    updateItems(input: $input, condition: $condition) {
       id
       code
       name
       category
-      remainQty
+      qty
       price
       cost
       qtyThresh
-      color
-      size
       maxAddon
       description
       createdAt
@@ -227,22 +241,20 @@ export const updateItem = /* GraphQL */ `
     }
   }
 `;
-export const deleteItem = /* GraphQL */ `
-  mutation DeleteItem(
-    $input: DeleteItemInput!
-    $condition: ModelItemConditionInput
+export const deleteItems = /* GraphQL */ `
+  mutation DeleteItems(
+    $input: DeleteItemsInput!
+    $condition: ModelItemsConditionInput
   ) {
-    deleteItem(input: $input, condition: $condition) {
+    deleteItems(input: $input, condition: $condition) {
       id
       code
       name
       category
-      remainQty
+      qty
       price
       cost
       qtyThresh
-      color
-      size
       maxAddon
       description
       createdAt
@@ -250,12 +262,12 @@ export const deleteItem = /* GraphQL */ `
     }
   }
 `;
-export const createService = /* GraphQL */ `
-  mutation CreateService(
-    $input: CreateServiceInput!
-    $condition: ModelServiceConditionInput
+export const createServices = /* GraphQL */ `
+  mutation CreateServices(
+    $input: CreateServicesInput!
+    $condition: ModelServicesConditionInput
   ) {
-    createService(input: $input, condition: $condition) {
+    createServices(input: $input, condition: $condition) {
       id
       name
       type
@@ -265,12 +277,12 @@ export const createService = /* GraphQL */ `
     }
   }
 `;
-export const updateService = /* GraphQL */ `
-  mutation UpdateService(
-    $input: UpdateServiceInput!
-    $condition: ModelServiceConditionInput
+export const updateServices = /* GraphQL */ `
+  mutation UpdateServices(
+    $input: UpdateServicesInput!
+    $condition: ModelServicesConditionInput
   ) {
-    updateService(input: $input, condition: $condition) {
+    updateServices(input: $input, condition: $condition) {
       id
       name
       type
@@ -280,12 +292,12 @@ export const updateService = /* GraphQL */ `
     }
   }
 `;
-export const deleteService = /* GraphQL */ `
-  mutation DeleteService(
-    $input: DeleteServiceInput!
-    $condition: ModelServiceConditionInput
+export const deleteServices = /* GraphQL */ `
+  mutation DeleteServices(
+    $input: DeleteServicesInput!
+    $condition: ModelServicesConditionInput
   ) {
-    deleteService(input: $input, condition: $condition) {
+    deleteServices(input: $input, condition: $condition) {
       id
       name
       type

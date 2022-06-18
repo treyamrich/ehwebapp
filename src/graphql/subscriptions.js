@@ -1,9 +1,9 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateOrder = /* GraphQL */ `
-  subscription OnCreateOrder {
-    onCreateOrder {
+export const onCreateOrders = /* GraphQL */ `
+  subscription OnCreateOrders {
+    onCreateOrders {
       id
       createdAt
       name
@@ -17,16 +17,21 @@ export const onCreateOrder = /* GraphQL */ `
       cart {
         itemName
         itemCode
-        services
+        itemPrice
+        services {
+          name
+          qty
+        }
         subItems {
           itemName
           itemCode
-          services
+          itemPrice
           quantity
           txtLines
           font
           layoutImg
           graphics
+          notes
           postGraphics
           postTxt
           postLayout
@@ -36,6 +41,7 @@ export const onCreateOrder = /* GraphQL */ `
         font
         layoutImg
         graphics
+        notes
         postGraphics
         postTxt
         postLayout
@@ -44,9 +50,9 @@ export const onCreateOrder = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateOrder = /* GraphQL */ `
-  subscription OnUpdateOrder {
-    onUpdateOrder {
+export const onUpdateOrders = /* GraphQL */ `
+  subscription OnUpdateOrders {
+    onUpdateOrders {
       id
       createdAt
       name
@@ -60,16 +66,21 @@ export const onUpdateOrder = /* GraphQL */ `
       cart {
         itemName
         itemCode
-        services
+        itemPrice
+        services {
+          name
+          qty
+        }
         subItems {
           itemName
           itemCode
-          services
+          itemPrice
           quantity
           txtLines
           font
           layoutImg
           graphics
+          notes
           postGraphics
           postTxt
           postLayout
@@ -79,6 +90,7 @@ export const onUpdateOrder = /* GraphQL */ `
         font
         layoutImg
         graphics
+        notes
         postGraphics
         postTxt
         postLayout
@@ -87,9 +99,9 @@ export const onUpdateOrder = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteOrder = /* GraphQL */ `
-  subscription OnDeleteOrder {
-    onDeleteOrder {
+export const onDeleteOrders = /* GraphQL */ `
+  subscription OnDeleteOrders {
+    onDeleteOrders {
       id
       createdAt
       name
@@ -103,16 +115,21 @@ export const onDeleteOrder = /* GraphQL */ `
       cart {
         itemName
         itemCode
-        services
+        itemPrice
+        services {
+          name
+          qty
+        }
         subItems {
           itemName
           itemCode
-          services
+          itemPrice
           quantity
           txtLines
           font
           layoutImg
           graphics
+          notes
           postGraphics
           postTxt
           postLayout
@@ -122,6 +139,7 @@ export const onDeleteOrder = /* GraphQL */ `
         font
         layoutImg
         graphics
+        notes
         postGraphics
         postTxt
         postLayout
@@ -163,19 +181,17 @@ export const onDeleteOrderChoice = /* GraphQL */ `
     }
   }
 `;
-export const onCreateItem = /* GraphQL */ `
-  subscription OnCreateItem {
-    onCreateItem {
+export const onCreateItems = /* GraphQL */ `
+  subscription OnCreateItems {
+    onCreateItems {
       id
       code
       name
       category
-      remainQty
+      qty
       price
       cost
       qtyThresh
-      color
-      size
       maxAddon
       description
       createdAt
@@ -183,19 +199,17 @@ export const onCreateItem = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateItem = /* GraphQL */ `
-  subscription OnUpdateItem {
-    onUpdateItem {
+export const onUpdateItems = /* GraphQL */ `
+  subscription OnUpdateItems {
+    onUpdateItems {
       id
       code
       name
       category
-      remainQty
+      qty
       price
       cost
       qtyThresh
-      color
-      size
       maxAddon
       description
       createdAt
@@ -203,19 +217,17 @@ export const onUpdateItem = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteItem = /* GraphQL */ `
-  subscription OnDeleteItem {
-    onDeleteItem {
+export const onDeleteItems = /* GraphQL */ `
+  subscription OnDeleteItems {
+    onDeleteItems {
       id
       code
       name
       category
-      remainQty
+      qty
       price
       cost
       qtyThresh
-      color
-      size
       maxAddon
       description
       createdAt
@@ -223,9 +235,9 @@ export const onDeleteItem = /* GraphQL */ `
     }
   }
 `;
-export const onCreateService = /* GraphQL */ `
-  subscription OnCreateService {
-    onCreateService {
+export const onCreateServices = /* GraphQL */ `
+  subscription OnCreateServices {
+    onCreateServices {
       id
       name
       type
@@ -235,9 +247,9 @@ export const onCreateService = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateService = /* GraphQL */ `
-  subscription OnUpdateService {
-    onUpdateService {
+export const onUpdateServices = /* GraphQL */ `
+  subscription OnUpdateServices {
+    onUpdateServices {
       id
       name
       type
@@ -247,9 +259,9 @@ export const onUpdateService = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteService = /* GraphQL */ `
-  subscription OnDeleteService {
-    onDeleteService {
+export const onDeleteServices = /* GraphQL */ `
+  subscription OnDeleteServices {
+    onDeleteServices {
       id
       name
       type
