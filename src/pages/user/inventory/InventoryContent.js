@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
 //This component displays all inventory items in a table, and handles checkbox select logic
-function InventoryContent({items, selItems, setSelItems}) {
+function InventoryContent({items, setNumSel, selItems, setSelItems}) {
     const [allSel, setAllSel] = useState(false);
 
     //Selecting a single checkbox
     function selectCheckbox(checked, code) {
-        
         checked ? selItems.add(code) : selItems.delete(code);
         setSelItems(selItems);
+        setNumSel(selItems.size);
         setAllSel(items.length === selItems.size && selItems.size !== 0);
     }
     //Selecting all the checkboxes
@@ -20,12 +20,14 @@ function InventoryContent({items, selItems, setSelItems}) {
                 selItems.add(boxes[i].value);
             }
             setSelItems(selItems);
+            setNumSel(items.length);
             setAllSel(true);
         } 
         else {
             for(let i = 0; i < boxes.length; i++) 
                 boxes[i].checked = false;
             setSelItems(new Set());
+            setNumSel(0);
             setAllSel(false);
         }
     }
@@ -50,7 +52,7 @@ function InventoryContent({items, selItems, setSelItems}) {
                 </tr>
             </thead>
             <tbody>
-            {items.length === 0 ? <h2 style={{padding: "10px", textAlign:"center"}}> No items </h2> : null}
+            {items.length === 0 ? <tr style={{padding: "10px", textAlign:"center"}}> No items </tr> : null}
             {
                 items.map((item, index) => (
                     <tr key={index}>
