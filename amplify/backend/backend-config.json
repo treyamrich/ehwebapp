@@ -68,9 +68,6 @@
               "userPoolConfig": {
                 "userPoolId": "authehwebappresources"
               }
-            },
-            {
-              "authenticationType": "AWS_IAM"
             }
           ]
         }

@@ -11,9 +11,6 @@
       {
         "mode": "AMAZON_COGNITO_USER_POOLS",
         "cognitoUserPoolId": "authehwebappresources"
-      },
-      {
-        "mode": "AWS_IAM"
       }
     ],
     "conflictResolution": {}
