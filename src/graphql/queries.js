@@ -118,9 +118,8 @@ export const listOrderChoices = /* GraphQL */ `
   }
 `;
 export const getItems = /* GraphQL */ `
-  query GetItems($id: ID!) {
-    getItems(id: $id) {
-      id
+  query GetItems($code: String!) {
+    getItems(code: $code) {
       code
       name
       category
@@ -137,13 +136,20 @@ export const getItems = /* GraphQL */ `
 `;
 export const listItems = /* GraphQL */ `
   query ListItems(
+    $code: String
     $filter: ModelItemsFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listItems(
+      code: $code
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
-        id
         code
         name
         category

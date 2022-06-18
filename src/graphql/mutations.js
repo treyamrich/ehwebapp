@@ -205,7 +205,6 @@ export const createItems = /* GraphQL */ `
     $condition: ModelItemsConditionInput
   ) {
     createItems(input: $input, condition: $condition) {
-      id
       code
       name
       category
@@ -226,7 +225,6 @@ export const updateItems = /* GraphQL */ `
     $condition: ModelItemsConditionInput
   ) {
     updateItems(input: $input, condition: $condition) {
-      id
       code
       name
       category
@@ -247,7 +245,6 @@ export const deleteItems = /* GraphQL */ `
     $condition: ModelItemsConditionInput
   ) {
     deleteItems(input: $input, condition: $condition) {
-      id
       code
       name
       category

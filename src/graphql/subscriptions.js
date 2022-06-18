@@ -184,7 +184,6 @@ export const onDeleteOrderChoice = /* GraphQL */ `
 export const onCreateItems = /* GraphQL */ `
   subscription OnCreateItems {
     onCreateItems {
-      id
       code
       name
       category
@@ -202,7 +201,6 @@ export const onCreateItems = /* GraphQL */ `
 export const onUpdateItems = /* GraphQL */ `
   subscription OnUpdateItems {
     onUpdateItems {
-      id
       code
       name
       category
@@ -220,7 +218,6 @@ export const onUpdateItems = /* GraphQL */ `
 export const onDeleteItems = /* GraphQL */ `
   subscription OnDeleteItems {
     onDeleteItems {
-      id
       code
       name
       category

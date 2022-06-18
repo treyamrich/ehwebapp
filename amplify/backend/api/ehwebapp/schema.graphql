@@ -67,8 +67,7 @@ type CartItem {
 }
 
 type Items @model @auth(rules: [{ allow: private}]) @aws_api_key{
-  id: ID!
-  code: String!
+  code: String! @primaryKey
   name: String!
   category: ItemCategory!
   qty: Int
