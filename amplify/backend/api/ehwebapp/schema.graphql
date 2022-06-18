@@ -1,4 +1,4 @@
-type Orders @model @auth(rules: [{ allow: private}]) @aws_api_key{
+type Orders @model @auth(rules: [{ allow: public, provider: iam}]) {
   id: ID!
   createdAt: String!
 
@@ -29,7 +29,7 @@ enum RushStatus {
 }
 
 #Table for storing the locations, graphic names, and available fonts
-type OrderChoice @model @auth(rules: [{ allow: private}]) @aws_api_key{
+type OrderChoice @model @auth(rules: [{ allow: private, provider: iam}]) {
   type: ChoiceType!
   name: String!
 }
@@ -66,7 +66,7 @@ type CartItem {
   postLayout: Boolean!
 }
 
-type Items @model @auth(rules: [{ allow: private}]) @aws_api_key{
+type Items @model @auth(rules: [{ allow: private, provider: iam}]) {
   code: String! @primaryKey
   name: String!
   category: ItemCategory!
@@ -84,7 +84,7 @@ enum ItemCategory {
   GIFT
 }
 
-type Services @model @auth(rules: [{ allow: private}]) @aws_api_key{
+type Services @model @auth(rules: [{ allow: private, provider: iam}]) {
   id: ID!
   name: String!
   type: String!
