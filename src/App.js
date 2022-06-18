@@ -10,7 +10,7 @@ import PrivateRoute from './pages/PrivateRoute.js';
 import SessionLogout from './pages/SessionLogout.js';
 
 import Dashboard from './pages/user/Dashboard.js';
-import ManageInventory from './pages/user/ManageInventory';
+import ManageInventory from './pages/user/inventory/ManageInventory';
 
 import Landing from './pages/Landing.js';
 
