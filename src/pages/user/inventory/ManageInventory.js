@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listItems } from '../../../graphql/queries';
 import { deleteItems, updateItems } from '../../../graphql/mutations';
-import InventoryContent from './InventoryContent.js';
+import InventoryContent from './InventoryContent';
+import ItemForm from './ItemForm';
 import '../../../styles/inventory.css';
 
 const initialOpState = {
@@ -11,9 +12,15 @@ const initialOpState = {
     succItems: [], 
     failItems: [] 
 };
+const initialItemFormState = {
+    op: "none",
+    show: false,
+    items: []
+}
 
 function ManageInventory({isAdmin}) {
 
+    const [itemForm, setItemForm] = useState(initialItemFormState);
     const [inventory, setInventory] = useState([]);
     const [numSel, setNumSel] = useState(0);
     //Track items that failed/succeeded after an operation
@@ -24,7 +31,7 @@ function ManageInventory({isAdmin}) {
         for(let i = 0; i < selItems.length; i++) {
             itemCode = selItems[i].value;
             try {
-                await API.graphql({ query: deleteItems, 
+                API.graphql({ query: deleteItems, 
                     variables: { 
                         input: { 
                             code: itemCode
@@ -37,7 +44,14 @@ function ManageInventory({isAdmin}) {
                 continue;
             }
             opRes.succItems.push(itemCode);
+            selItems[i].checked = false;
         }
+    }
+    async function editItem(item) {
+
+    }
+    async function addItem(item) {
+
     }
     async function fetchInventory() {
         try {
@@ -48,29 +62,30 @@ function ManageInventory({isAdmin}) {
         }
     }
 
-    async function performOp(op) {
+    async function performOp(op, item=null) {
         setOpRes({successMsg: "", failureMsg: "", succItems: [], failItems: []});
-        let selItems = document.querySelectorAll('input[name="checkbox-item"]:checked');
         var succMsg = "Successfully ";
         var failMsg = "Failed to ";
 
         //Choose an operation
         switch(op) {
             case "remove": {
+                let selItems = document.querySelectorAll('input[name="checkbox-item"]:checked');
                 await removeItems(selItems);
-                succMsg += "removed items: ";
-                failMsg += "remove items: ";
+                succMsg += "removed item(s): ";
+                failMsg += "remove item(s): ";
                 break;
             }
-            default: {
-                //editItem();
+            case "edit": {
+                await editItem(item);
                 break;
             }
+            case "add": {
+                await addItem(item);
+                break;
+            } 
+            default: {}
         }
-
-        //Uncheck all previously checked items
-        for(let i = 0; i < selItems; i++)
-            selItems[i].checked = false;
 
         //Display operation result
         for(let i = 0; i < opRes.succItems.length; i++) {
@@ -107,18 +122,31 @@ function ManageInventory({isAdmin}) {
                         <label>Search:</label>
                         <input type="text"/>
                         <button>Find</button>
-                        <select onChange={(e)=>performOp(e.target.value)}>
+                        <select>
                             <option value="none">Actions</option>
-                            {numSel >= 1 ? <option value="remove">Delete Items</option> : null}
-                            {numSel === 1 ? <option value="edit">Edit Item</option> : null}
+                            {numSel < 1 ? null :
+                                <option value="remove" onClick={(e)=>performOp(e.target.value)}>
+                                    Delete Items
+                                </option>
+                            }
+                            {numSel !== 1 ? null :
+                                <option value="edit" onClick={()=>setItemForm({...itemForm, op: "edit", show: true})}>
+                                    Edit Item
+                                </option>
+                            }
                             <option value="import">Import from CSV</option>
                             <option value="export">Export to CSV</option>
                         </select>
-                        <button type="button" id="add-item-button">Add Item</button>
+                        <button type="button" 
+                            id="add-item-button" 
+                            onClick={()=>setItemForm({...itemForm, op: "add", show: true})}>
+                                Add Item
+                        </button>
                     </form>
                 </div>
                 <InventoryContent items={inventory} numSel={numSel} setNumSel={setNumSel}/>
             </div>
+            {itemForm.show ? <ItemForm itemForm={itemForm} setItemForm={setItemForm} performOp={performOp}/> : null}
         </div>
     );
 }
