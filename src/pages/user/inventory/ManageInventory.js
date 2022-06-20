@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listItems } from '../../../graphql/queries';
-import { deleteItems, updateItems } from '../../../graphql/mutations';
+import { createItems, deleteItems, updateItems } from '../../../graphql/mutations';
 import InventoryContent from './InventoryContent';
 import ItemForm from './ItemForm';
 import '../../../styles/inventory.css';
@@ -48,10 +48,23 @@ function ManageInventory({isAdmin}) {
         }
     }
     async function editItem(item) {
-
+        try {
+            API.graphql({ query: updateItems, variables: {input: item}, authMode: "AMAZON_COGNITO_USER_POOLS"});
+        } catch(e) {
+            opRes.failItems.push(item.itemCode);
+            return;
+        }
+        opRes.succItems.push(item.itemCode);
     }
+    //Adds a SINGLE item to the database
     async function addItem(item) {
-
+        try {
+            API.graphql({ query: createItems, variables: {input: item}, authMode: "AMAZON_COGNITO_USER_POOLS"});
+        } catch(e) {
+            opRes.failItems.push(item.itemCode);
+            return;
+        }
+        opRes.succItems.push(item.itemCode);
     }
     async function fetchInventory() {
         try {
@@ -62,7 +75,8 @@ function ManageInventory({isAdmin}) {
         }
     }
 
-    async function performOp(op, item=null) {
+    async function performOp(op, items=null) {
+        //items will be an array if the operation is import
         setOpRes({successMsg: "", failureMsg: "", succItems: [], failItems: []});
         var succMsg = "Successfully ";
         var failMsg = "Failed to ";
@@ -77,13 +91,17 @@ function ManageInventory({isAdmin}) {
                 break;
             }
             case "edit": {
-                await editItem(item);
+                await editItem(items);
                 itemForm.item = null;
                 itemForm.op = "none";
+                succMsg += "edited: ";
+                failMsg += "edit: ";
                 break;
             }
             case "add": {
-                await addItem(item);
+                await addItem(items);
+                succMsg += "added: ";
+                failMsg += "add: ";
                 break;
             } 
             default: {}
@@ -125,7 +143,7 @@ function ManageInventory({isAdmin}) {
                     }
                 }
                 console.log(updateItem);
-                setItemForm({item: updateItem, op: "edit", show: true});
+                setItemForm({items: [updateItem], op: "edit", show: true});
                 break;
             }
             default:{}

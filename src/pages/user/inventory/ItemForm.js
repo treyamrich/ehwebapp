@@ -15,7 +15,7 @@ const initialItemState = {
 
 function ItemForm({itemForm, setItemForm, performOp}) {
     
-    const [item, setItem] = useState(itemForm.op === "edit" ? itemForm.item : initialItemState);
+    const [item, setItem] = useState(itemForm.op === "edit" ? itemForm.items : initialItemState);
 
     return(
         <div id="item-form-wrapper">
@@ -146,8 +146,10 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                 <div className="row">
                     <div className="col-25"></div>
                     <div className="col-75">
-                        <button className="item-form" onClick={()=>setItemForm({...itemForm, op: "none", show: false})}>Cancel</button>
-                        <button className="item-form" onClick={()=>performOp(itemForm.op, item)}>Submit</button>
+                        <button className="item-form" type="button"
+                            onClick={()=>setItemForm({...itemForm, op: "none", show: false})}>Cancel</button>
+                        <button className="item-form" type="button"
+                            onClick={()=>performOp(itemForm.op, item)}>Submit</button>
                     </div>
                 </div>
             </form>
