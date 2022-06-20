@@ -1,43 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 //This component displays all inventory items in a table, and handles checkbox select logic
-function InventoryContent({items, setNumSel, selItems, setSelItems}) {
+function InventoryContent({items, numSel, setNumSel}) {
     const [allSel, setAllSel] = useState(false);
 
-    //Selecting a single checkbox
-    function selectCheckbox(checked, code) {
-        checked ? selItems.add(code) : selItems.delete(code);
-        setSelItems(selItems);
-        setNumSel(selItems.size);
-        setAllSel(items.length === selItems.size && selItems.size !== 0);
-    }
     //Selecting all the checkboxes
-    function selectAllCheckbox(op) {
+    function selectAllCheckbox(isSelAll) {
         const boxes = document.getElementsByClassName("checkbox");
-        if(op === "sel") {
-            for(let i = 0; i < boxes.length; i++) {
-                boxes[i].checked = true;
-                selItems.add(boxes[i].value);
-            }
-            setSelItems(selItems);
-            setNumSel(items.length);
-            setAllSel(true);
-        } 
-        else {
-            for(let i = 0; i < boxes.length; i++) 
-                boxes[i].checked = false;
-            setSelItems(new Set());
-            setNumSel(0);
-            setAllSel(false);
+        for(let i = 0; i < boxes.length; i++) {
+            boxes[i].checked = isSelAll;
         }
+        setNumSel(isSelAll ? items.length : 0);
     }
+    useEffect(()=>{
+        setAllSel(items.length === numSel && numSel !== 0);
+    }, [numSel]);
     return(
         <table className="inventory-items">
             <thead>
                 <tr>
                     <th><input type="checkbox" 
                         name="checkbox-select-all" 
-                        onChange={(e)=>e.currentTarget.checked ? selectAllCheckbox("sel") : selectAllCheckbox("unsel")}
+                        className="checkbox"
+                        onChange={(e)=>selectAllCheckbox(e.currentTarget.checked)}
                         checked={allSel}/>
                     </th>
                     <th>Item Code</th>
@@ -58,10 +43,10 @@ function InventoryContent({items, setNumSel, selItems, setSelItems}) {
                     <tr key={index}>
                         <td>
                             <input type="checkbox" 
-                                name={"checkbox-item-" + index}
+                                name="checkbox-item"
                                 className="checkbox" 
                                 value={item.code} 
-                                onChange={(e)=>selectCheckbox(e.currentTarget.checked, item.code)}/> 
+                                onChange={(e)=>e.currentTarget.checked ? setNumSel(numSel + 1) : setNumSel(numSel - 1)}/> 
                         </td>
                         <td> {item.code} </td>
                         <td> {item.name} </td>
