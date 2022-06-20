@@ -78,6 +78,8 @@ function ManageInventory({isAdmin}) {
             }
             case "edit": {
                 await editItem(item);
+                itemForm.item = null;
+                itemForm.op = "none";
                 break;
             }
             case "add": {
@@ -104,6 +106,31 @@ function ManageInventory({isAdmin}) {
         setNumSel(0);
         fetchInventory();
     }
+    //Chooses the operation based on the select value
+    function selectOp(op) {
+        switch(op) {
+            case "delete": {
+                performOp(op);
+                break;
+            }
+            case "edit": {
+                let elm = document.querySelectorAll('input[name="checkbox-item"]:checked');
+                console.log(elm);
+                //let updateItem = inventory.filter((val)=>val === elm[0].value);
+                let updateItem;
+                for(let i = 0; i < inventory.length; i++) {
+                    if(inventory[i].code === elm[0].value) {
+                        updateItem = inventory[i];
+                        break;
+                    }
+                }
+                console.log(updateItem);
+                setItemForm({item: updateItem, op: "edit", show: true});
+                break;
+            }
+            default:{}
+        }
+    }
     useEffect(()=>{
 		fetchInventory();
 	}, []);
@@ -122,17 +149,13 @@ function ManageInventory({isAdmin}) {
                         <label>Search:</label>
                         <input type="text"/>
                         <button>Find</button>
-                        <select>
+                        <select onChange={(e)=>selectOp(e.target.value)}>
                             <option value="none">Actions</option>
                             {numSel < 1 ? null :
-                                <option value="remove" onClick={(e)=>performOp(e.target.value)}>
-                                    Delete Items
-                                </option>
+                                <option value="remove">Delete Items</option>
                             }
                             {numSel !== 1 ? null :
-                                <option value="edit" onClick={()=>setItemForm({...itemForm, op: "edit", show: true})}>
-                                    Edit Item
-                                </option>
+                                <option value="edit">Edit Item</option>
                             }
                             <option value="import">Import from CSV</option>
                             <option value="export">Export to CSV</option>
