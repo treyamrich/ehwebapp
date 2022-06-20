@@ -31,7 +31,7 @@ export const getOrders = /* GraphQL */ `
           font
           layoutImg
           graphics
-          notes
+          customGraphics
           postGraphics
           postTxt
           postLayout
@@ -41,11 +41,12 @@ export const getOrders = /* GraphQL */ `
         font
         layoutImg
         graphics
-        notes
+        customGraphics
         postGraphics
         postTxt
         postLayout
       }
+      notes
       updatedAt
     }
   }
@@ -77,11 +78,12 @@ export const listOrders = /* GraphQL */ `
           font
           layoutImg
           graphics
-          notes
+          customGraphics
           postGraphics
           postTxt
           postLayout
         }
+        notes
         updatedAt
       }
       nextToken

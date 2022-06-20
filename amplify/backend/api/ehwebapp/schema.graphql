@@ -17,6 +17,7 @@ type Orders @model @auth(rules: [
   rushStatus: RushStatus!
 
   cart: [CartItem]!
+  notes: String
 }
 
 enum OrderStatus {
@@ -63,8 +64,7 @@ type CartItem {
 
   layoutImg: String
   graphics: [String!]
-
-  notes: String
+  customGraphics: [String!]
 
   #Postponed information flags
   postGraphics: Boolean!

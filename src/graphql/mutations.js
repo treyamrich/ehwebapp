@@ -34,7 +34,7 @@ export const createOrders = /* GraphQL */ `
           font
           layoutImg
           graphics
-          notes
+          customGraphics
           postGraphics
           postTxt
           postLayout
@@ -44,11 +44,12 @@ export const createOrders = /* GraphQL */ `
         font
         layoutImg
         graphics
-        notes
+        customGraphics
         postGraphics
         postTxt
         postLayout
       }
+      notes
       updatedAt
     }
   }
@@ -86,7 +87,7 @@ export const updateOrders = /* GraphQL */ `
           font
           layoutImg
           graphics
-          notes
+          customGraphics
           postGraphics
           postTxt
           postLayout
@@ -96,11 +97,12 @@ export const updateOrders = /* GraphQL */ `
         font
         layoutImg
         graphics
-        notes
+        customGraphics
         postGraphics
         postTxt
         postLayout
       }
+      notes
       updatedAt
     }
   }
@@ -138,7 +140,7 @@ export const deleteOrders = /* GraphQL */ `
           font
           layoutImg
           graphics
-          notes
+          customGraphics
           postGraphics
           postTxt
           postLayout
@@ -148,11 +150,12 @@ export const deleteOrders = /* GraphQL */ `
         font
         layoutImg
         graphics
-        notes
+        customGraphics
         postGraphics
         postTxt
         postLayout
       }
+      notes
       updatedAt
     }
   }
