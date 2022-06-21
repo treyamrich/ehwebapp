@@ -15,6 +15,7 @@ const initialOpState = {
 const initialItemFormState = {
     op: "none",
     show: false,
+    item: undefined,
     items: []
 }
 
@@ -49,7 +50,7 @@ function ManageInventory({isAdmin}) {
     }
     async function editItem(item) {
         try {
-            API.graphql({ query: updateItems, variables: {input: item}, authMode: "AMAZON_COGNITO_USER_POOLS"});
+            var data = API.graphql({ query: updateItems, variables: {input: item}, authMode: "AMAZON_COGNITO_USER_POOLS"});
         } catch(e) {
             opRes.failItems.push(item.itemCode);
             return;
@@ -88,20 +89,28 @@ function ManageInventory({isAdmin}) {
                 await removeItems(selItems);
                 succMsg += "removed item(s): ";
                 failMsg += "remove item(s): ";
+                setNumSel(0);
                 break;
             }
             case "edit": {
                 await editItem(items);
-                itemForm.item = null;
-                itemForm.op = "none";
                 succMsg += "edited: ";
                 failMsg += "edit: ";
+                setNumSel(0);
+                //Reset item form
+                itemForm.item = null;
+                itemForm.op = "none";
+                itemForm.show = false;
                 break;
             }
             case "add": {
                 await addItem(items);
                 succMsg += "added: ";
                 failMsg += "add: ";
+                //Reset item form
+                itemForm.item = null;
+                itemForm.op = "none";
+                itemForm.show = false;
                 break;
             } 
             default: {}
@@ -120,8 +129,7 @@ function ManageInventory({isAdmin}) {
         }
 
         //Regrab the inventory and display result
-        setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});
-        setNumSel(0);
+        setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});        
         fetchInventory();
     }
     //Chooses the operation based on the select value
@@ -143,7 +151,7 @@ function ManageInventory({isAdmin}) {
                     }
                 }
                 console.log(updateItem);
-                setItemForm({items: [updateItem], op: "edit", show: true});
+                setItemForm({item: updateItem, op: "edit", show: true});
                 break;
             }
             default:{}

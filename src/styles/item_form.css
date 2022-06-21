@@ -45,7 +45,9 @@ input.item-form {
 	box-sizing: border-box;
 	padding: 10px 20px 10px 20px;
 }
-
+input.disabled {
+    color: grey;
+}
 h2.item-form {
     font-weight: bold;
 }

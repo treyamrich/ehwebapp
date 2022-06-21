@@ -6,7 +6,7 @@ const initialItemState = {
     name: "",
     price: 0.0,
     cost: 0.0,
-    category: "",
+    category: "PLAQUE",
     remainQty: undefined,
     qtyThresh: undefined,
     maxAddon: undefined,
@@ -15,7 +15,7 @@ const initialItemState = {
 
 function ItemForm({itemForm, setItemForm, performOp}) {
     
-    const [item, setItem] = useState(itemForm.op === "edit" ? itemForm.items : initialItemState);
+    const [item, setItem] = useState(itemForm.op === "edit" ? itemForm.item : initialItemState);
 
     return(
         <div id="item-form-wrapper">
@@ -26,11 +26,13 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                         <label className="item-form" htmlFor="item-code">Item Code:</label>
                     </div>
                     <div className="col-75">
-                        <input className="item-form" type="text" name="item-code" 
+                        <input className={itemForm.op === "edit" ? "item-form disabled" : "item-form"} 
+                            type="text" name="item-code" 
                             placeholder="DCP11013" 
                             onChange={(e)=>setItem({...item, code: e.target.value})}
                             value={item.code}
-                            required/>
+                            required
+                            disabled={itemForm.op === "edit"}/>
                     </div>
                 </div>
                 <div className="row">
@@ -84,7 +86,7 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                             min="0" 
                             step="1"
                             onChange={(e)=>setItem({...item, remainQty: e.target.value})}
-                            value={item.remainQty}/>
+                            value={item.remainQty ? item.remainQty : undefined}/>
                     </div>
                 </div>
                 <div className="row">
@@ -97,7 +99,7 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                             min="0" 
                             step="1"
                             onChange={(e)=>setItem({...item, qtyThresh: e.target.value})}
-                            value={item.qtyThresh}/>
+                            value={item.qtyThresh ? item.qtyThresh : undefined}/>
                     </div>
                 </div>
                 <div className="row">
@@ -110,7 +112,7 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                             min="0" 
                             step="1"
                             onChange={(e)=>setItem({...item, maxAddon: e.target.value})}
-                            value={item.maxAddon}/>
+                            value={item.maxAddon ? item.maxAddon : undefined}/>
                     </div>
                 </div>
                 <div className="row">
@@ -121,7 +123,7 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                         <input className="item-form" type="text" name="item-desc" 
                             placeholder="Write your optional notes here"
                             onChange={(e)=>setItem({...item, description: e.target.value})}
-                            value={item.description}/>
+                            value={item.description ? item.description : ""}/>
                     </div>
                 </div>
                 <div className="row">
@@ -131,15 +133,21 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                     <div className="col-75">
                         <label className="item-form">
                             <input className="item-form" type="radio" name="item-category" value="PLAQUE" 
-                                defaultChecked={itemForm.op === "add" || item.category === "PLAQUE"} required/>Plaque
+                                defaultChecked={itemForm.op === "add" || item.category === "PLAQUE"} 
+                                onClick={(e)=>setItem({...item, category: e.target.value})}
+                                required/>Plaque
                         </label>
                         <label className="item-form">
                             <input className="item-form" type="radio" name="item-category" value="DRINKWARE" 
-                                defaultChecked={item.category === "DRINKWARE"} required/>Drinkware
+                                defaultChecked={item.category === "DRINKWARE"} 
+                                onClick={(e)=>setItem({...item, category: e.target.value})}
+                                required/>Drinkware
                         </label>
                         <label className="item-form">
                             <input className="item-form" type="radio" name="item-category" value="GIFT" 
-                                 defaultChecked={item.category === "GIFT"} required/>Gift
+                                defaultChecked={item.category === "GIFT"} 
+                                onClick={(e)=>setItem({...item, category: e.target.value})}
+                                required/>Gift
                         </label>
                     </div>
                 </div>
