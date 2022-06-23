@@ -10,7 +10,7 @@ import PrivateRoute from './pages/PrivateRoute.js';
 import SessionLogout from './pages/SessionLogout.js';
 
 import Dashboard from './pages/user/Dashboard.js';
-import ManageInventory from './pages/user/inventory/ManageInventory';
+import Management from './pages/user/Management.js';
 
 import Landing from './pages/Landing.js';
 
@@ -102,6 +102,10 @@ function App() {
               : null
             }
             
+            <Nav.Item>
+              <Nav.Link href="/management">Management</Nav.Link>
+            </Nav.Item>
+
             {isAuthenticated ? 
               <Nav.Item>
                 <Nav.Link id="welcome-user"> Welcome {name}. </Nav.Link>
@@ -114,9 +118,6 @@ function App() {
               <Nav.Link onClick={()=>signOut()}> Sign out </Nav.Link>} 
             </Nav.Item>
 
-            <Nav.Item>
-              <Nav.Link href="/manage-inventory">Manage Inventory</Nav.Link>
-            </Nav.Item>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -134,8 +135,8 @@ function App() {
         <PrivateRoute exact path="/dashboard" auth={isAuthenticated}>
           <Dashboard email={email}/>
         </PrivateRoute>
-        <PrivateRoute exact path="/manage-inventory" auth={isAuthenticated}>
-          <ManageInventory isAdmin={isAdmin}/>
+        <PrivateRoute exact path="/management" auth={isAuthenticated}>
+          <Management isAdmin={isAdmin}/>
         </PrivateRoute>
 
         <Route>

@@ -12,7 +12,7 @@ const initialOpState = {
     failItems: [] 
 };
 
-function ManageInventory({isAdmin}) {
+function ManageInventory() {
 
     const [inventory, setInventory] = useState([]);
     const [numSel, setNumSel] = useState(0);
@@ -92,8 +92,6 @@ function ManageInventory({isAdmin}) {
     useEffect(()=>{
 		fetchInventory();
 	}, []);
-    
-    if(!isAdmin) return <h1 style={{marginTop: "100px"}}>This page is not available.</h1>;
     
     return (
         <div>
