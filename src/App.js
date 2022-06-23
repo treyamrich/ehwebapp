@@ -10,7 +10,7 @@ import PrivateRoute from './pages/PrivateRoute.js';
 import SessionLogout from './pages/SessionLogout.js';
 
 import Dashboard from './pages/user/Dashboard.js';
-import Management from './pages/user/Management.js';
+import Management from './pages/user/management/Management.js';
 
 import Landing from './pages/Landing.js';
 

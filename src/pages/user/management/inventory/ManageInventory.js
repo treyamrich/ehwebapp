@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { listItems } from '../../../graphql/queries';
-import { createItems, deleteItems, updateItems } from '../../../graphql/mutations';
+import { listItems } from '../../../../graphql/queries';
+import { createItems, deleteItems, updateItems } from '../../../../graphql/mutations';
 import InventoryContent from './InventoryContent';
 import ItemForm from './ItemForm';
-import '../../../styles/inventory.css';
+import '../../../../styles/inventory.css';
 
 const initialOpState = {
     successMsg: "",
