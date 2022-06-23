@@ -135,7 +135,7 @@ function ManageInventory() {
     //Chooses the operation based on the select value
     function selectOp(op) {
         switch(op) {
-            case "delete": {
+            case "remove": {
                 performOp(op);
                 break;
             }
