@@ -4,10 +4,9 @@ type Orders @model @auth(rules: [
   { allow: groups, groups: ["admin"], provider: userPools}]) {
   id: ID!
   createdAt: String!
+  orderNum: String!
 
-  name: String!
-  phoneNum: String!
-  email: String!
+  contactInfo: ContactInfo!
 
   dateNeeded: AWSDate!
   timeNeeded: AWSTime
@@ -19,7 +18,17 @@ type Orders @model @auth(rules: [
   cart: [CartItem]!
   notes: String
 }
+type ContactInfo {
+  name: String
+  phone: AWSPhone
+  faxPhone: String
+  email: AWSEmail
 
+  address: String
+  city: String
+  state: String
+  zip: String
+}
 enum OrderStatus {
   NEW
   MOCKUP_SENT
@@ -72,6 +81,40 @@ type CartItem {
   postLayout: Boolean!
 }
 
+type PurchaseOrder @model @auth(rules: [
+{ allow: groups, groups: ["admin"], provider: userPools}]) {
+  id: ID!
+  vendorId: String!
+  date: AWSDate!
+
+  orderedProducts: [POItem!]
+  isOpen: Boolean!
+}
+type POItem {
+  itemCode: String!
+  itemName: String!
+
+  numPurchased: Int!
+  unitCost: Float!
+  totalCost: Float!
+
+  receivedDate: AWSDate
+  goodTill: AWSDate
+}
+type OwnerContact @model @auth(rules: [
+{ allow: groups, groups: ["admin"], provider: userPools}]) {
+  contactInfo: ContactInfo!
+}
+type Vendor @model @auth(rules: [
+{ allow: groups, groups: ["admin"], provider: userPools}]) {
+  id: ID!
+  vendorName: String!
+  contactInfo: ContactInfo!
+
+  shTerms: String
+  salesTaxTerms: String
+  notes: String
+}
 type Items @model @auth(rules: [
   { allow: groups, groups: ["admin"], provider: userPools},
   { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
@@ -80,13 +123,16 @@ type Items @model @auth(rules: [
   code: String! @primaryKey
   name: String!
   category: ItemCategory!
-  qty: Int
+
   price: Float!
   cost: Float!
   
+  qty: Int
+  numOrdered: Int
   qtyThresh: Int
   maxAddon: Int
-  description: String
+
+  modifierGroups: [String!]
 }
 enum ItemCategory {
   PLAQUE
@@ -94,13 +140,20 @@ enum ItemCategory {
   GIFT
 }
 
-type Services @model @auth(rules: [
+type ModifierGroups @model @auth(rules: [
   { allow: groups, groups: ["admin"], provider: userPools}, 
   { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
   { allow: public, provider: iam, operations: [read]}]) {
-
   id: ID!
   name: String!
-  type: String!
+  modifiers: [String!]!
+  items: [String!]
+}
+type Modifier @model @auth(rules: [
+  { allow: groups, groups: ["admin"], provider: userPools}, 
+  { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
+  { allow: public, provider: iam, operations: [read]}]) {
+  id: ID!
+  name: String!
   price: Float!
 }
