@@ -9,9 +9,17 @@ export const createOrders = /* GraphQL */ `
     createOrders(input: $input, condition: $condition) {
       id
       createdAt
-      name
-      phoneNum
-      email
+      orderNum
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
       dateNeeded
       timeNeeded
       location
@@ -34,7 +42,7 @@ export const createOrders = /* GraphQL */ `
           font
           layoutImg
           graphics
-          notes
+          customGraphics
           postGraphics
           postTxt
           postLayout
@@ -44,11 +52,12 @@ export const createOrders = /* GraphQL */ `
         font
         layoutImg
         graphics
-        notes
+        customGraphics
         postGraphics
         postTxt
         postLayout
       }
+      notes
       updatedAt
     }
   }
@@ -61,9 +70,17 @@ export const updateOrders = /* GraphQL */ `
     updateOrders(input: $input, condition: $condition) {
       id
       createdAt
-      name
-      phoneNum
-      email
+      orderNum
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
       dateNeeded
       timeNeeded
       location
@@ -86,7 +103,7 @@ export const updateOrders = /* GraphQL */ `
           font
           layoutImg
           graphics
-          notes
+          customGraphics
           postGraphics
           postTxt
           postLayout
@@ -96,11 +113,12 @@ export const updateOrders = /* GraphQL */ `
         font
         layoutImg
         graphics
-        notes
+        customGraphics
         postGraphics
         postTxt
         postLayout
       }
+      notes
       updatedAt
     }
   }
@@ -113,9 +131,17 @@ export const deleteOrders = /* GraphQL */ `
     deleteOrders(input: $input, condition: $condition) {
       id
       createdAt
-      name
-      phoneNum
-      email
+      orderNum
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
       dateNeeded
       timeNeeded
       location
@@ -138,7 +164,7 @@ export const deleteOrders = /* GraphQL */ `
           font
           layoutImg
           graphics
-          notes
+          customGraphics
           postGraphics
           postTxt
           postLayout
@@ -148,11 +174,12 @@ export const deleteOrders = /* GraphQL */ `
         font
         layoutImg
         graphics
-        notes
+        customGraphics
         postGraphics
         postTxt
         postLayout
       }
+      notes
       updatedAt
     }
   }
@@ -199,6 +226,222 @@ export const deleteOrderChoice = /* GraphQL */ `
     }
   }
 `;
+export const createPurchaseOrder = /* GraphQL */ `
+  mutation CreatePurchaseOrder(
+    $input: CreatePurchaseOrderInput!
+    $condition: ModelPurchaseOrderConditionInput
+  ) {
+    createPurchaseOrder(input: $input, condition: $condition) {
+      id
+      vendorId
+      date
+      orderedProducts {
+        itemCode
+        itemName
+        numPurchased
+        unitCost
+        totalCost
+        receivedDate
+        goodTill
+      }
+      isOpen
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updatePurchaseOrder = /* GraphQL */ `
+  mutation UpdatePurchaseOrder(
+    $input: UpdatePurchaseOrderInput!
+    $condition: ModelPurchaseOrderConditionInput
+  ) {
+    updatePurchaseOrder(input: $input, condition: $condition) {
+      id
+      vendorId
+      date
+      orderedProducts {
+        itemCode
+        itemName
+        numPurchased
+        unitCost
+        totalCost
+        receivedDate
+        goodTill
+      }
+      isOpen
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deletePurchaseOrder = /* GraphQL */ `
+  mutation DeletePurchaseOrder(
+    $input: DeletePurchaseOrderInput!
+    $condition: ModelPurchaseOrderConditionInput
+  ) {
+    deletePurchaseOrder(input: $input, condition: $condition) {
+      id
+      vendorId
+      date
+      orderedProducts {
+        itemCode
+        itemName
+        numPurchased
+        unitCost
+        totalCost
+        receivedDate
+        goodTill
+      }
+      isOpen
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createOwnerContact = /* GraphQL */ `
+  mutation CreateOwnerContact(
+    $input: CreateOwnerContactInput!
+    $condition: ModelOwnerContactConditionInput
+  ) {
+    createOwnerContact(input: $input, condition: $condition) {
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateOwnerContact = /* GraphQL */ `
+  mutation UpdateOwnerContact(
+    $input: UpdateOwnerContactInput!
+    $condition: ModelOwnerContactConditionInput
+  ) {
+    updateOwnerContact(input: $input, condition: $condition) {
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteOwnerContact = /* GraphQL */ `
+  mutation DeleteOwnerContact(
+    $input: DeleteOwnerContactInput!
+    $condition: ModelOwnerContactConditionInput
+  ) {
+    deleteOwnerContact(input: $input, condition: $condition) {
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createVendor = /* GraphQL */ `
+  mutation CreateVendor(
+    $input: CreateVendorInput!
+    $condition: ModelVendorConditionInput
+  ) {
+    createVendor(input: $input, condition: $condition) {
+      id
+      vendorName
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
+      shTerms
+      salesTaxTerms
+      notes
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateVendor = /* GraphQL */ `
+  mutation UpdateVendor(
+    $input: UpdateVendorInput!
+    $condition: ModelVendorConditionInput
+  ) {
+    updateVendor(input: $input, condition: $condition) {
+      id
+      vendorName
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
+      shTerms
+      salesTaxTerms
+      notes
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteVendor = /* GraphQL */ `
+  mutation DeleteVendor(
+    $input: DeleteVendorInput!
+    $condition: ModelVendorConditionInput
+  ) {
+    deleteVendor(input: $input, condition: $condition) {
+      id
+      vendorName
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
+      shTerms
+      salesTaxTerms
+      notes
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createItems = /* GraphQL */ `
   mutation CreateItems(
     $input: CreateItemsInput!
@@ -208,12 +451,13 @@ export const createItems = /* GraphQL */ `
       code
       name
       category
-      qty
       price
       cost
+      qty
+      numOrdered
       qtyThresh
       maxAddon
-      description
+      modifierGroups
       createdAt
       updatedAt
     }
@@ -228,12 +472,13 @@ export const updateItems = /* GraphQL */ `
       code
       name
       category
-      qty
       price
       cost
+      qty
+      numOrdered
       qtyThresh
       maxAddon
-      description
+      modifierGroups
       createdAt
       updatedAt
     }
@@ -248,56 +493,99 @@ export const deleteItems = /* GraphQL */ `
       code
       name
       category
-      qty
       price
       cost
+      qty
+      numOrdered
       qtyThresh
       maxAddon
-      description
+      modifierGroups
       createdAt
       updatedAt
     }
   }
 `;
-export const createServices = /* GraphQL */ `
-  mutation CreateServices(
-    $input: CreateServicesInput!
-    $condition: ModelServicesConditionInput
+export const createModifierGroups = /* GraphQL */ `
+  mutation CreateModifierGroups(
+    $input: CreateModifierGroupsInput!
+    $condition: ModelModifierGroupsConditionInput
   ) {
-    createServices(input: $input, condition: $condition) {
+    createModifierGroups(input: $input, condition: $condition) {
       id
       name
-      type
+      modifiers
+      items
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateModifierGroups = /* GraphQL */ `
+  mutation UpdateModifierGroups(
+    $input: UpdateModifierGroupsInput!
+    $condition: ModelModifierGroupsConditionInput
+  ) {
+    updateModifierGroups(input: $input, condition: $condition) {
+      id
+      name
+      modifiers
+      items
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteModifierGroups = /* GraphQL */ `
+  mutation DeleteModifierGroups(
+    $input: DeleteModifierGroupsInput!
+    $condition: ModelModifierGroupsConditionInput
+  ) {
+    deleteModifierGroups(input: $input, condition: $condition) {
+      id
+      name
+      modifiers
+      items
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createModifier = /* GraphQL */ `
+  mutation CreateModifier(
+    $input: CreateModifierInput!
+    $condition: ModelModifierConditionInput
+  ) {
+    createModifier(input: $input, condition: $condition) {
+      id
+      name
       price
       createdAt
       updatedAt
     }
   }
 `;
-export const updateServices = /* GraphQL */ `
-  mutation UpdateServices(
-    $input: UpdateServicesInput!
-    $condition: ModelServicesConditionInput
+export const updateModifier = /* GraphQL */ `
+  mutation UpdateModifier(
+    $input: UpdateModifierInput!
+    $condition: ModelModifierConditionInput
   ) {
-    updateServices(input: $input, condition: $condition) {
+    updateModifier(input: $input, condition: $condition) {
       id
       name
-      type
       price
       createdAt
       updatedAt
     }
   }
 `;
-export const deleteServices = /* GraphQL */ `
-  mutation DeleteServices(
-    $input: DeleteServicesInput!
-    $condition: ModelServicesConditionInput
+export const deleteModifier = /* GraphQL */ `
+  mutation DeleteModifier(
+    $input: DeleteModifierInput!
+    $condition: ModelModifierConditionInput
   ) {
-    deleteServices(input: $input, condition: $condition) {
+    deleteModifier(input: $input, condition: $condition) {
       id
       name
-      type
       price
       createdAt
       updatedAt

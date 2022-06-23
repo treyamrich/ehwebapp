@@ -6,9 +6,17 @@ export const onCreateOrders = /* GraphQL */ `
     onCreateOrders {
       id
       createdAt
-      name
-      phoneNum
-      email
+      orderNum
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
       dateNeeded
       timeNeeded
       location
@@ -31,7 +39,7 @@ export const onCreateOrders = /* GraphQL */ `
           font
           layoutImg
           graphics
-          notes
+          customGraphics
           postGraphics
           postTxt
           postLayout
@@ -41,11 +49,12 @@ export const onCreateOrders = /* GraphQL */ `
         font
         layoutImg
         graphics
-        notes
+        customGraphics
         postGraphics
         postTxt
         postLayout
       }
+      notes
       updatedAt
     }
   }
@@ -55,9 +64,17 @@ export const onUpdateOrders = /* GraphQL */ `
     onUpdateOrders {
       id
       createdAt
-      name
-      phoneNum
-      email
+      orderNum
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
       dateNeeded
       timeNeeded
       location
@@ -80,7 +97,7 @@ export const onUpdateOrders = /* GraphQL */ `
           font
           layoutImg
           graphics
-          notes
+          customGraphics
           postGraphics
           postTxt
           postLayout
@@ -90,11 +107,12 @@ export const onUpdateOrders = /* GraphQL */ `
         font
         layoutImg
         graphics
-        notes
+        customGraphics
         postGraphics
         postTxt
         postLayout
       }
+      notes
       updatedAt
     }
   }
@@ -104,9 +122,17 @@ export const onDeleteOrders = /* GraphQL */ `
     onDeleteOrders {
       id
       createdAt
-      name
-      phoneNum
-      email
+      orderNum
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
       dateNeeded
       timeNeeded
       location
@@ -129,7 +155,7 @@ export const onDeleteOrders = /* GraphQL */ `
           font
           layoutImg
           graphics
-          notes
+          customGraphics
           postGraphics
           postTxt
           postLayout
@@ -139,11 +165,12 @@ export const onDeleteOrders = /* GraphQL */ `
         font
         layoutImg
         graphics
-        notes
+        customGraphics
         postGraphics
         postTxt
         postLayout
       }
+      notes
       updatedAt
     }
   }
@@ -181,18 +208,208 @@ export const onDeleteOrderChoice = /* GraphQL */ `
     }
   }
 `;
+export const onCreatePurchaseOrder = /* GraphQL */ `
+  subscription OnCreatePurchaseOrder {
+    onCreatePurchaseOrder {
+      id
+      vendorId
+      date
+      orderedProducts {
+        itemCode
+        itemName
+        numPurchased
+        unitCost
+        totalCost
+        receivedDate
+        goodTill
+      }
+      isOpen
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdatePurchaseOrder = /* GraphQL */ `
+  subscription OnUpdatePurchaseOrder {
+    onUpdatePurchaseOrder {
+      id
+      vendorId
+      date
+      orderedProducts {
+        itemCode
+        itemName
+        numPurchased
+        unitCost
+        totalCost
+        receivedDate
+        goodTill
+      }
+      isOpen
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeletePurchaseOrder = /* GraphQL */ `
+  subscription OnDeletePurchaseOrder {
+    onDeletePurchaseOrder {
+      id
+      vendorId
+      date
+      orderedProducts {
+        itemCode
+        itemName
+        numPurchased
+        unitCost
+        totalCost
+        receivedDate
+        goodTill
+      }
+      isOpen
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateOwnerContact = /* GraphQL */ `
+  subscription OnCreateOwnerContact {
+    onCreateOwnerContact {
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateOwnerContact = /* GraphQL */ `
+  subscription OnUpdateOwnerContact {
+    onUpdateOwnerContact {
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteOwnerContact = /* GraphQL */ `
+  subscription OnDeleteOwnerContact {
+    onDeleteOwnerContact {
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateVendor = /* GraphQL */ `
+  subscription OnCreateVendor {
+    onCreateVendor {
+      id
+      vendorName
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
+      shTerms
+      salesTaxTerms
+      notes
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateVendor = /* GraphQL */ `
+  subscription OnUpdateVendor {
+    onUpdateVendor {
+      id
+      vendorName
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
+      shTerms
+      salesTaxTerms
+      notes
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteVendor = /* GraphQL */ `
+  subscription OnDeleteVendor {
+    onDeleteVendor {
+      id
+      vendorName
+      contactInfo {
+        name
+        phone
+        faxPhone
+        email
+        address
+        city
+        state
+        zip
+      }
+      shTerms
+      salesTaxTerms
+      notes
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateItems = /* GraphQL */ `
   subscription OnCreateItems {
     onCreateItems {
       code
       name
       category
-      qty
       price
       cost
+      qty
+      numOrdered
       qtyThresh
       maxAddon
-      description
+      modifierGroups
       createdAt
       updatedAt
     }
@@ -204,12 +421,13 @@ export const onUpdateItems = /* GraphQL */ `
       code
       name
       category
-      qty
       price
       cost
+      qty
+      numOrdered
       qtyThresh
       maxAddon
-      description
+      modifierGroups
       createdAt
       updatedAt
     }
@@ -221,47 +439,81 @@ export const onDeleteItems = /* GraphQL */ `
       code
       name
       category
-      qty
       price
       cost
+      qty
+      numOrdered
       qtyThresh
       maxAddon
-      description
+      modifierGroups
       createdAt
       updatedAt
     }
   }
 `;
-export const onCreateServices = /* GraphQL */ `
-  subscription OnCreateServices {
-    onCreateServices {
+export const onCreateModifierGroups = /* GraphQL */ `
+  subscription OnCreateModifierGroups {
+    onCreateModifierGroups {
       id
       name
-      type
+      modifiers
+      items
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateModifierGroups = /* GraphQL */ `
+  subscription OnUpdateModifierGroups {
+    onUpdateModifierGroups {
+      id
+      name
+      modifiers
+      items
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteModifierGroups = /* GraphQL */ `
+  subscription OnDeleteModifierGroups {
+    onDeleteModifierGroups {
+      id
+      name
+      modifiers
+      items
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateModifier = /* GraphQL */ `
+  subscription OnCreateModifier {
+    onCreateModifier {
+      id
+      name
       price
       createdAt
       updatedAt
     }
   }
 `;
-export const onUpdateServices = /* GraphQL */ `
-  subscription OnUpdateServices {
-    onUpdateServices {
+export const onUpdateModifier = /* GraphQL */ `
+  subscription OnUpdateModifier {
+    onUpdateModifier {
       id
       name
-      type
       price
       createdAt
       updatedAt
     }
   }
 `;
-export const onDeleteServices = /* GraphQL */ `
-  subscription OnDeleteServices {
-    onDeleteServices {
+export const onDeleteModifier = /* GraphQL */ `
+  subscription OnDeleteModifier {
+    onDeleteModifier {
       id
       name
-      type
       price
       createdAt
       updatedAt
