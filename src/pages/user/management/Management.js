@@ -12,7 +12,7 @@ function Management({isAdmin}) {
             <div><h1>Insert management navigation bar here later.</h1></div>
             <button type="button" onClick={()=>setManage("inventory")}>Show Inventory Manager</button>
             <button type="button" onClick={()=>setManage("")}>Reset manage state</button>
-            {manage === "inventory" && (<ManageInventory isAdmin={isAdmin}/>)}
+            {manage === "inventory" ? <ManageInventory isAdmin={isAdmin}/> : null}
         </div>
     );
 }

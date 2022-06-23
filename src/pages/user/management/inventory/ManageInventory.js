@@ -23,6 +23,8 @@ function ManageInventory() {
 
     const [itemForm, setItemForm] = useState(initialItemFormState);
     const [inventory, setInventory] = useState([]);
+    const [selBoxes, setSelBoxes] = useState(new Set());
+    //Track num checkboxes checked instead of reallocating a new set
     const [numSel, setNumSel] = useState(0);
     //Track items that failed/succeeded after an operation
     const [opRes, setOpRes] = useState(initialOpState);
@@ -191,7 +193,11 @@ function ManageInventory() {
                         </button>
                     </form>
                 </div>
-                <InventoryContent items={inventory} numSel={numSel} setNumSel={setNumSel}/>
+                <InventoryContent items={inventory} 
+                    selBoxes={selBoxes} 
+                    setSelBoxes={setSelBoxes} 
+                    numSel={numSel} 
+                    setNumSel={setNumSel}/>
             </div>
             {itemForm.show ? <ItemForm itemForm={itemForm} setItemForm={setItemForm} performOp={performOp}/> : null}
         </div>
