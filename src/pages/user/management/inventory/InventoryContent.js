@@ -6,7 +6,6 @@ function InventoryContent({items, selBoxes, setSelBoxes, numSel, setNumSel}) {
 
     //Selecting a single checkbox
     function selectOneCheckbox(cbox) {
-        console.log(cbox);
         if(cbox.checked) {
             selBoxes.add(cbox);
             setNumSel(numSel + 1);
@@ -50,7 +49,7 @@ function InventoryContent({items, selBoxes, setSelBoxes, numSel, setNumSel}) {
                     <th>Qty.</th>
                     <th>Reorder Threshold</th>
                     <th>Max Add-ons</th>
-                    <th>Description</th>
+                    <th>Updated</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,7 +73,7 @@ function InventoryContent({items, selBoxes, setSelBoxes, numSel, setNumSel}) {
                         <td> {item.qty} </td>
                         <td> {item.qtyThresh} </td>
                         <td> {item.maxAddon} </td>
-                        <td> {item.description} </td>
+                        <td> {item.updatedAt} </td>
                     </tr>
                 ))
             }

@@ -20,8 +20,9 @@ function ItemForm({itemForm, performOp, resetItemForm}) {
     const maxAddon = useRef(null);
 
     //Checks if qty, qty threshold, max addon and desc are null before editing the item
-    function checkNullFirst() {
-         
+    function checkNullFirst(e) {
+        e.preventDefault();
+
         if(itemForm.op === "edit") {
             item.qty = qty.current.value != "" ? qty.current.value : null;
             item.qtyThresh = thresh.current.value != "" ? thresh.current.value : null;
@@ -42,7 +43,7 @@ function ItemForm({itemForm, performOp, resetItemForm}) {
     return(
         <div id="item-form-wrapper">
             <h2 className="item-form">{itemForm.op === "add" ? "Add" : "Edit"} an item</h2>
-            <form id="item-form" name="item-form">
+            <form id="item-form" name="item-form" onSubmit={(e)=>checkNullFirst(e)}>
                 <div className="row">
                     <div className="col-25">
                         <label className="item-form" htmlFor="item-code">Item Code:</label>
@@ -167,8 +168,7 @@ function ItemForm({itemForm, performOp, resetItemForm}) {
                     <div className="col-75">
                         <button className="item-form" type="button"
                             onClick={resetItemForm}>Cancel</button>
-                        <button className="item-form" type="button"
-                            onClick={checkNullFirst}>Submit</button>
+                        <button className="item-form" type="submit">Submit</button>
                     </div>
                 </div>
             </form>

@@ -111,6 +111,7 @@ function ManageInventory() {
                 await addItem(items);
                 succMsg += "added: ";
                 failMsg += "add: ";
+                resetItemForm();
                 break;
             } 
             default: {}
