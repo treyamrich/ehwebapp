@@ -79,7 +79,7 @@ function ItemForm({itemForm, performOp, resetItemForm}) {
                         <input className="item-form" type="number" name="item-price" 
                             placeholder="Enter the item price" 
                             min="0.0" 
-                            step="0.1"
+                            step="0.01"
                             onChange={(e)=>setItem({...item, price: e.target.value})}
                             value={item.price}
                             required/>
@@ -93,7 +93,7 @@ function ItemForm({itemForm, performOp, resetItemForm}) {
                         <input className="item-form" type="number" name="item-cost" 
                             placeholder="Enter the item cost" 
                             min="0.0" 
-                            step="0.1"
+                            step="0.01"
                             onChange={(e)=>setItem({...item, cost: e.target.value})}
                             value={item.cost}
                             required/>
