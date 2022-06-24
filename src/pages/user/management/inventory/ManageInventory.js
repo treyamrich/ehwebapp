@@ -15,17 +15,21 @@ const initialOpState = {
 const initialItemFormState = {
     op: "none",
     show: false,
-    item: undefined,
-    items: []
+    item: null,
+    checkbox: null //Uncheck after editing an item
 }
 
 function ManageInventory() {
 
+    //Show item operation form for: add and 
     const [itemForm, setItemForm] = useState(initialItemFormState);
+
     const [inventory, setInventory] = useState([]);
-    const [selBoxes, setSelBoxes] = useState(new Set());
+
     //Track num checkboxes checked instead of reallocating a new set
+    const [selBoxes, setSelBoxes] = useState(new Set());
     const [numSel, setNumSel] = useState(0);
+
     //Track items that failed/succeeded after an operation
     const [opRes, setOpRes] = useState(initialOpState);
 
@@ -52,7 +56,9 @@ function ManageInventory() {
     }
     async function editItem(item) {
         try {
-            var data = API.graphql({ query: updateItems, variables: {input: item}, authMode: "AMAZON_COGNITO_USER_POOLS"});
+            item.createdAt = undefined; //REMOVE THIS LATER AND USE AN OPTIMIZED GRAPHQL QUERY
+            item.updatedAt = undefined;
+            API.graphql({ query: updateItems, variables: {input: item}, authMode: "AMAZON_COGNITO_USER_POOLS"});
         } catch(e) {
             opRes.failItems.push(item.itemCode);
             return;
@@ -98,21 +104,13 @@ function ManageInventory() {
                 await editItem(items);
                 succMsg += "edited: ";
                 failMsg += "edit: ";
-                setNumSel(0);
-                //Reset item form
-                itemForm.item = null;
-                itemForm.op = "none";
-                itemForm.show = false;
+                resetItemForm();
                 break;
             }
             case "add": {
                 await addItem(items);
                 succMsg += "added: ";
                 failMsg += "add: ";
-                //Reset item form
-                itemForm.item = null;
-                itemForm.op = "none";
-                itemForm.show = false;
                 break;
             } 
             default: {}
@@ -142,22 +140,26 @@ function ManageInventory() {
                 break;
             }
             case "edit": {
-                let elm = document.querySelectorAll('input[name="checkbox-item"]:checked');
-                console.log(elm);
-                //let updateItem = inventory.filter((val)=>val === elm[0].value);
-                let updateItem;
-                for(let i = 0; i < inventory.length; i++) {
-                    if(inventory[i].code === elm[0].value) {
-                        updateItem = inventory[i];
-                        break;
-                    }
-                }
-                console.log(updateItem);
-                setItemForm({item: updateItem, op: "edit", show: true});
+                let updateItem = selBoxes.values().next().value;
+                setItemForm({
+                    item: inventory[updateItem.value], 
+                    checkbox: updateItem, 
+                    op: "edit", 
+                    show: true
+                });
                 break;
             }
             default:{}
         }
+    }
+    function resetItemForm() {
+        //If there was an edit operation, undo select actions
+        if(itemForm.checkbox) {
+            itemForm.checkbox.checked = false;
+            selBoxes.delete(itemForm.checkbox);
+            setNumSel(0);
+        }
+        setItemForm({item: null, checkbox: null, op: "none", show: false});
     }
     useEffect(()=>{
 		fetchInventory();
@@ -199,7 +201,10 @@ function ManageInventory() {
                     numSel={numSel} 
                     setNumSel={setNumSel}/>
             </div>
-            {itemForm.show ? <ItemForm itemForm={itemForm} setItemForm={setItemForm} performOp={performOp}/> : null}
+            {itemForm.show ? 
+            <ItemForm itemForm={itemForm} 
+                resetItemForm={resetItemForm}
+                performOp={performOp}/> : null}
         </div>
     );
 }

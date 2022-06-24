@@ -12,7 +12,7 @@ function InventoryContent({items, selBoxes, setSelBoxes, numSel, setNumSel}) {
             setNumSel(numSel + 1);
         }
         else {
-            selBoxes.remove(cbox);
+            selBoxes.delete(cbox);
             setNumSel(numSel - 1);
         }
     }
@@ -71,7 +71,7 @@ function InventoryContent({items, selBoxes, setSelBoxes, numSel, setNumSel}) {
                         <td> {item.price} </td>
                         <td> {item.cost} </td>
                         <td> {item.category} </td>
-                        <td> {item.remainQty} </td>
+                        <td> {item.qty} </td>
                         <td> {item.qtyThresh} </td>
                         <td> {item.maxAddon} </td>
                         <td> {item.description} </td>

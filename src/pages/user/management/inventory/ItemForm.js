@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import '../../../../styles/item_form.css';
 
 const initialItemState = {
@@ -7,16 +7,38 @@ const initialItemState = {
     price: 0.0,
     cost: 0.0,
     category: "PLAQUE",
-    remainQty: undefined,
-    qtyThresh: undefined,
-    maxAddon: undefined,
-    description: ""
+    qty: null,
+    qtyThresh: null,
+    maxAddon: null
 };
 
-function ItemForm({itemForm, setItemForm, performOp}) {
-    
+function ItemForm({itemForm, performOp, resetItemForm}) {
     const [item, setItem] = useState(itemForm.op === "edit" ? itemForm.item : initialItemState);
+    
+    const qty = useRef(null);
+    const thresh = useRef(null);
+    const maxAddon = useRef(null);
 
+    //Checks if qty, qty threshold, max addon and desc are null before editing the item
+    function checkNullFirst() {
+         
+        if(itemForm.op === "edit") {
+            item.qty = qty.current.value != "" ? qty.current.value : null;
+            item.qtyThresh = thresh.current.value != "" ? thresh.current.value : null;
+            item.maxAddon = maxAddon.current.value != "" ? maxAddon.current.value : null;
+        }
+        performOp(itemForm.op, item);
+        setItem({
+            code: "",
+            name: "",
+            price: 0.0,
+            cost: 0.0,
+            category: "PLAQUE",
+            qty: null,
+            qtyThresh: null,
+            maxAddon: null
+        });
+    }
     return(
         <div id="item-form-wrapper">
             <h2 className="item-form">{itemForm.op === "add" ? "Add" : "Edit"} an item</h2>
@@ -85,8 +107,8 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                             placeholder="Enter the item qty." 
                             min="0" 
                             step="1"
-                            onChange={(e)=>setItem({...item, remainQty: e.target.value})}
-                            value={item.remainQty ? item.remainQty : undefined}/>
+                            ref={qty}
+                            defaultValue={item.qty}/>
                     </div>
                 </div>
                 <div className="row">
@@ -98,8 +120,8 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                             placeholder="Enter the item qty. threshold" 
                             min="0" 
                             step="1"
-                            onChange={(e)=>setItem({...item, qtyThresh: e.target.value})}
-                            value={item.qtyThresh ? item.qtyThresh : undefined}/>
+                            ref={thresh}
+                            defaultValue={item.qtyThresh}/>
                     </div>
                 </div>
                 <div className="row">
@@ -111,19 +133,8 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                             placeholder="Enter the cumulative max amount of lines, plates, cutouts, etc." 
                             min="0" 
                             step="1"
-                            onChange={(e)=>setItem({...item, maxAddon: e.target.value})}
-                            value={item.maxAddon ? item.maxAddon : undefined}/>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label className="item-form" htmlFor="item-desc">Description:</label>
-                    </div>
-                    <div className="col-75">
-                        <input className="item-form" type="text" name="item-desc" 
-                            placeholder="Write your optional notes here"
-                            onChange={(e)=>setItem({...item, description: e.target.value})}
-                            value={item.description ? item.description : ""}/>
+                            ref={maxAddon}
+                            defaultValue={item.maxAddon}/>
                     </div>
                 </div>
                 <div className="row">
@@ -155,9 +166,9 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                     <div className="col-25"></div>
                     <div className="col-75">
                         <button className="item-form" type="button"
-                            onClick={()=>setItemForm({...itemForm, op: "none", show: false})}>Cancel</button>
+                            onClick={resetItemForm}>Cancel</button>
                         <button className="item-form" type="button"
-                            onClick={()=>performOp(itemForm.op, item)}>Submit</button>
+                            onClick={checkNullFirst}>Submit</button>
                     </div>
                 </div>
             </form>
