@@ -26,34 +26,43 @@ function ManageInventory() {
 
     const [inventory, setInventory] = useState([]);
 
-    //Track num checkboxes checked instead of reallocating a new set
+    //Track number of checkboxes checked instead of reallocating a new set every time
+    //Checkbox values hold the corresponding inventory index to get the item info
     const [selBoxes, setSelBoxes] = useState(new Set());
     const [numSel, setNumSel] = useState(0);
 
     //Track items that failed/succeeded after an operation
     const [opRes, setOpRes] = useState(initialOpState);
 
-    async function removeItems(selItems) {
+    async function removeItems() {
+        //Removes the items that are in the selBoxes set and unchecks the boxes
         var itemCode;
-        for(let i = 0; i < selItems.length; i++) {
-            itemCode = selItems[i].value;
-            try {
-                let data = API.graphql({ query: deleteItems, 
+        var promises = [];
+        
+        selBoxes.forEach(cbox =>{
+            cbox.checked = false;
+            if(cbox.name === "checkbox-select-all") return;
+
+            //Get item code from inventory arr and uncheck the checkboxes
+            itemCode = inventory[cbox.value].code;
+            console.log("removing " + itemCode);
+
+            let respPromise = API.graphql({ 
+                    query: deleteItems, 
                     variables: { 
                         input: { 
                             code: itemCode
                         }
                     },
                     authMode: "AMAZON_COGNITO_USER_POOLS"
-                });
-            } catch(e) {
-                opRes.failItems.push(itemCode);
-                console.log(e);
-                continue;
-            }
-            opRes.succItems.push(itemCode);
-            selItems[i].checked = false;
-        }
+            }).catch((e)=> { 
+                opRes.failItems.push(itemCode); 
+                return true;
+            }).then(err => {if(err !== true) opRes.succItems.push(itemCode)});
+            promises.push(respPromise);
+        });
+        //Wait for all of the requests to finish
+        await Promise.all(promises);
     }
     async function editItem(item) {
         item.createdAt = undefined; //REMOVE THIS LATER AND USE AN OPTIMIZED GRAPHQL QUERY
@@ -70,8 +79,8 @@ function ManageInventory() {
         }
         opRes.succItems.push(item.code);
     }
-    //Adds a SINGLE item to the database
     async function addItem(item) {
+        //Adds a SINGLE item to the database
         try {
             await API.graphql({ query: createItems, 
                 variables: {input: item}, 
@@ -103,10 +112,10 @@ function ManageInventory() {
         //Choose an operation
         switch(op) {
             case "remove": {
-                let selItems = document.querySelectorAll('input[name="checkbox-item"]:checked');
-                await removeItems(selItems);
+                await removeItems();
                 succMsg += "removed item(s): ";
                 failMsg += "remove item(s): ";
+                setSelBoxes(new Set());
                 setNumSel(0);
                 break;
             }
@@ -138,9 +147,8 @@ function ManageInventory() {
             if(i !== opRes.failItems.length - 1 && opRes.failItems.length > 1)
                 failMsg += ", ";
         }
-
         //Regrab the inventory and display result
-        setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});        
+        setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});    
         fetchInventory();
     }
     //Chooses the operation based on the select value
