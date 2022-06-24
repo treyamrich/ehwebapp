@@ -38,7 +38,7 @@ function ManageInventory() {
         for(let i = 0; i < selItems.length; i++) {
             itemCode = selItems[i].value;
             try {
-                API.graphql({ query: deleteItems, 
+                let data = API.graphql({ query: deleteItems, 
                     variables: { 
                         input: { 
                             code: itemCode
@@ -48,6 +48,7 @@ function ManageInventory() {
                 });
             } catch(e) {
                 opRes.failItems.push(itemCode);
+                console.log(e);
                 continue;
             }
             opRes.succItems.push(itemCode);
@@ -55,29 +56,38 @@ function ManageInventory() {
         }
     }
     async function editItem(item) {
+        item.createdAt = undefined; //REMOVE THIS LATER AND USE AN OPTIMIZED GRAPHQL QUERY
+        item.updatedAt = undefined;
         try {
-            item.createdAt = undefined; //REMOVE THIS LATER AND USE AN OPTIMIZED GRAPHQL QUERY
-            item.updatedAt = undefined;
-            API.graphql({ query: updateItems, variables: {input: item}, authMode: "AMAZON_COGNITO_USER_POOLS"});
-        } catch(e) {
-            opRes.failItems.push(item.itemCode);
+            await API.graphql({ query: updateItems, 
+                variables: {input: item}, 
+                authMode: "AMAZON_COGNITO_USER_POOLS"
+            });
+        }
+        catch (e) {
+            opRes.failItems.push(item.code);
             return;
         }
-        opRes.succItems.push(item.itemCode);
+        opRes.succItems.push(item.code);
     }
     //Adds a SINGLE item to the database
     async function addItem(item) {
         try {
-            API.graphql({ query: createItems, variables: {input: item}, authMode: "AMAZON_COGNITO_USER_POOLS"});
+            await API.graphql({ query: createItems, 
+                variables: {input: item}, 
+                authMode: "AMAZON_COGNITO_USER_POOLS"
+            });
         } catch(e) {
-            opRes.failItems.push(item.itemCode);
+            opRes.failItems.push(item.code);
             return;
         }
-        opRes.succItems.push(item.itemCode);
+        opRes.succItems.push(item.code);
     }
     async function fetchInventory() {
         try {
-            const inventoryData = await API.graphql({query: listItems, authMode: 'AMAZON_COGNITO_USER_POOLS'});
+            const inventoryData = await API.graphql({query: listItems, 
+                authMode: 'AMAZON_COGNITO_USER_POOLS'
+            });
             setInventory(inventoryData.data.listItems.items);
         } catch(e) {
             setOpRes({...opRes, errorMsg:"Error: Could not fetch inventory"});

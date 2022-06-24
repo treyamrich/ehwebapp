@@ -22,7 +22,7 @@ function ItemForm({itemForm, performOp, resetItemForm}) {
     //Checks if qty, qty threshold, max addon and desc are null before editing the item
     function checkNullFirst(e) {
         e.preventDefault();
-
+    
         if(itemForm.op === "edit") {
             item.qty = qty.current.value != "" ? qty.current.value : null;
             item.qtyThresh = thresh.current.value != "" ? thresh.current.value : null;
