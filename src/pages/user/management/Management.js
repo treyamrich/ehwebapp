@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ManageInventory from './inventory/ManageInventory';
+import ManagePO from './purchase-order/ManagePO';
 
 function Management({isAdmin}) {
 
@@ -11,8 +12,10 @@ function Management({isAdmin}) {
         <div>
             <div><h1>Insert management navigation bar here later.</h1></div>
             <button type="button" onClick={()=>setManage("inventory")}>Show Inventory Manager</button>
+            <button type="button" onClick={()=>setManage("po")}>Show Purchase Order Manager</button>
             <button type="button" onClick={()=>setManage("")}>Reset manage state</button>
-            {manage === "inventory" && (<ManageInventory isAdmin={isAdmin}/>)}
+            {manage === "inventory" ? <ManageInventory/> : null}
+            {manage === "po" ? <ManagePO/> : null} 
         </div>
     );
 }
