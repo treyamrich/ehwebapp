@@ -103,10 +103,13 @@ function ManageInventory() {
 
     async function performOp(op, items=null) {
         //items will be an array if the operation is import
-        setOpRes({successMsg: "", failureMsg: "", succItems: [], failItems: []});
+        opRes.succItems = [];
+        opRes.failItems = [];
+        opRes.succMsg = "";
+        opRes.failMsg = "";
         var succMsg = "Successfully ";
         var failMsg = "Failed to ";
-
+        
         //Choose an operation
         switch(op) {
             case "remove": {
