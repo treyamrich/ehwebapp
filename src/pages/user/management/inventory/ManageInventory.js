@@ -44,7 +44,6 @@ function ManageInventory() {
 
             //Get item code from inventory arr and uncheck the checkboxes
             itemCode = inventory[cbox.value].code;
-            console.log("removing " + itemCode);
 
             let respPromise = API.graphql({ 
                     query: deleteItems, 
