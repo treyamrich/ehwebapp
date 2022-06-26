@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API } from 'aws-amplify';
 import { listPurchaseOrders } from '../../../../graphql/queries';
 
 function ManagePO() {
@@ -37,25 +38,25 @@ function ManagePO() {
             <div>
                 <h1>Open</h1>
                 <div className="po-item-wrapper">
-                    {openPO.map((po, index)=>{
+                    {openPO.map((po, index)=> (
                         <ul key={index}>
                             <li>Vendor: {po.vendorId}</li>
                             <li>Date: {po.date}</li>
                             <li>Number of purchased products: {po.orderedProducts.length}</li>
                         </ul>
-                    })}
+                    ))}
                 </div>
             </div>
             <div>
                 <h1>Closed</h1>
                 <div className="po-item-wrapper">
-                    {openPO.map((po, index)=>{
+                    {closedPO.map((po, index)=> (
                         <ul key={index}>
                             <li>Vendor: {po.vendorId}</li>
                             <li>Date: {po.date}</li>
                             <li>Number of purchased products: {po.orderedProducts.length}</li>
                         </ul>
-                    })}
+                    ))}
                 </div>
             </div>
         </div>
