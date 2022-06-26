@@ -12,9 +12,8 @@ const initialItemState = {
     maxAddon: null
 };
 
-function ItemForm({itemForm, performOp, resetItemForm}) {
+function ItemForm({itemForm, setItemForm, performOp}) {
     const [item, setItem] = useState(itemForm.op === "edit" ? itemForm.item : initialItemState);
-    
     const qty = useRef(null);
     const thresh = useRef(null);
     const maxAddon = useRef(null);
@@ -167,7 +166,7 @@ function ItemForm({itemForm, performOp, resetItemForm}) {
                     <div className="col-25"></div>
                     <div className="col-75">
                         <button className="item-form" type="button"
-                            onClick={resetItemForm}>Cancel</button>
+                            onClick={()=>setItemForm({item: null, op: "none", show: false})}>Cancel</button>
                         <button className="item-form" type="submit">Submit</button>
                     </div>
                 </div>

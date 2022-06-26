@@ -15,8 +15,7 @@ const initialOpState = {
 const initialItemFormState = {
     op: "none",
     show: false,
-    item: null,
-    checkbox: null //Uncheck after editing an item
+    item: null
 }
 
 function ManageInventory() {
@@ -123,14 +122,14 @@ function ManageInventory() {
                 await editItem(items);
                 succMsg += "edited: ";
                 failMsg += "edit: ";
-                resetItemForm();
+                setItemForm({item: null, op: "none", show: false});
                 break;
             }
             case "add": {
                 await addItem(items);
                 succMsg += "added: ";
                 failMsg += "add: ";
-                resetItemForm();
+                setItemForm({item: null, op: "none", show: false});
                 break;
             } 
             default: {}
@@ -159,10 +158,16 @@ function ManageInventory() {
                 break;
             }
             case "edit": {
-                let updateItem = selBoxes.values().next().value;
+                var updateItem;
+                //Edge Case: 1 item in inventory and select-all box is clicked
+                selBoxes.forEach((cbox)=>{
+                    if(cbox.name !== "checkbox-select-all") 
+                        updateItem = inventory[cbox.value];
+                    cbox.checked = false;
+                });
+                setNumSel(0);
                 setItemForm({
-                    item: inventory[updateItem.value], 
-                    checkbox: updateItem, 
+                    item: updateItem,  
                     op: "edit", 
                     show: true
                 });
@@ -170,15 +175,6 @@ function ManageInventory() {
             }
             default:{}
         }
-    }
-    function resetItemForm() {
-        //If there was an edit operation, undo select actions
-        if(itemForm.checkbox) {
-            itemForm.checkbox.checked = false;
-            selBoxes.delete(itemForm.checkbox);
-            setNumSel(0);
-        }
-        setItemForm({item: null, checkbox: null, op: "none", show: false});
     }
     useEffect(()=>{
 		fetchInventory();
@@ -222,7 +218,7 @@ function ManageInventory() {
             </div>
             {itemForm.show ? 
             <ItemForm itemForm={itemForm} 
-                resetItemForm={resetItemForm}
+                setItemForm={setItemForm}
                 performOp={performOp}/> : null}
         </div>
     );
