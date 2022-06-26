@@ -54,10 +54,10 @@ function ManageInventory() {
                         }
                     },
                     authMode: "AMAZON_COGNITO_USER_POOLS"
-            }).catch((e)=> { 
+            }).catch(()=> { 
                 opRes.failItems.push(itemCode); 
                 return true;
-            }).then(err => {if(err !== true) opRes.succItems.push(itemCode)});
+            }).then(err => {if(err !== true) opRes.succItems.push(err.data.deleteItems.code)});
             promises.push(respPromise);
         });
         //Wait for all of the requests to finish
