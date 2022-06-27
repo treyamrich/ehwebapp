@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listPurchaseOrders } from '../../../../graphql/queries';
+import POForm from './POForm';
 
 const initDisplay = {
     mode: "view-po",
@@ -72,7 +73,7 @@ function ManagePO() {
                 </div>
             </div>
             )}
-            {display.mode === "edit-po" ? <h2>Edit</h2> : null}
+            {display.mode === "edit-po" || display.mode === "add-po" ? <POForm/> : null}
         </div>
     );
 }
