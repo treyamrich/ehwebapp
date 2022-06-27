@@ -3,15 +3,16 @@ import { API } from 'aws-amplify';
 import { listPurchaseOrders } from '../../../../graphql/queries';
 import POForm from './POForm';
 
-const initDisplay = {
-    mode: "view-po",
-    po: null
+const initialPOFormState = {
+    op: "none",
+    show: false,
+    po: undefined
 };
 
 function ManagePO() {
     const [openPO, setOpenPO] = useState([]);
     const [closedPO, setClosedPO] = useState([]);
-    const [display, setDisplay] = useState(initDisplay);
+    const [poForm, setPOForm] = useState(initialPOFormState);
 
     async function fetchPO() {
         try {
@@ -39,19 +40,19 @@ function ManagePO() {
         }
     }
     useEffect(()=>{
-        if(display === "view-po")
+        if(poForm.op === "view-po")
             fetchPO();
-    }, [display]);
+    }, [poForm.op]);
 
     return(
         <div className="po-main-wrapper">
-            {display.mode === "view-po" && (
+            {poForm.op === "view-po" && (
             <div>
                 <div>
                     <h1>Open</h1>
                     <div className="po-item-wrapper">
                         {openPO.map((po, index)=> (
-                            <ul key={index} onClick={()=>setDisplay({mode: "edit-po", po: po})}>
+                            <ul key={index} onClick={()=>setPOForm({op: "edit-po", po: po, show: true})}>
                                 <li>Vendor: {po.vendorId}</li>
                                 <li>Date: {po.date}</li>
                                 <li>Number of purchased products: {po.orderedProducts.length}</li>
@@ -63,7 +64,7 @@ function ManagePO() {
                     <h1>Closed</h1>
                     <div className="po-item-wrapper">
                         {closedPO.map((po, index)=> (
-                            <ul key={index} onClick={()=>setDisplay({mode: "edit-po", po: po})}>
+                            <ul key={index} onClick={()=>setPOForm({op: "edit-po", po: po, show: true})}>
                                 <li>Vendor: {po.vendorId}</li>
                                 <li>Date: {po.date}</li>
                                 <li>Number of purchased products: {po.orderedProducts.length}</li>
@@ -73,7 +74,7 @@ function ManagePO() {
                 </div>
             </div>
             )}
-            {display.mode === "edit-po" || display.mode === "add-po" ? <POForm/> : null}
+            {poForm.show ? <POForm poForm={poForm} setPOForm={setPOForm}/> : null}
         </div>
     );
 }
