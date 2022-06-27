@@ -4,7 +4,7 @@ import { listPurchaseOrders } from '../../../../graphql/queries';
 import POForm from './POForm';
 
 const initialPOFormState = {
-    op: "none",
+    op: "view-po",
     show: false,
     po: undefined
 };
@@ -49,10 +49,13 @@ function ManagePO() {
             {poForm.op === "view-po" && (
             <div>
                 <div>
+                    <button onClick={()=>setPOForm({po: null, show: true, op: "add"})}> Add PO</button>
+                    </div>
+                <div>
                     <h1>Open</h1>
                     <div className="po-item-wrapper">
                         {openPO.map((po, index)=> (
-                            <ul key={index} onClick={()=>setPOForm({op: "edit-po", po: po, show: true})}>
+                            <ul key={index} onClick={()=>setPOForm({op: "edit", po: po, show: true})}>
                                 <li>Vendor: {po.vendorId}</li>
                                 <li>Date: {po.date}</li>
                                 <li>Number of purchased products: {po.orderedProducts.length}</li>
@@ -64,7 +67,7 @@ function ManagePO() {
                     <h1>Closed</h1>
                     <div className="po-item-wrapper">
                         {closedPO.map((po, index)=> (
-                            <ul key={index} onClick={()=>setPOForm({op: "edit-po", po: po, show: true})}>
+                            <ul key={index} onClick={()=>setPOForm({op: "edit", po: po, show: true})}>
                                 <li>Vendor: {po.vendorId}</li>
                                 <li>Date: {po.date}</li>
                                 <li>Number of purchased products: {po.orderedProducts.length}</li>
