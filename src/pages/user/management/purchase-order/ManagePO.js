@@ -4,7 +4,7 @@ import { listPurchaseOrders } from '../../../../graphql/queries';
 import POForm from './POForm';
 
 const initialPOFormState = {
-    op: "view-po",
+    op: "view",
     show: false,
     po: undefined
 };
@@ -40,13 +40,13 @@ function ManagePO() {
         }
     }
     useEffect(()=>{
-        if(poForm.op === "view-po")
+        if(poForm.op === "view")
             fetchPO();
     }, [poForm.op]);
 
     return(
         <div className="po-main-wrapper">
-            {poForm.op === "view-po" && (
+            {poForm.op === "view" && (
             <div>
                 <div>
                     <button onClick={()=>setPOForm({po: null, show: true, op: "add"})}> Add PO</button>
