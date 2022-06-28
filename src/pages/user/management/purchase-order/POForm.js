@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listItems } from '../../../../graphql/queries';
+import { formatDate } from '../../../../utility/DateTimeFunctions';
 import '../../../../styles/management_form.css';
 
 const initialPOState = {
     vendorId: "",
-    date: "",
+    date: formatDate(new Date()),
     orderedProducts: [],
     isOpen: true
 };
