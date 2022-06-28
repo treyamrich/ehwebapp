@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listPurchaseOrders } from '../../../../graphql/queries';
 import POForm from './POForm';
-import { createPurchaseOrder } from '../../../../graphql/mutations';
+import { createPurchaseOrder, updatePurchaseOrder } from '../../../../graphql/mutations';
 
 const initialPOFormState = {
     op: "view",
@@ -24,6 +24,22 @@ function ManagePO({opRes, setOpRes}) {
             });
         } catch(e) {
             opRes.failItems.push(po.id);
+            return;
+        }
+        opRes.succItems.push(po.id);
+    }
+    async function editPO(po) {
+        po.createdAt = undefined; //REMOVE THIS LATER AND USE AN OPTIMIZED GRAPHQL QUERY
+        po.updatedAt = undefined;
+        try {
+            await API.graphql({ query: updatePurchaseOrder, 
+                variables: {input: po}, 
+                authMode: "AMAZON_COGNITO_USER_POOLS"
+            });
+        }
+        catch (e) {
+            opRes.failItems.push(po.id);
+            console.log(e);
             return;
         }
         opRes.succItems.push(po.id);
@@ -71,14 +87,14 @@ function ManagePO({opRes, setOpRes}) {
                 setSelBoxes(new Set());
                 setNumSel(0);
                 break;
-            }
-            case "edit": {
-                await editItem(po);
-                succMsg += "edited: ";
-                failMsg += "edit: ";
-                setItemForm({item: null, op: "none", show: false});
-                break;
             }*/
+            case "edit": {
+                await editPO(po);
+                succMsg += "edited PO#: ";
+                failMsg += "edit PO#: ";
+                setPOForm({po: null, op: "view", show: false});
+                break;
+            }
             case "add": {
                 await addPO(po);
                 succMsg += "added PO#: ";
@@ -104,6 +120,18 @@ function ManagePO({opRes, setOpRes}) {
         setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});    
         fetchPO();
     }
+    function handleEditPO(po) {
+        //Process the PO items ensuring there are no null fields
+        for(let i = 0; i < po.orderedProducts.length; i++) {
+            if(po.orderedProducts[i].receivedDate === null) {
+                po.orderedProducts[i].receivedDate = "";
+            }
+            if(po.orderedProducts[i].goodTill === null) {
+                po.orderedProducts[i].goodTill = "";
+            }
+        }
+        setPOForm({op: "edit", po: po, show: true});
+    }
     useEffect(()=>{
         if(poForm.op === "view")
             fetchPO();
@@ -120,7 +148,7 @@ function ManagePO({opRes, setOpRes}) {
                     <h1>Open</h1>
                     <div className="po-item-wrapper">
                         {openPO.map((po, index)=> (
-                            <ul key={index} onClick={()=>setPOForm({op: "edit", po: po, show: true})}>
+                            <ul key={index} onClick={()=>handleEditPO(po)}>
                                 <li>Vendor: {po.vendorId}</li>
                                 <li>Date: {po.date}</li>
                                 <li>Number of purchased products: {po.orderedProducts.length}</li>
@@ -132,7 +160,7 @@ function ManagePO({opRes, setOpRes}) {
                     <h1>Closed</h1>
                     <div className="po-item-wrapper">
                         {closedPO.map((po, index)=> (
-                            <ul key={index} onClick={()=>setPOForm({op: "edit", po: po, show: true})}>
+                            <ul key={index} onClick={()=>handleEditPO(po)}>
                                 <li>Vendor: {po.vendorId}</li>
                                 <li>Date: {po.date}</li>
                                 <li>Number of purchased products: {po.orderedProducts.length}</li>

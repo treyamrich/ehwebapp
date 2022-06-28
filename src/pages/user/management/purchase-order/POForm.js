@@ -11,12 +11,20 @@ const initialPOState = {
 };
 
 function POForm({poForm, setPOForm, performOp}) {
-    
     const [po, setPO] = useState(poForm.op === "edit" ? poForm.po : initialPOState);
     const [inventory, setInventory] = useState([]);
     
     function preparePO(e) {
         e.preventDefault();
+        //Match AWS format
+        for(let i = 0; i < po.orderedProducts.length; i++) {
+            if(po.orderedProducts[i].receivedDate === "") {
+                po.orderedProducts[i].receivedDate = null;
+            }
+            if(po.orderedProducts[i].goodTill === "") {
+                po.orderedProducts[i].goodTill = null;
+            }
+        }
         performOp(poForm.op, po);
         setPO({vendorId: "", date:"", orderedProducts:[], isOpen: true});
     }
