@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import '../../../../styles/item_form.css';
+import '../../../../styles/management_form.css';
 
 const initialItemState = {
     code: "",
@@ -40,15 +40,15 @@ function ItemForm({itemForm, setItemForm, performOp}) {
         });
     }
     return(
-        <div id="item-form-wrapper">
-            <h2 className="item-form">{itemForm.op === "add" ? "Add" : "Edit"} an item</h2>
-            <form id="item-form" name="item-form" onSubmit={(e)=>checkNullFirst(e)}>
+        <div id="manage-form-wrapper">
+            <h2 className="manage-form">{itemForm.op === "add" ? "Add" : "Edit"} an item</h2>
+            <form id="manage-form" name="manage-form" onSubmit={(e)=>checkNullFirst(e)}>
                 <div className="row">
                     <div className="col-25">
-                        <label className="item-form" htmlFor="item-code">Item Code:</label>
+                        <label className="manage-form" htmlFor="item-code">Item Code:</label>
                     </div>
                     <div className="col-75">
-                        <input className={itemForm.op === "edit" ? "item-form disabled" : "item-form"} 
+                        <input className={itemForm.op === "edit" ? "manage-form disabled" : "manage-form"} 
                             type="text" name="item-code" 
                             placeholder="DCP11013" 
                             onChange={(e)=>setItem({...item, code: e.target.value})}
@@ -59,10 +59,10 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                 </div>
                 <div className="row">
                     <div className="col-25">
-                        <label className="item-form" htmlFor="item-name">Item Name:</label>
+                        <label className="manage-form" htmlFor="item-name">Item Name:</label>
                     </div>
                     <div className="col-75">
-                        <input className="item-form" type="text" name="item-name" 
+                        <input className="manage-form" type="text" name="item-name" 
                             placeholder="Cherry 10x13 Plaque" 
                             onChange={(e)=>setItem({...item, name: e.target.value})}
                             value={item.name}
@@ -72,10 +72,10 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                 </div>
                 <div className="row">
                     <div className="col-25">
-                        <label className="item-form" htmlFor="item-price">Item Price:</label>
+                        <label className="manage-form" htmlFor="item-price">Item Price:</label>
                     </div>
                     <div className="col-75">
-                        <input className="item-form" type="number" name="item-price" 
+                        <input className="manage-form" type="number" name="item-price" 
                             placeholder="Enter the item price" 
                             min="0.0" 
                             step="0.01"
@@ -86,10 +86,10 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                 </div>
                 <div className="row">
                     <div className="col-25">
-                        <label className="item-form" htmlFor="item-cost">Item Cost:</label>
+                        <label className="manage-form" htmlFor="item-cost">Item Cost:</label>
                     </div>
                     <div className="col-75">
-                        <input className="item-form" type="number" name="item-cost" 
+                        <input className="manage-form" type="number" name="item-cost" 
                             placeholder="Enter the item cost" 
                             min="0.0" 
                             step="0.01"
@@ -100,10 +100,10 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                 </div>
                 <div className="row">
                     <div className="col-25">
-                        <label className="item-form" htmlFor="item-qty">Item Qty:</label>
+                        <label className="manage-form" htmlFor="item-qty">Item Qty:</label>
                     </div>
                     <div className="col-75">
-                        <input className="item-form" type="number" name="item-qty" 
+                        <input className="manage-form" type="number" name="item-qty" 
                             placeholder="Enter the item qty." 
                             min="0" 
                             step="1"
@@ -113,10 +113,10 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                 </div>
                 <div className="row">
                     <div className="col-25">
-                        <label className="item-form" htmlFor="item-rethresh">Reorder Threshold:</label>
+                        <label className="manage-form" htmlFor="item-rethresh">Reorder Threshold:</label>
                     </div>
                     <div className="col-75">
-                        <input className="item-form" type="number" name="item-rethresh" 
+                        <input className="manage-form" type="number" name="item-rethresh" 
                             placeholder="Enter the item qty. threshold" 
                             min="0" 
                             step="1"
@@ -126,10 +126,10 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                 </div>
                 <div className="row">
                     <div className="col-25">
-                        <label className="item-form" htmlFor="item-max-addon">Max Amount of Addons:</label>
+                        <label className="manage-form" htmlFor="item-max-addon">Max Amount of Addons:</label>
                     </div>
                     <div className="col-75">
-                        <input className="item-form" type="number" name="item-max-addon" 
+                        <input className="manage-form" type="number" name="item-max-addon" 
                             placeholder="Enter the cumulative max amount of lines, plates, cutouts, etc." 
                             min="0" 
                             step="1"
@@ -139,23 +139,23 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                 </div>
                 <div className="row">
                     <div className="col-25">
-                        <label className="item-form" htmlFor="item-category">Item Category:</label>
+                        <label className="manage-form" htmlFor="item-category">Item Category:</label>
                     </div>
                     <div className="col-75">
-                        <label className="item-form">
-                            <input className="item-form" type="radio" name="item-category" value="PLAQUE" 
+                        <label className="manage-form">
+                            <input className="manage-form" type="radio" name="item-category" value="PLAQUE" 
                                 defaultChecked={itemForm.op === "add" || item.category === "PLAQUE"} 
                                 onClick={(e)=>setItem({...item, category: e.target.value})}
                                 required/>Plaque
                         </label>
-                        <label className="item-form">
-                            <input className="item-form" type="radio" name="item-category" value="DRINKWARE" 
+                        <label className="manage-form">
+                            <input className="manage-form" type="radio" name="item-category" value="DRINKWARE" 
                                 defaultChecked={item.category === "DRINKWARE"} 
                                 onClick={(e)=>setItem({...item, category: e.target.value})}
                                 required/>Drinkware
                         </label>
-                        <label className="item-form">
-                            <input className="item-form" type="radio" name="item-category" value="GIFT" 
+                        <label className="manage-form">
+                            <input className="manage-form" type="radio" name="item-category" value="GIFT" 
                                 defaultChecked={item.category === "GIFT"} 
                                 onClick={(e)=>setItem({...item, category: e.target.value})}
                                 required/>Gift
@@ -165,9 +165,9 @@ function ItemForm({itemForm, setItemForm, performOp}) {
                 <div className="row">
                     <div className="col-25"></div>
                     <div className="col-75">
-                        <button className="item-form" type="button"
+                        <button className="manage-form" type="button"
                             onClick={()=>setItemForm({item: null, op: "none", show: false})}>Cancel</button>
-                        <button className="item-form" type="submit">Submit</button>
+                        <button className="manage-form" type="submit">Submit</button>
                     </div>
                 </div>
             </form>

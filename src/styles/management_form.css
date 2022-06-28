@@ -1,7 +1,7 @@
-#item-form {
+#manage-form {
 	background-color: #c39f7f57;
 }
-#item-form-wrapper {
+#manage-form-wrapper {
     background-color: #c39f7f57;
 	border-radius: 3px;
 	padding: 15px;
@@ -11,12 +11,12 @@
     right: 0;
 }
 @media screen and (max-width: 960px) {
-    #item-form-wrapper {
+    #manage-form-wrapper {
         width: 100%;
     }
 }
 @media screen and (min-width: 961px) {
-    #item-form-wrapper {
+    #manage-form-wrapper {
         width: 60%;
     }
 }
@@ -36,7 +36,7 @@
 	display: block;
 	content: "";
 }
-input.item-form {
+input.manage-form {
 	width: 100%;
 	background-color: #F0F0F0;
 	color: black;
@@ -48,16 +48,16 @@ input.item-form {
 input.disabled {
     color: grey;
 }
-h2.item-form {
+h2.manage-form {
     font-weight: bold;
 }
-label.item-form, h2.item-form {
+label.manage-form, h2.manage-form {
 	font-family: arial;
 	padding: 10px;
 	color: black;
     text-align: center;
 }
-button.item-form {
+button.manage-form {
 	background-color: black;
 	color: white;
 	border-radius: 3px;
@@ -67,7 +67,7 @@ button.item-form {
 	border: none;
 }
 
-button:hover.item-form {
+button:hover.manage-form {
 	cursor: pointer;
 	background-color: #202020;
 }
