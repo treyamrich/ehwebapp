@@ -1,15 +1,31 @@
 import React, { useState, useEffect } from 'react';
 
 //This component displays all inventory items in a table, and handles checkbox select logic
-function InventoryContent({items, numSel, setNumSel}) {
+function InventoryContent({items, selBoxes, setSelBoxes, numSel, setNumSel}) {
     const [allSel, setAllSel] = useState(false);
 
+    //Selecting a single checkbox
+    function selectOneCheckbox(cbox) {
+        if(cbox.checked) {
+            selBoxes.add(cbox);
+            setNumSel(numSel + 1);
+        }
+        else {
+            selBoxes.delete(cbox);
+            setNumSel(numSel - 1);
+        }
+    }
     //Selecting all the checkboxes
     function selectAllCheckbox(isSelAll) {
         const boxes = document.getElementsByClassName("checkbox");
         for(let i = 0; i < boxes.length; i++) {
             boxes[i].checked = isSelAll;
+            if(isSelAll) selBoxes.add(boxes[i]);
         }
+        if(!isSelAll) {
+            setSelBoxes(new Set());
+        }
+        //Rerenders component
         setNumSel(isSelAll ? items.length : 0);
     }
     useEffect(()=>{
@@ -33,7 +49,7 @@ function InventoryContent({items, numSel, setNumSel}) {
                     <th>Qty.</th>
                     <th>Reorder Threshold</th>
                     <th>Max Add-ons</th>
-                    <th>Description</th>
+                    <th>Updated</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,19 +60,20 @@ function InventoryContent({items, numSel, setNumSel}) {
                         <td>
                             <input type="checkbox" 
                                 name="checkbox-item"
+                                id={"checkbox-"+ index}
                                 className="checkbox" 
-                                value={item.code} 
-                                onChange={(e)=>e.currentTarget.checked ? setNumSel(numSel + 1) : setNumSel(numSel - 1)}/> 
+                                value={index} 
+                                onChange={(e)=>selectOneCheckbox(e.target)}/> 
                         </td>
                         <td> {item.code} </td>
                         <td> {item.name} </td>
                         <td> {item.price} </td>
                         <td> {item.cost} </td>
                         <td> {item.category} </td>
-                        <td> {item.remainQty} </td>
+                        <td> {item.qty} </td>
                         <td> {item.qtyThresh} </td>
                         <td> {item.maxAddon} </td>
-                        <td> {item.description} </td>
+                        <td> {item.updatedAt} </td>
                     </tr>
                 ))
             }
