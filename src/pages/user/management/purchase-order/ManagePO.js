@@ -34,17 +34,19 @@ function ManagePO({opRes, setOpRes}) {
         opRes.succItems.push(po.id);
     }
     async function addPO(po) {
+        let addPOData;
         try {
-            await API.graphql({ query: createPurchaseOrder, 
+            addPOData = await API.graphql({ query: createPurchaseOrder, 
                 variables: {input: po}, 
                 authMode: "AMAZON_COGNITO_USER_POOLS"
             });
+
         } catch(e) {
             opRes.failItems.push(po.id);
             console.log(e);
             return;
         }
-        opRes.succItems.push(po.id);
+        opRes.succItems.push(addPOData.data.createPurchaseOrder.id);
     }
     async function editPO(po) {
         po.createdAt = undefined; //REMOVE THIS LATER AND USE AN OPTIMIZED GRAPHQL QUERY
@@ -102,8 +104,8 @@ function ManagePO({opRes, setOpRes}) {
         switch(op) {
             case "remove": {
                 await removePO(po);
-                succMsg += "removed item(s): ";
-                failMsg += "remove item(s): ";
+                succMsg += "removed PO#: ";
+                failMsg += "remove PO#: ";
                 break;
             }
             case "edit": {
@@ -114,8 +116,8 @@ function ManagePO({opRes, setOpRes}) {
             }
             case "add": {
                 await addPO(po);
-                succMsg += "added PO#: ";
-                failMsg += "add PO#: ";
+                succMsg += "created PO#: ";
+                failMsg += "create PO#: ";
                 break;
             } 
             default: {}
