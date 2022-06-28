@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { listPurchaseOrders } from '../../../../graphql/queries';
+import { listItems, listPurchaseOrders } from '../../../../graphql/queries';
 import POForm from './POForm';
+import PORunDown from './PORunDown';
 import { createPurchaseOrder, updatePurchaseOrder } from '../../../../graphql/mutations';
 
 const initialPOFormState = {
-    op: "view",
-    show: false,
+    op: "view-all",
     po: undefined
 };
 
@@ -14,6 +14,7 @@ function ManagePO({opRes, setOpRes}) {
     const [openPO, setOpenPO] = useState([]);
     const [closedPO, setClosedPO] = useState([]);
     const [poForm, setPOForm] = useState(initialPOFormState);
+    const [onHand, setOnHand] = useState(null);
 
     async function addPO(po) {
         //Adds a purchase order to the database
@@ -65,8 +66,7 @@ function ManagePO({opRes, setOpRes}) {
             setOpenPO(openPOData.data.listPurchaseOrders.items);
             setClosedPO(closedPOData.data.listPurchaseOrders.items);
         } catch(e) {
-            alert(e);
-            //setOpRes({...opRes, errorMsg:"Error: Could not fetch purchase orders"});
+            setOpRes({...opRes, errorMsg:"Error: Could not fetch Purchase Orders"});
         }
     }
     async function performOp(op, po=null) {
@@ -92,14 +92,14 @@ function ManagePO({opRes, setOpRes}) {
                 await editPO(po);
                 succMsg += "edited PO#: ";
                 failMsg += "edit PO#: ";
-                setPOForm({po: null, op: "view", show: false});
+                setPOForm({po: null, op: "view-all"});
                 break;
             }
             case "add": {
                 await addPO(po);
                 succMsg += "added PO#: ";
                 failMsg += "add PO#: ";
-                setPOForm({po: null, op: "view", show: false});
+                setPOForm({po: null, op: "view-all"});
                 break;
             } 
             default: {}
@@ -120,35 +120,24 @@ function ManagePO({opRes, setOpRes}) {
         setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});    
         fetchPO();
     }
-    function handleEditPO(po) {
-        //Process the PO items ensuring there are no null fields
-        for(let i = 0; i < po.orderedProducts.length; i++) {
-            if(po.orderedProducts[i].receivedDate === null) {
-                po.orderedProducts[i].receivedDate = "";
-            }
-            if(po.orderedProducts[i].goodTill === null) {
-                po.orderedProducts[i].goodTill = "";
-            }
-        }
-        setPOForm({op: "edit", po: po, show: true});
-    }
     useEffect(()=>{
-        if(poForm.op === "view")
+        if(poForm.op === "view-all") {
             fetchPO();
+        }
     }, [poForm.op]);
 
     return(
         <div className="po-main-wrapper">
-            {poForm.op === "view" && (
+            {poForm.op === "view-all" && (
             <div>
                 <div>
-                    <button onClick={()=>setPOForm({po: null, show: true, op: "add"})}> Add PO</button>
+                    <button onClick={()=>setPOForm({po: null, op: "add"})}> Add PO</button>
                     </div>
                 <div>
                     <h1>Open</h1>
                     <div className="po-item-wrapper">
                         {openPO.map((po, index)=> (
-                            <ul key={index} onClick={()=>handleEditPO(po)}>
+                            <ul key={index} onClick={()=>setPOForm({po: po, op: "view-po"})}>
                                 <li>Vendor: {po.vendorId}</li>
                                 <li>Date: {po.date}</li>
                                 <li>Number of purchased products: {po.orderedProducts.length}</li>
@@ -160,7 +149,7 @@ function ManagePO({opRes, setOpRes}) {
                     <h1>Closed</h1>
                     <div className="po-item-wrapper">
                         {closedPO.map((po, index)=> (
-                            <ul key={index} onClick={()=>handleEditPO(po)}>
+                            <ul key={index} onClick={()=>setPOForm({po: po, op: "view-po"})}>
                                 <li>Vendor: {po.vendorId}</li>
                                 <li>Date: {po.date}</li>
                                 <li>Number of purchased products: {po.orderedProducts.length}</li>
@@ -170,10 +159,16 @@ function ManagePO({opRes, setOpRes}) {
                 </div>
             </div>
             )}
-            {poForm.show ? <POForm poForm={poForm} 
-                setPOForm={setPOForm} 
-                performOp={performOp}
-                /> : null}
+            {poForm.op === "view-po" ? <PORunDown poForm={poForm} 
+                setPOForm={setPOForm}
+                opRes={opRes}
+                setOpRes={setOpRes}
+                performOp={performOp} /> : null}
+            {poForm.op === "add" || poForm.op === "edit" ? <POForm poForm={poForm} 
+                setPOForm={setPOForm}
+                opRes={opRes}
+                setOpRes={setOpRes}
+                performOp={performOp} /> : null}
         </div>
     );
 }
