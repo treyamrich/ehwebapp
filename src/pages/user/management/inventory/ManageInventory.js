@@ -6,19 +6,13 @@ import InventoryContent from './InventoryContent';
 import ItemForm from './ItemForm';
 import '../../../../styles/inventory.css';
 
-const initialOpState = {
-    successMsg: "",
-    failureMsg: "",
-    succItems: [], 
-    failItems: [] 
-};
 const initialItemFormState = {
     op: "none",
     show: false,
     item: null
 }
 
-function ManageInventory() {
+function ManageInventory({opRes, setOpRes}) {
 
     //Show item operation form for: add and 
     const [itemForm, setItemForm] = useState(initialItemFormState);
@@ -29,9 +23,6 @@ function ManageInventory() {
     //Checkbox values hold the corresponding inventory index to get the item info
     const [selBoxes, setSelBoxes] = useState(new Set());
     const [numSel, setNumSel] = useState(0);
-
-    //Track items that failed/succeeded after an operation
-    const [opRes, setOpRes] = useState(initialOpState);
 
     async function removeItems() {
         //Removes the items that are in the selBoxes set and unchecks the boxes
@@ -186,8 +177,6 @@ function ManageInventory() {
         <div>
             <h1>Inventory Management</h1>
             <div className="main-inventory-wrapper">
-                {opRes.failItems.length !== 0 ? <h1>{opRes.failureMsg}</h1> : null}
-                {opRes.succItems.length !== 0 ? <h1>{opRes.successMsg}</h1> : null}
                 <div className="inventory-tool-bar">
                     <form>
                         <label>Item Count: {inventory.length}</label>
