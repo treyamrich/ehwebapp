@@ -44,6 +44,11 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
                <li>Vendor ID: {po.vendorId}</li>
                <li>Status: {po.isOpen ? "Open" : "Closed"}</li>
                <li>Date: {po.date}</li>
+               <li>
+                <button type="button" 
+                    onClick={()=>setPOForm({...poForm, op: "view-all"})}>Back
+                </button>
+                </li>
                <li><button type="button" onClick={()=>handleEditPO()}>Edit Order</button></li>
             </ul>
             <table>

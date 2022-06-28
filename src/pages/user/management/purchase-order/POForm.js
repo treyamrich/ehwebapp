@@ -112,7 +112,8 @@ function POForm({poForm, setPOForm, performOp}) {
                     </div>
                     <div className="col-75">
                         <button className="manage-form" type="button" 
-                            onClick={()=>setPOForm({...poForm, op: "view-po"})}>
+                            onClick={()=>setPOForm({...poForm, 
+                                op: poForm.op === "edit" ? "view-po" : "view-all"})}>
                                 Discard Changes
                         </button>
                         <button className="manage-form" type="submit">
