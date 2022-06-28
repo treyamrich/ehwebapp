@@ -50,6 +50,7 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
                 </button>
                 </li>
                <li><button type="button" onClick={()=>handleEditPO()}>Edit Order</button></li>
+               <li><button type="button" onClick={()=>performOp("remove", po)}>Delete Order</button></li>
             </ul>
             <table>
                 <thead>

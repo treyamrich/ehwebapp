@@ -3,7 +3,7 @@ import { API } from 'aws-amplify';
 import { listItems, listPurchaseOrders } from '../../../../graphql/queries';
 import POForm from './POForm';
 import PORunDown from './PORunDown';
-import { createPurchaseOrder, updatePurchaseOrder } from '../../../../graphql/mutations';
+import { createPurchaseOrder, updatePurchaseOrder, deletePurchaseOrder } from '../../../../graphql/mutations';
 
 const initialPOFormState = {
     op: "view-all",
@@ -16,8 +16,24 @@ function ManagePO({opRes, setOpRes}) {
     const [poForm, setPOForm] = useState(initialPOFormState);
     const [onHand, setOnHand] = useState(null);
 
+    async function removePO(po) {
+        try {
+            await API.graphql({ query: deletePurchaseOrder, 
+                variables: {
+                    input: {
+                        id: po.id
+                    }
+                }, 
+                authMode: "AMAZON_COGNITO_USER_POOLS"
+            });
+        } catch(e) {
+            opRes.failItems.push(po.id);
+            console.log(e);
+            return;
+        }
+        opRes.succItems.push(po.id);
+    }
     async function addPO(po) {
-        //Adds a purchase order to the database
         try {
             await API.graphql({ query: createPurchaseOrder, 
                 variables: {input: po}, 
@@ -25,6 +41,7 @@ function ManagePO({opRes, setOpRes}) {
             });
         } catch(e) {
             opRes.failItems.push(po.id);
+            console.log(e);
             return;
         }
         opRes.succItems.push(po.id);
@@ -70,7 +87,9 @@ function ManagePO({opRes, setOpRes}) {
         }
     }
     async function performOp(op, po=null) {
-        //items will be an array if the operation is import
+        //Performs a database operation, displays the result, resets state
+        // and refetches database items
+
         opRes.succItems = [];
         opRes.failItems = [];
         opRes.succMsg = "";
@@ -80,26 +99,22 @@ function ManagePO({opRes, setOpRes}) {
         
         //Choose an operation
         switch(op) {
-            /*case "remove": {
-                await removeItems();
+            case "remove": {
+                await removePO(po);
                 succMsg += "removed item(s): ";
                 failMsg += "remove item(s): ";
-                setSelBoxes(new Set());
-                setNumSel(0);
                 break;
-            }*/
+            }
             case "edit": {
                 await editPO(po);
                 succMsg += "edited PO#: ";
                 failMsg += "edit PO#: ";
-                setPOForm({po: null, op: "view-all"});
                 break;
             }
             case "add": {
                 await addPO(po);
                 succMsg += "added PO#: ";
                 failMsg += "add PO#: ";
-                setPOForm({po: null, op: "view-all"});
                 break;
             } 
             default: {}
@@ -116,7 +131,8 @@ function ManagePO({opRes, setOpRes}) {
             if(i !== opRes.failItems.length - 1 && opRes.failItems.length > 1)
                 failMsg += ", ";
         }
-        //Regrab the inventory and display result
+        //Regrab the PO and display result
+        setPOForm(op === "edit" ? {...poForm, op: "view-po"} : {po: null, op: "view-all"})
         setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});    
         fetchPO();
     }
