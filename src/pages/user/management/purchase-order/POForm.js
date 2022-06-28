@@ -124,6 +124,14 @@ function POForm({poForm, setPOForm, performOp}) {
                     {po.orderedProducts.map((prod, index)=>(
                         <div className="row" key={index}>
                             <div className="row">
+                                <button className="manage-form"
+                                    type="button"
+                                    onClick={()=>setPO({...po,
+                                        orderedProducts: po.orderedProducts.filter((elm, idx)=>
+                                            idx !== index)})}> Remove Item
+                                </button>
+                            </div>
+                            <div className="row">
                                 <div className="col-25">
                                     <label className="manage-form" htmlFor={"itemCode-"+index}>
                                         Item SKU:
