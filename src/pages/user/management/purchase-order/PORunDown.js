@@ -31,6 +31,7 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
             }
             setOnHand(invMap);
         } catch(e) {
+            console.log(e);
             setOpRes({...opRes, errorMsg:"Error: Could not fetch On Hand Item Quantities"});
         }
     }

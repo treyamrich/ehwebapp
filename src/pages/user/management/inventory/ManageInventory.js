@@ -44,8 +44,9 @@ function ManageInventory({opRes, setOpRes}) {
                         }
                     },
                     authMode: "AMAZON_COGNITO_USER_POOLS"
-            }).catch(()=> { 
+            }).catch((e)=> { 
                 opRes.failItems.push(itemCode); 
+                console.log(e);
                 return true;
             }).then(err => {if(err !== true) opRes.succItems.push(err.data.deleteItems.code)});
             promises.push(respPromise);
@@ -64,6 +65,7 @@ function ManageInventory({opRes, setOpRes}) {
         }
         catch (e) {
             opRes.failItems.push(item.code);
+            console.log(e);
             return;
         }
         opRes.succItems.push(item.code);
@@ -77,6 +79,7 @@ function ManageInventory({opRes, setOpRes}) {
             });
         } catch(e) {
             opRes.failItems.push(item.code);
+            console.log(e);
             return;
         }
         opRes.succItems.push(item.code);
@@ -88,6 +91,7 @@ function ManageInventory({opRes, setOpRes}) {
             });
             setInventory(inventoryData.data.listItems.items);
         } catch(e) {
+            console.log(e);
             setOpRes({...opRes, errorMsg:"Error: Could not fetch inventory"});
         }
     }

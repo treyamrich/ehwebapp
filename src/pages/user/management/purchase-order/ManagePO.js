@@ -83,6 +83,7 @@ function ManagePO({opRes, setOpRes}) {
             setOpenPO(openPOData.data.listPurchaseOrders.items);
             setClosedPO(closedPOData.data.listPurchaseOrders.items);
         } catch(e) {
+            console.log(e);
             setOpRes({...opRes, errorMsg:"Error: Could not fetch Purchase Orders"});
         }
     }

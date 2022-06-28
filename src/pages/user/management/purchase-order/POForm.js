@@ -11,7 +11,7 @@ const initialPOState = {
     isOpen: true
 };
 
-function POForm({poForm, setPOForm, performOp}) {
+function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
     const [po, setPO] = useState(poForm.op === "edit" ? poForm.po : initialPOState);
     const [inventory, setInventory] = useState([]);
     
@@ -34,7 +34,8 @@ function POForm({poForm, setPOForm, performOp}) {
             const inventoryData = await API.graphql({query: listItems, authMode: 'AMAZON_COGNITO_USER_POOLS'});
             setInventory(inventoryData.data.listItems.items);
         } catch(e) {
-            //setOpRes({...opRes, errorMsg:"Error: Could not fetch inventory"});
+            console.log(e);
+            setOpRes({...opRes, errorMsg:"Error: Could not fetch inventory"});
         }
     }
 
