@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listPurchaseOrders } from '../../../../graphql/queries';
 import POForm from './POForm';
+import { createPurchaseOrder } from '../../../../graphql/mutations';
 
 const initialPOFormState = {
     op: "view",
@@ -9,11 +10,24 @@ const initialPOFormState = {
     po: undefined
 };
 
-function ManagePO() {
+function ManagePO({opRes, setOpRes}) {
     const [openPO, setOpenPO] = useState([]);
     const [closedPO, setClosedPO] = useState([]);
     const [poForm, setPOForm] = useState(initialPOFormState);
 
+    async function addPO(po) {
+        //Adds a purchase order to the database
+        try {
+            await API.graphql({ query: createPurchaseOrder, 
+                variables: {input: po}, 
+                authMode: "AMAZON_COGNITO_USER_POOLS"
+            });
+        } catch(e) {
+            opRes.failItems.push(po.id);
+            return;
+        }
+        opRes.succItems.push(po.id);
+    }
     async function fetchPO() {
         try {
             const openPOData = await API.graphql({query: listPurchaseOrders,
@@ -38,6 +52,57 @@ function ManagePO() {
             alert(e);
             //setOpRes({...opRes, errorMsg:"Error: Could not fetch purchase orders"});
         }
+    }
+    async function performOp(op, po=null) {
+        //items will be an array if the operation is import
+        opRes.succItems = [];
+        opRes.failItems = [];
+        opRes.succMsg = "";
+        opRes.failMsg = "";
+        var succMsg = "Successfully ";
+        var failMsg = "Failed to ";
+        
+        //Choose an operation
+        switch(op) {
+            /*case "remove": {
+                await removeItems();
+                succMsg += "removed item(s): ";
+                failMsg += "remove item(s): ";
+                setSelBoxes(new Set());
+                setNumSel(0);
+                break;
+            }
+            case "edit": {
+                await editItem(po);
+                succMsg += "edited: ";
+                failMsg += "edit: ";
+                setItemForm({item: null, op: "none", show: false});
+                break;
+            }*/
+            case "add": {
+                await addPO(po);
+                succMsg += "added PO#: ";
+                failMsg += "add PO#: ";
+                setPOForm({po: null, op: "view", show: false});
+                break;
+            } 
+            default: {}
+        }
+
+        //Display operation result
+        for(let i = 0; i < opRes.succItems.length; i++) {
+            succMsg += opRes.succItems[i];
+            if(i !== opRes.succItems.length - 1 && opRes.succItems.length > 1)
+                succMsg += ", ";
+        }
+        for(let i = 0; i < opRes.failItems.length; i++) {
+            failMsg += opRes.failItems[i];
+            if(i !== opRes.failItems.length - 1 && opRes.failItems.length > 1)
+                failMsg += ", ";
+        }
+        //Regrab the inventory and display result
+        setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});    
+        fetchPO();
     }
     useEffect(()=>{
         if(poForm.op === "view")
@@ -77,7 +142,10 @@ function ManagePO() {
                 </div>
             </div>
             )}
-            {poForm.show ? <POForm poForm={poForm} setPOForm={setPOForm}/> : null}
+            {poForm.show ? <POForm poForm={poForm} 
+                setPOForm={setPOForm} 
+                performOp={performOp}
+                /> : null}
         </div>
     );
 }

@@ -15,6 +15,11 @@ function POForm({poForm, setPOForm, performOp}) {
     const [po, setPO] = useState(poForm.op === "edit" ? poForm.po : initialPOState);
     const [inventory, setInventory] = useState([]);
     
+    function preparePO(e) {
+        e.preventDefault();
+        performOp(poForm.op, po);
+        setPO({vendorId: "", date:"", orderedProducts:[], isOpen: true});
+    }
     async function fetchInventory() {
         try {
             const inventoryData = await API.graphql({query: listItems, authMode: 'AMAZON_COGNITO_USER_POOLS'});
@@ -31,7 +36,7 @@ function POForm({poForm, setPOForm, performOp}) {
     return(
         <div id="manage-form-wrapper">
             <h2 className="manage-form">{poForm.op === "add" ? "Create" : "Edit"} a purchase order</h2>
-            <form id="manage-form" name="manage-form">
+            <form id="manage-form" name="manage-form" onSubmit={preparePO}>
                 <div className="row">
                     <div className="col-25">
                         <label className="manage-form" htmlFor="vendId">Vendor ID:</label>
@@ -102,7 +107,7 @@ function POForm({poForm, setPOForm, performOp}) {
                                 show: false, op: "view"})}
                             >Discard Changes
                         </button>
-                        <button className="manage-form"type="button">
+                        <button className="manage-form" type="submit">
                             Submit Changes
                         </button>
                     </div>
@@ -110,111 +115,138 @@ function POForm({poForm, setPOForm, performOp}) {
                 <div className="row">
                     {po.orderedProducts.map((prod, index)=>(
                         <div className="row" key={index}>
-                            <div className="col-25">
-                                <label htmlFor={"itemCode-"+index}>Item SKU:</label>
-                            </div>
-                            <div className="col-75">
-                                <input type="text"
-                                    value={prod.itemCode}
-                                    name={"itemCode-" + index}
-                                    onChange={(e)=>setPO({...po, 
-                                        orderedProducts: po.orderedProducts.map((elm, idx)=>
-                                        idx === index ? {...elm, 
-                                            itemCode: e.target.value
-                                        } : elm
-                                    )})}
-                                />
-                            </div>
-                            <div className="col-25">
-                                <label htmlFor={"itemName-" + index}>Item Name:</label>
-                            </div>
-                            <div className="col-75">
-                                <input type="text"
-                                    value={prod.itemName}
-                                    name={"itemName-" + index}
-                                    onChange={(e)=>setPO({...po, 
-                                        orderedProducts: po.orderedProducts.map((elm, idx)=>
-                                        idx === index ? {...elm, 
-                                            itemName: e.target.value
-                                        } : elm
-                                    )})}
-                                />
-                            </div>
-                            <div className="col-25">
-                                <label htmlFor={"poItemQty-" + index}>Qty:</label>
-                            </div>
-                            <div className="col-75">
-                                <input type="number"
-                                    step="1"
-                                    min="1"
-                                    value={prod.numPurchased}
-                                    name={"poItemQty-" + index}
-                                    onChange={(e)=>setPO({...po, 
-                                        orderedProducts: po.orderedProducts.map((elm, idx)=>
+                            <div className="row">
+                                <div className="col-25">
+                                    <label className="manage-form" htmlFor={"itemCode-"+index}>
+                                        Item SKU:
+                                    </label>
+                                </div>
+                                <div className="col-75">
+                                    <input className="manage-form"
+                                        type="text"
+                                        value={prod.itemCode}
+                                        name={"itemCode-" + index}
+                                        required
+                                        onChange={(e)=>setPO({...po, 
+                                            orderedProducts: po.orderedProducts.map((elm, idx)=>
                                             idx === index ? {...elm, 
-                                                numPurchased: e.target.value,
-                                                totalCost: e.target.value * elm.unitCost
+                                                itemCode: e.target.value
                                             } : elm
-                                    )})}
-                                />
+                                        )})}
+                                    />
+                                </div>
                             </div>
+                            <div className="row">
                             <div className="col-25">
-                                <label htmlFor={"poItemUCost-" + index}>Unit Cost:</label>
+                                <label className="manage-form" htmlFor={"itemName-" + index}>Item Name:</label>
                             </div>
-                            <div className="col-75">
-                                <input type="number"
-                                    step="0.01"
-                                    min="0"
-                                    value={prod.unitCost}
-                                    name={"poItemUCost-" + index}
-                                    onChange={(e)=>setPO({...po, 
-                                        orderedProducts: po.orderedProducts.map((elm, idx)=>
+                                <div className="col-75">
+                                    <input className="manage-form"
+                                        type="text"
+                                        value={prod.itemName}
+                                        name={"itemName-" + index}
+                                        required
+                                        onChange={(e)=>setPO({...po, 
+                                            orderedProducts: po.orderedProducts.map((elm, idx)=>
                                             idx === index ? {...elm, 
-                                                unitCost: e.target.value,
-                                                totalCost: e.target.value * elm.numPurchased
+                                                itemName: e.target.value
                                             } : elm
-                                    )})}
-                                />
+                                        )})}
+                                    />
+                                </div>
                             </div>
+                            <div className="row">
                             <div className="col-25">
-                                <label htmlFor={"poItemTotalCost-" + index}>Total Cost:</label>
+                                <label className="manage-form" htmlFor={"poItemQty-" + index}>Qty:</label>
                             </div>
-                            <div className="col-75">
-                                <input type="text"
-                                    value={prod.totalCost}
-                                    name={"poItemTotalCost-" + index}
-                                    readOnly
-                                />
+                                <div className="col-75">
+                                    <input className="manage-form"
+                                        type="number"
+                                        step="1"
+                                        min="1"
+                                        value={prod.numPurchased}
+                                        name={"poItemQty-" + index}
+                                        required
+                                        onChange={(e)=>setPO({...po, 
+                                            orderedProducts: po.orderedProducts.map((elm, idx)=>
+                                                idx === index ? {...elm, 
+                                                    numPurchased: e.target.value,
+                                                    totalCost: e.target.value * elm.unitCost
+                                                } : elm
+                                        )})}
+                                    />
+                                </div>
                             </div>
-                            <div className="col-25">
-                                <label htmlFor={"poItemRecvDate-" + index}>Date Received:</label>
+                            <div className="row">
+                                <div className="col-25">
+                                    <label className="manage-form" htmlFor={"poItemUCost-" + index}>Unit Cost:</label>
+                                </div>
+                                <div className="col-75">
+                                    <input className="manage-form"
+                                        type="number"
+                                        step="0.01"
+                                        min="0"
+                                        value={prod.unitCost}
+                                        name={"poItemUCost-" + index}
+                                        required
+                                        onChange={(e)=>setPO({...po, 
+                                            orderedProducts: po.orderedProducts.map((elm, idx)=>
+                                                idx === index ? {...elm, 
+                                                    unitCost: e.target.value,
+                                                    totalCost: e.target.value * elm.numPurchased
+                                                } : elm
+                                        )})}
+                                    />
+                                </div>
                             </div>
-                            <div className="col-75">
-                                <input type="date"
-                                    value={prod.receivedDate}
-                                    name={"poItemRecvDate-" + index}
-                                    onChange={(e)=>setPO({...po, 
-                                        orderedProducts: po.orderedProducts.map((elm, idx)=>
-                                            idx === index ? {...elm, 
-                                                receivedDate: e.target.value
-                                            } : elm
-                                    )})}
-                                />
+                            <div className="row">
+                                <div className="col-25">
+                                    <label className="manage-form" htmlFor={"poItemTotalCost-" + index}>Total Cost:</label>
+                                </div>
+                                <div className="col-75">
+                                    <input className="manage-form"
+                                        type="text"
+                                        value={prod.totalCost}
+                                        name={"poItemTotalCost-" + index}
+                                        readOnly
+                                    />
+                                </div>
                             </div>
-                            <div className="col-25">
-                                <label htmlFor={"poItemGoodTill-" + index}>Good Till:</label>
+                            <div className="row">
+                                <div className="col-25">
+                                    <label className="manage-form" htmlFor={"poItemRecvDate-" + index}>Date Received:</label>
+                                </div>
+                                <div className="col-75">
+                                    <input className="manage-form"
+                                        type="date"
+                                        value={prod.receivedDate}
+                                        name={"poItemRecvDate-" + index}
+                                        onChange={(e)=>setPO({...po, 
+                                            orderedProducts: po.orderedProducts.map((elm, idx)=>
+                                                idx === index ? {...elm, 
+                                                    receivedDate: e.target.value
+                                                } : elm
+                                        )})}
+                                    />
+                                </div>
                             </div>
-                            <div className="col-75">
-                                <input type="date"
-                                    value={prod.goodTill}
-                                    name={"poItemGoodTill-" + index}
-                                    onChange={(e)=>setPO({...po, 
-                                        orderedProducts: po.orderedProducts.map((elm, idx)=>
-                                            idx === index ? {...elm, 
-                                                goodTill: e.target.value
-                                            } : elm
-                                    )})}
-                                />
+                            <div className="row">
+                                <div className="col-25">
+                                    <label className="manage-form" htmlFor={"poItemGoodTill-" + index}>Good Till:</label>
+                                </div>
+                                <div className="col-75">
+                                    <input className="manage-form"
+                                        type="date"
+                                        value={prod.goodTill}
+                                        name={"poItemGoodTill-" + index}
+                                        onChange={(e)=>setPO({...po, 
+                                            orderedProducts: po.orderedProducts.map((elm, idx)=>
+                                                idx === index ? {...elm, 
+                                                    goodTill: e.target.value
+                                                } : elm
+                                        )})}
+                                    />
+                                </div>
                             </div>
                         </div>
                     ))}
