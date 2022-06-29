@@ -15,6 +15,9 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
             if(po.orderedProducts[i].goodTill === null) {
                 po.orderedProducts[i].goodTill = "";
             }
+            if(po.orderedProducts[i].notes === null) {
+                po.orderedProducts[i].notes = "";
+            }
         }
         setPOForm({po: po, op: "edit"});
     }
@@ -67,6 +70,7 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
                         <th>Good Until</th>
                         <th>Date Received</th>
                         <th>Qty. Received</th>
+                        <th>Additional Notes</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,6 +85,7 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
                         <td>{item.receivedDate}</td>
                         <td>{item.goodTill}</td>
                         <td><input type="number"/></td>
+                        <td><input type="text"/></td>
                     </tr>
                 ))}
                 </tbody>

@@ -106,6 +106,8 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
                                 unitCost: 0.0, 
                                 totalCost: 0.0, 
                                 receivedDate: "",
+                                numReceived: 0,
+                                notes: "",
                                 goodTill: "" 
                             }]})}>
                             Add an item
@@ -250,6 +252,26 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
                             </div>
                             <div className="row">
                                 <div className="col-25">
+                                    <label className="manage-form" htmlFor={"poItemNumRecv-" + index}>Number of Items Received:</label>
+                                </div>
+                                <div className="col-75">
+                                    <input className="manage-form"
+                                        type="number"
+                                        min="0"
+                                        step="1"
+                                        value={prod.numReceived}
+                                        name={"poItemNumRecv-" + index}
+                                        onChange={(e)=>setPO({...po, 
+                                            orderedProducts: po.orderedProducts.map((elm, idx)=>
+                                                idx === index ? {...elm, 
+                                                    numReceived: e.target.value
+                                                } : elm
+                                        )})}
+                                    />
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-25">
                                     <label className="manage-form" htmlFor={"poItemGoodTill-" + index}>Good Till:</label>
                                 </div>
                                 <div className="col-75">
@@ -261,6 +283,24 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
                                             orderedProducts: po.orderedProducts.map((elm, idx)=>
                                                 idx === index ? {...elm, 
                                                     goodTill: e.target.value
+                                                } : elm
+                                        )})}
+                                    />
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-25">
+                                    <label className="manage-form" htmlFor={"poItemNotes-" + index}>Notes:</label>
+                                </div>
+                                <div className="col-75">
+                                    <input className="manage-form"
+                                        type="text"
+                                        value={prod.notes}
+                                        name={"poItemNotes-" + index}
+                                        onChange={(e)=>setPO({...po, 
+                                            orderedProducts: po.orderedProducts.map((elm, idx)=>
+                                                idx === index ? {...elm, 
+                                                    notes: e.target.value
                                                 } : elm
                                         )})}
                                     />
