@@ -98,6 +98,8 @@ type POItem {
   unitCost: Float!
   totalCost: Float!
 
+  numReceived: Int!
+  notes: String
   receivedDate: AWSDate
   goodTill: AWSDate
 }

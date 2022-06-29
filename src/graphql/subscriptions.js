@@ -220,6 +220,8 @@ export const onCreatePurchaseOrder = /* GraphQL */ `
         numPurchased
         unitCost
         totalCost
+        numReceived
+        notes
         receivedDate
         goodTill
       }
@@ -241,6 +243,8 @@ export const onUpdatePurchaseOrder = /* GraphQL */ `
         numPurchased
         unitCost
         totalCost
+        numReceived
+        notes
         receivedDate
         goodTill
       }
@@ -262,6 +266,8 @@ export const onDeletePurchaseOrder = /* GraphQL */ `
         numPurchased
         unitCost
         totalCost
+        numReceived
+        notes
         receivedDate
         goodTill
       }

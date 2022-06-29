@@ -147,6 +147,8 @@ export const getPurchaseOrder = /* GraphQL */ `
         numPurchased
         unitCost
         totalCost
+        numReceived
+        notes
         receivedDate
         goodTill
       }
@@ -173,6 +175,8 @@ export const listPurchaseOrders = /* GraphQL */ `
           numPurchased
           unitCost
           totalCost
+          numReceived
+          notes
           receivedDate
           goodTill
         }
