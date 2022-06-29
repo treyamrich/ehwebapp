@@ -135,7 +135,7 @@ function ManagePO({opRes, setOpRes}) {
                 failMsg += ", ";
         }
         //Regrab the PO and display result
-        setPOForm(op === "edit" ? {...poForm, op: "view-po"} : {po: null, op: "view-all"})
+        setPOForm(op === "edit" ? {po: po, op: "view-po"} : {po: null, op: "view-all"});
         setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});    
         fetchPO();
     }

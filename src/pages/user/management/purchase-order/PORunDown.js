@@ -52,7 +52,9 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
                 </li>
                <li><button type="button" onClick={()=>handleEditPO()}>Edit Order</button></li>
                <li><button type="button" onClick={()=>performOp("remove", po)}>Delete Order</button></li>
+               <li><button type="button">Send Order</button></li>
             </ul>
+            <h3>Order Details</h3>
             <table>
                 <thead>
                     <tr>
@@ -60,10 +62,11 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
                         <th>Product Name</th>
                         <th>In Stock</th>
                         <th>Purchased</th>
-                        <th>Date Received</th>
-                        <th>Good Until</th>
                         <th>Unit Cost</th>
                         <th>Total Cost</th>
+                        <th>Good Until</th>
+                        <th>Date Received</th>
+                        <th>Qty. Received</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,10 +76,11 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
                         <td>{item.itemName}</td>
                         <td>{onHand.get(item.itemCode)}</td>
                         <td>{item.numPurchased}</td>
-                        <td>{item.receivedDate}</td>
-                        <td>{item.goodTill}</td>
                         <td>{item.unitCost}</td>
                         <td>{item.totalCost}</td>
+                        <td>{item.receivedDate}</td>
+                        <td>{item.goodTill}</td>
+                        <td><input type="number"/></td>
                     </tr>
                 ))}
                 </tbody>
