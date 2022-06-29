@@ -102,7 +102,7 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
                             onClick={()=>setPO({...po, orderedProducts: [...po.orderedProducts, {
                                 itemCode: "", 
                                 itemName: "", 
-                                numPurchased: 0,
+                                numPurchased: 1,
                                 unitCost: 0.0, 
                                 totalCost: 0.0, 
                                 receivedDate: "",
