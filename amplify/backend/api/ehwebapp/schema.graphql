@@ -99,9 +99,15 @@ type POItem {
   totalCost: Float!
 
   numReceived: Int!
-  notes: String
   receivedDate: AWSDate
   goodTill: AWSDate
+  adjustments: [POItemAdjustment!]
+}
+type POItemAdjustment {
+    adjAmt: Int!
+    adjustment: String!
+    reason: String!
+    adjDate: AWSDate!
 }
 type OwnerContact @model @auth(rules: [
 { allow: groups, groups: ["admin"], provider: userPools}]) {

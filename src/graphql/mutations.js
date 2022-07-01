@@ -242,9 +242,14 @@ export const createPurchaseOrder = /* GraphQL */ `
         unitCost
         totalCost
         numReceived
-        notes
         receivedDate
         goodTill
+        adjustments {
+          adjAmt
+          adjustment
+          reason
+          adjDate
+        }
       }
       isOpen
       createdAt
@@ -268,9 +273,14 @@ export const updatePurchaseOrder = /* GraphQL */ `
         unitCost
         totalCost
         numReceived
-        notes
         receivedDate
         goodTill
+        adjustments {
+          adjAmt
+          adjustment
+          reason
+          adjDate
+        }
       }
       isOpen
       createdAt
@@ -294,9 +304,14 @@ export const deletePurchaseOrder = /* GraphQL */ `
         unitCost
         totalCost
         numReceived
-        notes
         receivedDate
         goodTill
+        adjustments {
+          adjAmt
+          adjustment
+          reason
+          adjDate
+        }
       }
       isOpen
       createdAt
