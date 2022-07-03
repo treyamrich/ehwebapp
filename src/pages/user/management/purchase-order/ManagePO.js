@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listItems, listPurchaseOrders } from '../../../../graphql/queries';
-import POForm from './POForm';
-import PORunDown from './PORunDown';
+import { POForm, PORunDown } from './index';
 import { createPurchaseOrder, updatePurchaseOrder, deletePurchaseOrder } from '../../../../graphql/mutations';
 
 const initialPOFormState = {
