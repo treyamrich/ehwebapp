@@ -14,6 +14,7 @@ function POReceivedItems({ rcvItems, setRcvItems }) {
                     </tr>
                 </thead>
                 <tbody>
+                {rcvItems.length === 0 ? <tr><td colSpan="3">No Items Received Yet</td></tr> : null}
                 {rcvItems.map((item, idx)=>(
                     <tr key={"rcv-" + idx}>
                         <td>{item.itemCode}</td>
@@ -52,7 +53,6 @@ function POReceivedItems({ rcvItems, setRcvItems }) {
                 ))}
                 </tbody>
             </table>
-            <button>Add to Inventory</button>
         </div>
     );
 }

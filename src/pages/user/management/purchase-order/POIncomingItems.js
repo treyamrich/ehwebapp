@@ -14,6 +14,7 @@ function POIncomingItems({incItems, setIncItems}) {
                     </tr>
                 </thead>
                 <tbody>
+                {incItems.length === 0 ? <tr><td colSpan="3">No Incoming Items</td></tr> : null}
                 {incItems.map((item, idx)=>(
                     <tr key={"inc-" + idx}>
                         <td>{item.itemCode}</td>
