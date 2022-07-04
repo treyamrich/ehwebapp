@@ -3,7 +3,8 @@ import { API } from 'aws-amplify';
 import { updateItems } from '../../../../graphql/mutations';
 import { getItems, listItems } from '../../../../graphql/queries';
 import { POIncomingItems, POReceivedItems } from './index';
-import { formatDate, formatPOItemDate } from '../../../../utility/index';
+import { formatDate } from '../../../../utility/DateTimeFunctions';
+import { arrToString } from '../../../../utility/ArrayToString';
 
 function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
     const po = poForm.po;
@@ -11,16 +12,15 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
     const initRcvItems = [];
     const POItemMap = new Map();
 
-    //Process the PO items ensuring there are no null fields
-    formatPOItemDate(po, false);
+    //Initialize map for easy PO updating
     for(let i = 0; i < po.orderedProducts.length; i++) {
         POItemMap.set(po.orderedProducts[i].itemCode, po.orderedProducts[i]);
     }
-
-    //ToDo are the POItems that need to be updated from the user
-    //Received Products are the products that have been marked as received
+    
+    //Incoming Products are the POItems that need to be updated from the user
+    //Received Products are the POItems that have been marked as received
     for(let i = 0; i < po.orderedProducts.length; i++) {
-        po.orderedProducts[i].receivedDate ?
+        po.orderedProducts[i].numReceived > 0 ?
             initRcvItems.push(po.orderedProducts[i]) :
             initIncItems.push({...po.orderedProducts[i], 
                 receivedDate: formatDate(new Date())
@@ -40,11 +40,9 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
         let newPOItems = Array.from(POItemMap.values());
         po.orderedProducts = newPOItems;
 
-        //Change empty strings back to null values
-        formatPOItemDate(po, true);
-
         return performOp("edit", po, true);
         //setPOForm({...poForm, po: {...po, orderedProducts: newPOItems}});
+        //return success;
     }
 
     async function addPOItemsToInventory(items) {
@@ -84,11 +82,7 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
             }
         }
         if(failItems.length > 0) {
-            for(let i = 0; i < failItems.length; i++) {
-                failMsg += failItems[i];
-                if(i !== failItems.length - 1 && failItems.length > 1)
-                    failMsg += ", ";
-            }
+            failMsg += arrToString(failItems);
             failMsg += " could not be added to the inventory";
             setOpRes({...opRes, failItems: failItems, failureMsg: failMsg});
         } else {

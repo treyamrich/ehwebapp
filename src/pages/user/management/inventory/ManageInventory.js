@@ -4,6 +4,7 @@ import { listItems } from '../../../../graphql/queries';
 import { createItems, deleteItems, updateItems } from '../../../../graphql/mutations';
 import InventoryContent from './InventoryContent';
 import ItemForm from './ItemForm';
+import { arrToString } from '../../../../utility/ArrayToString';
 import '../../../../styles/inventory.css';
 
 const initialItemFormState = {
@@ -133,16 +134,9 @@ function ManageInventory({opRes, setOpRes}) {
         }
 
         //Display operation result
-        for(let i = 0; i < opRes.succItems.length; i++) {
-            succMsg += opRes.succItems[i];
-            if(i !== opRes.succItems.length - 1 && opRes.succItems.length > 1)
-                succMsg += ", ";
-        }
-        for(let i = 0; i < opRes.failItems.length; i++) {
-            failMsg += opRes.failItems[i];
-            if(i !== opRes.failItems.length - 1 && opRes.failItems.length > 1)
-                failMsg += ", ";
-        }
+        succMsg += arrToString(opRes.succItems);
+        failMsg += arrToString(opRes.failItems);
+
         //Regrab the inventory and display result
         setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});    
         fetchInventory();

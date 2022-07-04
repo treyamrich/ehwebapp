@@ -3,6 +3,7 @@ import { API } from 'aws-amplify';
 import { listItems, listPurchaseOrders } from '../../../../graphql/queries';
 import { POForm, PORunDown } from './index';
 import { createPurchaseOrder, updatePurchaseOrder, deletePurchaseOrder } from '../../../../graphql/mutations';
+import { arrToString } from '../../../../utility/ArrayToString';
 
 const initialPOFormState = {
     op: "view-all",
@@ -128,16 +129,8 @@ function ManagePO({opRes, setOpRes}) {
             opRes.failItems = [];
         } else {
             //Display operation result
-            for(let i = 0; i < opRes.succItems.length; i++) {
-                succMsg += opRes.succItems[i];
-                if(i !== opRes.succItems.length - 1 && opRes.succItems.length > 1)
-                    succMsg += ", ";
-            }
-            for(let i = 0; i < opRes.failItems.length; i++) {
-                failMsg += opRes.failItems[i];
-                if(i !== opRes.failItems.length - 1 && opRes.failItems.length > 1)
-                    failMsg += ", ";
-            }
+            succMsg += arrToString(opRes.succItems);
+            failMsg += arrToString(opRes.failItems);
             setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});
         }
 
