@@ -15,17 +15,31 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
     const [po, setPO] = useState(poForm.op === "edit" ? poForm.po : initialPOState);
     const [inventory, setInventory] = useState([]);
     
-    function preparePO(e) {
-        e.preventDefault();
-        //Match AWS format
+    function formatDateFields(setNull) {
+        //Sets the date field to either empty string or null to match API request format,
+        //or to render in the react component (non-null)
         for(let i = 0; i < po.orderedProducts.length; i++) {
-            if(po.orderedProducts[i].receivedDate === "") {
-                po.orderedProducts[i].receivedDate = null;
-            }
-            if(po.orderedProducts[i].goodTill === "") {
-                po.orderedProducts[i].goodTill = null;
+            if(setNull) {
+                if(po.orderedProducts[i].receivedDate === "") {
+                    po.orderedProducts[i].receivedDate = null;
+                }
+                if(po.orderedProducts[i].goodTill === "") {
+                    po.orderedProducts[i].goodTill = null;
+                }
+            } else {
+                if(po.orderedProducts[i].receivedDate === null) {
+                    po.orderedProducts[i].receivedDate = "";
+                }
+                if(po.orderedProducts[i].goodTill === null) {
+                    po.orderedProducts[i].goodTill = "";
+                }
             }
         }
+    }
+    function preparePO(e) {
+        e.preventDefault();
+        //Match AWS format by converting empty dates to null
+        formatDateFields(true);
         performOp(poForm.op, po);
         setPO({vendorId: "", date:"", orderedProducts:[], isOpen: true});
     }
@@ -43,6 +57,8 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
         fetchInventory();
     }, []);
 
+    //Before rendering, ensure there are no null date fields
+    formatDateFields(false);
     return(
         <div id="manage-form-wrapper">
             <h2 className="manage-form">{poForm.op === "add" ? "Create" : "Edit"} a purchase order</h2>

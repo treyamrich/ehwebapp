@@ -17,8 +17,8 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
         POItemMap.set(po.orderedProducts[i].itemCode, po.orderedProducts[i]);
     }
     
-    //Incoming Products are the POItems that need to be updated from the user
-    //Received Products are the POItems that have been marked as received
+    //Traverse the PO Ordered Items and sort them by incoming or received
+    //for the incoming/received items components
     for(let i = 0; i < po.orderedProducts.length; i++) {
         po.orderedProducts[i].numReceived > 0 ?
             initRcvItems.push(po.orderedProducts[i]) :
