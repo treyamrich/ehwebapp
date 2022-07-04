@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { API } from 'aws-amplify';
 import { listItems } from '../../../../graphql/queries';
+import { updatePurchaseOrder } from '../../../../graphql/mutations';
 import { POIncomingItems, POReceivedItems } from './index';
 import { formatDate } from '../../../../utility/DateTimeFunctions';
 
@@ -8,6 +9,7 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
     const po = poForm.po;
     const initIncItems = [];
     const initRcvItems = [];
+    const POItemMap = new Map();
 
     //Process the PO items ensuring there are no null fields
     for(let i = 0; i < po.orderedProducts.length; i++) {
@@ -17,6 +19,7 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
         if(po.orderedProducts[i].goodTill === null) {
             po.orderedProducts[i].goodTill = "";
         }
+        POItemMap.set(po.orderedProducts[i].itemCode, po.orderedProducts[i]);
     }
 
     //ToDo are the POItems that need to be updated from the user
@@ -28,9 +31,47 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
                 receivedDate: formatDate(new Date())
             });
     }
+    
     const [incItems, setIncItems] = useState(initIncItems);
     const [rcvItems, setRcvItems] = useState(initRcvItems);
     
+    async function updatePOItems(updatedItems) {
+        //Use map to update the item received date and qty if the user entered one
+        for(let i = 0; i < updatedItems.length; i++) {
+            if(updatedItems[i].numReceived > 0) {
+                POItemMap.set(updatedItems[i].itemCode, updatedItems[i]);
+            }
+        }
+        let newPOItems = Array.from(POItemMap.values());
+        po.orderedProducts = newPOItems;
+
+        //REMOVE THIS LATER
+        delete po.createdAt;
+        delete po.updatedAt;
+
+        //Convert empty fields back to null
+        for(let i = 0; i < po.orderedProducts.length; i++) {
+            if(po.orderedProducts[i].goodTill === "") {
+                po.orderedProducts[i].goodTill = null;
+            }
+            if(po.orderedProducts[i].receivedDate === "") {
+                po.orderedProducts[i].receivedDate = null;
+            }
+        }
+
+        try {
+            await API.graphql({ query: updatePurchaseOrder, 
+                variables: {
+                    input: po
+                }, 
+                authMode: "AMAZON_COGNITO_USER_POOLS"
+            });
+        } catch(e) {
+            console.log(e);
+            setOpRes({...opRes, errorMsg:"Error: Could not update Purchase Order"});
+        }
+        setPOForm({...poForm, po: {...po, orderedProducts: newPOItems}});
+    }
     return(
         <div>
             <ul>
@@ -74,7 +115,11 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
                 ))}
                 </tbody>
             </table>
-            <POIncomingItems incItems={incItems} setIncItems={setIncItems}/>
+            <POIncomingItems 
+                incItems={incItems} 
+                setIncItems={setIncItems}
+                updatePOItems={updatePOItems}
+            />
             <POReceivedItems rcvItems={rcvItems} setRcvItems={setRcvItems}/>
         </div>
     );
