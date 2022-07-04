@@ -1,36 +1,4 @@
-import React, { useState } from 'react';
-import { API } from 'aws-amplify';
-import { updateItems } from '../../../../graphql/mutations';
-import { getItems } from '../../../../graphql/queries';
-
-function POIncomingItems({incItems, setIncItems, updatePOItems}) {
-    async function addIncToInventory() {
-        updatePOItems(incItems);
-        for(let i = 0; i < incItems.length; i++) {
-            if(incItems[i].numReceived > 0) {
-                console.log(incItems[i].itemCode);
-                try {
-                    const dbResp = await API.graphql({ query: getItems, 
-                        variables: {
-                            code: incItems[i].itemCode
-                        }, 
-                        authMode: "AMAZON_COGNITO_USER_POOLS"
-                    });
-                    console.log(dbResp);/*
-                    await API.graphql({ query: updateItems, 
-                        variables: {
-                            input: {
-                                
-                            }
-                        }, 
-                        authMode: "AMAZON_COGNITO_USER_POOLS"
-                    });*/
-                } catch(e) {
-                    console.log(e);
-                }
-            }
-        }
-    }
+function POIncomingItems({incItems, setIncItems, addPOItemsToInventory}) {
     return(
         <div>
             <h3>Incoming Items</h3>
@@ -83,7 +51,7 @@ function POIncomingItems({incItems, setIncItems, updatePOItems}) {
                 </tbody>
             </table>
             {incItems.length > 0 ? 
-                <button type="button" onClick={addIncToInventory}>
+                <button type="button" onClick={()=>addPOItemsToInventory(incItems)}>
                     Add to Inventory
                 </button>
             : null

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { API } from 'aws-amplify';
-import { listItems } from '../../../../graphql/queries';
-import { updatePurchaseOrder } from '../../../../graphql/mutations';
+import { updateItems } from '../../../../graphql/mutations';
+import { getItems, listItems } from '../../../../graphql/queries';
 import { POIncomingItems, POReceivedItems } from './index';
 import { formatDate } from '../../../../utility/DateTimeFunctions';
 
@@ -44,34 +44,40 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
         }
         let newPOItems = Array.from(POItemMap.values());
         po.orderedProducts = newPOItems;
-
-        //REMOVE THIS LATER
-        delete po.createdAt;
-        delete po.updatedAt;
-
-        //Convert empty fields back to null
-        for(let i = 0; i < po.orderedProducts.length; i++) {
-            if(po.orderedProducts[i].goodTill === "") {
-                po.orderedProducts[i].goodTill = null;
-            }
-            if(po.orderedProducts[i].receivedDate === "") {
-                po.orderedProducts[i].receivedDate = null;
-            }
-        }
-
-        try {
-            await API.graphql({ query: updatePurchaseOrder, 
-                variables: {
-                    input: po
-                }, 
-                authMode: "AMAZON_COGNITO_USER_POOLS"
-            });
-        } catch(e) {
-            console.log(e);
-            setOpRes({...opRes, errorMsg:"Error: Could not update Purchase Order"});
-        }
-        setPOForm({...poForm, po: {...po, orderedProducts: newPOItems}});
+        performOp("edit", po);
+        //setPOForm({...poForm, po: {...po, orderedProducts: newPOItems}});
     }
+
+    async function addPOItemsToInventory(items) {
+        updatePOItems(items);
+        for(let i = 0; i < items.length; i++) {
+            if(items[i].numReceived > 0) {
+                try {
+                    const dbResp = await API.graphql({ query: getItems, 
+                        variables: {
+                            code: items[i].itemCode
+                        }, 
+                        authMode: "AMAZON_COGNITO_USER_POOLS"
+                    });
+                    const item = dbResp.data.getItems;
+                    //REMOVE THIS LATER
+                    item.createdAt = undefined;
+                    item.updatedAt = undefined;
+
+                    await API.graphql({ query: updateItems, 
+                        variables: {
+                            input: {...item, qty: item.qty + items[i].numReceived}
+                        }, 
+                        authMode: "AMAZON_COGNITO_USER_POOLS"
+                    });
+                } catch(e) {
+                    console.log(e);
+                    setOpRes({...opRes, errorMsg:"Error: Could not update Purchase Order"});
+                }
+            }
+        }
+    }
+
     return(
         <div>
             <ul>
@@ -118,7 +124,7 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
             <POIncomingItems 
                 incItems={incItems} 
                 setIncItems={setIncItems}
-                updatePOItems={updatePOItems}
+                addPOItemsToInventory={addPOItemsToInventory}
             />
             <POReceivedItems rcvItems={rcvItems} setRcvItems={setRcvItems}/>
         </div>
