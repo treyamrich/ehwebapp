@@ -3,7 +3,7 @@ import { API } from 'aws-amplify';
 import { updateItems } from '../../../../graphql/mutations';
 import { getItems, listItems } from '../../../../graphql/queries';
 import { POIncomingItems, POReceivedItems } from './index';
-import { formatDate } from '../../../../utility/DateTimeFunctions';
+import { formatDate, formatPOItemDate } from '../../../../utility/index';
 
 function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
     const po = poForm.po;
@@ -12,13 +12,8 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
     const POItemMap = new Map();
 
     //Process the PO items ensuring there are no null fields
+    formatPOItemDate(po, false);
     for(let i = 0; i < po.orderedProducts.length; i++) {
-        if(po.orderedProducts[i].receivedDate === null) {
-            po.orderedProducts[i].receivedDate = "";
-        }
-        if(po.orderedProducts[i].goodTill === null) {
-            po.orderedProducts[i].goodTill = "";
-        }
         POItemMap.set(po.orderedProducts[i].itemCode, po.orderedProducts[i]);
     }
 
@@ -44,12 +39,20 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
         }
         let newPOItems = Array.from(POItemMap.values());
         po.orderedProducts = newPOItems;
-        performOp("edit", po);
+
+        //Change empty strings back to null values
+        formatPOItemDate(po, true);
+
+        return performOp("edit", po, true);
         //setPOForm({...poForm, po: {...po, orderedProducts: newPOItems}});
     }
 
     async function addPOItemsToInventory(items) {
-        updatePOItems(items);
+        if(!(await updatePOItems(items))) return;
+    
+        //Track items if they fail to be updated
+        let failItems = [];
+        let failMsg = "Error: Item(s) ";
         for(let i = 0; i < items.length; i++) {
             if(items[i].numReceived > 0) {
                 try {
@@ -59,22 +62,37 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
                         }, 
                         authMode: "AMAZON_COGNITO_USER_POOLS"
                     });
+
+                    //Update item qty
                     const item = dbResp.data.getItems;
+                    item.qty += parseInt(items[i].numReceived);
+
                     //REMOVE THIS LATER
                     item.createdAt = undefined;
                     item.updatedAt = undefined;
 
                     await API.graphql({ query: updateItems, 
                         variables: {
-                            input: {...item, qty: item.qty + items[i].numReceived}
+                            input: item
                         }, 
                         authMode: "AMAZON_COGNITO_USER_POOLS"
                     });
                 } catch(e) {
                     console.log(e);
-                    setOpRes({...opRes, errorMsg:"Error: Could not update Purchase Order"});
+                    failItems.push(items[i].itemCode);
                 }
             }
+        }
+        if(failItems.length > 0) {
+            for(let i = 0; i < failItems.length; i++) {
+                failMsg += failItems[i];
+                if(i !== failItems.length - 1 && failItems.length > 1)
+                    failMsg += ", ";
+            }
+            failMsg += " could not be added to the inventory";
+            setOpRes({...opRes, failItems: failItems, failureMsg: failMsg});
+        } else {
+            setOpRes({...opRes, successMsg: "All items were successfully added."});
         }
     }
 

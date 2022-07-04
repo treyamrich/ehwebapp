@@ -88,7 +88,7 @@ function ManagePO({opRes, setOpRes}) {
             setOpRes({...opRes, errorMsg:"Error: Could not fetch Purchase Orders"});
         }
     }
-    async function performOp(op, po=null) {
+    async function performOp(op, po=null, silent=false) {
         //Performs a database operation, displays the result, resets state
         // and refetches database items
 
@@ -122,21 +122,29 @@ function ManagePO({opRes, setOpRes}) {
             default: {}
         }
 
-        //Display operation result
-        for(let i = 0; i < opRes.succItems.length; i++) {
-            succMsg += opRes.succItems[i];
-            if(i !== opRes.succItems.length - 1 && opRes.succItems.length > 1)
-                succMsg += ", ";
+        //Remove messages if silent mode and no errors
+        if(silent && opRes.failItems.length === 0) {
+            opRes.succItems = [];
+            opRes.failItems = [];
+        } else {
+            //Display operation result
+            for(let i = 0; i < opRes.succItems.length; i++) {
+                succMsg += opRes.succItems[i];
+                if(i !== opRes.succItems.length - 1 && opRes.succItems.length > 1)
+                    succMsg += ", ";
+            }
+            for(let i = 0; i < opRes.failItems.length; i++) {
+                failMsg += opRes.failItems[i];
+                if(i !== opRes.failItems.length - 1 && opRes.failItems.length > 1)
+                    failMsg += ", ";
+            }
+            setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});
         }
-        for(let i = 0; i < opRes.failItems.length; i++) {
-            failMsg += opRes.failItems[i];
-            if(i !== opRes.failItems.length - 1 && opRes.failItems.length > 1)
-                failMsg += ", ";
-        }
-        //Regrab the PO and display result
-        setPOForm(op === "edit" ? {po: po, op: "view-po"} : {po: null, op: "view-all"});
-        setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});    
+
+        setPOForm(op === "edit" ? {po: po, op: "view-po"} : {po: null, op: "view-all"});    
         fetchPO();
+
+        return opRes.failItems.length === 0
     }
     useEffect(()=>{
         if(poForm.op === "view-all") {
