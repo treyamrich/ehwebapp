@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import { updateItems } from '../../../../graphql/mutations';
 import { getItems, listItems } from '../../../../graphql/queries';
@@ -8,28 +8,11 @@ import { arrToString } from '../../../../utility/ArrayToString';
 
 function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
     const po = poForm.po;
-    const initIncItems = [];
-    const initRcvItems = [];
-    const POItemMap = new Map();
-
-    //Initialize map for easy PO updating
-    for(let i = 0; i < po.orderedProducts.length; i++) {
-        POItemMap.set(po.orderedProducts[i].itemCode, po.orderedProducts[i]);
-    }
     
-    //Traverse the PO Ordered Items and sort them by incoming or received
-    //for the incoming/received items components
-    for(let i = 0; i < po.orderedProducts.length; i++) {
-        po.orderedProducts[i].numReceived > 0 ?
-            initRcvItems.push(po.orderedProducts[i]) :
-            initIncItems.push({...po.orderedProducts[i], 
-                receivedDate: formatDate(new Date())
-            });
-    }
-    
-    const [incItems, setIncItems] = useState(initIncItems);
-    const [rcvItems, setRcvItems] = useState(initRcvItems);
-    
+    const [incItems, setIncItems] = useState([]);
+    const [rcvItems, setRcvItems] = useState([]);
+    const [POItemMap, setPOItemMap] = useState(null);
+ 
     async function updatePOItems(updatedItems) {
         //Use map to update the item received date and qty if the user entered one
         for(let i = 0; i < updatedItems.length; i++) {
@@ -50,7 +33,9 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
     
         //Track items if they fail to be updated
         let failItems = [];
+        let succItemObjs = [];
         let failMsg = "Error: Item(s) ";
+
         for(let i = 0; i < items.length; i++) {
             if(items[i].numReceived > 0) {
                 try {
@@ -78,18 +63,44 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
                 } catch(e) {
                     console.log(e);
                     failItems.push(items[i].itemCode);
+                    continue;
                 }
+                succItemObjs.push(items[i]);
             }
         }
         if(failItems.length > 0) {
             failMsg += arrToString(failItems);
             failMsg += " could not be added to the inventory";
-            setOpRes({...opRes, failItems: failItems, failureMsg: failMsg});
-        } else {
-            setOpRes({...opRes, successMsg: "All items were successfully added."});
+            setOpRes({...opRes, failureMsg: failMsg});
         }
+        sortItems();
     }
+    function sortItems() {
+        //Initializes the state that is passed to the child components
 
+        //Traverse the PO Ordered Items and sort them by incoming or received
+        //for the incoming/received items components
+        const initIncItems = [];
+        const initRcvItems = [];
+        for(let i = 0; i < po.orderedProducts.length; i++) {
+            po.orderedProducts[i].numReceived > 0 ?
+            initRcvItems.push(po.orderedProducts[i]) :
+            initIncItems.push({...po.orderedProducts[i], 
+                receivedDate: formatDate(new Date())
+            });
+        }
+        setIncItems(initIncItems);
+        setRcvItems(initRcvItems);
+    }
+    useEffect(()=>{
+        const POItemMap = new Map();
+        //Initialize map for efficient POItem updating
+        for(let i = 0; i < po.orderedProducts.length; i++) {
+            POItemMap.set(po.orderedProducts[i].itemCode, po.orderedProducts[i]);
+        }
+        setPOItemMap(POItemMap);
+        sortItems();
+    }, []);
     return(
         <div>
             <ul>
