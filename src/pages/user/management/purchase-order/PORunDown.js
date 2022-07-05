@@ -40,7 +40,7 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
         let newPOItems = Array.from(POItemMap.values());
         po.orderedProducts = newPOItems;
 
-        return performOp("edit", po, true);
+        performOp("edit", po, true);
         //setPOForm({...poForm, po: {...po, orderedProducts: newPOItems}});
         //return success;
     }

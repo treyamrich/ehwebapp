@@ -20,8 +20,8 @@ function Management({isAdmin}) {
     return(
         <div>
             <div><h1>Insert management navigation bar here later.</h1></div>
-            {opRes.failItems.length !== 0 ? <h1>{opRes.failureMsg}</h1> : null}
-            {opRes.succItems.length !== 0 ? <h1>{opRes.successMsg}</h1> : null}
+            {opRes.failureMsg !== "" ? <h1>{opRes.failureMsg}</h1> : null}
+            {opRes.successMsg !== "" ? <h1>{opRes.successMsg}</h1> : null}
             <button type="button" onClick={()=>setManage("inventory")}>Show Inventory Manager</button>
             <button type="button" onClick={()=>setManage("po")}>Show Purchase Order Manager</button>
             <button type="button" onClick={()=>setManage("")}>Reset manage state</button>
