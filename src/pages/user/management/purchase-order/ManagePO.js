@@ -95,8 +95,6 @@ function ManagePO({opRes, setOpRes}) {
 
         opRes.succItems = [];
         opRes.failItems = [];
-        opRes.succMsg = "";
-        opRes.failMsg = "";
         var succMsg = "Successfully ";
         var failMsg = "Failed to ";
         
@@ -123,17 +121,18 @@ function ManagePO({opRes, setOpRes}) {
             default: {}
         }
 
-        //Remove messages if silent mode and no errors
-        if(silent && opRes.failItems.length === 0) {
-            opRes.succItems = [];
-            opRes.failItems = [];
-        } else {
-            //Display operation result
-            succMsg += arrToString(opRes.succItems);
-            failMsg += arrToString(opRes.failItems);
-            setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});
-        }
+        //Display operation result
+        //Remove msg if no items. Remove success msgs on silent mode.
+        succMsg = silent || opRes.succItems.length === 0 ? 
+            "" : 
+            succMsg + arrToString(opRes.succItems);
+        
+        failMsg = opRes.failItems.length === 0 ?
+            "" :
+            failMsg + arrToString(opRes.failItems);
 
+        //Display operation result
+        setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});
         setPOForm(op === "edit" ? {po: po, op: "view-po"} : {po: null, op: "view-all"});    
         fetchPO();
 

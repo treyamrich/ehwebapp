@@ -101,8 +101,6 @@ function ManageInventory({opRes, setOpRes}) {
         //items will be an array if the operation is import
         opRes.succItems = [];
         opRes.failItems = [];
-        opRes.succMsg = "";
-        opRes.failMsg = "";
         var succMsg = "Successfully ";
         var failMsg = "Failed to ";
         
@@ -134,8 +132,14 @@ function ManageInventory({opRes, setOpRes}) {
         }
 
         //Display operation result
-        succMsg += arrToString(opRes.succItems);
-        failMsg += arrToString(opRes.failItems);
+        //Remove msg if no items
+        succMsg = opRes.succItems.length === 0 ? 
+            "" : 
+            succMsg + arrToString(opRes.succItems);
+        
+        failMsg = opRes.failItems.length === 0 ?
+            "" :
+            failMsg + arrToString(opRes.failItems);
 
         //Regrab the inventory and display result
         setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});    

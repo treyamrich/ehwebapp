@@ -40,9 +40,9 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
         let newPOItems = Array.from(POItemMap.values());
         po.orderedProducts = newPOItems;
 
-        performOp("edit", po, true);
-        //setPOForm({...poForm, po: {...po, orderedProducts: newPOItems}});
-        //return success;
+        let success = performOp("edit", po, true);
+        setPOForm({...poForm, po: {...po, orderedProducts: newPOItems}});
+        return success;
     }
 
     async function addPOItemsToInventory(items) {
