@@ -18,37 +18,8 @@ function POReceivedItems({ rcvItems, setRcvItems }) {
                 {rcvItems.map((item, idx)=>(
                     <tr key={"rcv-" + idx}>
                         <td>{item.itemCode}</td>
-                        <td><input type="date" 
-                                value={item.receivedDate}
-                                onChange={(e)=>setRcvItems(rcvItems.map((elm, index)=>
-                                    idx === index ? {...elm,
-                                        receivedDate: e.target.value
-                                    } : elm
-                                ))}
-                            />
-                        </td>
-                        <td>
-                            <div>
-                                <input type="number" name="amt-recv"
-                                    onChange={(e)=>setRcvItems(rcvItems.map((elm, index)=>
-                                        idx === index ? {...elm,
-                                            numReceived: e.target.value
-                                        } : elm
-                                    ))}
-                                    value={item.numReceived}
-                                    placeholder="Enter amount received"
-                                    min="0"
-                                    step="1"
-                                />
-                                <button type="button"
-                                    onClick={()=>setRcvItems(rcvItems.map((elm, index)=>
-                                        idx === index ? {...elm,
-                                            numReceived: item.numPurchased
-                                        } : elm
-                                    ))}> Max
-                                </button>
-                            </div>
-                        </td>
+                        <td>{item.receivedDate}</td>
+                        <td>{item.numReceived}</td>
                     </tr>
                 ))}
                 </tbody>

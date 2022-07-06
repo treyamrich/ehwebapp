@@ -77,11 +77,10 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
     }
     function sortItems() {
         //Initializes the state that is passed to the child components
-
-        //Traverse the PO Ordered Items and sort them by incoming or received
-        //for the incoming/received items components
         const initIncItems = [];
         const initRcvItems = [];
+        //Traverse the PO Ordered Items and sort them by incoming or received
+        //for the incoming/received items components
         for(let i = 0; i < po.orderedProducts.length; i++) {
             po.orderedProducts[i].numReceived > 0 ?
             initRcvItems.push(po.orderedProducts[i]) :
@@ -93,13 +92,15 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
         setRcvItems(initRcvItems);
     }
     useEffect(()=>{
+        sortItems();
+    }, [poForm.po]);
+    useEffect(()=>{
         const POItemMap = new Map();
         //Initialize map for efficient POItem updating
         for(let i = 0; i < po.orderedProducts.length; i++) {
             POItemMap.set(po.orderedProducts[i].itemCode, po.orderedProducts[i]);
         }
         setPOItemMap(POItemMap);
-        sortItems();
     }, []);
     return(
         <div>
