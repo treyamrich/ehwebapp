@@ -246,7 +246,6 @@ export const createPurchaseOrder = /* GraphQL */ `
         goodTill
         adjustments {
           adjAmt
-          adjustment
           reason
           adjDate
         }
@@ -277,7 +276,6 @@ export const updatePurchaseOrder = /* GraphQL */ `
         goodTill
         adjustments {
           adjAmt
-          adjustment
           reason
           adjDate
         }
@@ -308,7 +306,6 @@ export const deletePurchaseOrder = /* GraphQL */ `
         goodTill
         adjustments {
           adjAmt
-          adjustment
           reason
           adjDate
         }
