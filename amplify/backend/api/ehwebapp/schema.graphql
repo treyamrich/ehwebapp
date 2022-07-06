@@ -105,7 +105,6 @@ type POItem {
 }
 type POItemAdjustment {
     adjAmt: Int!
-    adjustment: String!
     reason: String!
     adjDate: AWSDate!
 }

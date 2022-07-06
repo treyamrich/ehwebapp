@@ -152,7 +152,6 @@ export const getPurchaseOrder = /* GraphQL */ `
         goodTill
         adjustments {
           adjAmt
-          adjustment
           reason
           adjDate
         }
