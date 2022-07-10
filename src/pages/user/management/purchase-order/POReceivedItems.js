@@ -1,15 +1,41 @@
 import React, { useState } from 'react';
+import { formatDate } from '../../../../utility/DateTimeFunctions';
 
-const initAdjState = {
+const initAdjItemState = {
     editIdx: -1,
-    adjAmt: 0,
-    reason: ""
+    adj: {
+        adjAmt: 0,
+        reason: ""
+    }
 }
-function POReceivedItems({ rcvItems, setRcvItems }) {
-    //Adjustments
-    const [adj, setAdj] = useState(initAdjState);
+function POReceivedItems({ rcvItems, updateItemsInInventory }) {
+    //This component will indirectly adjust the POItems in rcvItems
 
-    const {editIdx, adjAmt, reason} = adj;
+    //Dereference the adjustment item object 
+    const [adjItem, setAdjItem] = useState(initAdjItemState);
+    const {editIdx, adj} = adjItem;
+    
+    function makeAdjustment() {
+        //Verify a POItem from the UI was selected and the adjustment amt is meaningful
+        if(editIdx < 0 || adj.adjAmt === 0 || adj.adjAmt === "") return;
+        
+        let adjustedItem = rcvItems[editIdx];
+        adjustedItem.numReceived += adj.adjAmt;
+
+        //Add adj to adjustment history
+        //adj.adjDate = formatDate(new Date());
+        adjustedItem.adjustments = adjustedItem.adjustments ? 
+            [...adjustedItem.adjustments, adj] : 
+            [adj];
+        updateItemsInInventory([adjustedItem], adj.adjAmt);
+    }
+    function handleAdjustment(adjAmt) {
+        //Ensures an adjustment won't make a POItem's qty negative
+        adjAmt = adjAmt !== "" ? parseInt(adjAmt) : adjAmt;
+        if(rcvItems[editIdx].numReceived + adjAmt < 0) return;
+        setAdjItem({...adjItem, adj:{...adj, adjAmt: adjAmt}});
+    }
+    
     return(
         <div>
             <h3>Received Items</h3>
@@ -29,7 +55,10 @@ function POReceivedItems({ rcvItems, setRcvItems }) {
                         <td>{item.receivedDate}</td>
                         <td>{editIdx !== idx ? 
                             <div>{item.numReceived}
-                                <button onClick={()=>setAdj({...adj, editIdx: idx})}>
+                                <button onClick={()=>setAdjItem({editIdx: idx, adj: {
+                                        adjAmt: 0, 
+                                        reason: ""
+                                    }})}>
                                     Tool Box
                                 </button>
                             </div> :
@@ -38,21 +67,25 @@ function POReceivedItems({ rcvItems, setRcvItems }) {
                                     <label>Adjustment</label>
                                     <input type="number"
                                         step="1"
-                                        onChange={(e)=>setAdj({...adj, adjAmt: e.target.value})}
-                                        value={adjAmt}
+                                        onChange={(e)=>handleAdjustment(e.target.value)}
+                                        value={adj.adjAmt}
                                     />
                                     <button type="button" 
-                                        onClick={()=>setAdj({...adj, adjAmt: parseInt(adjAmt)+1})}>+</button>
+                                        onClick={()=>handleAdjustment(adj.adjAmt+1)}>+</button>
                                     <button type="button"
-                                        onClick={()=>setAdj({...adj, adjAmt: adjAmt-1})}>-</button>
+                                        onClick={()=>handleAdjustment(adj.adjAmt-1)}>-</button>
                                     <label>Reason</label>
                                     <input type="text" placeholder="Miscounted, lost, etc."
-                                        onChange={(e)=>setAdj({...adj, reason: e.target.value})}
-                                        value={reason}
+                                        onChange={(e)=>setAdjItem({...adjItem, adj:{...adj, reason: e.target.value}})}
+                                        value={adj.reason}
                                     />
-                                    <button type="button">Confirm</button>
+                                    <button type="button" 
+                                        onClick={()=>{makeAdjustment(); setAdjItem({...adjItem, editIdx: -1});}}>
+                                            Confirm
+                                    </button>
                                     <button type="button"
-                                        onClick={()=>setAdj({...adj, editIdx: -1, adjAmt: 0})}>Cancel
+                                        onClick={()=>setAdjItem({editIdx: -1, adj: {adjAmt: 0, reason: "", adjDate: ""}})}>
+                                            Cancel
                                     </button>
                                 </form>
                             </div>

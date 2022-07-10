@@ -1,4 +1,4 @@
-function POIncomingItems({incItems, setIncItems, addPOItemsToInventory}) {
+function POIncomingItems({incItems, setIncItems, updateItemsInInventory}) {
     return(
         <div>
             <h3>Incoming Items</h3>
@@ -51,7 +51,7 @@ function POIncomingItems({incItems, setIncItems, addPOItemsToInventory}) {
                 </tbody>
             </table>
             {incItems.length > 0 ? 
-                <button type="button" onClick={()=>addPOItemsToInventory(incItems)}>
+                <button type="button" onClick={()=>updateItemsInInventory(incItems)}>
                     Add to Inventory
                 </button>
             : null

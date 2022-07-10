@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { listItems, listPurchaseOrders } from '../../../../graphql/queries';
+import { listItems, listPurchaseOrders, getPurchaseOrder } from '../../../../graphql/queries';
 import { POForm, PORunDown } from './index';
 import { createPurchaseOrder, updatePurchaseOrder, deletePurchaseOrder } from '../../../../graphql/mutations';
 import { arrToString } from '../../../../utility/ArrayToString';
@@ -63,6 +63,19 @@ function ManagePO({opRes, setOpRes}) {
             return;
         }
         opRes.succItems.push(po.id);
+    }
+    async function fetchSinglePO(poId) {
+        try {
+            const poData = await API.graphql({query: getPurchaseOrder, 
+                variables: {
+                    id: poId
+                },
+                authMode: "AMAZON_COGNITO_USER_POOLS"});
+            setPOForm({...poForm, po: poData.data.getPurchaseOrder});
+        } catch(e) {
+            console.log(e);
+            setOpRes({...opRes, errorMsg:"Error: Could not fetch single Purchase Order"});
+        }
     }
     async function fetchPO() {
         try {
@@ -133,8 +146,9 @@ function ManagePO({opRes, setOpRes}) {
 
         //Display operation result
         setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});
-        setPOForm(op === "edit" ? {po: po, op: "view-po"} : {po: null, op: "view-all"});    
-        fetchPO();
+        //If a PO was edited refetch it
+        if(op === "edit") fetchSinglePO(po.id);
+        setPOForm(op === "edit" ? {...poForm, op: "view-po"} : {po: null, op: "view-all"});    
 
         return opRes.failItems.length === 0
     }
