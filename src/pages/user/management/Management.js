@@ -13,7 +13,7 @@ const initialOpState = {
 function Management({isAdmin}) {
 
     const [opRes, setOpRes] = useState(initialOpState);
-    const [manage, setManage] = useState("");
+    const [manage, setManage] = useState("inventory");
 
     if(!isAdmin) return <h1 style={{marginTop: "100px"}}>This page is not available.</h1>;
     
@@ -24,7 +24,6 @@ function Management({isAdmin}) {
             {opRes.successMsg !== "" ? <h1>{opRes.successMsg}</h1> : null}
             <button type="button" onClick={()=>setManage("inventory")}>Show Inventory Manager</button>
             <button type="button" onClick={()=>setManage("po")}>Show Purchase Order Manager</button>
-            <button type="button" onClick={()=>setManage("")}>Reset manage state</button>
             {manage === "po" ? <ManagePO opRes={opRes} setOpRes={setOpRes}/> : null} 
             {manage === "inventory" ? <ManageInventory opRes={opRes} setOpRes={setOpRes}/> : null}
         </div>

@@ -14,7 +14,6 @@ function ManagePO({opRes, setOpRes}) {
     const [openPO, setOpenPO] = useState([]);
     const [closedPO, setClosedPO] = useState([]);
     const [poForm, setPOForm] = useState(initialPOFormState);
-    const [onHand, setOnHand] = useState(null);
 
     async function removePO(po) {
         try {
@@ -102,7 +101,7 @@ function ManagePO({opRes, setOpRes}) {
             setOpRes({...opRes, errorMsg:"Error: Could not fetch Purchase Orders"});
         }
     }
-    async function performOp(op, po=null, silent=false) {
+    async function performOp(op, po=null, silentSuccess=false, silentFail=false) {
         //Performs a database operation, displays the result, resets state
         // and refetches database items
 
@@ -136,11 +135,11 @@ function ManagePO({opRes, setOpRes}) {
 
         //Display operation result
         //Remove msg if no items. Remove success msgs on silent mode.
-        succMsg = silent || opRes.succItems.length === 0 ? 
+        succMsg = silentSuccess || opRes.succItems.length === 0 ? 
             "" : 
             succMsg + arrToString(opRes.succItems);
         
-        failMsg = opRes.failItems.length === 0 ?
+        failMsg = silentFail || opRes.failItems.length === 0 ?
             "" :
             failMsg + arrToString(opRes.failItems);
 

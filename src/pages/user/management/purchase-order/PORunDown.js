@@ -13,10 +13,12 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
     const [rcvItems, setRcvItems] = useState([]);
     //Used to easily change a POItem in a Purchase Order, and will be converted to an array
     const [POItemMap, setPOItemMap] = useState(null);
+    //Used to access the item qty in the Items table 
+    const [invItemMap, setInvItemMap] = useState(null);
  
     //Precondition: items must be of type POItem in the GraphQL schema
     async function updateItemsInInventory(items, adjustment=0) {
-        let poItem, dbItem, dbResp;
+        let poItem, invItem;
         let changedPOItems = [];
         let failItems = [];
         let failMsg = "Error: Item(s) ";
@@ -37,38 +39,43 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
         if(!(await performOp("edit", po, true))) return;
     
         //Update the Item qty in the Items table
+        let promises = [];
         for(let i = 0; i < changedPOItems.length; i++) {
-            try {
-                dbResp = await API.graphql({ query: getItems, 
-                    variables: {
-                        code: changedPOItems[i].itemCode
-                    }, 
-                    authMode: "AMAZON_COGNITO_USER_POOLS"
-                });
+            //Update item qty
+            invItem = invItemMap.get(changedPOItems[i].itemCode);
+            invItem.qty += parseInt(adjustment === 0 ? 
+                changedPOItems[i].numReceived : adjustment);
+            invItemMap.set(invItem.itemCode, invItem);
 
-                //Update item qty
-                dbItem = dbResp.data.getItems;
-                dbItem.qty += parseInt(adjustment === 0 ? 
-                    changedPOItems[i].numReceived : adjustment);
-                
+            //REMOVE THIS LATER
+            invItem.createdAt = undefined;
+            invItem.updatedAt = undefined;
 
-                //REMOVE THIS LATER
-                dbItem.createdAt = undefined;
-                dbItem.updatedAt = undefined;
-
-                await API.graphql({ query: updateItems, 
-                    variables: {
-                        input: dbItem
-                    }, 
-                    authMode: "AMAZON_COGNITO_USER_POOLS"
-                });
-            } catch(e) {
+            let respPromise = API.graphql({ query: updateItems, 
+                variables: {
+                    input: invItem
+                }, 
+                authMode: "AMAZON_COGNITO_USER_POOLS"
+            }).catch((e)=>{
                 console.log(e);
                 failItems.push(changedPOItems[i].itemCode);
-                continue;
-            }
+                //Revert the PO edit operation since item failed to update
+                poItem = POItemMap.get(changedPOItems[i].itemCode);
+                poItem.numReceived = adjustment !== 0 ?
+                    changedPOItems[i].numReceived - adjustment : 0;
+                POItemMap.set(poItem.itemCode, poItem);
+            });
+            promises.push(respPromise);
         }
+        //Wait for ALL items quantities to be updated
+        await Promise.all(promises);
+
         if(failItems.length > 0) {
+            //Redo the PO edit database operation
+            po.orderedProducts = Array.from(POItemMap.values());
+            await performOp("edit", po, true, true);
+
+            //Display failure message
             failMsg += arrToString(failItems);
             failMsg += " could not be added to the inventory";
             setOpRes({...opRes, failureMsg: failMsg});
@@ -91,16 +98,36 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
         setIncItems(initIncItems);
         setRcvItems(initRcvItems);
     }
+    async function getInvItemQty(itemCode, map) {
+        //Fetches and sets the item qty for the item in the inventory
+        try {
+            let dbResp = await API.graphql({ query: getItems, 
+                variables: {
+                    code: itemCode
+                }, 
+                authMode: "AMAZON_COGNITO_USER_POOLS"
+            });
+            map.set(itemCode, dbResp.data.getItems);
+        } catch(e) {
+            console.log(e);
+            map.set(itemCode, 0);
+        }
+    }
     useEffect(()=>{
         sortItems();
     }, [poForm.po]);
     useEffect(()=>{
         const POItemMap = new Map();
-        //Initialize map for efficient POItem updating
+        const InvItemMap = new Map();
+        let iCode = "";
+        //Initialize map for efficient POItem updating and Item Qty retrieval
         for(let i = 0; i < po.orderedProducts.length; i++) {
-            POItemMap.set(po.orderedProducts[i].itemCode, po.orderedProducts[i]);
+            iCode = po.orderedProducts[i].itemCode;
+            POItemMap.set(iCode, po.orderedProducts[i]);
+            getInvItemQty(iCode, InvItemMap);
         }
         setPOItemMap(POItemMap);
+        setInvItemMap(InvItemMap);
     }, []);
     return(
         <div>
@@ -152,6 +179,7 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
             />
             <POReceivedItems 
                 rcvItems={rcvItems}
+                invItemMap={invItemMap}
                 updateItemsInInventory={updateItemsInInventory}
             />
         </div>
