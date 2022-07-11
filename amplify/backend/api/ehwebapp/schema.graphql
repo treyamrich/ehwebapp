@@ -1,0 +1,159 @@
+type Orders @model @auth(rules: [
+  { allow: public, provider: iam, operations: [create]}, 
+  { allow: groups, groups: ["employee"], provider: userPools, operations: [create, update, read]},
+  { allow: groups, groups: ["admin"], provider: userPools}]) {
+  id: ID!
+  createdAt: String!
+  orderNum: String!
+
+  contactInfo: ContactInfo!
+
+  dateNeeded: AWSDate!
+  timeNeeded: AWSTime
+  location: String!
+
+  status: OrderStatus!
+  rushStatus: RushStatus!
+
+  cart: [CartItem]!
+  notes: String
+}
+type ContactInfo {
+  name: String
+  phone: AWSPhone
+  faxPhone: String
+  email: AWSEmail
+
+  address: String
+  city: String
+  state: String
+  zip: String
+}
+enum OrderStatus {
+  NEW
+  MOCKUP_SENT
+  STANDBY
+  COMPLETE
+}
+enum RushStatus {
+  NONE
+  ONE_DAY
+  TWO_TO_THREE_DAYS
+}
+
+#Table for storing the locations, graphic names, and available fonts
+type OrderChoice @model @auth(rules: [
+  { allow: groups, groups: ["admin"], provider: userPools},
+  { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
+  { allow: public, provider: iam, operations: [read]}]) {
+  type: ChoiceType!
+  name: String!
+}
+enum ChoiceType {
+  LOCATION
+  FONT
+  GRAPHIC
+}
+
+type Service {
+  name: String!
+  qty: Int!
+}
+type CartItem {
+  itemName: String!
+  itemCode: String!
+  itemPrice: Float!
+
+  services: [Service!]
+  subItems: [CartItem!]
+  quantity: Int!
+
+  txtLines: [String!]
+  font: String
+
+  layoutImg: String
+  graphics: [String!]
+  customGraphics: [String!]
+
+  #Postponed information flags
+  postGraphics: Boolean!
+  postTxt: Boolean!
+  postLayout: Boolean!
+}
+
+type PurchaseOrder @model @auth(rules: [
+{ allow: groups, groups: ["admin"], provider: userPools}]) {
+  id: ID!
+  vendorId: String!
+  date: AWSDate!
+
+  orderedProducts: [POItem!]
+  isOpen: Boolean!
+}
+type POItem {
+  itemCode: String!
+  itemName: String!
+
+  numPurchased: Int!
+  unitCost: Float!
+  totalCost: Float!
+
+  receivedDate: AWSDate
+  goodTill: AWSDate
+}
+type OwnerContact @model @auth(rules: [
+{ allow: groups, groups: ["admin"], provider: userPools}]) {
+  contactInfo: ContactInfo!
+}
+type Vendor @model @auth(rules: [
+{ allow: groups, groups: ["admin"], provider: userPools}]) {
+  id: ID!
+  vendorName: String!
+  contactInfo: ContactInfo!
+
+  shTerms: String
+  salesTaxTerms: String
+  notes: String
+}
+type Items @model @auth(rules: [
+  { allow: groups, groups: ["admin"], provider: userPools},
+  { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
+  { allow: public, provider: iam, operations: [read]}]) {
+
+  code: String! @primaryKey
+  name: String!
+  category: ItemCategory!
+
+  price: Float!
+  cost: Float!
+  
+  qty: Int
+  numOrdered: Int
+  qtyThresh: Int
+  maxAddon: Int
+
+  modifierGroups: [String!]
+}
+enum ItemCategory {
+  PLAQUE
+  DRINKWARE
+  GIFT
+}
+
+type ModifierGroups @model @auth(rules: [
+  { allow: groups, groups: ["admin"], provider: userPools}, 
+  { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
+  { allow: public, provider: iam, operations: [read]}]) {
+  id: ID!
+  name: String!
+  modifiers: [String!]!
+  items: [String!]
+}
+type Modifier @model @auth(rules: [
+  { allow: groups, groups: ["admin"], provider: userPools}, 
+  { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
+  { allow: public, provider: iam, operations: [read]}]) {
+  id: ID!
+  name: String!
+  price: Float!
+}
