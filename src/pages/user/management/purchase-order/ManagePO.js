@@ -50,6 +50,7 @@ function ManagePO({opRes, setOpRes}) {
     async function editPO(po) {
         po.createdAt = undefined; //REMOVE THIS LATER AND USE AN OPTIMIZED GRAPHQL QUERY
         po.updatedAt = undefined;
+        
         try {
             await API.graphql({ query: updatePurchaseOrder, 
                 variables: {input: po}, 
@@ -70,6 +71,7 @@ function ManagePO({opRes, setOpRes}) {
                     id: poId
                 },
                 authMode: "AMAZON_COGNITO_USER_POOLS"});
+            console.log(poData);
             setPOForm({...poForm, po: poData.data.getPurchaseOrder});
         } catch(e) {
             console.log(e);

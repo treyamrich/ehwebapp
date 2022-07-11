@@ -1,3 +1,5 @@
+import { POAdjustHistory } from './index';
+
 function POIncomingItems({incItems, setIncItems, updateItemsInInventory}) {
     return(
         <div>
@@ -8,6 +10,7 @@ function POIncomingItems({incItems, setIncItems, updateItemsInInventory}) {
                         <th>Product Code</th>
                         <th>Date Received</th>
                         <th>Qty. Received</th>
+                        <th>Adjustments</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,6 +48,9 @@ function POIncomingItems({incItems, setIncItems, updateItemsInInventory}) {
                                     ))}> Max
                                 </button>
                             </div>
+                        </td>
+                        <td>
+                            <POAdjustHistory adjustments={item.adjustments}/>
                         </td>
                     </tr>
                 ))}

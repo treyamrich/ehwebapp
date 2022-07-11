@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { API } from 'aws-amplify';
 import { formatDate } from '../../../../utility/DateTimeFunctions';
-import { getItems } from '../../../../graphql/queries';
+import { POAdjustHistory } from './index';
+
 const initAdjItemState = {
     editIdx: -1,
     adj: {
@@ -11,7 +11,7 @@ const initAdjItemState = {
 }
 function POReceivedItems({ rcvItems, invItemMap, updateItemsInInventory }) {
     //This component will indirectly adjust the POItems in rcvItems
-
+    console.log(rcvItems);
     //Dereference the adjustment item object 
     const [adjItem, setAdjItem] = useState(initAdjItemState);
     const {editIdx, adj} = adjItem;
@@ -28,6 +28,7 @@ function POReceivedItems({ rcvItems, invItemMap, updateItemsInInventory }) {
         adjustedItem.adjustments = adjustedItem.adjustments ? 
             [...adjustedItem.adjustments, adj] : 
             [adj];
+        console.log(adjustedItem);
         updateItemsInInventory([adjustedItem], adj.adjAmt);
     }
     function handleAdjustment(adjAmt) {
@@ -46,6 +47,7 @@ function POReceivedItems({ rcvItems, invItemMap, updateItemsInInventory }) {
                         <th>Product Code</th>
                         <th>Date Received</th>
                         <th>Qty. Received</th>
+                        <th>Adjustments</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,6 +94,9 @@ function POReceivedItems({ rcvItems, invItemMap, updateItemsInInventory }) {
                                 </form>
                             </div>
                             }
+                        </td>
+                        <td>
+                            <POAdjustHistory adjustments={item.adjustments}/>
                         </td>
                     </tr>
                 ))}
