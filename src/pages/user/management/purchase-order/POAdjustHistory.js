@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 function POAdjustHistory({adjustments}) {
-
+    
     return (
         <div>
-            {adjustments && adjustments.map((elm, idx)=>{
+            {adjustments.map((elm, idx)=>(
                 <ul key={idx}>
-                    <li>{elm.adjAmt}</li>
-                    <li>{elm.reason}</li>
-                    <li>{elm.adjDate}</li>
+                    <li>{elm.adjAmt > 0 ? "+" : ""}{elm.adjAmt}</li>
+                    <li>Reason: {elm.reason ? elm.reason : "None"}</li>
+                    <li>Date: {elm.adjDate}</li>
                 </ul>
-            })}
+            ))}
         </div>
     );
 }
