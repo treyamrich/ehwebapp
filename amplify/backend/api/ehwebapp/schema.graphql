@@ -105,7 +105,7 @@ type POItem {
 }
 type POItemAdjustment {
     adjAmt: Int!
-    reason: String!
+    reason: String
     adjDate: AWSDate!
 }
 type OwnerContact @model @auth(rules: [

@@ -71,7 +71,6 @@ function ManagePO({opRes, setOpRes}) {
                     id: poId
                 },
                 authMode: "AMAZON_COGNITO_USER_POOLS"});
-            console.log(poData);
             setPOForm({...poForm, po: poData.data.getPurchaseOrder});
         } catch(e) {
             console.log(e);

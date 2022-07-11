@@ -11,7 +11,7 @@ const initAdjItemState = {
 }
 function POReceivedItems({ rcvItems, invItemMap, updateItemsInInventory }) {
     //This component will indirectly adjust the POItems in rcvItems
-    console.log(rcvItems);
+    
     //Dereference the adjustment item object 
     const [adjItem, setAdjItem] = useState(initAdjItemState);
     const {editIdx, adj} = adjItem;
@@ -28,7 +28,7 @@ function POReceivedItems({ rcvItems, invItemMap, updateItemsInInventory }) {
         adjustedItem.adjustments = adjustedItem.adjustments ? 
             [...adjustedItem.adjustments, adj] : 
             [adj];
-        console.log(adjustedItem);
+        
         updateItemsInInventory([adjustedItem], adj.adjAmt);
     }
     function handleAdjustment(adjAmt) {

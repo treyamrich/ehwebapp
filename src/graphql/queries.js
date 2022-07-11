@@ -182,6 +182,11 @@ export const listPurchaseOrders = /* GraphQL */ `
           numReceived
           receivedDate
           goodTill
+          adjustments {
+            adjAmt
+            reason
+            adjDate
+          }
         }
         isOpen
         createdAt
