@@ -4,7 +4,7 @@ function POAdjustHistory({adjustments}) {
     
     return (
         <div>
-            {adjustments.map((elm, idx)=>(
+            {adjustments && adjustments.map((elm, idx)=>(
                 <ul key={idx}>
                     <li>{elm.adjAmt > 0 ? "+" : ""}{elm.adjAmt}</li>
                     <li>Reason: {elm.reason ? elm.reason : "None"}</li>

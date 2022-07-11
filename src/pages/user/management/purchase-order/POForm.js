@@ -123,7 +123,6 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
                                 totalCost: 0.0, 
                                 receivedDate: "",
                                 numReceived: 0,
-                                notes: "",
                                 goodTill: "" 
                             }]})}>
                             Add an item
@@ -299,24 +298,6 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
                                             orderedProducts: po.orderedProducts.map((elm, idx)=>
                                                 idx === index ? {...elm, 
                                                     goodTill: e.target.value
-                                                } : elm
-                                        )})}
-                                    />
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-25">
-                                    <label className="manage-form" htmlFor={"poItemNotes-" + index}>Notes:</label>
-                                </div>
-                                <div className="col-75">
-                                    <input className="manage-form"
-                                        type="text"
-                                        value={prod.notes}
-                                        name={"poItemNotes-" + index}
-                                        onChange={(e)=>setPO({...po, 
-                                            orderedProducts: po.orderedProducts.map((elm, idx)=>
-                                                idx === index ? {...elm, 
-                                                    notes: e.target.value
                                                 } : elm
                                         )})}
                                     />

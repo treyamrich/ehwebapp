@@ -71,7 +71,7 @@ function ManagePO({opRes, setOpRes}) {
                     id: poId
                 },
                 authMode: "AMAZON_COGNITO_USER_POOLS"});
-            setPOForm({...poForm, po: poData.data.getPurchaseOrder});
+            setPOForm({op: "view-po", po: poData.data.getPurchaseOrder});
         } catch(e) {
             console.log(e);
             setOpRes({...opRes, errorMsg:"Error: Could not fetch single Purchase Order"});
@@ -149,7 +149,7 @@ function ManagePO({opRes, setOpRes}) {
         setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});
         //If a PO was edited refetch it
         if(op === "edit") fetchSinglePO(po.id);
-        setPOForm(op === "edit" ? {...poForm, op: "view-po"} : {po: null, op: "view-all"});    
+        if(op !== "edit") setPOForm({po: null, op: "view-all"});    
 
         return opRes.failItems.length === 0
     }
