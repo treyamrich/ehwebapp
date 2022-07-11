@@ -88,8 +88,10 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
         const initRcvItems = [];
         //Traverse the PO Ordered Items and sort them by incoming or received
         //for the incoming/received items components
+        let poItem;
         for(let i = 0; i < po.orderedProducts.length; i++) {
-            po.orderedProducts[i].numReceived > 0 ?
+            poItem = po.orderedProducts[i];
+            poItem.numReceived > 0 || poItem.adjustments ?
             initRcvItems.push({...po.orderedProducts[i]}) :
             initIncItems.push({...po.orderedProducts[i], 
                 receivedDate: formatDate(new Date())
