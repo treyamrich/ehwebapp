@@ -57,7 +57,7 @@ function POReceivedItems({ rcvItems, invItemMap, updateItemsInInventory }) {
                         <td>{item.itemCode}</td>
                         <td>{item.receivedDate}</td>
                         <td>{editIdx !== idx ? 
-                            <div>{item.numReceived}
+                            <div>{item.numReceived} / {item.numPurchased}
                                 <button onClick={()=>setAdjItem({editIdx: idx, adj: {
                                         adjAmt: 0, 
                                         reason: ""

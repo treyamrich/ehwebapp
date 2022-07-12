@@ -97,7 +97,6 @@ function ManagePO({opRes, setOpRes}) {
                 }, authMode: 'AMAZON_COGNITO_USER_POOLS'});
             setOpenPO(openPOData.data.listPurchaseOrders.items);
             setClosedPO(closedPOData.data.listPurchaseOrders.items);
-            console.log(openPO);
         } catch(e) {
             console.log(e);
             setOpRes({...opRes, errorMsg:"Error: Could not fetch Purchase Orders"});
