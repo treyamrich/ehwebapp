@@ -1,6 +1,24 @@
 import { POAdjustHistory } from './index';
 
 function POIncomingItems({incItems, setIncItems, updateItemsInInventory}) {
+    function handleAddToInv() {
+        let poItem, rcvDiff;
+        let partialRecv = [];
+        for(let i = 0; i < incItems.length; i++) {
+            poItem = incItems[i];
+            rcvDiff = poItem.numPurchased - poItem.numReceived;
+            //If ONLY some of the items were received, make a new POItem
+            if(poItem.numReceived > 0 && rcvDiff > 0) {
+                partialRecv.push({...poItem, 
+                    numPurchased: rcvDiff,
+                    numReceived: 0
+                });
+                poItem.numPurchased = poItem.numReceived;
+            }
+        }
+        console.log([...incItems, ...partialRecv]);
+        updateItemsInInventory([...incItems, ...partialRecv]);
+    }
     return(
         <div>
             <h3>Incoming Items</h3>
@@ -57,7 +75,7 @@ function POIncomingItems({incItems, setIncItems, updateItemsInInventory}) {
                 </tbody>
             </table>
             {incItems.length > 0 ? 
-                <button type="button" onClick={()=>updateItemsInInventory(incItems)}>
+                <button type="button" onClick={handleAddToInv}>
                     Add to Inventory
                 </button>
             : null
