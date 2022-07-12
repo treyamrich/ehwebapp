@@ -1,9 +1,7 @@
-import { POAdjustHistory } from './index';
-
 function POIncomingItems({incItems, setIncItems, updateItemsInInventory}) {
     return(
         <div>
-            <h3>Incoming Items</h3>
+            <h3>New Incoming Items</h3>
             <table>
                 <thead>
                     <tr>
