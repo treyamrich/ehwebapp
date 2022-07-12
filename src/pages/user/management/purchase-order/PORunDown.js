@@ -100,36 +100,42 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
         setIncItems(initIncItems);
         setRcvItems(initRcvItems);
     }
-    async function getInvItemQty(itemCode, map) {
-        //Fetches and sets the item qty for the item in the inventory
-        try {
-            let dbResp = await API.graphql({ query: getItems, 
-                variables: {
-                    code: itemCode
-                }, 
-                authMode: "AMAZON_COGNITO_USER_POOLS"
-            });
-            map.set(itemCode, dbResp.data.getItems);
-        } catch(e) {
-            console.log(e);
-            map.set(itemCode, 0);
+    async function initItemMaps() {
+        //Initialize POItem map and Inventory Item map for efficient data modification
+        const POItemMap = new Map();
+        const InvItemMap = new Map();
+        let iCode = "";
+        let proms = [];
+
+        for(let i = 0; i < po.orderedProducts.length; i++) {
+            iCode = po.orderedProducts[i].itemCode;
+            POItemMap.set(iCode, po.orderedProducts[i]);
+            //Fetch inventory item then map it
+            proms.push( 
+                API.graphql({ query: getItems, 
+                    variables: {
+                        code: iCode
+                    }, 
+                    authMode: "AMAZON_COGNITO_USER_POOLS"
+                }).catch((e)=> {
+                    console.log(e);
+                    return true;
+                }).then((resp)=> {
+                    if(resp === true) return;
+                    InvItemMap.set(resp.data.getItems.code, resp.data.getItems);
+                })
+            );
         }
+        await Promise.all(proms);
+
+        setPOItemMap(POItemMap);
+        setInvItemMap(InvItemMap);
     }
     useEffect(()=>{
         sortItems();
     }, [poForm.po]);
     useEffect(()=>{
-        const POItemMap = new Map();
-        const InvItemMap = new Map();
-        let iCode = "";
-        //Initialize map for efficient POItem updating and Item Qty retrieval
-        for(let i = 0; i < po.orderedProducts.length; i++) {
-            iCode = po.orderedProducts[i].itemCode;
-            POItemMap.set(iCode, po.orderedProducts[i]);
-            getInvItemQty(iCode, InvItemMap);
-        }
-        setPOItemMap(POItemMap);
-        setInvItemMap(InvItemMap);
+        initItemMaps();
     }, []);
     return(
         <div>

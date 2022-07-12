@@ -64,6 +64,8 @@ function ManagePO({opRes, setOpRes}) {
         }
         opRes.succItems.push(po.id);
     }
+    //Precondition: Must only be called when a PO has been edited
+    //Postcondition: The POForm.op is set to view a single PO and the POForm.po obj is updated
     async function fetchSinglePO(poId) {
         try {
             const poData = await API.graphql({query: getPurchaseOrder, 

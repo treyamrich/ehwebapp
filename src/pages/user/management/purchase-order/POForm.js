@@ -13,8 +13,11 @@ const initialPOState = {
 
 function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
     const [po, setPO] = useState(poForm.op === "edit" ? poForm.po : initialPOState);
+    //Fetch entire inventory to give recommendations for adding items
     const [inventory, setInventory] = useState([]);
-    
+    //Store a map to check if an item exists
+    const [invMap, setInvMap] = useState(()=>new Map());
+
     function formatDateFields(setNull) {
         //Sets the date field to either empty string or null to match API request format,
         //or to render in the react component (non-null)
@@ -38,21 +41,36 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
     }
     function preparePO(e) {
         e.preventDefault();
+
+        //Check if the item SKU is in the inventory, if not create a new one
+        for(let i = 0; i < po.orderedProducts.length; i++) {
+            if(!invMap.has(po.orderedProducts[i].itemCode));
+               // createNewItem(po.orderedProducts[i]);
+        }
+
         //Match AWS format by converting empty dates to null
         formatDateFields(true);
         performOp(poForm.op, po);
         setPO({vendorId: "", date:"", orderedProducts:[], isOpen: true});
     }
     async function fetchInventory() {
+        //Inits a map to check if an item exists and array of all the items
         try {
-            const inventoryData = await API.graphql({query: listItems, authMode: 'AMAZON_COGNITO_USER_POOLS'});
-            setInventory(inventoryData.data.listItems.items);
+            const inventoryData = await API.graphql({query: listItems, 
+                authMode: 'AMAZON_COGNITO_USER_POOLS'
+            });
+            const items = inventoryData.data.listItems.items;
+            const InvMap = new Map();
+            for(let i = 0; i < items.length; i++) {
+                InvMap.set(items[i].code, true);
+            }
+            setInvMap(InvMap);
+            setInventory(items);
         } catch(e) {
             console.log(e);
             setOpRes({...opRes, errorMsg:"Error: Could not fetch inventory"});
         }
     }
-
     useEffect(()=>{
         fetchInventory();
     }, []);
