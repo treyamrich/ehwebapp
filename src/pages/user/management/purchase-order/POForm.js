@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listItems } from '../../../../graphql/queries';
+import { createItems } from '../../../../graphql/mutations';
 import { formatDate } from '../../../../utility/DateTimeFunctions';
 import '../../../../styles/management_form.css';
 
@@ -13,9 +14,10 @@ const initialPOState = {
 
 function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
     const [po, setPO] = useState(poForm.op === "edit" ? poForm.po : initialPOState);
+    //Ensure the component doesn't render until the inventory has been fetched
+    const [isFetching, setIsFetching] = useState(true);
     //Fetch entire inventory to give recommendations for adding items
-    const [inventory, setInventory] = useState([]);
-    //Store a map to check if an item exists
+    //Map item code to index in the inventory array
     const [invMap, setInvMap] = useState(()=>new Map());
 
     function formatDateFields(setNull) {
@@ -39,13 +41,42 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
             }
         }
     }
-    function preparePO(e) {
+    //Postcondition: Returns true for success, false for failure
+    async function createNewItem(item) {
+        try {
+            await API.graphql({ query: createItems, 
+                variables: {input: item}, 
+                authMode: "AMAZON_COGNITO_USER_POOLS"
+            });
+            return true;
+        } catch(e) {
+            console.log(e);
+            setOpRes({...opRes, failureMsg: 
+                "Error: Item " + item.code + " could not be added to the inventory"});
+            return false;
+        }
+    }
+    async function preparePO(e) {
         e.preventDefault();
-
+        let poItem, newItem;
         //Check if the item SKU is in the inventory, if not create a new one
         for(let i = 0; i < po.orderedProducts.length; i++) {
-            if(!invMap.has(po.orderedProducts[i].itemCode));
-               // createNewItem(po.orderedProducts[i]);
+            poItem = po.orderedProducts[i];
+            if(!invMap.has(poItem.itemCode)) {
+                newItem = {
+                    code: poItem.itemCode,
+                    name: poItem.itemName,
+                    price: 0.0,
+                    cost: poItem.unitCost,
+                    category: poItem.category,
+                    qty: 0,
+                    qtyThresh: null,
+                    maxAddon: null
+                }
+                //Stop if error occurs
+                if(!(await createNewItem(newItem)))
+                    return;
+            }
         }
 
         //Match AWS format by converting empty dates to null
@@ -62,10 +93,10 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
             const items = inventoryData.data.listItems.items;
             const InvMap = new Map();
             for(let i = 0; i < items.length; i++) {
-                InvMap.set(items[i].code, true);
+                InvMap.set(items[i].code, items[i]);
             }
             setInvMap(InvMap);
-            setInventory(items);
+            setIsFetching(false);
         } catch(e) {
             console.log(e);
             setOpRes({...opRes, errorMsg:"Error: Could not fetch inventory"});
@@ -77,7 +108,7 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
 
     //Before rendering, ensure there are no null date fields
     formatDateFields(false);
-    return(
+    return(!isFetching && (
         <div id="manage-form-wrapper">
             <h2 className="manage-form">{poForm.op === "add" ? "Create" : "Edit"} a purchase order</h2>
             <form id="manage-form" name="manage-form" onSubmit={preparePO}>
@@ -141,7 +172,7 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
                                 totalCost: 0.0, 
                                 receivedDate: "",
                                 numReceived: 0,
-                                goodTill: "" 
+                                goodTill: ""
                             }]})}>
                             Add an item
                         </button>
@@ -190,9 +221,9 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
                                 </div>
                             </div>
                             <div className="row">
-                            <div className="col-25">
-                                <label className="manage-form" htmlFor={"itemName-" + index}>Item Name:</label>
-                            </div>
+                                <div className="col-25">
+                                    <label className="manage-form" htmlFor={"itemName-" + index}>Item Name:</label>
+                                </div>
                                 <div className="col-75">
                                     <input className="manage-form"
                                         type="text"
@@ -209,9 +240,61 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
                                 </div>
                             </div>
                             <div className="row">
-                            <div className="col-25">
-                                <label className="manage-form" htmlFor={"poItemQty-" + index}>Qty:</label>
+                                <div className="col-25">
+                                    <label className="manage-form" htmlFor={"cat-"+index}>Item Category:</label>
+                                </div>
+                                <div className="col-75">
+                                    <label className="manage-form">
+                                        <input className="manage-form" type="radio" name={"cat-"+index} value="PLAQUE" 
+                                            defaultChecked={
+                                                invMap.has(prod.itemCode) && 
+                                                invMap.get(prod.itemCode).category === "PLAQUE"
+                                            } 
+                                            required
+                                            disabled={invMap.has(prod.itemCode)}
+                                            onClick={(e)=>setPO({...po, 
+                                                orderedProducts: po.orderedProducts.map((elm, idx)=>
+                                                idx === index ? {...elm, 
+                                                    category: e.target.value
+                                                } : elm
+                                            )})}/>Plaque
+                                    </label>
+                                    <label className="manage-form">
+                                        <input className="manage-form" type="radio" name={"cat-"+index} value="DRINKWARE" 
+                                            defaultChecked={
+                                                invMap.has(prod.itemCode) && 
+                                                invMap.get(prod.itemCode).category === "DRINKWARE"
+                                            } 
+                                            required
+                                            disabled={invMap.has(prod.itemCode)}
+                                            onClick={(e)=>setPO({...po, 
+                                                orderedProducts: po.orderedProducts.map((elm, idx)=>
+                                                idx === index ? {...elm, 
+                                                    category: e.target.value
+                                                } : elm
+                                            )})}/>Drinkware
+                                    </label>
+                                    <label className="manage-form">
+                                        <input className="manage-form" type="radio" name={"cat-"+index} value="GIFT" 
+                                            defaultChecked={
+                                                invMap.has(prod.itemCode) && 
+                                                invMap.get(prod.itemCode).category === "GIFT"
+                                            }
+                                            required
+                                            disabled={invMap.has(prod.itemCode)}
+                                            onClick={(e)=>setPO({...po, 
+                                                orderedProducts: po.orderedProducts.map((elm, idx)=>
+                                                idx === index ? {...elm, 
+                                                    category: e.target.value
+                                                } : elm
+                                            )})}/>Gift
+                                    </label>
+                                </div>
                             </div>
+                            <div className="row">
+                                <div className="col-25">
+                                    <label className="manage-form" htmlFor={"poItemQty-" + index}>Qty:</label>
+                                </div>
                                 <div className="col-75">
                                     <input className="manage-form"
                                         type="number"
@@ -325,7 +408,7 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
                     ))}
                 </div>
             </form>
-        </div>
+        </div>)
     )
 }
 

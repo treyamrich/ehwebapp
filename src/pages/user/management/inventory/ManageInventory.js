@@ -132,7 +132,7 @@ function ManageInventory({opRes, setOpRes}) {
         }
 
         //Display operation result
-        //Remove msg if no items
+        //Remove msg if no items.
         succMsg = opRes.succItems.length === 0 ? 
             "" : 
             succMsg + arrToString(opRes.succItems);
