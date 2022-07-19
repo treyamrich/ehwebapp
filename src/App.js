@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 
 import { SessionLogout, PrivateRoutes } from './util-components/index';
 import Login from './pages/auth/Login.js';
-import ManagementDashboard from './pages/user/management/ManagementDashboard.js';
+import ManagementDashboard from './pages/user/management/Dashboard.js';
 import Landing from './pages/Landing.js';
 
 
@@ -127,7 +127,7 @@ const App = () => {
           {/*Protected Routes*/}
           <Route element={<PrivateRoutes auth={isAuthenticated}/>}>
             <Route element={
-              <ManagementDashboard isAdmin={isAdmin} isEmp={isEmp}/>
+              <Dashboard isAdmin={isAdmin} isEmp={isEmp}/>
             } path="/management/*"/>
           </Route>
         </Routes>

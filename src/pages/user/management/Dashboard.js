@@ -16,7 +16,7 @@ const initialOpState = {
     failItems: [] 
 };
 
-function ManagementDashboard() {
+function Dashboard() {
 
     const [opRes, setOpRes] = useState(initialOpState);
     const {activeMenu } = useStateContext();
@@ -77,4 +77,4 @@ function ManagementDashboard() {
     );
 }
 
-export default ManagementDashboard;
+export default Dashboard;
