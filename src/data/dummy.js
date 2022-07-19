@@ -474,8 +474,8 @@ export const links = [
     title: 'Dashboard',
     links: [
       {
-        name: 'ecommerce',
-        icon: <FiShoppingBag />,
+        name: 'metrics',
+        icon: <AiOutlineBarChart />,
       },
     ],
   },

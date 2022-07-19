@@ -5,7 +5,7 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { Sidebar, Navbar, Footer } from '../../../components/index';
 import { useStateContext } from '../../../contexts/ContextProvider';
 
-import { Metrics } from '../../index';
+import { Metrics, Orders } from '../../index';
 import ManageInventory from './inventory/ManageInventory';
 import ManagePO from './purchase-order/ManagePO';
 
@@ -67,8 +67,10 @@ function Dashboard() {
   
                 <Routes>
                     <Route path="/" element={<Metrics/>}/>
-                    <Route path="/purchase-order" element={<ManagePO opRes={opRes} setOpRes={setOpRes}/>}/>
-                    <Route path="/inventory" element={<ManageInventory opRes={opRes} setOpRes={setOpRes}/>}/>
+                    <Route path="metrics" element={<Metrics/>}/>
+                    <Route path="orders" element={<Orders/>}/>
+                    <Route path="purchase-order" element={<ManagePO opRes={opRes} setOpRes={setOpRes}/>}/>
+                    <Route path="inventory" element={<ManageInventory opRes={opRes} setOpRes={setOpRes}/>}/>
                 </Routes>
               </div>
               <Footer />
