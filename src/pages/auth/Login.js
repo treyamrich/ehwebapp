@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Auth } from 'aws-amplify';
-import {Redirect} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 import {formatPhoneNum} from '../../utility/PhoneFormat.js';
 import { Alert, Form, Button, Container} from 'react-bootstrap';
 import "../../styles/login.css";
@@ -120,7 +120,7 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
 	    }
   	}
   	if(redirect) {
-  		return <Redirect to="/"/>;
+  		return <Navigate to="/"/>;
   	}
 	return(
 		<div className="main-wrapper">

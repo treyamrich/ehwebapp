@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/index.css';
+import './index.css';
 import App from './App';
-import {BrowserRouter as Router} from "react-router-dom";
 import Amplify from 'aws-amplify';
 import awsconfig from "./aws-exports";
+import { ContextProvider } from './contexts/ContextProvider';
 
 Amplify.configure(awsconfig);
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
+  <ContextProvider>
+    <App/>
+  </ContextProvider>,
   document.getElementById('root')
 );

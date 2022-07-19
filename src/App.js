@@ -1,17 +1,11 @@
-import './styles/App.css';
-import { Route, Switch } from 'react-router-dom';
+import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
 import React, { useState, useEffect } from 'react';
-import { Nav, Navbar } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.css';
 
+import { SessionLogout, PrivateRoutes } from './util-components/index';
 import Login from './pages/auth/Login.js';
-import PrivateRoute from './pages/PrivateRoute.js';
-import SessionLogout from './pages/SessionLogout.js';
-
-import Dashboard from './pages/user/Dashboard.js';
-import Management from './pages/user/management/Management.js';
-
+import ManagementDashboard from './pages/user/management/ManagementDashboard.js';
 import Landing from './pages/Landing.js';
 
 
@@ -28,7 +22,7 @@ const initialFormState = {
   //sesObj: {}
 };
 
-function App() {
+const App = () => {
 
   const [formState, setFormState] = useState(initialFormState);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
@@ -89,23 +83,19 @@ function App() {
   return (
     !isAuthenticating && (
     <div>
+      {/*
       <Navbar className="navbar" fixed="top" expand="lg" bg="dark" variant="dark">
         <Navbar.Brand href="/"> Engraving Hawaii </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav>
-
-            {isAuthenticated && (isEmp || isAdmin)  ?  
-              <Nav.Item>
-                <Nav.Link href="/dashboard">Dashboard </Nav.Link>
-              </Nav.Item>
-              : null
-            }
-            
+      
             <Nav.Item>
               <Nav.Link href="/management">Management</Nav.Link>
             </Nav.Item>
-
+            <Nav.Item>
+              <Nav.Link href="/order">Order</Nav.Link>
+            </Nav.Item>
             {isAuthenticated ? 
               <Nav.Item>
                 <Nav.Link id="welcome-user"> Welcome {name}. </Nav.Link>
@@ -121,29 +111,25 @@ function App() {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-
+      */}
       {isAuthenticated ? <SessionLogout signOut={signOut}/> : null}
 
-      <Switch>
-        <Route exact path="/">
-          <Landing/>
-        </Route>
-        <Route exact path="/login">
+      <Router>
+        <Routes>
+
+        <Route element={<Landing/>} exact path="/"/>
+        <Route path="/login" element={
           <Login formState={formState} setFormState={setFormState} setAuth={userHasAuthenticated} setIsAdmin={setIsAdmin} setIsEmp={setIsEmp}/>
+        }/>
+        <Route element={<h1>Order</h1>}path="/order"/>
+        
+        <Route element={<PrivateRoutes auth={isAuthenticated}/>}>
+              <Route element={
+                <ManagementDashboard isAdmin={isAdmin} isEmp={isEmp}/>
+              } path="/management/*"/>
         </Route>
-
-        <PrivateRoute exact path="/dashboard" auth={isAuthenticated}>
-          <Dashboard email={email}/>
-        </PrivateRoute>
-        <PrivateRoute exact path="/management" auth={isAuthenticated}>
-          <Management isAdmin={isAdmin}/>
-        </PrivateRoute>
-
-        <Route>
-          <h1 style={{marginTop: "100px"}}>This page is not available.</h1>
-        </Route>
-      </Switch>
-
+        </Routes>
+      </Router>
     </div>
     )
   );
