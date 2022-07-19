@@ -121,7 +121,7 @@ const App = () => {
         <Route path="/login" element={
           <Login formState={formState} setFormState={setFormState} setAuth={userHasAuthenticated} setIsAdmin={setIsAdmin} setIsEmp={setIsEmp}/>
         }/>
-        <Route element={<h1>Order</h1>}path="/order"/>
+        <Route element={<h1>Order</h1>} path="/order"/>
         
         <Route element={<PrivateRoutes auth={isAuthenticated}/>}>
               <Route element={
