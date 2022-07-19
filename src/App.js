@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 
 import { SessionLogout, PrivateRoutes } from './util-components/index';
 import Login from './pages/auth/Login.js';
-import ManagementDashboard from './pages/user/management/Dashboard.js';
+import Dashboard from './pages/user/management/Dashboard.js';
 import Landing from './pages/Landing.js';
 
 
