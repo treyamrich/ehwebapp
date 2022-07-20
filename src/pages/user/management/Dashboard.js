@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
-import { Sidebar, Navbar, Footer } from '../../../components/index';
+import { Sidebar, Navbar, Footer, ThemeSettings } from '../../../components/index';
 import { useStateContext } from '../../../contexts/ContextProvider';
 
 import { Metrics, Inventory } from '../../index';
@@ -20,10 +20,10 @@ const initialOpState = {
 function Dashboard() {
 
     const [opRes, setOpRes] = useState(initialOpState);
-    const {activeMenu } = useStateContext();
+    const {activeMenu, themeSettings, setThemeSettings, currentColor, currentMode } = useStateContext();
 
     return(
-        <div className={/*currentMode === 'Dark' ? 'dark' : */''}>
+        <div className={currentMode === 'Dark' ? 'dark' : ''}>
             {/*opRes.failureMsg !== "" ? <h1>{opRes.failureMsg}</h1> : null*/}
             {/*opRes.successMsg !== "" ? <h1>{opRes.successMsg}</h1> : null*/}
           <div className="flex relative dark:bg-main-dark-bg">
@@ -34,8 +34,8 @@ function Dashboard() {
               >
                 <button
                   type="button"
-                  onClick={() => console.log('hi')/*setThemeSettings(true)*/}
-                  style={{ /*background: currentColor,*/ borderRadius: '50%' }}
+                  onClick={() => setThemeSettings(true)}
+                  style={{ background: currentColor, borderRadius: '50%' }}
                   className="text-3xl text-white p-3 hover:drop-shadow-xl hover:bg-light-gray"
                 >
                   <FiSettings />
@@ -44,11 +44,11 @@ function Dashboard() {
               </TooltipComponent>
             </div>
             {activeMenu ? (
-              <div style={{ zIndex: '1000' }} className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
+              <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
                 <Sidebar />
               </div>
             ) : (
-              <div style={{ zIndex: '1000' }} className="w-0 dark:bg-secondary-dark-bg">
+              <div className="w-0 dark:bg-secondary-dark-bg">
                 <Sidebar />
               </div>
             )}
@@ -63,7 +63,7 @@ function Dashboard() {
                 <Navbar />
               </div>
               <div>
-                {/*themeSettings && (<ThemeSettings />)*/}
+                {themeSettings && (<ThemeSettings />)}
   
                 <Routes>
                     <Route path="/" element={<Metrics/>}/>
