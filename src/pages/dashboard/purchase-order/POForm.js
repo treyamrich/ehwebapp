@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { listItems } from '../../../../graphql/queries';
-import { createItems } from '../../../../graphql/mutations';
-import { formatDate } from '../../../../utility/DateTimeFunctions';
-import '../../../../styles/management_form.css';
+import { listItems } from '../../../graphql/queries';
+import { createItems } from '../../../graphql/mutations';
+import { formatDate } from '../../../utility/DateTimeFunctions';
+import '../../../styles/management_form.css';
 
 const initialPOState = {
     vendorId: "",

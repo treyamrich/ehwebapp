@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
-import { updateItems } from '../../../../graphql/mutations';
-import { getItems, listItems } from '../../../../graphql/queries';
+import { updateItems } from '../../../graphql/mutations';
+import { getItems, listItems } from '../../../graphql/queries';
 import { POIncomingItems, POReceivedItems } from './index';
-import { formatDate } from '../../../../utility/DateTimeFunctions';
-import { arrToString } from '../../../../utility/ArrayToString';
+import { formatDate } from '../../../utility/DateTimeFunctions';
+import { arrToString } from '../../../utility/ArrayToString';
 
 function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
     const po = poForm.po;

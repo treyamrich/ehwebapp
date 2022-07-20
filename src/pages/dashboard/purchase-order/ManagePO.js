@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { listItems, listPurchaseOrders, getPurchaseOrder } from '../../../../graphql/queries';
+import { listItems, listPurchaseOrders, getPurchaseOrder } from '../../../graphql/queries';
 import { POForm, PORunDown } from './index';
-import { createPurchaseOrder, updatePurchaseOrder, deletePurchaseOrder } from '../../../../graphql/mutations';
-import { arrToString } from '../../../../utility/ArrayToString';
+import { createPurchaseOrder, updatePurchaseOrder, deletePurchaseOrder } from '../../../graphql/mutations';
+import { arrToString } from '../../../utility/ArrayToString';
 
 const initialPOFormState = {
     op: "view-all",

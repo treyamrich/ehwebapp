@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { formatDate } from '../../../../utility/DateTimeFunctions';
+import { formatDate } from '../../../utility/DateTimeFunctions';
 import { POAdjustHistory } from './index';
 
 const initAdjItemState = {

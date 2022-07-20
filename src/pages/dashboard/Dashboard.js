@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
-import { Sidebar, Navbar, Footer, ThemeSettings } from '../../../components/index';
-import { useStateContext } from '../../../contexts/ContextProvider';
+import { Sidebar, Navbar, Footer, ThemeSettings } from '../../components/index';
+import { useStateContext } from '../../contexts/ContextProvider';
 
-import { Metrics, Inventory } from '../../index';
-import ManageInventory from './inventory/ManageInventory';
+import { Metrics, Inventory, Customers } from './index';
 import ManagePO from './purchase-order/ManagePO';
 
 //Database operation state
@@ -68,7 +67,7 @@ function Dashboard() {
                 <Routes>
                     <Route path="/" element={<Metrics/>}/>
                     <Route path="metrics" element={<Metrics/>}/>
-                    <Route path="inventory" element={<Inventory/>}/>
+                    <Route path="inventory" element={<div><Customers/><Inventory/></div>}/>
                     <Route path="purchase-order" element={<ManagePO opRes={opRes} setOpRes={setOpRes}/>}/>
                     {/*<Route path="inventory" element={<ManageInventory opRes={opRes} setOpRes={setOpRes}/>}/>*/}
                 </Routes>

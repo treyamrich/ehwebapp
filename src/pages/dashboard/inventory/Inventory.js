@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { listItems } from '../../../../graphql/queries';
-import { createItems, deleteItems, updateItems } from '../../../../graphql/mutations';
+import { listItems } from '../../../graphql/queries';
+import { createItems, deleteItems, updateItems } from '../../../graphql/mutations';
 import InventoryContent from './InventoryContent';
 import ItemForm from './ItemForm';
-import { arrToString } from '../../../../utility/ArrayToString';
-import '../../../../styles/inventory.css';
+import { arrToString } from '../../../utility/ArrayToString';
+import '../../../styles/inventory.css';
 
 const initialItemFormState = {
     op: "none",

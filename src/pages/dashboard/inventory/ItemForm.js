@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import '../../../../styles/management_form.css';
+import '../../../styles/management_form.css';
 
 const initialItemState = {
     code: "",
