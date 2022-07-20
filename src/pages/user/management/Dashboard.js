@@ -5,7 +5,7 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { Sidebar, Navbar, Footer } from '../../../components/index';
 import { useStateContext } from '../../../contexts/ContextProvider';
 
-import { Metrics, Orders } from '../../index';
+import { Metrics, Inventory } from '../../index';
 import ManageInventory from './inventory/ManageInventory';
 import ManagePO from './purchase-order/ManagePO';
 
@@ -44,11 +44,11 @@ function Dashboard() {
               </TooltipComponent>
             </div>
             {activeMenu ? (
-              <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
+              <div style={{ zIndex: '1000' }} className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
                 <Sidebar />
               </div>
             ) : (
-              <div className="w-0 dark:bg-secondary-dark-bg">
+              <div style={{ zIndex: '1000' }} className="w-0 dark:bg-secondary-dark-bg">
                 <Sidebar />
               </div>
             )}
@@ -68,9 +68,9 @@ function Dashboard() {
                 <Routes>
                     <Route path="/" element={<Metrics/>}/>
                     <Route path="metrics" element={<Metrics/>}/>
-                    <Route path="orders" element={<Orders/>}/>
+                    <Route path="inventory" element={<Inventory/>}/>
                     <Route path="purchase-order" element={<ManagePO opRes={opRes} setOpRes={setOpRes}/>}/>
-                    <Route path="inventory" element={<ManageInventory opRes={opRes} setOpRes={setOpRes}/>}/>
+                    {/*<Route path="inventory" element={<ManageInventory opRes={opRes} setOpRes={setOpRes}/>}/>*/}
                 </Routes>
               </div>
               <Footer />
