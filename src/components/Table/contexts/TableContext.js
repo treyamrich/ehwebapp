@@ -29,8 +29,8 @@ export const TableContextProvider = ({ children }) => {
         if(!isSelAll) {
             setSelBoxes(new Set());
         }
-        //Rerenders component
-        setNumSel(isSelAll ? boxes.length : 0);
+        //-1 since the 'select all' checkbox is included
+        setNumSel(isSelAll ? boxes.length - 1 : 0);
     }
 
     return (

@@ -1,30 +1,37 @@
 import React, { Children, useState, useEffect } from 'react';
+import { TableToolbar } from './TableIndex';
 import { useTableContext } from './contexts/TableContext';
 
 const Table = ({data, children}) => {
-
-    const [visibleRecords, setVisibleRecords] = useState(data);
     
+    const [visibleRecords, setVisibleRecords] = useState([]);
     const { setAllSel, numSel, handleSel } = useTableContext();
     const childArr = Children.toArray(children);
 
     useEffect(()=>{
         setAllSel(visibleRecords.length === numSel && numSel !== 0);
     }, [numSel]);
+    useEffect(()=>{
+        setVisibleRecords([...data]);
+    }, []);
 
     return(
-        <div>
-            {/*<TableToolbar/>*/}
+        <div className="table-wrapper">
+            <TableToolbar />
             <table className="inventory-items" style={{ border: '1px black solid'}}>
-                {children}
+                <thead>
+                    <tr>
+                        {children}
+                    </tr>
+                </thead>
                 <tbody>
                 {visibleRecords.length === 0 ? <tr><td colSpan="10" style={{padding: "10px", textAlign:"center"}}> No records </td></tr> : null}
                 {
                     visibleRecords.map((record, index) => (
                         <tr key={index}>
-                            {childArr.map((column, idx)=>(
-                                <td key={column.field + '-' + idx}>
-                                    {column.field === 'checkbox' && (
+                            {childArr.map((colChild, idx)=>(
+                                <td key={colChild.props.field + '-' + idx}>
+                                    {colChild.props.type === 'checkbox' && (
                                         <input type="checkbox" 
                                             name="checkbox-item"
                                             id={"checkbox-"+ index}
@@ -33,7 +40,7 @@ const Table = ({data, children}) => {
                                             onChange={(e)=>handleSel(e.target)}
                                         />
                                     )}
-                                    {column.field !== 'checkbox' && record[column.field]}
+                                    {colChild.props.type !== 'checkbox' && record[colChild.props.field]}
                                 </td>
                             ))}
                         </tr>

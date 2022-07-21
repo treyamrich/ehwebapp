@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listItems } from '../../../graphql/queries';
 import { createItems, deleteItems, updateItems } from '../../../graphql/mutations';
-import { TableComponent, ColumnsHeader, ColumnHeader } from '../../../components/Table/TableIndex';
-import InventoryContent from './InventoryContent';
+import { TableComponent, ColumnHeader } from '../../../components/Table/TableIndex';
 import ItemForm from './ItemForm';
 import { arrToString } from '../../../utility/ArrayToString';
 import '../../../styles/inventory.css';
+
+import { inventoryColumns } from '../../../data/uidata'; 
 
 const initialItemFormState = {
     op: "none",
@@ -178,36 +179,9 @@ function ManageInventory({opRes, setOpRes}) {
     
     return (
         <div>
-            <h1>Inventory Management</h1>
-            <div className="main-inventory-wrapper">
-                <div className="inventory-tool-bar">
-                    <form>
-                        <label>Item Count: {inventory.length}</label>
-                        <label>Search:</label>
-                        <input type="text"/>
-                        <button>Find</button>
-                        <select onChange={(e)=>selectOp(e.target.value)}>
-                            <option value="none">Actions</option>
-                            {numSel < 1 ? null :
-                                <option value="remove">Delete Items</option>
-                            }
-                            {numSel !== 1 ? null :
-                                <option value="edit">Edit Item</option>
-                            }
-                            <option value="import">Import from CSV</option>
-                            <option value="export">Export to CSV</option>
-                        </select>
-                        <button type="button" 
-                            id="add-item-button" 
-                            onClick={()=>setItemForm({...itemForm, op: "add", show: true})}>
-                                Add Item
-                        </button>
-                    </form>
-                </div>
+            <div className="inventory-wrapper">
                 <TableComponent data={inventory}>
-                    <ColumnsHeader>
-                        <ColumnHeader type="checkbox" />
-                    </ColumnsHeader>
+                    {inventoryColumns.map((colInfo, idx)=> <ColumnHeader key={idx} {...colInfo}/>)}
                 </TableComponent>
             </div>
             {itemForm.show ? 

@@ -1,6 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-const ColumnHeader = ({headerText, width, height, type, textAlign, allSel, handleSelAll}) => {
+import { useTableContext } from './contexts/TableContext';
+
+const ColumnHeader = ({headerText, width, height, type, textAlign}) => {
+    const { handleSelAll, allSel } = useTableContext();
+    
     return (
         <th style={{ width, height, textAlign}}>
             {type === 'checkbox' ? 
