@@ -11,22 +11,12 @@ export const TableComponent = ({data, children}) => {
 
   //Selecting all the checkboxes
   const handleSelAll = () => {
-    /*
-    for(let i = 0; i < boxes.length; i++) {
-        boxes[i].checked = isSelAll;
-        if(isSelAll) selBoxes.add(boxes[i]);
-    }
-    if(!isSelAll) {
-        setSelBoxes(new Set());
-    }
-    //-1 since the 'select all' checkbox is included
-    setNumSel(isSelAll ? boxes.length - 1 : 0);*/
-    if(allSel) setNumSel(0);
-    setAllSel(prevAllSel => !prevAllSel);
+    records.forEach(elm => elm.MYuniqSelATTR = !allSel);
+    setNumSel(allSel ? 0 : records.length);
   }
-  const fetchRecords = async () => {
+  const initRecords = async () => {
     let recs = data;
-    
+
     //Check if the client sets local data or remote data
     if(typeof data === 'function') {
       try {
@@ -44,7 +34,7 @@ export const TableComponent = ({data, children}) => {
     setRecords([...recs]);
   }
   useEffect(()=>{
-    fetchRecords();
+    initRecords();
   }, []);
   useEffect(()=>{
     setAllSel(records.length === numSel && numSel !== 0);
