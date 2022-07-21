@@ -7,7 +7,7 @@ const ToolbarButton = ({title, customFunc, icon}) => (
         <button
         type="button"
         onClick={() => customFunc()}
-        className="relative text-xl p-1 mr-2 hover:bg-light-gray"
+        className="relative text-xl p-3 mr-2 hover:bg-light-gray"
         >
         {icon}
         </button>

@@ -10,13 +10,13 @@ export const inventoryColumns = [
       textAlign: 'Center' },
     { field: 'price',
       headerText: 'Price',
-      width: '130',
+      width: '75',
       format: 'yMd',
       textAlign: 'Center'},
     {
       field: 'cost',
       headerText: 'Cost',
-      width: '100',
+      width: '75',
       textAlign: 'Center' },
     { field: 'category',
       headerText: 'Category',
@@ -26,18 +26,18 @@ export const inventoryColumns = [
   
     { field: 'qty',
       headerText: 'Qty.',
-      width: '150',
+      width: '75',
       textAlign: 'Center' },
   
     { field: 'qtyThresh',
       headerText: 'Reorder Threshold',
-      width: '120',
+      width: '130',
       textAlign: 'Center',
     },
 
     { field: 'maxAddon',
       headerText: 'Max Addons',
-      width: '120',
+      width: '100',
       textAlign: 'Center',
     },
     

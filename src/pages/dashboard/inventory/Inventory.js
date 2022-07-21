@@ -92,11 +92,12 @@ function ManageInventory({opRes, setOpRes}) {
             const inventoryData = await API.graphql({query: listItems, 
                 authMode: 'AMAZON_COGNITO_USER_POOLS'
             });
-            setInventory(inventoryData.data.listItems.items);
+            return inventoryData.data.listItems.items;
         } catch(e) {
             console.log(e);
             setOpRes({...opRes, errorMsg:"Error: Could not fetch inventory"});
         }
+        return [];
     }
 
     async function performOp(op, items=null) {
@@ -173,14 +174,11 @@ function ManageInventory({opRes, setOpRes}) {
             default:{}
         }
     }
-    useEffect(()=>{
-		fetchInventory();
-	}, []);
     
     return (
         <div>
             <div className="inventory-wrapper">
-                <TableComponent data={inventory}>
+                <TableComponent data={fetchInventory}>
                     {inventoryColumns.map((colInfo, idx)=> <ColumnHeader key={idx} {...colInfo}/>)}
                 </TableComponent>
             </div>

@@ -7,9 +7,8 @@ const TableContext = createContext();
 export const TableComponent = ({data, children}) => {
   const [allSel, setAllSel] = useState(false);
   const [numSel, setNumSel] = useState(0);
-  
-  const [records, setRecords] = useState(data);
-  
+  const [records, setRecords] = useState([]);
+
   //Selecting all the checkboxes
   const handleSelAll = () => {
     /*
@@ -25,14 +24,32 @@ export const TableComponent = ({data, children}) => {
     if(allSel) setNumSel(0);
     setAllSel(prevAllSel => !prevAllSel);
   }
-
+  const fetchRecords = async () => {
+    let recs = data;
+    
+    //Check if the client sets local data or remote data
+    if(typeof data === 'function') {
+      try {
+        recs = await data();
+      } catch(e) {
+        console.log(e);
+      }
+    }
+    //Verify client's func or passed data is an array
+    if(!Array.isArray(recs)) {
+      throw "Error: Data format must be an Array of Objects. \
+      Data fetch function must be an async function which returns an Array.";
+    }
+    
+    setRecords([...recs]);
+  }
+  useEffect(()=>{
+    fetchRecords();
+  }, []);
   useEffect(()=>{
     setAllSel(records.length === numSel && numSel !== 0);
   }, [numSel]);
-  useEffect(()=>{
-    setRecords([...data]);
-  }, []);
-
+  
   return (
     <TableContext.Provider value={{ allSel, setAllSel, numSel, setNumSel, handleSelAll, records, setRecords }}>
         <Table>

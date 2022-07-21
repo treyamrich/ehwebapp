@@ -8,12 +8,11 @@ import './table.css';
     to avoid attribute conflicts with the data that is passed*/
 const Table = ({children}) => {
     
-    const { records } = useTableContext();
     const childArr = Children.toArray(children);
-
-
+    const { records } = useTableContext();
+    
     return(
-        <div className="table-wrapper">
+        <div className="table-wrapper border md:overflow-scroll">
             <TableToolbar />
             <table className="inventory-items table-border">
                 <colgroup>
