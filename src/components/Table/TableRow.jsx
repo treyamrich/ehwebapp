@@ -1,13 +1,21 @@
-import React, { useState } from 'react'
-import { CustomCheckbox } from './TableIndex';
+import React from 'react';
+import { TableCheckBox , useTableContext} from './TableIndex';
+
 import './table.css';
 
+/*MYuniqSelATTR is the state of a record being selected, it's named this
+    to avoid attribute conflicts with the data that is passed*/
 const TableRow = ({record, colHeaderArr}) => {
-    const [selected, setSelected] = useState(false);
+    const { setNumSel } = useTableContext();
+
   return (
     <tr
-        className={`border-y table-border ${selected ? 'selected-table-row' : ''}`}
-        onClick={()=>setSelected(prevSelState=>!prevSelState)}
+        className={`border-y table-border ${record.MYuniqSelATTR ? 'selected-table-row' : ''}`}
+        onClick={()=>{
+            setNumSel(prevState=> record.MYuniqSelATTR ? 
+                prevState-1 : prevState+1);
+            record.MYuniqSelATTR = !record.MYuniqSelATTR;
+        }}
     >
         {colHeaderArr.map((colChild, idx)=>(
             <td key={colChild.props.field + '-' + idx}
@@ -15,7 +23,7 @@ const TableRow = ({record, colHeaderArr}) => {
                 className="text-sm h-14 px-5 py-2 leading-5"
             >
                 {colChild.props.type === 'checkbox' ? 
-                    <CustomCheckbox checked={selected}/> :
+                    <TableCheckBox checked={record.MYuniqSelATTR} type="normal"/> :
                     <p className="truncate"
                         style={{width: colChild.props.width + 'px'}}
                     >{record[colChild.props.field]}</p>

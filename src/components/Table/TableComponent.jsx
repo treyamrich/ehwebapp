@@ -1,16 +1,45 @@
-import React from 'react'
-import { TableContextProvider } from './contexts/TableContext';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Table } from './TableIndex';
 
+const TableContext = createContext();
+
 //This is a wrapper component for the context provider
-const TableComponent = ({data, children}) => {
+export const TableComponent = ({data, children}) => {
+  const [allSel, setAllSel] = useState(false);
+  const [numSel, setNumSel] = useState(0);
+  
+  const [records, setRecords] = useState(data);
+  
+  //Selecting all the checkboxes
+  const handleSelAll = () => {
+    /*
+    for(let i = 0; i < boxes.length; i++) {
+        boxes[i].checked = isSelAll;
+        if(isSelAll) selBoxes.add(boxes[i]);
+    }
+    if(!isSelAll) {
+        setSelBoxes(new Set());
+    }
+    //-1 since the 'select all' checkbox is included
+    setNumSel(isSelAll ? boxes.length - 1 : 0);*/
+    if(allSel) setNumSel(0);
+    setAllSel(prevAllSel => !prevAllSel);
+  }
+
+  useEffect(()=>{
+    setAllSel(records.length === numSel && numSel !== 0);
+  }, [numSel]);
+  useEffect(()=>{
+    setRecords([...data]);
+  }, []);
+
   return (
-    <TableContextProvider>
-        <Table data={data}>
+    <TableContext.Provider value={{ allSel, setAllSel, numSel, setNumSel, handleSelAll, records, setRecords }}>
+        <Table>
         {children}
         </Table>
-    </TableContextProvider>
+    </TableContext.Provider>
   )
 }
 
-export default TableComponent
+export const useTableContext = () => useContext(TableContext);

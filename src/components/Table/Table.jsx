@@ -1,17 +1,16 @@
-import React, { Children, useState, useEffect } from 'react';
-import { TableToolbar, TableRow } from './TableIndex';
-import { useTableContext } from './contexts/TableContext';
+import React, { Children } from 'react';
+import { TableToolbar, TableRow, useTableContext } from './TableIndex';
 
 import './table.css';
 
-const Table = ({data, children}) => {
+//Contains the main table logic for selecting and performing operations
+/*MYuniqSelATTR is the state of a record being selected, it's named this
+    to avoid attribute conflicts with the data that is passed*/
+const Table = ({children}) => {
     
-    const { setAllSel, numSel, handleSel } = useTableContext();
+    const { records } = useTableContext();
     const childArr = Children.toArray(children);
 
-    useEffect(()=>{
-        setAllSel(data.length === numSel && numSel !== 0);
-    }, [numSel]);
 
     return(
         <div className="table-wrapper">
@@ -28,12 +27,18 @@ const Table = ({data, children}) => {
                     </tr>
                 </thead>
                 <tbody>
-                {data.length === 0 ? <tr><td colSpan="10" style={{padding: "10px", textAlign:"center"}}> No records </td></tr> : null}
-                {
-                    data.map((record, index) => (
-                        <TableRow key={index} record={record} colHeaderArr={childArr}/>
-                    ))
-                }
+                {records.length === 0 ? 
+                    <tr className="border-y table-border">
+                        <td colSpan={childArr.length} 
+                            style={{padding: "10px", textAlign:"center"}}
+                        >
+                            No records 
+                        </td>
+                    </tr> : null}
+                {records.map((record, index) => {
+                    if(record.MYuniqSelATTR === undefined) record.MYuniqSelATTR = false;
+                    return <TableRow key={index} record={record} colHeaderArr={childArr}/>
+                })}
                 </tbody>
             </table>
         </div>
