@@ -1,24 +1,22 @@
 import React from 'react';
-
+import { CustomCheckbox } from './TableIndex';
 import { useTableContext } from './contexts/TableContext';
 
-const ColumnHeader = ({headerText, type, textAlign}) => {
+const ColumnHeader = ({headerText, type, textAlign, width}) => {
     const { handleSelAll, allSel } = useTableContext();
     
     return (
         <th role="columnheader" 
             style={{textAlign}}
-            className="text-gray-500 text-sm pr-1 cursor-pointer font-bold overflow-hidden"
+            className="text-gray-600 text-sm cursor-pointer h-10 px-3 py-0"
         >
-            {type === 'checkbox' ? 
-                <input type="checkbox" 
-                    name="checkbox-select-all" 
-                    className="checkbox w-5 h-5"
-                    onChange={(e)=>handleSelAll(e.currentTarget.checked)}
-                    checked={allSel}
-                    /> :
-                <span>{headerText}</span>
-            }
+            <div className="h-8 leading-8 font-semibold flex" style={{textAlign}}>
+                {type === 'checkbox' ? <CustomCheckbox /> :
+                    <p className="truncate"
+                        style={{width: width + 'px'}}
+                    >{headerText}</p>
+                }
+            </div>
         </th>
     )
 }

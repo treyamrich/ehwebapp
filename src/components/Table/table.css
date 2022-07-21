@@ -1,0 +1,7 @@
+.table-border {
+    border-width: 0.5px;
+    border-color: #e0e0e0
+}
+.selected-table-row {
+    background-color: #e0e0e0
+}
