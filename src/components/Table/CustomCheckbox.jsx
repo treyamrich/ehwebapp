@@ -1,7 +1,9 @@
 import React from 'react'
-import { ImCheckboxUnchecked, ImCheckboxChecked } from 'react-icons/im';
+import { MdCheckBoxOutlineBlank, MdCheckBox } from 'react-icons/md';
+import { useStateContext } from '../../contexts/ContextProvider';
 
 const CustomCheckbox = ({checked}) => {
+  const { currentColor } = useStateContext();
   return (
     <>
         <input type="checkbox" 
@@ -9,12 +11,13 @@ const CustomCheckbox = ({checked}) => {
             className="checkbox w-0 h-0"
         />
         {checked ? 
-          <ImCheckboxChecked 
-            className="m-auto inline-block"
+          <MdCheckBox
+            className="m-auto inline-block cursor-pointer"
             size={20}
+            style={{color: currentColor}}
           /> :
-          <ImCheckboxUnchecked 
-            className="m-auto inline-block"
+          <MdCheckBoxOutlineBlank 
+            className="m-auto inline-block cursor-pointer"
             size={20}
           />
         }

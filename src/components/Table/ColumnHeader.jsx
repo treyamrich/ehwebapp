@@ -8,7 +8,7 @@ const ColumnHeader = ({headerText, type, textAlign, width}) => {
     return (
         <th role="columnheader" 
             style={{textAlign}}
-            className="text-gray-600 text-sm cursor-pointer h-10 px-3 py-0"
+            className={`${type !== 'checkbox' ? 'text-gray-600' : ''} text-sm cursor-pointer h-10 px-3 py-0`}
         >
             <div className="h-8 leading-8 font-semibold flex" style={{textAlign}}>
                 {type === 'checkbox' ? <CustomCheckbox /> :
