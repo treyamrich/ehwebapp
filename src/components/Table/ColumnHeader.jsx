@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ColumnHeader = ({headerText, width, height, type, textAlign, isPrimaryKey}) => {
+const ColumnHeader = ({headerText, width, height, type, textAlign, allSel, handleSelAll}) => {
     return (
         <th style={{ width, height, textAlign}}>
             {type === 'checkbox' ? 

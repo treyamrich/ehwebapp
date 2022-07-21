@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
-const Table = ({data, headers}) => {
+const Table = ({data, children}) => {
     const [allSel, setAllSel] = useState(false);
+    const [selBoxes, setSelBoxes] = useState(()=>new Set());
+    const [numSel, setNumSel] = useState(0);
     const [visibleRecords, setVisibleRecords] = useState(data);
-    const [fieldIdxs, setFieldIdxs] = useState(()=>new Map());
 
     //Selecting a single checkbox
     const handleSel = cbox => {
         if(cbox.checked) {
             selBoxes.add(cbox);
-            setNumSel(numSel + 1);
+            setNumSel(prevNumSel => prevNumSel + 1);
         }
         else {
             selBoxes.delete(cbox);
-            setNumSel(numSel - 1);
+            setNumSel(prevNumSel => prevNumSel - 1);
         }
     }
     //Selecting all the checkboxes
@@ -27,61 +28,42 @@ const Table = ({data, headers}) => {
             setSelBoxes(new Set());
         }
         //Rerenders component
-        setNumSel(isSelAll ? items.length : 0);
+        setNumSel(isSelAll ? visibleRecords.length : 0);
     }
 
-    //Create a map that stores the index for a certain field
-    const initFieldIndexes = () => {
-        const FieldIdxs = new Map();
-        for(let i = 0; i < headers.length; i++) {
-            FieldIdxs.set(headers[i], i);
-        }
-        setFieldIdxs(FieldIdxs);
-    };
-
     useEffect(()=>{
-        setAllSel(items.length === numSel && numSel !== 0);
+        setAllSel(visibleRecords.length === numSel && numSel !== 0);
     }, [numSel]);
-    useEffect(()=>{
-        initFieldIndexes();
-    }, []);
+
     return(
         <div>
-            <TableToolbar/>
+            {/*<TableToolbar/>*/}
             <table className="inventory-items">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" 
-                            name="checkbox-select-all" 
-                            className="checkbox"
-                            onChange={(e)=>handleSelAll(e.currentTarget.checked)}
-                            checked={allSel}/>
-                        </th>
-                        {headers.map((header)=>(
-                            <th key={header}>
-                                {header}
-                            </th>
-                        ))}
-                    </tr>
-                </thead>
+                {children.map((childElm)=>{
+                    childElm.props.handleSelAll = handleSelAll;
+                    childElm.props.allSel = allSel;
+                    return childElm;
+                })}
                 <tbody>
-                {data.length === 0 ? <tr><td colSpan="10" style={{padding: "10px", textAlign:"center"}}> No records </td></tr> : null}
+                {visibleRecords.length === 0 ? <tr><td colSpan="10" style={{padding: "10px", textAlign:"center"}}> No records </td></tr> : null}
                 {
-                    data.map((record, index) => (
+                    visibleRecords.map((record, index) => (
                         <tr key={index}>
-                            <td>
-                                <input type="checkbox" 
-                                    name="checkbox-item"
-                                    id={"checkbox-"+ index}
-                                    className="checkbox" 
-                                    value={index} 
-                                    onChange={(e)=>handleSel(e.target)}/> 
-                            </td>
-                            {Object.keys(record).map((field, idx)=>(
-                                <td key={field + '-' + idx}>
-                                    {record[field]}
+                            {children.map((column, idx)=>(
+                                <td key={column.field + '-' + idx}>
+                                    {column.field === 'checkbox' && (
+                                        <input type="checkbox" 
+                                            name="checkbox-item"
+                                            id={"checkbox-"+ index}
+                                            className="checkbox" 
+                                            value={index} 
+                                            onChange={(e)=>handleSel(e.target)}
+                                        />
+                                    )}
+                                    {column.field !== 'checkbox' && record[column.field]}
                                 </td>
                             ))}
+                            {/*
                             <td> {item.code} </td>
                             <td> {item.name} </td>
                             <td> {item.price} </td>
@@ -90,7 +72,7 @@ const Table = ({data, headers}) => {
                             <td> {item.qty} </td>
                             <td> {item.qtyThresh} </td>
                             <td> {item.maxAddon} </td>
-                            <td> {item.updatedAt} </td>
+                            <td> {item.updatedAt} </td>*/}
                         </tr>
                     ))
                 }
