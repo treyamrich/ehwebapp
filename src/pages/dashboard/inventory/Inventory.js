@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listItems } from '../../../graphql/queries';
 import { createItems, deleteItems, updateItems } from '../../../graphql/mutations';
+import { TableComponent, ColumnsHeader, ColumnHeader } from '../../../components/Table/TableIndex';
 import InventoryContent from './InventoryContent';
 import ItemForm from './ItemForm';
 import { arrToString } from '../../../utility/ArrayToString';
@@ -203,11 +204,11 @@ function ManageInventory({opRes, setOpRes}) {
                         </button>
                     </form>
                 </div>
-                <InventoryContent items={inventory} 
-                    selBoxes={selBoxes} 
-                    setSelBoxes={setSelBoxes} 
-                    numSel={numSel} 
-                    setNumSel={setNumSel}/>
+                <TableComponent data={inventory}>
+                    <ColumnsHeader>
+                        <ColumnHeader type="checkbox" />
+                    </ColumnsHeader>
+                </TableComponent>
             </div>
             {itemForm.show ? 
             <ItemForm itemForm={itemForm} 

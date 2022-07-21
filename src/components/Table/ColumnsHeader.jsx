@@ -1,15 +1,10 @@
 import React from 'react'
 
-const ColumnsHeader = ({children, handleSelAll}) => {
+const ColumnsHeader = ({children}) => {
   return (
     <thead>
         <tr>
-            {/*Add the selection handler*/}
-            {children.map(elm=>{
-                if(elm.props.type === 'checkbox')
-                    elm.props.handleSelAll = handleSelAll;
-                return elm;
-            })}
+            {children}
         </tr>
     </thead>
   )
