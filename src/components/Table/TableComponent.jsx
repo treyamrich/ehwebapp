@@ -9,6 +9,7 @@ export const TableComponent = ({data, deleteOperation, createOperation, updateOp
   const [numSel, setNumSel] = useState(0);
   const [records, setRecords] = useState([]);
   const [pkField, setPkField] = useState("");
+  const [colComponents, setColComponents] = useState([]);
 
   const handleSelAll = () => {
     //Selects all records
@@ -54,10 +55,11 @@ export const TableComponent = ({data, deleteOperation, createOperation, updateOp
   }
   const initPkField = () => {
     //Set the primary key value field
-    let colComponents = Children.toArray(children);
-    for(let i = 0; i < colComponents.length; i++) {
-      if(colComponents[i].props.isPrimaryKey === true) {
-        setPkField(colComponents[i].props.field);
+    let colComps = Children.toArray(children);
+    setColComponents(colComps);
+    for(let i = 0; i < colComps.length; i++) {
+      if(colComps[i].props.isPrimaryKey === true) {
+        setPkField(colComps[i].props.field);
         break;
       }
     }
@@ -71,7 +73,7 @@ export const TableComponent = ({data, deleteOperation, createOperation, updateOp
   }, [numSel]);
   
   return (
-    <TableContext.Provider value={{ allSel, setAllSel, numSel, setNumSel, handleSelAll, records, setRecords, delRecords }}>
+    <TableContext.Provider value={{ allSel, setAllSel, colComponents, numSel, setNumSel, handleSelAll, records, setRecords, delRecords }}>
         <Table>
         {children}
         </Table>

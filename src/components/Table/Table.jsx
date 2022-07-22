@@ -7,9 +7,7 @@ import './table.css';
 /*MYuniqSelATTR is the state of a record being selected, it's named this
     to avoid attribute conflicts with the data that is passed*/
 const Table = ({children}) => {
-    
-    const childArr = Children.toArray(children);
-    const { records } = useTableContext();
+    const { records, colComponents } = useTableContext();
     
     return(
         <div className="border">
@@ -17,7 +15,7 @@ const Table = ({children}) => {
             <div className="overflow-auto">
                 <table className="table-border">
                     <colgroup>
-                        {childArr.map((colChild, idx)=> (
+                        {colComponents.map((colChild, idx)=> (
                             <col key={idx} style={{width: colChild.props.width + 'px'}} />
                         ))}
                     </colgroup>
@@ -29,7 +27,7 @@ const Table = ({children}) => {
                     <tbody>
                     {records.length === 0 ? 
                         <tr className="border-y table-border">
-                            <td colSpan={childArr.length} 
+                            <td colSpan={colComponents.length} 
                                 style={{padding: "10px", textAlign:"center"}}
                             >
                                 No records 
@@ -37,7 +35,7 @@ const Table = ({children}) => {
                         </tr> : null}
                     {records.map((record, index) => {
                         if(record.MYuniqSelATTR === undefined) record.MYuniqSelATTR = false;
-                        return <TableRow key={index} record={record} colHeaderArr={childArr}/>
+                        return <TableRow key={index} record={record} />
                     })}
                     </tbody>
                 </table>
