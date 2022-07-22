@@ -1,42 +1,24 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import { Landing } from './index';
-import { Navbar, Nav } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Navbar } from '../components/index';
 
 const Home = ({isAuthenticated, name, signOut}) => {
   return (
-    <div>
-      <Navbar className="navbar" fixed="top" expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand href="/"> Engraving Hawaii </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav>
-      
-            <Nav.Item>
-              <Nav.Link href="/management">Management</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link href="/order">Order</Nav.Link>
-            </Nav.Item>
-            {isAuthenticated ? 
-              <Nav.Item>
-                <Nav.Link id="welcome-user"> Welcome {name}. </Nav.Link>
-              </Nav.Item> 
-              : null
-            }
-
-            <Nav.Item> {!isAuthenticated ? 
-              <Nav.Link href="/login"> Login </Nav.Link> : 
-              <Nav.Link onClick={()=>signOut()}> Sign out </Nav.Link>} 
-            </Nav.Item>
-
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-        <Routes>
-            <Route element={<Landing/>} path="/"/>
-        </Routes>
+    <div className="relative dark:bg-main-dark-bg">
+        <div
+              className='bg-main-bg dark:bg-main-dark-bg  w-full min-h-screen flex-2'
+        >
+            <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
+                <Navbar />
+            </div>
+            <div>
+                <h1 className="text-7xl text-blue-500 underline"><Link to="/management">GO TO MANAGEMENT PORTAL</Link></h1>
+                <Routes>
+                    <Route element={<Landing/>} path="/"/>
+                </Routes>
+            </div>
+        </div>
     </div>
   )
 }
