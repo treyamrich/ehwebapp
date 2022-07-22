@@ -5,10 +5,10 @@ import { Pager } from '../Pager/Pager';
 const TableContext = createContext();
 
 const DEFAULT_PAGE_SIZE = 12;
-const DEFAULT_MAX_PAGE_DISPLAY = 8;
+const DEFAULT_PAGE_COUNT = 8;
 
 //This is a wrapper component for the context provider
-export const TableComponent = ({data, color, pageSettings, deleteOperation, createOperation, updateOperation,  children}) => {
+export const TableComponent = ({data, color, pageSettings, remoteOperations,  children}) => {
   const [allSel, setAllSel] = useState(false);
   const [numSel, setNumSel] = useState(0);
 
@@ -18,7 +18,9 @@ export const TableComponent = ({data, color, pageSettings, deleteOperation, crea
   const [records, setRecords] = useState([]);
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const {pageSize, maxPageDisplay} = pageSettings;
+
+  const {pageSize, pageCount} = pageSettings;
+  const { fetchOperation, deleteOperation, createOperation, updateOperation } = remoteOperations;
 
   const handleSelAll = () => {
     //Selects all records
@@ -47,9 +49,9 @@ export const TableComponent = ({data, color, pageSettings, deleteOperation, crea
     let recs = data;
 
     //Check if the client sets local data or remote data
-    if(typeof data === 'function') {
+    if(fetchOperation) {
       try {
-        recs = await data();
+        recs = await fetchOperation();
       } catch(e) {
         console.log(e);
       }
@@ -78,6 +80,7 @@ export const TableComponent = ({data, color, pageSettings, deleteOperation, crea
     const newPages = [[]];
     let insPageIdx = 0;
     let count = 0;
+    
     for(let i = 0; i < records.length; i++) {
       //Add new page - if necessary - before inserting
       if(count == pgSize) {
@@ -89,6 +92,7 @@ export const TableComponent = ({data, color, pageSettings, deleteOperation, crea
         count++;
     }
     setPages(newPages);
+    setCurrentPage(1);
   };
 
   useEffect(()=>{
@@ -105,14 +109,14 @@ export const TableComponent = ({data, color, pageSettings, deleteOperation, crea
     <TableContext.Provider value={{ allSel, setAllSel, colComponents, numSel, setNumSel, handleSelAll, records, setRecords, delRecords }}>
       <div id="table-component-wrapper" className="border">
         <TableToolbar color={color} />
-        <Table>
+        <Table records={currentPage <= pages.length ? pages[currentPage-1] : []}>
           {children}
         </Table>
         <Pager 
           color={color} 
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          maxPageDisplay={maxPageDisplay ? maxPageDisplay : DEFAULT_MAX_PAGE_DISPLAY}
+          pageCount={pageCount ? pageCount : DEFAULT_PAGE_COUNT}
           numPages={pages.length}
           numRecords={records.length}
         />

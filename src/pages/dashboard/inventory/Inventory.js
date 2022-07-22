@@ -11,6 +11,8 @@ import '../../../styles/inventory.css';
 import { useStateContext } from '../../../contexts/ContextProvider';
 import { inventoryColumns } from '../../../data/uidata'; 
 
+import { customersData, customersGrid } from '../../../data/dummy';
+
 const initialItemFormState = {
     op: "none",
     show: false,
@@ -179,12 +181,15 @@ function ManageInventory({opRes, setOpRes}) {
             <Header category="Page" title="Inventory" />
             <div className="inventory-wrapper">
                 <TableComponent 
-                    data={fetchInventory} 
-                    deleteOperation={removeItems} 
+                    data={customersData}
+                    remoteOperations={{
+                        fetchOperation: undefined,
+                        deleteOperation: undefined
+                    }}
                     color={currentColor}
-                    pageSettings={{pageSize: 3, pageCount: 5}}
+                    pageSettings={{pageSize: 12, pageCount: 5}}
                 >
-                    {inventoryColumns.map((colInfo, idx)=> <ColumnHeader key={idx} {...colInfo}/>)}
+                    {customersGrid.map((colInfo, idx)=> <ColumnHeader key={idx} {...colInfo}/>)}
                 </TableComponent>
             </div>
             {itemForm.show ? 

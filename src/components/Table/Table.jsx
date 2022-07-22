@@ -6,8 +6,8 @@ import './table.css';
 //Contains the main table logic for selecting and performing operations
 /*MYuniqSelATTR is the state of a record being selected, it's named this
     to avoid attribute conflicts with the data that is passed*/
-const Table = ({children}) => {
-    const { records, colComponents } = useTableContext();
+const Table = ({records, children}) => {
+    const { colComponents } = useTableContext();
     
     return(
         <div id="table-container" className="overflow-auto">
@@ -26,7 +26,7 @@ const Table = ({children}) => {
                 {records.length === 0 ? 
                     <tr className="border-y table-border">
                         <td colSpan={colComponents.length} 
-                            style={{padding: "10px", textAlign:"center"}}
+                            className="text-center p-3"
                         >
                             No records 
                         </td>
