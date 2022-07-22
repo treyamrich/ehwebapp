@@ -10,7 +10,7 @@ const TableRow = ({record}) => {
 
   return (
     <tr
-        className={`border-y table-border ${record.MYuniqSelATTR ? 'selected-table-row' : ''}`}
+        className={`table-row-border ${record.MYuniqSelATTR ? 'selected-table-row' : ''}`}
         onClick={()=>{
             setNumSel(prevState=> record.MYuniqSelATTR ? 
                 prevState-1 : prevState+1);

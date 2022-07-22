@@ -29,7 +29,7 @@ const TableToolbar = ({color}) => {
     setFieldNames(fnames);
   }, [colComponents]);
   return (
-    <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative items-center">
+    <div className="flex justify-between p-2 mx-1 relative items-center">
         <div className="flex">
           <ToolbarButton title="Delete" icon={<BsTrash/>} customFunc={delRecords}/>
           <ToolbarButton title="Add Record" icon={<BsPlusSquare/>} customFunc={addRecord}/>

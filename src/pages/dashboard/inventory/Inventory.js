@@ -182,7 +182,7 @@ function ManageInventory({opRes, setOpRes}) {
                     data={fetchInventory} 
                     deleteOperation={removeItems} 
                     color={currentColor}
-                    pageSettings={{pageSize: 3}}
+                    pageSettings={{pageSize: 3, pageCount: 5}}
                 >
                     {inventoryColumns.map((colInfo, idx)=> <ColumnHeader key={idx} {...colInfo}/>)}
                 </TableComponent>

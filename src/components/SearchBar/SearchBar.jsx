@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai';
 import './searchbar.css';
 
+//Filters and pages records
 const SearchBar = ({color, records, setRecords, searchFields}) => {
   const [query, setQuery] = useState("");
   const [filteredRecords, setFilteredRecords] = useState([]);

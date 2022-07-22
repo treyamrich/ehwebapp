@@ -4,15 +4,21 @@ import { Pager } from '../Pager/Pager';
 
 const TableContext = createContext();
 
+const DEFAULT_PAGE_SIZE = 12;
+const DEFAULT_MAX_PAGE_DISPLAY = 8;
+
 //This is a wrapper component for the context provider
 export const TableComponent = ({data, color, pageSettings, deleteOperation, createOperation, updateOperation,  children}) => {
   const [allSel, setAllSel] = useState(false);
   const [numSel, setNumSel] = useState(0);
-  const [records, setRecords] = useState([]);
+
   const [pkField, setPkField] = useState("");
   const [colComponents, setColComponents] = useState([]);
+
+  const [records, setRecords] = useState([]);
   const [pages, setPages] = useState([]);
-  const [displayPage, setDisplayPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const {pageSize, maxPageDisplay} = pageSettings;
 
   const handleSelAll = () => {
     //Selects all records
@@ -68,20 +74,21 @@ export const TableComponent = ({data, color, pageSettings, deleteOperation, crea
     }
   };
   //Splits the record array into a 2D array
-  const pageRecords = () => {
+  const pageRecords = (pgSize) => {
     const newPages = [[]];
     let insPageIdx = 0;
-    let counter = 0;
+    let count = 0;
     for(let i = 0; i < records.length; i++) {
-      if(counter == pageSettings.pageSize) {
+      //Add new page - if necessary - before inserting
+      if(count == pgSize) {
         count = 0;
         insPageIdx++;
-        //Add new page
-        if(i != records.length - 1) newPages.push([]);
+        newPages.push([]);
       }
         newPages[insPageIdx].push(records[i]);
-        counter++;
+        count++;
     }
+    setPages(newPages);
   };
 
   useEffect(()=>{
@@ -92,7 +99,7 @@ export const TableComponent = ({data, color, pageSettings, deleteOperation, crea
     setAllSel(records.length === numSel && numSel !== 0);
   }, [numSel]);
   useEffect(()=>{
-    pageRecords();
+    pageRecords(pageSize ? pageSize : DEFAULT_PAGE_SIZE);
   }, [records]);
   return (
     <TableContext.Provider value={{ allSel, setAllSel, colComponents, numSel, setNumSel, handleSelAll, records, setRecords, delRecords }}>
@@ -101,7 +108,14 @@ export const TableComponent = ({data, color, pageSettings, deleteOperation, crea
         <Table>
           {children}
         </Table>
-        <Pager color={color}/>
+        <Pager 
+          color={color} 
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          maxPageDisplay={maxPageDisplay ? maxPageDisplay : DEFAULT_MAX_PAGE_DISPLAY}
+          numPages={pages.length}
+          numRecords={records.length}
+        />
       </div>
     </TableContext.Provider>
   )
