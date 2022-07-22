@@ -27,7 +27,7 @@ export const TableComponent = ({data, color, pageSettings, remoteOperations,  ch
     records.forEach(elm => elm.MYuniqSelATTR = !allSel);
     setNumSel(allSel ? 0 : records.length);
   }
-  const delRecords = () => {
+  const delLocalRecords = () => {
     let toDel = [];
     let restRecords = [];
     for(let i = 0; i < records.length; i++) {
@@ -44,6 +44,9 @@ export const TableComponent = ({data, color, pageSettings, remoteOperations,  ch
   
     //Call the client's callback function
     if(deleteOperation) deleteOperation(toDel);
+  }
+  const addLocalRecord = () => {
+    setRecords([{}, ...records])
   }
   const initRecords = async () => {
     let recs = data;
@@ -106,7 +109,7 @@ export const TableComponent = ({data, color, pageSettings, remoteOperations,  ch
     pageRecords(pageSize ? pageSize : DEFAULT_PAGE_SIZE);
   }, [records]);
   return (
-    <TableContext.Provider value={{ allSel, setAllSel, colComponents, numSel, setNumSel, handleSelAll, records, setRecords, delRecords }}>
+    <TableContext.Provider value={{ allSel, setAllSel, colComponents, numSel, setNumSel, handleSelAll, records, setRecords, delLocalRecords, addLocalRecord }}>
       <div id="table-component-wrapper" className="border">
         <TableToolbar color={color} />
         <Table records={currentPage <= pages.length ? pages[currentPage-1] : []}>

@@ -18,7 +18,7 @@ const ToolbarButton = ({title, customFunc, icon}) => (
 );
 
 const TableToolbar = ({color}) => {
-    const { delRecords, addRecord, colComponents, records, setRecords } = useTableContext();
+    const { delLocalRecords, addLocalRecord, colComponents, records, setRecords } = useTableContext();
     const [fieldNames, setFieldNames] = useState([]);
 
   useEffect(()=>{
@@ -31,8 +31,8 @@ const TableToolbar = ({color}) => {
   return (
     <div className="flex justify-between p-2 mx-1 relative items-center">
         <div className="flex">
-          <ToolbarButton title="Delete" icon={<BsTrash/>} customFunc={delRecords}/>
-          <ToolbarButton title="Add Record" icon={<BsPlusSquare/>} customFunc={addRecord}/>
+          <ToolbarButton title="Delete" icon={<BsTrash/>} customFunc={delLocalRecords}/>
+          <ToolbarButton title="Add Record" icon={<BsPlusSquare/>} customFunc={addLocalRecord}/>
         </div>
         <SearchBar 
           color={color} 

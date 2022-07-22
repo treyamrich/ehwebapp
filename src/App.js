@@ -5,9 +5,7 @@ import React, { useState, useEffect } from 'react';
 
 import { SessionLogout, PrivateRoutes } from './util-components/index';
 import Login from './pages/auth/Login.js';
-import Dashboard from './pages/dashboard/Dashboard.js';
-import Landing from './pages/Landing.js';
-
+import { Dashboard, Home } from './pages/index';
 
 const initialFormState = {
   phoneNum:'',
@@ -83,42 +81,14 @@ const App = () => {
   return (
     !isAuthenticating && (
     <div>
-      {/*
-      <Navbar className="navbar" fixed="top" expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand href="/"> Engraving Hawaii </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav>
       
-            <Nav.Item>
-              <Nav.Link href="/management">Management</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link href="/order">Order</Nav.Link>
-            </Nav.Item>
-            {isAuthenticated ? 
-              <Nav.Item>
-                <Nav.Link id="welcome-user"> Welcome {name}. </Nav.Link>
-              </Nav.Item> 
-              : null
-            }
-
-            <Nav.Item> {!isAuthenticated ? 
-              <Nav.Link href="/login"> Login </Nav.Link> : 
-              <Nav.Link onClick={()=>signOut()}> Sign out </Nav.Link>} 
-            </Nav.Item>
-
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-      */}
       {isAuthenticated ? <SessionLogout signOut={signOut}/> : null}
 
       <Router>
         <Routes>
 
           {/*Unprotected Routes*/}
-          <Route element={<Landing/>} exact path="/"/>
+          <Route element={<Home signOut={signOut} name={name} isAuthenticated={isAuthenticated}/>} exact path="/"/>
           <Route path="/login" element={
             <Login formState={formState} setFormState={setFormState} setAuth={userHasAuthenticated} setIsAdmin={setIsAdmin} setIsEmp={setIsEmp}/>
           }/>

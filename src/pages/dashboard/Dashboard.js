@@ -5,7 +5,7 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { Sidebar, Navbar, Footer, ThemeSettings } from '../../components/index';
 import { useStateContext } from '../../contexts/ContextProvider';
 
-import { Metrics, Inventory, Customers } from './index';
+import { Metrics, Inventory } from './index';
 import ManagePO from './purchase-order/ManagePO';
 
 //Database operation state
@@ -16,7 +16,7 @@ const initialOpState = {
     failItems: [] 
 };
 
-function Dashboard() {
+const Dashboard = () => {
 
     const [opRes, setOpRes] = useState(initialOpState);
     const {activeMenu, themeSettings, setThemeSettings, currentColor, currentMode } = useStateContext();
@@ -67,7 +67,7 @@ function Dashboard() {
                 <Routes>
                     <Route path="/" element={<Metrics/>}/>
                     <Route path="metrics" element={<Metrics/>}/>
-                    <Route path="inventory" element={<div><Customers/><Inventory/></div>}/>
+                    <Route path="inventory" element={<Inventory/>}/>
                     <Route path="purchase-order" element={<ManagePO opRes={opRes} setOpRes={setOpRes}/>}/>
                     {/*<Route path="inventory" element={<ManageInventory opRes={opRes} setOpRes={setOpRes}/>}/>*/}
                 </Routes>
