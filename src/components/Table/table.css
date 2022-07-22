@@ -1,5 +1,6 @@
 .table-border {
-    border-width: 0.5px;
+    border-top-width: 0.5px;
+    border-bottom-width: 0.5px;
     border-color: #e0e0e0
 }
 .table-row-border {

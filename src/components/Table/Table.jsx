@@ -11,13 +11,13 @@ const Table = ({children}) => {
     
     return(
         <div id="table-container" className="overflow-auto">
-            <table className="table-border">
+            <table className="w-full">
                 <colgroup>
                     {colComponents.map((colChild, idx)=> (
                         <col key={idx} style={{width: colChild.props.width + 'px'}} />
                     ))}
                 </colgroup>
-                <thead>
+                <thead className="table-border">
                     <tr>
                         {children}
                     </tr>
