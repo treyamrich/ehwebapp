@@ -1,7 +1,8 @@
 export const inventoryColumns = [
     { type: 'checkbox', width: '50' },
     { field: 'code',
-        headerText: 'Item Code',
+      isPrimaryKey: true,
+      headerText: 'Item Code',
       width: '150',
       textAlign: 'Center' },
     { field: 'name',

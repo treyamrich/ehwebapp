@@ -3,6 +3,7 @@ import { API } from 'aws-amplify';
 import { listItems } from '../../../graphql/queries';
 import { createItems, deleteItems, updateItems } from '../../../graphql/mutations';
 import { TableComponent, ColumnHeader } from '../../../components/Table/TableIndex';
+import { Header } from '../../../components/index';
 import ItemForm from './ItemForm';
 import { arrToString } from '../../../utility/ArrayToString';
 import '../../../styles/inventory.css';
@@ -27,28 +28,23 @@ function ManageInventory({opRes, setOpRes}) {
     const [selBoxes, setSelBoxes] = useState(new Set());
     const [numSel, setNumSel] = useState(0);
 
-    async function removeItems() {
+    async function removeItems(itemPks) {
         //Removes the items that are in the selBoxes set and unchecks the boxes
         var itemCode;
         var promises = [];
         
-        selBoxes.forEach(cbox =>{
-            cbox.checked = false;
-            if(cbox.name === "checkbox-select-all") return;
-
+        itemPks.forEach(pk =>{
             //Get item code from inventory arr and uncheck the checkboxes
-            itemCode = inventory[cbox.value].code;
-
             let respPromise = API.graphql({ 
                     query: deleteItems, 
                     variables: { 
                         input: { 
-                            code: itemCode
+                            code: pk
                         }
                     },
                     authMode: "AMAZON_COGNITO_USER_POOLS"
             }).catch((e)=> { 
-                opRes.failItems.push(itemCode); 
+                opRes.failItems.push(pk); 
                 console.log(e);
                 return true;
             }).then(err => {if(err !== true) opRes.succItems.push(err.data.deleteItems.code)});
@@ -176,9 +172,10 @@ function ManageInventory({opRes, setOpRes}) {
     }
     
     return (
-        <div>
+        <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+            <Header category="Page" title="Inventory" />
             <div className="inventory-wrapper">
-                <TableComponent data={fetchInventory}>
+                <TableComponent data={fetchInventory} deleteOperation={removeItems}>
                     {inventoryColumns.map((colInfo, idx)=> <ColumnHeader key={idx} {...colInfo}/>)}
                 </TableComponent>
             </div>

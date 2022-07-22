@@ -12,34 +12,36 @@ const Table = ({children}) => {
     const { records } = useTableContext();
     
     return(
-        <div className="table-wrapper border md:overflow-scroll">
+        <div className="border">
             <TableToolbar />
-            <table className="inventory-items table-border">
-                <colgroup>
-                    {childArr.map((colChild, idx)=> (
-                        <col key={idx} style={{width: colChild.props.width + 'px'}} />
-                    ))}
-                </colgroup>
-                <thead>
-                    <tr>
-                        {children}
-                    </tr>
-                </thead>
-                <tbody>
-                {records.length === 0 ? 
-                    <tr className="border-y table-border">
-                        <td colSpan={childArr.length} 
-                            style={{padding: "10px", textAlign:"center"}}
-                        >
-                            No records 
-                        </td>
-                    </tr> : null}
-                {records.map((record, index) => {
-                    if(record.MYuniqSelATTR === undefined) record.MYuniqSelATTR = false;
-                    return <TableRow key={index} record={record} colHeaderArr={childArr}/>
-                })}
-                </tbody>
-            </table>
+            <div className="overflow-auto">
+                <table className="table-border">
+                    <colgroup>
+                        {childArr.map((colChild, idx)=> (
+                            <col key={idx} style={{width: colChild.props.width + 'px'}} />
+                        ))}
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            {children}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {records.length === 0 ? 
+                        <tr className="border-y table-border">
+                            <td colSpan={childArr.length} 
+                                style={{padding: "10px", textAlign:"center"}}
+                            >
+                                No records 
+                            </td>
+                        </tr> : null}
+                    {records.map((record, index) => {
+                        if(record.MYuniqSelATTR === undefined) record.MYuniqSelATTR = false;
+                        return <TableRow key={index} record={record} colHeaderArr={childArr}/>
+                    })}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

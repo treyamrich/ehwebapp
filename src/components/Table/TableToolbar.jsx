@@ -1,6 +1,9 @@
 import React from 'react'
 import { BsTrash, BsPlusSquare } from 'react-icons/bs';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
+import { useTableContext } from './TableComponent';
+import { useStateContext } from '../../contexts/ContextProvider';
+import { SearchBar } from '../index';
 
 const ToolbarButton = ({title, customFunc, icon}) => (
     <TooltipComponent content={title} position="BottomCenter">
@@ -14,12 +17,16 @@ const ToolbarButton = ({title, customFunc, icon}) => (
   </TooltipComponent>
 );
 
-const TableToolbar = ({addRecord, updateRecord, deleteRecords}) => {
-    
+const TableToolbar = () => {
+    const { delRecords, addRecord } = useTableContext();
+    const { currentColor } = useStateContext();
   return (
-    <div className="table-toolbar-wrapper flex">
-        <ToolbarButton title="Delete" icon={<BsTrash/>} customFunc={deleteRecords}/>
-        <ToolbarButton title="Add Record" icon={<BsPlusSquare/>} customFunc={addRecord}/>
+    <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative items-center">
+        <div className="flex">
+          <ToolbarButton title="Delete" icon={<BsTrash/>} customFunc={delRecords}/>
+          <ToolbarButton title="Add Record" icon={<BsPlusSquare/>} customFunc={addRecord}/>
+        </div>
+        <SearchBar color={currentColor}/>
     </div>
   )
 }
