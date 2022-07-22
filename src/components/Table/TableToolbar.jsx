@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { BsTrash, BsPlusSquare } from 'react-icons/bs';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
+
 import { useTableContext } from './TableComponent';
-import { useStateContext } from '../../contexts/ContextProvider';
 import { SearchBar } from '../index';
 
 const ToolbarButton = ({title, customFunc, icon}) => (
@@ -17,9 +17,8 @@ const ToolbarButton = ({title, customFunc, icon}) => (
   </TooltipComponent>
 );
 
-const TableToolbar = () => {
+const TableToolbar = ({color}) => {
     const { delRecords, addRecord, colComponents, records, setRecords } = useTableContext();
-    const { currentColor } = useStateContext();
     const [fieldNames, setFieldNames] = useState([]);
 
   useEffect(()=>{
@@ -36,7 +35,7 @@ const TableToolbar = () => {
           <ToolbarButton title="Add Record" icon={<BsPlusSquare/>} customFunc={addRecord}/>
         </div>
         <SearchBar 
-          color={currentColor} 
+          color={color} 
           records={records}
           setRecords={setRecords}
           searchFields={fieldNames}/>

@@ -8,6 +8,7 @@ import ItemForm from './ItemForm';
 import { arrToString } from '../../../utility/ArrayToString';
 import '../../../styles/inventory.css';
 
+import { useStateContext } from '../../../contexts/ContextProvider';
 import { inventoryColumns } from '../../../data/uidata'; 
 
 const initialItemFormState = {
@@ -27,6 +28,8 @@ function ManageInventory({opRes, setOpRes}) {
     //Checkbox values hold the corresponding inventory index to get the item info
     const [selBoxes, setSelBoxes] = useState(new Set());
     const [numSel, setNumSel] = useState(0);
+
+    const { currentColor } = useStateContext();
 
     async function removeItems(itemPks) {
         //Removes the items that are in the selBoxes set and unchecks the boxes
@@ -175,7 +178,12 @@ function ManageInventory({opRes, setOpRes}) {
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
             <Header category="Page" title="Inventory" />
             <div className="inventory-wrapper">
-                <TableComponent data={fetchInventory} deleteOperation={removeItems}>
+                <TableComponent 
+                    data={fetchInventory} 
+                    deleteOperation={removeItems} 
+                    color={currentColor}
+                    pageSettings={{pageSize: 3}}
+                >
                     {inventoryColumns.map((colInfo, idx)=> <ColumnHeader key={idx} {...colInfo}/>)}
                 </TableComponent>
             </div>

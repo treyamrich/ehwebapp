@@ -3,7 +3,7 @@ import { MdCheckBoxOutlineBlank, MdCheckBox } from 'react-icons/md';
 import { useStateContext } from '../../contexts/ContextProvider';
 
 const checkBoxClass = "m-auto inline-block cursor-pointer";
-const checkBoxSize = 25;
+const CHECKBOX_SIZE = 25;
 
 const TableCheckBox = ({checked, customFunc}) => {
   const { currentColor } = useStateContext();
@@ -12,13 +12,13 @@ const TableCheckBox = ({checked, customFunc}) => {
         {checked ? 
           <MdCheckBox
             className={checkBoxClass}
-            size={checkBoxSize}
+            size={CHECKBOX_SIZE}
             style={{color: currentColor}}
             onClick={customFunc}
           /> :
           <MdCheckBoxOutlineBlank 
             className={checkBoxClass}
-            size={checkBoxSize}
+            size={CHECKBOX_SIZE}
             onClick={customFunc}
           />
         }

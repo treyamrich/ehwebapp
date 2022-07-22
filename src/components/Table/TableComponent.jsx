@@ -1,15 +1,18 @@
 import React, { createContext, useContext, useState, useEffect, Children } from 'react';
-import { Table } from './TableIndex';
+import { Table, TableToolbar } from './TableIndex';
+import { Pager } from '../Pager/Pager';
 
 const TableContext = createContext();
 
 //This is a wrapper component for the context provider
-export const TableComponent = ({data, deleteOperation, createOperation, updateOperation,  children}) => {
+export const TableComponent = ({data, color, pageSettings, deleteOperation, createOperation, updateOperation,  children}) => {
   const [allSel, setAllSel] = useState(false);
   const [numSel, setNumSel] = useState(0);
   const [records, setRecords] = useState([]);
   const [pkField, setPkField] = useState("");
   const [colComponents, setColComponents] = useState([]);
+  const [pages, setPages] = useState([]);
+  const [displayPage, setDisplayPage] = useState(1);
 
   const handleSelAll = () => {
     //Selects all records
@@ -64,6 +67,23 @@ export const TableComponent = ({data, deleteOperation, createOperation, updateOp
       }
     }
   };
+  //Splits the record array into a 2D array
+  const pageRecords = () => {
+    const newPages = [[]];
+    let insPageIdx = 0;
+    let counter = 0;
+    for(let i = 0; i < records.length; i++) {
+      if(counter == pageSettings.pageSize) {
+        count = 0;
+        insPageIdx++;
+        //Add new page
+        if(i != records.length - 1) newPages.push([]);
+      }
+        newPages[insPageIdx].push(records[i]);
+        counter++;
+    }
+  };
+
   useEffect(()=>{
     initPkField();
     initRecords();
@@ -71,12 +91,18 @@ export const TableComponent = ({data, deleteOperation, createOperation, updateOp
   useEffect(()=>{
     setAllSel(records.length === numSel && numSel !== 0);
   }, [numSel]);
-  
+  useEffect(()=>{
+    pageRecords();
+  }, [records]);
   return (
     <TableContext.Provider value={{ allSel, setAllSel, colComponents, numSel, setNumSel, handleSelAll, records, setRecords, delRecords }}>
+      <div id="table-component-wrapper" className="border">
+        <TableToolbar color={color} />
         <Table>
-        {children}
+          {children}
         </Table>
+        <Pager color={color}/>
+      </div>
     </TableContext.Provider>
   )
 }

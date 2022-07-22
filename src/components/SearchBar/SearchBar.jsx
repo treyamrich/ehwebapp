@@ -18,7 +18,7 @@ const SearchBar = ({color, records, setRecords, searchFields}) => {
       setFilteredRecords([]);
       return;
     }
-    //Filter records
+    //Filter records and page them
     let match;
     let newRecs = [];
     let newFilteredRecs = [];
