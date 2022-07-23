@@ -30,6 +30,8 @@ const TableToolbar = ({color, records, setRecords, colComponents, setNumSel, cli
     const { onDelete, onAdd, onEdit } = clientInput;
 
     const handleOnDel = () => {
+
+        //Remove from local records array
         let toDel = [];
         let restRecords = [];
         for(let i = 0; i < records.length; i++) {
@@ -44,18 +46,23 @@ const TableToolbar = ({color, records, setRecords, colComponents, setNumSel, cli
         setRecords(restRecords);
         setNumSel(0);
         
-        //Call the client's callback function
-        if(onDelete) onDelete(toDel);
+        //Check if the client wants to preempt or callback
+        if(!onDelete) return;
+        try {
+            onDelete.preemptiveOperation ?
+                onDelete.preemptiveOperation() :
+                onDelete.callbackOperation(toDel);
+        } catch(e) {
+            console.log(e);
+        }
     }
     //Adds the record
     const handleOnAdd = () => {
         if(!onAdd) return;
         try {
-            if(onAdd.preemptiveOperation) {
-                onAdd.preemptiveOperation();
-            } else {
+            onAdd.preemptiveOperation ?
+                onAdd.preemptiveOperation() :
                 setShowForm({add: true, edit: false});
-            }
         } catch(e) {
             console.log(e);
         }
@@ -63,11 +70,9 @@ const TableToolbar = ({color, records, setRecords, colComponents, setNumSel, cli
     const handleOnEdit = () => {
         if(!onEdit) return;
         try {
-            if(onEdit.preemptiveOperation) {
-                onEdit.preemptiveOperation();
-            } else {
+            onEdit.preemptiveOperation ?
+                onEdit.preemptiveOperation() :
                 setShowForm({add: false, edit: true});
-            }
         } catch(e) {
             console.log(e);
         }

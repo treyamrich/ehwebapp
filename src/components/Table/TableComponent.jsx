@@ -12,9 +12,8 @@ const DEFAULT_PAGE_COUNT = 8;
 Table Props:
   :color - string
   :pageSettings - object {pageSize: int, pageCount: int}
-  :onDelete - async function
   :onFetch - asyncFunction 
-  :onAdd & onEdit - object {preemptiveOperation: function, callbackOperation: function}
+  :onDelete, onAdd and onEdit - object {preemptiveOperation: function, callbackOperation: async function}
     *preemptiveOperation - a function that is called when the table button is hit.
         No other operations are performed after this.
     *callbackOperation - a function that is called after the TableForm is submitted.
