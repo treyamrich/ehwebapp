@@ -11,6 +11,8 @@ import '../../../styles/inventory.css';
 import { useStateContext } from '../../../contexts/ContextProvider';
 import { inventoryColumns } from '../../../data/uidata'; 
 
+import { TableRecordForm } from '../../../components/Table/TableIndex';
+
 import { customersData, customersGrid } from '../../../data/dummy';
 
 const initialItemFormState = {
@@ -186,13 +188,19 @@ function ManageInventory({opRes, setOpRes}) {
                     onDelete={undefined}
                     onAdd={{}}
                     onEdit={{}}
-            
+                    addForm={
+                        <TableRecordForm btnBgColor={currentColor}/>
+                    }
+                    editForm={
+                        <TableRecordForm btnBgColor={currentColor}/>
+                    }
                     color={currentColor}
                     pageSettings={{pageSize: 12, pageCount: 5}}
                 >
                     {customersGrid.map((colInfo, idx)=> <ColumnHeader key={idx} {...colInfo}/>)}
                 </TableComponent>
             </div>
+            {/* <TableRecordForm btnBgColor={color} colComponents={colComponents}/> */}
             {itemForm.show ? 
             <ItemForm itemForm={itemForm} 
                 setItemForm={setItemForm}

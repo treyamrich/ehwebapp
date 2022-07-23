@@ -17,9 +17,13 @@ Table Props:
     *preemptiveOperation - a function that is called when the table button is hit.
         No other operations are performed after this.
     *callbackOperation - a function that is called after the TableForm is submitted.
+  :addForm and editForm are components that will be rendered if no preemptiveOperation is specififed.
+    *The components will be passed a record state and set state function as props.
+    *A close form function will also be passed.
+
 */
 
-export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEdit, onFetch, children}) => {
+export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEdit, onFetch, addForm, editForm, children}) => {
   const [allSel, setAllSel] = useState(false);
   const [numSel, setNumSel] = useState(0);
 
@@ -100,7 +104,7 @@ export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEd
           records={records}
           setRecords={setRecords}
           colComponents={colComponents} 
-          clientInput={{onDelete, onAdd, onEdit}}
+          clientInput={{onDelete, onAdd, onEdit, addForm, editForm}}
           setNumSel={setNumSel}
         />
         <Table records={currentPage <= pages.length ? pages[currentPage-1] : []}

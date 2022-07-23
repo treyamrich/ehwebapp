@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { BsTrash, BsPlusSquare } from 'react-icons/bs';
+import { AiOutlineEdit } from 'react-icons/ai';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
-import { Navigate } from 'react-router-dom';
 
-import { SearchBar, PopUpForm } from '../index';
-import { TableRecordForm } from '../Table/TableIndex';
+import { SearchBar, PopUp } from '../index';
 
 const ToolbarButton = ({title, customFunc, icon}) => (
     <TooltipComponent content={title} position="BottomCenter">
@@ -27,9 +26,11 @@ const TableToolbar = ({color, records, setRecords, colComponents, setNumSel, cli
     const [fieldNames, setFieldNames] = useState([]);
     const [pkField, setPkField] = useState("");
     const [showForm, setShowForm] = useState(initShowFormState);
-    const [redirect, setRedirect] = useState("");
-    const { onDelete, onAdd, onEdit } = clientInput;
+    const [recordObj, setRecordObj] = useState(null);
 
+    const { onDelete, onAdd, onEdit, addForm, editForm } = clientInput;
+
+    //Postcondition: Removes record from the table
     const handleOnDel = () => {
 
         //Remove from local records array
@@ -53,30 +54,47 @@ const TableToolbar = ({color, records, setRecords, colComponents, setNumSel, cli
             onDelete.preemptiveOperation ?
                 onDelete.preemptiveOperation() :
                 onDelete.callbackOperation(toDel);
-        } catch(e) {
-            console.log(e);
-        }
+        } catch(e) { console.log(e) }
     }
-    //Adds the record
+    //Postcondition: Executes the preemptive operation or shows the addForm component
     const handleOnAdd = () => {
         if(!onAdd) return;
         try {
             onAdd.preemptiveOperation ?
                 onAdd.preemptiveOperation() :
                 setShowForm({add: true, edit: false});
-        } catch(e) {
-            console.log(e);
-        }
+        } catch(e) { console.log(e) }
     }
+    //Postcondition: Executes the preemptive operation or shows the editForm component
     const handleOnEdit = () => {
         if(!onEdit) return;
         try {
             onEdit.preemptiveOperation ?
                 onEdit.preemptiveOperation() :
                 setShowForm({add: false, edit: true});
-        } catch(e) {
-            console.log(e);
-        }
+        } catch(e) { console.log(e) }
+    }
+    const handleClosePopUp = () => setShowForm({add: false, edit: false});
+
+    //Executed by the addForm component that was provided by the client
+    //Postconditon: Adds the record to the table
+    const addRecord = () => {
+        handleClosePopUp();
+
+        if(!onAdd) return;
+        try {
+            onAdd.callbackOperation();
+        } catch(e) {console.log(e)};
+    }
+    //Executed by the editForm component that was provided by the client
+    //Postconditon: Edits the record in the table
+    const editRecord = () => {
+        handleClosePopUp();
+
+        if(!onEdit) return;
+        try {
+            onEdit.callbackOperation();
+        } catch(e) {console.log(e)};
     }
 
     useEffect(()=>{
@@ -92,7 +110,6 @@ const TableToolbar = ({color, records, setRecords, colComponents, setNumSel, cli
         setFieldNames(fnames);
     }, [colComponents]);
     
-    if(redirect !== '') return <Navigate to={redirect}/>
   return (
     <div className="flex justify-between p-2 mx-1 relative items-center">
         <div className="flex">
@@ -108,7 +125,7 @@ const TableToolbar = ({color, records, setRecords, colComponents, setNumSel, cli
             />
             <ToolbarButton 
                 title="Edit Record" 
-                icon={<BsPlusSquare/>} 
+                icon={<AiOutlineEdit/>} 
                 customFunc={handleOnEdit}
             />
         </div>
@@ -119,23 +136,21 @@ const TableToolbar = ({color, records, setRecords, colComponents, setNumSel, cli
           searchFields={fieldNames}
         />
 
-        {/*Showing the client's components*/}
+        {/*Show the client's components*/}
         {showForm.add ? 
-          <PopUpForm
+          <PopUp
                 title="Add View"
-                closePopUp={()=>setShowForm({add: false, edit: false})}
-                submitForm={()=>{}}
-                buttonBg={color}
+                closePopUp={handleClosePopUp}
             >
-                <TableRecordForm colComponents={colComponents}/>
-            </PopUpForm> : null}
+               {React.cloneElement(addForm, {submitForm: addRecord})}
+            </PopUp> : null}
         {showForm.edit ? 
-          <PopUpForm
+          <PopUp
             title="Edit View"
-            closePopUp={()=>setShowForm({add: false, edit: false})}
-            submitForm={()=>{}}
-            buttonBg={color}
-          ></PopUpForm> : null}
+            closePopUp={handleClosePopUp}
+          >
+                {React.cloneElement(editForm, {submitForm: editRecord})}
+          </PopUp> : null}
     </div>
   )
 }
