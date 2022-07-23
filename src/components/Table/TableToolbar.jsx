@@ -5,12 +5,15 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import { SearchBar, PopUp } from '../index';
 
-const ToolbarButton = ({title, customFunc, icon}) => (
+const DISABLED_CLASS = "text-gray-300";
+
+const ToolbarButton = ({title, customFunc, icon, disabled}) => (
     <TooltipComponent content={title} position="BottomCenter">
         <button
-        type="button"
-        onClick={() => customFunc()}
-        className="relative text-xl p-3 mr-2 hover:bg-light-gray"
+            type="button"
+            onClick={() => customFunc()}
+            className={`rounded-md relative text-xl p-3 mr-2 ${disabled ? '' : 'hover:bg-light-gray'}`}
+            disabled={disabled}
         >
         {icon}
         </button>
@@ -22,7 +25,7 @@ const initShowFormState = {
     add: false
 };
 
-const TableToolbar = ({color, records, setRecords, colComponents, setNumSel, clientInput}) => {
+const TableToolbar = ({color, numSel, records, setRecords, colComponents, setNumSel, clientInput}) => {
     const [fieldNames, setFieldNames] = useState([]);
     const [pkField, setPkField] = useState("");
     const [showForm, setShowForm] = useState(initShowFormState);
@@ -78,8 +81,12 @@ const TableToolbar = ({color, records, setRecords, colComponents, setNumSel, cli
 
     //Executed by the addForm component that was provided by the client
     //Postconditon: Adds the record to the table
-    const addRecord = () => {
+    const addRecord = (newRecord=null) => {
         handleClosePopUp();
+        
+        //Ensure a record was passed by the client
+        if(!newRecord) return;
+        setRecords([...records, newRecord]);
 
         if(!onAdd) return;
         try {
@@ -90,6 +97,7 @@ const TableToolbar = ({color, records, setRecords, colComponents, setNumSel, cli
     //Postconditon: Edits the record in the table
     const editRecord = () => {
         handleClosePopUp();
+        setNumSel(0);
 
         if(!onEdit) return;
         try {
@@ -115,17 +123,26 @@ const TableToolbar = ({color, records, setRecords, colComponents, setNumSel, cli
         <div className="flex">
             <ToolbarButton 
                 title="Delete" 
-                icon={<BsTrash/>} 
+                icon={
+                <BsTrash 
+                    className={numSel < 1 ? DISABLED_CLASS : ''}
+                />}
+                disabled={numSel < 1}
                 customFunc={handleOnDel}
             />
             <ToolbarButton 
                 title="Add Record" 
-                icon={<BsPlusSquare/>} 
+                icon={<BsPlusSquare/>}
+                disabled={false} 
                 customFunc={handleOnAdd}
             />
             <ToolbarButton 
                 title="Edit Record" 
-                icon={<AiOutlineEdit/>} 
+                icon={
+                    <AiOutlineEdit 
+                        className={numSel !== 1 ? DISABLED_CLASS : ''}
+                />}
+                disabled={numSel !== 1}
                 customFunc={handleOnEdit}
             />
         </div>

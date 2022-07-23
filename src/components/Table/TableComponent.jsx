@@ -101,6 +101,7 @@ export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEd
 
         {/*Table Components*/}
         <TableToolbar color={color}
+          numSel={numSel}
           records={records}
           setRecords={setRecords}
           colComponents={colComponents} 
