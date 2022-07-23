@@ -1,5 +1,4 @@
-import { minMax } from '@syncfusion/ej2-react-charts';
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { TbChevronRight, TbChevronLeft, TbChevronsRight, TbChevronsLeft } from 'react-icons/tb';
 import { useStateContext } from '../../contexts/ContextProvider';
 
@@ -8,7 +7,7 @@ const PAGER_CONTROL_BUTTON_SIZE = 20;
 const DISABLED_CLASS = "text-gray-300";
 const FIRST_PAGE = 1;
 
-export const Pager = ({color, currentPage, setCurrentPage, numPages, pageCount, numRecords}) => {
+const Pager = ({color, currentPage, setCurrentPage, numPages, pageCount, numRecords}) => {
     
     const { screenSize } = useStateContext();
     //Page window = window start + max page display
@@ -122,3 +121,5 @@ export const Pager = ({color, currentPage, setCurrentPage, numPages, pageCount, 
     </div>
   )
 };
+
+export default Pager

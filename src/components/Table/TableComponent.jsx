@@ -1,60 +1,53 @@
 import React, { createContext, useContext, useState, useEffect, Children } from 'react';
 import { Table, TableToolbar } from './TableIndex';
-import { Pager } from '../Pager/Pager';
+import { Pager } from '../index';
 
 const TableContext = createContext();
 
 const DEFAULT_PAGE_SIZE = 12;
 const DEFAULT_PAGE_COUNT = 8;
 
-//This is a wrapper component for the context provider
-export const TableComponent = ({data, color, pageSettings, remoteOperations,  children}) => {
+/*Interface Invariant
+
+Table Props:
+  :color - string
+  :pageSettings - object {pageSize: int, pageCount: int}
+  :onDelete - async function
+  :onFetch - asyncFunction 
+  :onAdd & onEdit - object {preemptOperation: function, callbackOperation: function}
+    *preemptOperation - a function that is called when the table button is hit.
+        No other operations are performed after this.
+    *callbackOperation - a function that is called after the TableForm is submitted.
+*/
+
+export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEdit, onFetch, children}) => {
   const [allSel, setAllSel] = useState(false);
   const [numSel, setNumSel] = useState(0);
 
-  const [pkField, setPkField] = useState("");
   const [colComponents, setColComponents] = useState([]);
 
   const [records, setRecords] = useState([]);
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-
   const {pageSize, pageCount} = pageSettings;
-  const { fetchOperation, deleteOperation, createOperation, updateOperation } = remoteOperations;
 
+  //Postcondition: Sets all records in record state array selected attribute
+  //and updates the numSel state
   const handleSelAll = () => {
     //Selects all records
     records.forEach(elm => elm.MYuniqSelATTR = !allSel);
     setNumSel(allSel ? 0 : records.length);
   }
-  const delLocalRecords = () => {
-    let toDel = [];
-    let restRecords = [];
-    for(let i = 0; i < records.length; i++) {
-      if(records[i].MYuniqSelATTR) {
-        //Remove the custom select attribute and store the primary key
-        records[i].MYuniqSelATTR = undefined;
-        toDel.push(records[i][pkField]);
-      } else {
-        restRecords.push(records[i]);
-      }
-    }
-    setRecords(restRecords);
-    setNumSel(0);
   
-    //Call the client's callback function
-    if(deleteOperation) deleteOperation(toDel);
-  }
-  const addLocalRecord = () => {
-    setRecords([{}, ...records])
-  }
-  const initRecords = async () => {
+  //Postcondition: Sets the records state array to the local array
+  //Sets the records state to the array received from client's fetchOperation
+  const getRecords = async () => {
     let recs = data;
 
     //Check if the client sets local data or remote data
-    if(fetchOperation) {
+    if(onFetch) {
       try {
-        recs = await fetchOperation();
+        recs = await onFetch();
       } catch(e) {
         console.log(e);
       }
@@ -67,18 +60,8 @@ export const TableComponent = ({data, color, pageSettings, remoteOperations,  ch
     
     setRecords([...recs]);
   }
-  const initPkField = () => {
-    //Set the primary key value field
-    let colComps = Children.toArray(children);
-    setColComponents(colComps);
-    for(let i = 0; i < colComps.length; i++) {
-      if(colComps[i].props.isPrimaryKey === true) {
-        setPkField(colComps[i].props.field);
-        break;
-      }
-    }
-  };
-  //Splits the record array into a 2D array
+
+  //Postcondition: Splits the records state array into pages (2D array)
   const pageRecords = (pgSize) => {
     const newPages = [[]];
     let insPageIdx = 0;
@@ -99,8 +82,9 @@ export const TableComponent = ({data, color, pageSettings, remoteOperations,  ch
   };
 
   useEffect(()=>{
-    initPkField();
-    initRecords();
+    //On first render- convert the children to an Array and fetch the records
+    setColComponents(Children.toArray(children));
+    getRecords();
   }, []);
   useEffect(()=>{
     setAllSel(records.length === numSel && numSel !== 0);
@@ -109,12 +93,24 @@ export const TableComponent = ({data, color, pageSettings, remoteOperations,  ch
     pageRecords(pageSize ? pageSize : DEFAULT_PAGE_SIZE);
   }, [records]);
   return (
-    <TableContext.Provider value={{ allSel, setAllSel, colComponents, numSel, setNumSel, handleSelAll, records, setRecords, delLocalRecords, addLocalRecord }}>
+    <TableContext.Provider value={{ allSel, setAllSel, colComponents, setNumSel, handleSelAll }}>
       <div id="table-component-wrapper" className="border">
-        <TableToolbar color={color} />
-        <Table records={currentPage <= pages.length ? pages[currentPage-1] : []}>
+
+        {/*Table Components*/}
+        <TableToolbar color={color}
+          records={records}
+          setRecords={setRecords}
+          colComponents={colComponents} 
+          clientInput={{onDelete, onAdd, onEdit}}
+          setNumSel={setNumSel}
+        />
+        <Table records={currentPage <= pages.length ? pages[currentPage-1] : []}
+          colComponents={colComponents}
+        >
           {children}
         </Table>
+
+        {/*Page Controller*/}
         <Pager 
           color={color} 
           currentPage={currentPage}
@@ -129,3 +125,28 @@ export const TableComponent = ({data, color, pageSettings, remoteOperations,  ch
 }
 
 export const useTableContext = () => useContext(TableContext);
+
+/*Implementation Invariant:
+  This is the main component. It performs paging and manages the state that is
+  shared amongst other sub components.
+
+  Sub-Components:
+  - ColumnHeader (in children props)
+  - TableToolbar
+  - Table
+  - Pager
+
+  State Variables:
+  - colComponents is an array of ColumnHeader components, it is stored to reduce
+      the conversion on every render for the TableToolbar sub-component
+  
+  - records is an array of objects that is managed by the TableToolbar
+
+  - pages is an array of arrays which stores the records, it is controlled by
+      the Pager sub-component but the paging operation occurs in this component
+
+  - currentPage is the page number state and is controlled by the Pager sub-component
+  
+  - numSel is used to rerender the component when a checkbox is clicked. This is handled
+      by the Table sub-component
+*/

@@ -1,13 +1,12 @@
 import React from 'react';
-import { TableRow, useTableContext } from './TableIndex';
+import { TableRow } from './TableIndex';
 
 import './table.css';
 
 //Contains the main table logic for selecting and performing operations
 /*MYuniqSelATTR is the state of a record being selected, it's named this
     to avoid attribute conflicts with the data that is passed*/
-const Table = ({records, children}) => {
-    const { colComponents } = useTableContext();
+const Table = ({records, colComponents, children}) => {
     
     return(
         <div id="table-container" className="overflow-auto">

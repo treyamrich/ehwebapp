@@ -15,3 +15,5 @@ export { default as Pie } from './Charts/Pie';
 export { default as ChartsHeader } from './ChartsHeader';
 export { default as Header } from './Header';
 export { default as SearchBar } from './SearchBar/SearchBar';
+export { default as PopUpForm } from './PopUpForm';
+export { default as Pager } from './Pager/Pager';

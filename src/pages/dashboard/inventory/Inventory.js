@@ -8,6 +8,8 @@ import ItemForm from './ItemForm';
 import { arrToString } from '../../../utility/ArrayToString';
 import '../../../styles/inventory.css';
 
+import { Navigate } from 'react-router-dom';
+
 import { useStateContext } from '../../../contexts/ContextProvider';
 import { inventoryColumns } from '../../../data/uidata'; 
 
@@ -182,10 +184,11 @@ function ManageInventory({opRes, setOpRes}) {
             <div className="inventory-wrapper">
                 <TableComponent 
                     data={customersData}
-                    remoteOperations={{
-                        fetchOperation: undefined,
-                        deleteOperation: undefined
-                    }}
+                    onFetch={undefined}
+                    onDelete={undefined}
+                    onAdd={{redirectTo: 'hi'}}
+                    onEdit={undefined}
+            
                     color={currentColor}
                     pageSettings={{pageSize: 12, pageCount: 5}}
                 >
