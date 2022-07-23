@@ -8,8 +8,6 @@ import ItemForm from './ItemForm';
 import { arrToString } from '../../../utility/ArrayToString';
 import '../../../styles/inventory.css';
 
-import { Navigate } from 'react-router-dom';
-
 import { useStateContext } from '../../../contexts/ContextProvider';
 import { inventoryColumns } from '../../../data/uidata'; 
 
@@ -177,7 +175,7 @@ function ManageInventory({opRes, setOpRes}) {
             default:{}
         }
     }
-    
+
     return (
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
             <Header category="Page" title="Inventory" />
@@ -186,8 +184,8 @@ function ManageInventory({opRes, setOpRes}) {
                     data={customersData}
                     onFetch={undefined}
                     onDelete={undefined}
-                    onAdd={{redirectTo: 'hi'}}
-                    onEdit={undefined}
+                    onAdd={{}}
+                    onEdit={{}}
             
                     color={currentColor}
                     pageSettings={{pageSize: 12, pageCount: 5}}

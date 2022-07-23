@@ -50,16 +50,27 @@ const TableToolbar = ({color, records, setRecords, colComponents, setNumSel, cli
     //Adds the record
     const handleOnAdd = () => {
         if(!onAdd) return;
-        if(onAdd.redirectTo) {
-            window.location.replace("purchase orders");
-            return;//setRedirect(onAdd.redirectTo);
+        try {
+            if(onAdd.preemptiveOperation) {
+                onAdd.preemptiveOperation();
+            } else {
+                setShowForm({add: true, edit: false});
+            }
+        } catch(e) {
+            console.log(e);
         }
-        setShowForm({add: true, edit: false});
     }
     const handleOnEdit = () => {
         if(!onEdit) return;
-        if(onEdit.redirectTo) setRedirect(onAdd.redirectTo);
-        setShowForm({add: false, edit: true});
+        try {
+            if(onEdit.preemptiveOperation) {
+                onEdit.preemptiveOperation();
+            } else {
+                setShowForm({add: false, edit: true});
+            }
+        } catch(e) {
+            console.log(e);
+        }
     }
 
     useEffect(()=>{

@@ -14,8 +14,8 @@ Table Props:
   :pageSettings - object {pageSize: int, pageCount: int}
   :onDelete - async function
   :onFetch - asyncFunction 
-  :onAdd & onEdit - object {preemptOperation: function, callbackOperation: function}
-    *preemptOperation - a function that is called when the table button is hit.
+  :onAdd & onEdit - object {preemptiveOperation: function, callbackOperation: function}
+    *preemptiveOperation - a function that is called when the table button is hit.
         No other operations are performed after this.
     *callbackOperation - a function that is called after the TableForm is submitted.
 */
