@@ -4,6 +4,7 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { Navigate } from 'react-router-dom';
 
 import { SearchBar, PopUpForm } from '../index';
+import { TableRecordForm } from '../Table/TableIndex';
 
 const ToolbarButton = ({title, customFunc, icon}) => (
     <TooltipComponent content={title} position="BottomCenter">
@@ -121,13 +122,19 @@ const TableToolbar = ({color, records, setRecords, colComponents, setNumSel, cli
         {/*Showing the client's components*/}
         {showForm.add ? 
           <PopUpForm
-            closePopUp={()=>setShowForm({add: false, edit: false})}
-            submitForm={()=>{}}
-            ></PopUpForm> : null}
+                title="Add View"
+                closePopUp={()=>setShowForm({add: false, edit: false})}
+                submitForm={()=>{}}
+                buttonBg={color}
+            >
+                <TableRecordForm colComponents={colComponents}/>
+            </PopUpForm> : null}
         {showForm.edit ? 
           <PopUpForm
+            title="Edit View"
             closePopUp={()=>setShowForm({add: false, edit: false})}
             submitForm={()=>{}}
+            buttonBg={color}
           ></PopUpForm> : null}
     </div>
   )

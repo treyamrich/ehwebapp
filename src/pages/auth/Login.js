@@ -247,7 +247,7 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
 			{formType === 'signUpSuccess' && (
 				<Container>
 					<Alert variant="success">You've successfully signed up!</Alert>
-					<Button variant="dark" className="mb-3" className="login" type="button" onClick={()=>setFormState({...formState, confNewPw:'', phoneNum:'', email, name:'', password:'', authCode:'', formType: 'signIn'})}> 
+					<Button variant="dark" className="mb-3 login" type="button" onClick={()=>setFormState({...formState, confNewPw:'', phoneNum:'', email, name:'', password:'', authCode:'', formType: 'signIn'})}> 
 						Back To Login </Button>
 				</Container>
 			)}
