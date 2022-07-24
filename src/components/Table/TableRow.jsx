@@ -3,17 +3,15 @@ import { TableCheckBox , useTableContext} from './TableIndex';
 
 import './table.css';
 
-/*MYuniqSelATTR is the state of a record being selected, it's named this
-    to avoid attribute conflicts with the data that is passed*/
 const TableRow = ({record}) => {
     const { selectedRecords, setNumSel, colComponents } = useTableContext();
-
+    const selected = selectedRecords.current.has(record);
   return (
     <tr
-        className={`table-row-border ${record.MYuniqSelATTR ? 'selected-table-row' : ''}`}
+        className={`table-row-border ${selected ? 'selected-table-row' : ''}`}
         onClick={()=>{
             //If already checked
-            if(selectedRecords.current.has(record)) {
+            if(selected) {
                 setNumSel(prevState => prevState -1);
                 selectedRecords.current.delete(record);
             } else {
@@ -28,7 +26,7 @@ const TableRow = ({record}) => {
                 className="text-sm h-14 px-5 py-2 leading-5"
             >
                 {colChild.props.type === 'checkbox' ? 
-                    <TableCheckBox checked={selectedRecords.current.has(record)} type="normal"/> :
+                    <TableCheckBox checked={selected} type="normal"/> :
                     <p className="truncate"
                         style={{width: colChild.props.width + 'px'}}
                     >{record[colChild.props.field]}</p>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import { BsTrash, BsPlusSquare } from 'react-icons/bs';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
@@ -28,7 +28,8 @@ const initShowFormState = {
 const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, setNumSel, selectedRecords, clientInput}) => {
     
     const [showForm, setShowForm] = useState(initShowFormState);
-    //USE A REF FOR THE RECORD OBJECT PASSED TO THE CLIENT COMPONENT
+    const editRecordObj = useRef(null); //Obj for client edit component
+
     const { onDelete, onAdd, onEdit, addForm, editForm } = clientInput;
 
     //Postcondition: Removes record from the table
@@ -149,7 +150,7 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
             title="Edit View"
             closePopUp={handleClosePopUp}
           >
-                {React.cloneElement(editForm, {submitForm: editRecord})}
+                {React.cloneElement(editForm, {submitForm: editRecord, editRecordObj})}
           </PopUp> : null}
     </div>
   )

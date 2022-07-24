@@ -17,10 +17,12 @@ Table Props:
     *preemptiveOperation - a function that is called when the table button is hit.
         No other operations are performed after this.
     *callbackOperation - a function that is called after the TableForm is submitted.
-  :addForm and editForm are components that will be rendered if no preemptiveOperation is specififed.
-    *The components will be passed a record state and set state function as props.
-    *A close form function will also be passed.
-
+  :addForm - a component that will be rendered if no preemptiveOperation is specififed and the user hits the 'Add' button.
+      - The addForm component should call submitForm(recordObject) received from props, and pass it the new record object.
+  :editForm - a component that will be rendered if no preemptiveOperation is specififed and the user hits the 'Edit' button.
+      - The editForm component should call submitForm() with no arguments,
+          AND accept an editObject as props. This is a useRef hook, so it should be
+          referenced with 'editObject.current'
 */
 
 export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEdit, onFetch, addForm, editForm, children}) => {
@@ -37,11 +39,11 @@ export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEd
   const [currentPage, setCurrentPage] = useState(1);
   const {pageSize, pageCount} = pageSettings;
 
-  //Postcondition: Sets all records in record state array selected attribute
-  //and updates the numSel state
-  const handleSelAll = () => {
-    //Selects all records
-    records.forEach(elm => elm.MYuniqSelATTR = !allSel);
+  //Postcondition: Selected records array contains all the records
+  //Selected records array is set to an empty set
+  const handleSelAll = () => { 
+    allSel ? selectedRecords.current = new Set() :
+      records.forEach(rec => selectedRecords.current.add(rec));
     setNumSel(allSel ? 0 : records.length);
   }
   
@@ -156,10 +158,10 @@ export const useTableContext = () => useContext(TableContext);
   shared amongst other sub components.
 
   Sub-Components:
-  - ColumnHeader (in children props)
-  - TableToolbar
-  - Table
-  - Pager
+  - ColumnHeader (in children props) - configures format, primary key, and field names for the table.
+  - TableToolbar - edits records array using the search bar, performs table CRUD operations
+  - Table - renders the table and tracks selected records
+  - Pager - controller that sets the page to be viewed
 
   State Variables:
   - colComponents is an array of ColumnHeader components, it is stored to reduce
