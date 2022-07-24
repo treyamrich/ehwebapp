@@ -189,10 +189,10 @@ function ManageInventory({opRes, setOpRes}) {
                     onAdd={{}}
                     onEdit={{}}
                     addForm={
-                        <TableRecordForm btnBgColor={currentColor}/>
+                        <ItemForm btnBgColor={currentColor} mode="add"/>
                     }
                     editForm={
-                        <TableRecordForm btnBgColor={currentColor}/>
+                        <ItemForm btnBgColor={currentColor} mode="edit"/>
                     }
                     color={currentColor}
                     pageSettings={{pageSize: 12, pageCount: 5}}
@@ -200,11 +200,6 @@ function ManageInventory({opRes, setOpRes}) {
                     {customersGrid.map((colInfo, idx)=> <ColumnHeader key={idx} {...colInfo}/>)}
                 </TableComponent>
             </div>
-            {/* <TableRecordForm btnBgColor={color} colComponents={colComponents}/> */}
-            {itemForm.show ? 
-            <ItemForm itemForm={itemForm} 
-                setItemForm={setItemForm}
-                performOp={performOp}/> : null}
         </div>
     );
 }

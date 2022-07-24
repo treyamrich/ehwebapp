@@ -4,6 +4,7 @@ import { AiOutlineEdit } from 'react-icons/ai';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import { SearchBar, PopUp } from '../index';
+import { selected } from '@syncfusion/ej2/pivotview';
 
 const DISABLED_CLASS = "text-gray-300";
 
@@ -69,9 +70,14 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
     const handleOnEdit = () => {
         if(!onEdit) return;
         try {
-            onEdit.preemptiveOperation ?
-                onEdit.preemptiveOperation() :
+            if(onEdit.preemptiveOperation)
+                onEdit.preemptiveOperation();
+            else {
                 setShowForm({add: false, edit: true});
+                selected.records.forEach(record =>
+                    editRecordObj.current = record
+                );
+            }
         } catch(e) { console.log(e) }
     }
     const handleClosePopUp = () => {
@@ -98,7 +104,6 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
     //Postconditon: Edits the record in the table
     const editRecord = () => {
         handleClosePopUp();
-        setNumSel(0);
 
         if(!onEdit) return;
         try {
@@ -154,7 +159,7 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
             title="Edit View"
             closePopUp={handleClosePopUp}
           >
-                {React.cloneElement(editForm, {submitForm: editRecord, editRecordObj})}
+                {React.cloneElement(editForm, {submitForm: editRecord, editObj: editRecordObj.current})}
           </PopUp> : null}
     </div>
   )

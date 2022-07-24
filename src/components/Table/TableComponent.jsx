@@ -21,8 +21,7 @@ Table Props:
       - The addForm component should call submitForm(recordObject) received from props, and pass it the new record object.
   :editForm - a component that will be rendered if no preemptiveOperation is specififed and the user hits the 'Edit' button.
       - The editForm component should call submitForm() with no arguments,
-          AND accept an editObject as props. This is a useRef hook, so it should be
-          referenced with 'editObject.current'
+          AND accept an editObj as props to modify.
 */
 
 export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEdit, onFetch, addForm, editForm, children}) => {
