@@ -39,7 +39,7 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
         let toDel = [];
         let restRecords = [];
         for(let i = 0; i < records.length; i++) {
-            if(selectedRecords.has(records[i])) {
+            if(selectedRecords.current.has(records[i])) {
             toDel.push(records[i][pkField]);
             } else {
                 restRecords.push(records[i]);
@@ -74,7 +74,11 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
                 setShowForm({add: false, edit: true});
         } catch(e) { console.log(e) }
     }
-    const handleClosePopUp = () => setShowForm({add: false, edit: false});
+    const handleClosePopUp = () => {
+        setShowForm({add: false, edit: false});
+        setNumSel(0);
+        selectedRecords.current = new Set();
+    }
 
     //Executed by the addForm component that was provided by the client
     //Postconditon: Adds the record to the table

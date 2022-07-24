@@ -114,7 +114,7 @@ export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEd
   useEffect(()=>{
     pageRecords(pageSize ? pageSize : DEFAULT_PAGE_SIZE);
   }, [records]);
-
+  
   return (
     <TableContext.Provider value={{ allSel, setAllSel, colComponents, selectedRecords, setNumSel, handleSelAll }}>
       <div id="table-component-wrapper" className="border">
@@ -124,12 +124,12 @@ export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEd
           color={color}
           numSel={numSel}
           records={records}
-          setRecords={setRecords} 
+          setRecords={setRecords}
           clientInput={{onDelete, onAdd, onEdit, addForm, editForm}}
           setNumSel={setNumSel}
           pkField={pkField.current}
           fieldNames={fieldNames.current}
-          selectedRecords={selectedRecords.current}
+          selectedRecords={selectedRecords}
         />
         <Table records={currentPage <= pages.length ? pages[currentPage-1] : []}
           colComponents={colComponents.current}
