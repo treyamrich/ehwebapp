@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, Children } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef, Children } from 'react';
 import { Table, TableToolbar } from './TableIndex';
 import { Pager } from '../index';
 
@@ -26,8 +26,11 @@ Table Props:
 export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEdit, onFetch, addForm, editForm, children}) => {
   const [allSel, setAllSel] = useState(false);
   const [numSel, setNumSel] = useState(0);
+  const selectedRecords = useRef(new Set());
 
-  const [colComponents, setColComponents] = useState([]);
+  const fieldNames = useRef([]);
+  const pkField = useRef('');
+  const colComponents = useRef([]);
 
   const [records, setRecords] = useState([]);
   const [pages, setPages] = useState([]);
@@ -84,10 +87,24 @@ export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEd
     setCurrentPage(1);
   };
 
-  useEffect(()=>{
-    //On first render- convert the children to an Array and fetch the records
-    setColComponents(Children.toArray(children));
+  const onFirstRender = () => {
+    const colComps = Children.toArray(children);
+    const fnames = []; //Field names
+    let field;
+    
+    for(let i = 0; i < colComps.length; i++) {
+        field = colComps[i].props.field;
+        //Set the primary key
+        if(colComps[i].isPrimaryKey === true)
+            pkField.current = field;
+        fnames.push(field);
+    }
+    colComponents.current = colComps;
+    fieldNames.current = fnames;
     getRecords();
+  }
+  useEffect(()=>{
+    onFirstRender();
   }, []);
   useEffect(()=>{
     setAllSel(records.length === numSel && numSel !== 0);
@@ -95,21 +112,25 @@ export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEd
   useEffect(()=>{
     pageRecords(pageSize ? pageSize : DEFAULT_PAGE_SIZE);
   }, [records]);
+
   return (
-    <TableContext.Provider value={{ allSel, setAllSel, colComponents, setNumSel, handleSelAll }}>
+    <TableContext.Provider value={{ allSel, setAllSel, colComponents, selectedRecords, setNumSel, handleSelAll }}>
       <div id="table-component-wrapper" className="border">
 
         {/*Table Components*/}
-        <TableToolbar color={color}
+        <TableToolbar 
+          color={color}
           numSel={numSel}
           records={records}
-          setRecords={setRecords}
-          colComponents={colComponents} 
+          setRecords={setRecords} 
           clientInput={{onDelete, onAdd, onEdit, addForm, editForm}}
           setNumSel={setNumSel}
+          pkField={pkField.current}
+          fieldNames={fieldNames.current}
+          selectedRecords={selectedRecords.current}
         />
         <Table records={currentPage <= pages.length ? pages[currentPage-1] : []}
-          colComponents={colComponents}
+          colComponents={colComponents.current}
         >
           {children}
         </Table>

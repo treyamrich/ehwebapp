@@ -3,9 +3,7 @@ import { TableRow } from './TableIndex';
 
 import './table.css';
 
-//Contains the main table logic for selecting and performing operations
-/*MYuniqSelATTR is the state of a record being selected, it's named this
-    to avoid attribute conflicts with the data that is passed*/
+//Main <table> component
 const Table = ({records, colComponents, children}) => {
     
     return(
@@ -30,10 +28,9 @@ const Table = ({records, colComponents, children}) => {
                             No records 
                         </td>
                     </tr> : null}
-                {records.map((record, index) => {
-                    if(record.MYuniqSelATTR === undefined) record.MYuniqSelATTR = false;
-                    return <TableRow key={index} record={record} />
-                })}
+                {records.map((record, index) =>
+                    <TableRow key={index} record={record} />
+                )}
                 </tbody>
             </table>
         </div>

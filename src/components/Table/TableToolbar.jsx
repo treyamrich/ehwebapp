@@ -25,12 +25,10 @@ const initShowFormState = {
     add: false
 };
 
-const TableToolbar = ({color, numSel, records, setRecords, colComponents, setNumSel, clientInput}) => {
-    const [fieldNames, setFieldNames] = useState([]);
-    const [pkField, setPkField] = useState("");
+const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, setNumSel, selectedRecords, clientInput}) => {
+    
     const [showForm, setShowForm] = useState(initShowFormState);
-    const [recordObj, setRecordObj] = useState(null);
-
+    //USE A REF FOR THE RECORD OBJECT PASSED TO THE CLIENT COMPONENT
     const { onDelete, onAdd, onEdit, addForm, editForm } = clientInput;
 
     //Postcondition: Removes record from the table
@@ -40,12 +38,10 @@ const TableToolbar = ({color, numSel, records, setRecords, colComponents, setNum
         let toDel = [];
         let restRecords = [];
         for(let i = 0; i < records.length; i++) {
-            if(records[i].MYuniqSelATTR) {
-            //Remove the custom select attribute and store the primary key
-            records[i].MYuniqSelATTR = undefined;
+            if(selectedRecords.has(records[i])) {
             toDel.push(records[i][pkField]);
             } else {
-            restRecords.push(records[i]);
+                restRecords.push(records[i]);
             }
         }
         setRecords(restRecords);
@@ -104,19 +100,6 @@ const TableToolbar = ({color, numSel, records, setRecords, colComponents, setNum
             onEdit.callbackOperation();
         } catch(e) {console.log(e)};
     }
-
-    useEffect(()=>{
-        //Init field names from the column components' props and find primary key 
-        const fnames = [];
-        let field;
-        for(let i = 0; i < colComponents.length; i++) {
-            field = colComponents[i].props.field;
-            if(colComponents[i].isPrimaryKey === true)
-                setPkField(field);
-            fnames.push(field);
-        }
-        setFieldNames(fnames);
-    }, [colComponents]);
     
   return (
     <div className="flex justify-between p-2 mx-1 relative items-center">
