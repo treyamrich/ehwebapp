@@ -29,7 +29,7 @@ const initShowFormState = {
 const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, setNumSel, selectedRecords, clientInput}) => {
     
     const [showForm, setShowForm] = useState(initShowFormState);
-    const editRecordObj = useRef(null); //Obj for client edit component
+    const recordInputObj = useRef(null); //Obj for client edit/add component to use
 
     const { onDelete, onAdd, onEdit, addForm, editForm } = clientInput;
 
@@ -61,9 +61,12 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
     const handleOnAdd = () => {
         if(!onAdd) return;
         try {
-            onAdd.preemptiveOperation ?
-                onAdd.preemptiveOperation() :
-                setShowForm({add: true, edit: false});
+            if(onAdd.preemptiveOperation)
+              onAdd.preemptiveOperation();
+            else {
+              setShowForm({add: true, edit: false});
+              recordInputObj.current = {};
+            }
         } catch(e) { console.log(e) }
     }
     //Postcondition: Executes the preemptive operation or shows the editForm component
@@ -74,8 +77,8 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
                 onEdit.preemptiveOperation();
             else {
                 setShowForm({add: false, edit: true});
-                selected.records.forEach(record =>
-                    editRecordObj.current = record
+                selectedRecords.current.forEach(record =>
+                    recordInputObj.current = record
                 );
             }
         } catch(e) { console.log(e) }
@@ -87,28 +90,10 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
     }
 
     //Executed by the addForm component that was provided by the client
-    //Postconditon: Adds the record to the table
-    const addRecord = (newRecord=null) => {
+    //Postconditon: Adds the record locally to the table component
+    const addRecord = () => {
         handleClosePopUp();
-        
-        //Ensure a record was passed by the client
-        if(!newRecord) return;
-        setRecords([...records, newRecord]);
-
-        if(!onAdd) return;
-        try {
-            onAdd.callbackOperation();
-        } catch(e) {console.log(e)};
-    }
-    //Executed by the editForm component that was provided by the client
-    //Postconditon: Edits the record in the table
-    const editRecord = () => {
-        handleClosePopUp();
-
-        if(!onEdit) return;
-        try {
-            onEdit.callbackOperation();
-        } catch(e) {console.log(e)};
+        setRecords([recordInputObj.current, ...records]);
     }
     
   return (
@@ -152,17 +137,24 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
                 title="Add View"
                 closePopUp={handleClosePopUp}
             >
-               {React.cloneElement(addForm, {submitForm: addRecord})}
+               {React.cloneElement(addForm, {submitForm: addRecord, recordInputObj: recordInputObj.current})}
             </PopUp> : null}
         {showForm.edit ? 
           <PopUp
             title="Edit View"
             closePopUp={handleClosePopUp}
           >
-                {React.cloneElement(editForm, {submitForm: editRecord, editObj: editRecordObj.current})}
+                {React.cloneElement(editForm, {submitForm: handleClosePopUp, recordInputObj: recordInputObj.current})}
           </PopUp> : null}
     </div>
   )
 }
 
 export default TableToolbar
+
+/*Implementation Invariant
+
+  - The editForm component will simply edit the object it was passed that is in the table
+  - The addForm component will also edit the object it was passed, but it also needs to add the record to the table
+
+*/

@@ -17,7 +17,6 @@ const ItemForm = ({btnBgColor, mode, submitForm, editObj}) => {
     const thresh = useRef(null);
     const maxAddon = useRef(null);
 
-    let performOp;
     //Checks if qty, qty threshold, max addon and desc are null before editing the item
     function checkNullFirst(e) {
       e.preventDefault();
@@ -27,7 +26,8 @@ const ItemForm = ({btnBgColor, mode, submitForm, editObj}) => {
           item.qtyThresh = thresh.current.value != "" ? thresh.current.value : null;
           item.maxAddon = maxAddon.current.value != "" ? maxAddon.current.value : null;
       }
-      performOp(mode, item);
+      //Call the submit form to close the component
+      submitForm();
       setItem({
           code: "",
           name: "",
@@ -163,19 +163,11 @@ const ItemForm = ({btnBgColor, mode, submitForm, editObj}) => {
               </label>
           </div>
         </div>
-        <div className="row">
-          <div className="col-25"></div>
-          <div className="col-75">
-              <button className="manage-form" type="button"
-                  onClick={()=>setItemForm({item: null, op: "none", show: false})}>Cancel</button>
-              <button className="manage-form" type="submit">Submit</button>
-          </div>
-        </div>
       </div>
       <div id="submit-popup-form" className='flex justify-end items-center p-4 ml-4'>
         <button className="text-white w-full lg:w-1/6 hover:drop-shadow-xl p-3"
           style={{borderRadius: '10px', backgroundColor: btnBgColor}}
-          onClick={()=>submitForm()}
+          onClick={checkNullFirst}
         >
           Save
         </button>

@@ -13,15 +13,18 @@ Table Props:
   :color - string
   :pageSettings - object {pageSize: int, pageCount: int}
   :onFetch - asyncFunction 
-  :onDelete, onAdd and onEdit - object {preemptiveOperation: function, callbackOperation: async function}
+  :onDelete - object {preemptiveOperation: function, callbackOperation: async function}
+  :onEdit - object {preemptiveOperation: function}
+  :onAdd - object {preemptiveOperation: function}
     *preemptiveOperation - a function that is called when the table button is hit.
         No other operations are performed after this.
     *callbackOperation - a function that is called after the TableForm is submitted.
   :addForm - a component that will be rendered if no preemptiveOperation is specififed and the user hits the 'Add' button.
-      - The addForm component should call submitForm(recordObject) received from props, and pass it the new record object.
+      - The addForm component should call submitForm() received from props
+      - It should also accept a prop named recordInputObj which is an object to use for the form
   :editForm - a component that will be rendered if no preemptiveOperation is specififed and the user hits the 'Edit' button.
-      - The editForm component should call submitForm() with no arguments,
-          AND accept an editObj as props to modify.
+      - The editForm component should call submitForm() received from props
+      - It should also accept a prop named recordInputObj which is an object to use for the form
 */
 
 export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEdit, onFetch, addForm, editForm, children}) => {
