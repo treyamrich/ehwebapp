@@ -20,11 +20,10 @@ Table Props:
         No other operations are performed after this.
     *callbackOperation - a function that is called after the TableForm is submitted.
   :addForm - a component that will be rendered if no preemptiveOperation is specififed and the user hits the 'Add' button.
-      - The addForm component should call closeForm() received from props to stop the display of the form
-      - It should also accept a prop named recordInputObj which is an object to use for the form
+      - The addForm component should accept as props 'submitForm' - a function to close the form and pass the form object
   :editForm - a component that will be rendered if no preemptiveOperation is specififed and the user hits the 'Edit' button.
-      - The editForm component should call closeForm() received from props to stop the display of the form
-      - It should also accept a prop named recordInputObj which is an object to use for the form
+      - The editForm component should accept as props 'submitForm' - a function to close the form and pass the form object
+      - It should also accept a prop named editObj which is an object used for the initial state of the form
 */
 
 export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEdit, onFetch, addForm, editForm, children}) => {
@@ -99,8 +98,9 @@ export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEd
     for(let i = 0; i < colComps.length; i++) {
         field = colComps[i].props.field;
         //Set the primary key
-        if(colComps[i].isPrimaryKey === true)
+        if(colComps[i].props.isPrimaryKey === true) {
             pkField.current = field;
+        }
         fnames.push(field);
     }
     colComponents.current = colComps;

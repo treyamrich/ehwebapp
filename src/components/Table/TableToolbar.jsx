@@ -29,7 +29,7 @@ const initShowFormState = {
 const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, setNumSel, selectedRecords, clientInput}) => {
     
     const [showForm, setShowForm] = useState(initShowFormState);
-    const recordInputObj = useRef(null); //Obj for client edit/add component to use
+    const editObj = useRef(null); //Obj for client edit/add component to use
 
     const { onDelete, onAdd, onEdit, addForm, editForm } = clientInput;
 
@@ -65,7 +65,6 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
               onAdd.preemptiveOperation();
             else {
               setShowForm({add: true, edit: false});
-              recordInputObj.current = {};
             }
         } catch(e) { console.log(e) }
     }
@@ -78,7 +77,7 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
             else {
                 setShowForm({add: false, edit: true});
                 selectedRecords.current.forEach(record =>
-                    recordInputObj.current = record
+                    editObj.current = record
                 );
             }
         } catch(e) { console.log(e) }
@@ -91,9 +90,22 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
 
     //Executed by the addForm component that was provided by the client
     //Postconditon: Adds the record locally to the table component
-    const addRecord = () => {
+    const addRecord = (newRecord=null) => {
         handleClosePopUp();
-        setRecords([recordInputObj.current, ...records]);
+        //Ensure the client passed a record
+        if(!newRecord) return;
+        //Update table
+        setRecords([newRecord, ...records]);
+    }
+    const editRecord = (editedRecord=null) => {
+        handleClosePopUp();
+        //Ensure the client passed a record
+        if(!editedRecord) return;
+        //Update table
+        setRecords(records.map(record => 
+            record[pkField] !== editObj.current[pkField] ?
+            record : editedRecord
+        ));
     }
     
   return (
@@ -137,14 +149,14 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
                 title="Add View"
                 closePopUp={handleClosePopUp}
             >
-               {React.cloneElement(addForm, {closeForm: addRecord, recordInputObj: recordInputObj.current})}
+               {React.cloneElement(addForm, {submitForm: addRecord})}
             </PopUp> : null}
         {showForm.edit ? 
           <PopUp
             title="Edit View"
             closePopUp={handleClosePopUp}
           >
-                {React.cloneElement(editForm, {closeForm: handleClosePopUp, recordInputObj: recordInputObj.current})}
+                {React.cloneElement(editForm, {submitForm: editRecord, editObj: editObj.current})}
           </PopUp> : null}
     </div>
   )

@@ -183,8 +183,8 @@ function ManageInventory({opRes, setOpRes}) {
             <Header category="Page" title="Inventory" />
             <div className="inventory-wrapper">
                 <TableComponent 
-                    data={customersData}
-                    onFetch={undefined}
+                    data={undefined}
+                    onFetch={fetchInventory}
                     onDelete={undefined}
                     onAdd={{}}
                     onEdit={{}}
@@ -197,7 +197,7 @@ function ManageInventory({opRes, setOpRes}) {
                     color={currentColor}
                     pageSettings={{pageSize: 12, pageCount: 5}}
                 >
-                    {customersGrid.map((colInfo, idx)=> <ColumnHeader key={idx} {...colInfo}/>)}
+                    {inventoryColumns.map((colInfo, idx)=> <ColumnHeader key={idx} {...colInfo}/>)}
                 </TableComponent>
             </div>
         </div>

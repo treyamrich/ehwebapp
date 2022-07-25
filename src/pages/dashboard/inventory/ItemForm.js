@@ -11,8 +11,9 @@ const initialItemState = {
   maxAddon: null
 };
 
-const ItemForm = ({btnBgColor, mode, closeForm, editObj}) => {
-  const [item, setItem] = useState(mode === "edit" ? editObj: initialItemState);
+const ItemForm = ({btnBgColor, mode, submitForm, editObj}) => {
+    const [item, setItem] = useState(mode === 'edit' ? editObj : initialItemState)
+    
     const qty = useRef(null);
     const thresh = useRef(null);
     const maxAddon = useRef(null);
@@ -26,8 +27,9 @@ const ItemForm = ({btnBgColor, mode, closeForm, editObj}) => {
           item.qtyThresh = thresh.current.value != "" ? thresh.current.value : null;
           item.maxAddon = maxAddon.current.value != "" ? maxAddon.current.value : null;
       }
-      //Call the submit form to close the component
-      closeForm();
+      
+      //Call the submit form to close the component and add to the table
+      submitForm(item);
       setItem({
           code: "",
           name: "",
