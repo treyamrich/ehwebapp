@@ -137,14 +137,14 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
                 title="Add View"
                 closePopUp={handleClosePopUp}
             >
-               {React.cloneElement(addForm, {submitForm: addRecord, recordInputObj: recordInputObj.current})}
+               {React.cloneElement(addForm, {closeForm: addRecord, recordInputObj: recordInputObj.current})}
             </PopUp> : null}
         {showForm.edit ? 
           <PopUp
             title="Edit View"
             closePopUp={handleClosePopUp}
           >
-                {React.cloneElement(editForm, {submitForm: handleClosePopUp, recordInputObj: recordInputObj.current})}
+                {React.cloneElement(editForm, {closeForm: handleClosePopUp, recordInputObj: recordInputObj.current})}
           </PopUp> : null}
     </div>
   )

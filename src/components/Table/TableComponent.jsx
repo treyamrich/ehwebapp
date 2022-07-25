@@ -20,10 +20,10 @@ Table Props:
         No other operations are performed after this.
     *callbackOperation - a function that is called after the TableForm is submitted.
   :addForm - a component that will be rendered if no preemptiveOperation is specififed and the user hits the 'Add' button.
-      - The addForm component should call submitForm() received from props
+      - The addForm component should call closeForm() received from props to stop the display of the form
       - It should also accept a prop named recordInputObj which is an object to use for the form
   :editForm - a component that will be rendered if no preemptiveOperation is specififed and the user hits the 'Edit' button.
-      - The editForm component should call submitForm() received from props
+      - The editForm component should call closeForm() received from props to stop the display of the form
       - It should also accept a prop named recordInputObj which is an object to use for the form
 */
 
