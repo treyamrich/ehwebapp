@@ -1,0 +1,52 @@
+/*Hide default radio button*/
+.radio-container input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+/*Custom radio button*/
+.custom-radio {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+/*Add blue background when checked*/
+.radio-container input:checked ~ .custom-radio {
+    background-color: #2196F3;
+}
+/*Label container*/
+.radio-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/*Indicator (dot/circle) - hidden when not checked*/
+.custom-radio::after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+/*Reveal indicator when checked*/
+.radio-container input[type="radio"]:checked ~ .custom-radio:after {
+    display: block;
+}
+/*Style indicator (dot/circle*/
+.radio-container .custom-radio::after {
+    top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+}
