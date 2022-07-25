@@ -24,6 +24,7 @@ Table Props:
   :editForm - a component that will be rendered if no preemptiveOperation is specififed and the user hits the 'Edit' button.
       - The editForm component should accept as props 'submitForm' - a function to close the form and pass the form object
       - It should also accept a prop named editObj which is an object used for the initial state of the form
+
 */
 
 export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEdit, onFetch, addForm, editForm, children}) => {
@@ -63,8 +64,7 @@ export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEd
     }
     //Verify client's func or passed data is an array
     if(!Array.isArray(recs)) {
-      throw "Error: Data format must be an Array of Objects. \
-      Data fetch function must be an async function which returns an Array.";
+      throw new Error("Error: Data format must be an Array of Objects. Data fetch function must be an async function which returns an Array.");
     }
     
     setRecords([...recs]);
@@ -78,7 +78,7 @@ export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEd
     
     for(let i = 0; i < records.length; i++) {
       //Add new page - if necessary - before inserting
-      if(count == pgSize) {
+      if(count === pgSize) {
         count = 0;
         insPageIdx++;
         newPages.push([]);

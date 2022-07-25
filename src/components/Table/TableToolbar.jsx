@@ -4,7 +4,6 @@ import { AiOutlineEdit } from 'react-icons/ai';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import { SearchBar, PopUp } from '../index';
-import { selected } from '@syncfusion/ej2/pivotview';
 
 const DISABLED_CLASS = "text-gray-300";
 
@@ -61,11 +60,9 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
     const handleOnAdd = () => {
         if(!onAdd) return;
         try {
-            if(onAdd.preemptiveOperation)
-              onAdd.preemptiveOperation();
-            else {
+            onAdd.preemptiveOperation ?
+              onAdd.preemptiveOperation() :
               setShowForm({add: true, edit: false});
-            }
         } catch(e) { console.log(e) }
     }
     //Postcondition: Executes the preemptive operation or shows the editForm component
@@ -82,6 +79,7 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
             }
         } catch(e) { console.log(e) }
     }
+    //Postcondition: Closes the form component and resets the checkboxes
     const handleClosePopUp = () => {
         setShowForm({add: false, edit: false});
         setNumSel(0);
@@ -106,6 +104,7 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
             record[pkField] !== editObj.current[pkField] ?
             record : editedRecord
         ));
+
     }
     
   return (

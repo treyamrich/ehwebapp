@@ -4,6 +4,7 @@ import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { Sidebar, Navbar, Footer, ThemeSettings } from '../../components/index';
 import { useStateContext } from '../../contexts/ContextProvider';
+import { Alert } from 'react-bootstrap';
 
 import { Metrics, Inventory } from './index';
 import ManagePO from './purchase-order/ManagePO';
@@ -23,8 +24,6 @@ const Dashboard = () => {
 
     return(
         <div className={currentMode === 'Dark' ? 'dark' : ''}>
-            {/*opRes.failureMsg !== "" ? <h1>{opRes.failureMsg}</h1> : null*/}
-            {/*opRes.successMsg !== "" ? <h1>{opRes.successMsg}</h1> : null*/}
           <div className="flex relative dark:bg-main-dark-bg">
             <div className="fixed right-4 bottom-4" style={{ zIndex: '1000' }}>
               <TooltipComponent
@@ -61,15 +60,18 @@ const Dashboard = () => {
               <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
                 <Navbar />
               </div>
+              <div className="fixed">
+                {opRes.failureMsg !== "" ? <Alert variatn='danger'>{opRes.failureMsg}</Alert> : null}
+                {opRes.successMsg !== "" ? <Alert variatn='success'>{opRes.successMsg}</Alert> : null}
+              </div>
               <div>
                 {themeSettings && (<ThemeSettings />)}
   
                 <Routes>
                     <Route path="/" element={<Metrics/>}/>
                     <Route path="metrics" element={<Metrics/>}/>
-                    <Route path="inventory" element={<Inventory/>}/>
+                    <Route path="inventory" element={<Inventory opRes={opRes} setOpRes={setOpRes}/>}/>
                     <Route path="purchase-order" element={<ManagePO opRes={opRes} setOpRes={setOpRes}/>}/>
-                    {/*<Route path="inventory" element={<ManageInventory opRes={opRes} setOpRes={setOpRes}/>}/>*/}
                 </Routes>
               </div>
               <Footer />

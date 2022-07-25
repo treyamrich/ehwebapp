@@ -12,7 +12,7 @@ const initialItemState = {
   maxAddon: null
 };
 
-const ItemForm = ({btnBgColor, mode, submitForm, editObj}) => {
+const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
     const [item, setItem] = useState(mode === 'edit' ? editObj : initialItemState)
     
     const qty = useRef(null);
@@ -23,11 +23,15 @@ const ItemForm = ({btnBgColor, mode, submitForm, editObj}) => {
     function checkNullFirst(e) {
       e.preventDefault();
   
-      if(mode === "edit") {
-          item.qty = qty.current.value != "" ? qty.current.value : null;
-          item.qtyThresh = thresh.current.value != "" ? thresh.current.value : null;
-          item.maxAddon = maxAddon.current.value != "" ? maxAddon.current.value : null;
+      if(mode === 'edit') {
+        //Remove any empty strings and set to null
+          item.qty = qty.current.value !== "" ? qty.current.value : null;
+          item.qtyThresh = thresh.current.value !== "" ? thresh.current.value : null;
+          item.maxAddon = maxAddon.current.value !== "" ? maxAddon.current.value : null;
       }
+        
+      //API call to add/edit item in database
+      dbOperation(mode, item);
       
       //Call the submit form to close the component and add to the table
       submitForm(item);

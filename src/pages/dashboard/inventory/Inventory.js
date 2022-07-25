@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { API } from 'aws-amplify';
 import { listItems } from '../../../graphql/queries';
 import { createItems, deleteItems, updateItems } from '../../../graphql/mutations';
@@ -11,33 +11,13 @@ import '../../../styles/inventory.css';
 import { useStateContext } from '../../../contexts/ContextProvider';
 import { inventoryColumns } from '../../../data/uidata'; 
 
-import { TableRecordForm } from '../../../components/Table/TableIndex';
-
-import { customersData, customersGrid } from '../../../data/dummy';
-
-const initialItemFormState = {
-    op: "none",
-    show: false,
-    item: null
-}
 
 function ManageInventory({opRes, setOpRes}) {
-
-    //Show item operation form for: add and 
-    const [itemForm, setItemForm] = useState(initialItemFormState);
-
-    const [inventory, setInventory] = useState([]);
-
-    //Track number of checkboxes checked instead of reallocating a new set every time
-    //Checkbox values hold the corresponding inventory index to get the item info
-    const [selBoxes, setSelBoxes] = useState(new Set());
-    const [numSel, setNumSel] = useState(0);
 
     const { currentColor } = useStateContext();
 
     async function removeItems(itemPks) {
         //Removes the items that are in the selBoxes set and unchecks the boxes
-        var itemCode;
         var promises = [];
         
         itemPks.forEach(pk =>{
@@ -103,7 +83,8 @@ function ManageInventory({opRes, setOpRes}) {
         return [];
     }
 
-    async function performOp(op, items=null) {
+    async function performOp(op, items) {
+        console.log(opRes);
         //items will be an array if the operation is import
         opRes.succItems = [];
         opRes.failItems = [];
@@ -116,22 +97,18 @@ function ManageInventory({opRes, setOpRes}) {
                 await removeItems();
                 succMsg += "removed item(s): ";
                 failMsg += "remove item(s): ";
-                setSelBoxes(new Set());
-                setNumSel(0);
                 break;
             }
             case "edit": {
                 await editItem(items);
                 succMsg += "edited: ";
                 failMsg += "edit: ";
-                setItemForm({item: null, op: "none", show: false});
                 break;
             }
             case "add": {
                 await addItem(items);
                 succMsg += "added: ";
                 failMsg += "add: ";
-                setItemForm({item: null, op: "none", show: false});
                 break;
             } 
             default: {}
@@ -149,33 +126,6 @@ function ManageInventory({opRes, setOpRes}) {
 
         //Regrab the inventory and display result
         setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});    
-        fetchInventory();
-    }
-    //Chooses the operation based on the select value
-    function selectOp(op) {
-        switch(op) {
-            case "remove": {
-                performOp(op);
-                break;
-            }
-            case "edit": {
-                var updateItem;
-                //Edge Case: 1 item in inventory and select-all box is clicked
-                selBoxes.forEach((cbox)=>{
-                    if(cbox.name !== "checkbox-select-all") 
-                        updateItem = inventory[cbox.value];
-                    cbox.checked = false;
-                });
-                setNumSel(0);
-                setItemForm({
-                    item: updateItem,  
-                    op: "edit", 
-                    show: true
-                });
-                break;
-            }
-            default:{}
-        }
     }
 
     return (
@@ -185,14 +135,14 @@ function ManageInventory({opRes, setOpRes}) {
                 <TableComponent 
                     data={undefined}
                     onFetch={fetchInventory}
-                    onDelete={undefined}
+                    onDelete={{callbackOperation: removeItems}}
                     onAdd={{}}
                     onEdit={{}}
                     addForm={
-                        <ItemForm btnBgColor={currentColor} mode="add"/>
+                        <ItemForm btnBgColor={currentColor} mode="add" dbOperation={performOp}/>
                     }
                     editForm={
-                        <ItemForm btnBgColor={currentColor} mode="edit"/>
+                        <ItemForm btnBgColor={currentColor} mode="edit" dbOperation={performOp}/>
                     }
                     color={currentColor}
                     pageSettings={{pageSize: 12, pageCount: 5}}
