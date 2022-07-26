@@ -17,3 +17,4 @@ export { default as Header } from './Header';
 export { default as SearchBar } from './SearchBar/SearchBar';
 export { default as PopUp } from './PopUp';
 export { default as Pager } from './Pager/Pager';
+export { default as Alert } from './Alert/Alert';

@@ -32,7 +32,6 @@ import React, {
   
         if (minPast >= maxTime) {
           clearInterval(warningInactiveInterval.current);
-          //setOpen(false);
           sessionStorage.removeItem('lastTimeStamp');
           signOut();
         }

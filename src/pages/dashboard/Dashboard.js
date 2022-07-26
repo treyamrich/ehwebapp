@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
-import { Sidebar, Navbar, Footer, ThemeSettings } from '../../components/index';
+import { Alert, Sidebar, Navbar, Footer, ThemeSettings } from '../../components/index';
 import { useStateContext } from '../../contexts/ContextProvider';
-import { Alert } from 'react-bootstrap';
 
 import { Metrics, Inventory } from './index';
 import ManagePO from './purchase-order/ManagePO';
@@ -22,6 +21,7 @@ const Dashboard = () => {
     const [opRes, setOpRes] = useState(initialOpState);
     const {activeMenu, themeSettings, setThemeSettings, currentColor, currentMode } = useStateContext();
 
+    const resetOpRes = () => setOpRes(initialOpState);
     return(
         <div className={currentMode === 'Dark' ? 'dark' : ''}>
           <div className="flex relative dark:bg-main-dark-bg">
@@ -59,10 +59,8 @@ const Dashboard = () => {
             >
               <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
                 <Navbar />
-              </div>
-              <div className="fixed">
-                {opRes.failureMsg !== "" ? <Alert variatn='danger'>{opRes.failureMsg}</Alert> : null}
-                {opRes.successMsg !== "" ? <Alert variatn='success'>{opRes.successMsg}</Alert> : null}
+                {opRes.failureMsg !== "" ? <Alert variant="danger" dismissible onClose={resetOpRes}>{opRes.failureMsg}</Alert> : null}
+                {opRes.successMsg !== "" ? <Alert variant="success" dismissible onClose={resetOpRes}>{opRes.successMsg}</Alert> : null}
               </div>
               <div>
                 {themeSettings && (<ThemeSettings />)}
