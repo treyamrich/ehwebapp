@@ -28,7 +28,7 @@ const Alert = ({children, variant, dismissible, onClose, duration}) => {
         >
           <AiOutlineClose className="text-2xl" />
         </button> : null}
-        {children}lkdfsljasdoifghasdfi
+        {children}
     </div>
   )
 }
