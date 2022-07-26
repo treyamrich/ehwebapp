@@ -1,8 +1,25 @@
-import React from 'react'
+import React, { useRef, useEffect} from 'react'
 import './alert.css';
 import { AiOutlineClose } from 'react-icons/ai';
 
-const Alert = ({children, variant, dismissible, onClose}) => {
+const DEFAULT_DURATION = 10;
+
+const Alert = ({children, variant, dismissible, onClose, duration}) => {
+
+  const timer = useRef();
+
+  const startTimer = () => {
+    //On timeout, stop the timer and close the alert
+    timer.current = setTimeout(()=>{
+      clearTimeout(timer.current);
+      onClose();
+    }, 1000 * (duration ? duration : DEFAULT_DURATION));
+  }
+  useEffect(()=>{
+    startTimer();
+    return ()=> clearTimeout(timer.current);
+  }, []);
+
   return (
     <div role="alert" aria-label="Close alert" className={`${variant} alert ${dismissible ? 'alert-dismissible' : ''}`}>
       

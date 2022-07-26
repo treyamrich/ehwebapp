@@ -84,7 +84,7 @@ function ManageInventory({opRes, setOpRes}) {
     }
 
     async function performOp(op, items) {
-        console.log(opRes);
+        
         //items will be an array if the operation is import
         opRes.succItems = [];
         opRes.failItems = [];
@@ -127,7 +127,7 @@ function ManageInventory({opRes, setOpRes}) {
         //Regrab the inventory and display result
         setOpRes({...opRes, successMsg: succMsg, failureMsg: failMsg});    
     }
-
+    React.useEffect(()=> setOpRes({...opRes, successMsg: 'ahsdfoiahsdf'}), []);
     return (
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
             <Header category="Page" title="Inventory" />
