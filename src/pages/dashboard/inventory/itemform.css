@@ -5,7 +5,7 @@
     cursor: pointer;
 }
 /*Custom radio button*/
-.custom-radio {
+.radio-outer {
     position: absolute;
     top: 0;
     left: 0;
@@ -16,8 +16,17 @@
 }
 
 /*Add blue background when checked*/
-.radio-container input:checked ~ .custom-radio {
+.radio-container input:checked ~ .radio-outer {
     background-color: #2196F3;
+}
+
+/*Make transparent inner circle when not checked*/
+.radio-inner {
+    display: block;
+    background-color: #eee;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
 }
 /*Label container*/
 .radio-container {
@@ -31,22 +40,8 @@
     user-select: none;
 }
 
-/*Indicator (dot/circle) - hidden when not checked*/
-.custom-radio::after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-/*Reveal indicator when checked*/
-.radio-container input[type="radio"]:checked ~ .custom-radio:after {
-    display: block;
-}
-/*Style indicator (dot/circle*/
-.radio-container .custom-radio::after {
-    top: 9px;
-	left: 9px;
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background: white;
+/*Set indicator color to visible when checked*/
+.radio-container input[type="radio"]:checked ~ .radio-inner {
+    background-color: white;
+    width: 250px;
 }

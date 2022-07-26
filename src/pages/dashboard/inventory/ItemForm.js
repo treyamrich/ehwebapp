@@ -129,7 +129,9 @@ const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
                                 defaultChecked={mode === "add" || item.category === "PLAQUE"} 
                                 onClick={(e)=>setItem({...item, category: e.target.value})}
                                 required/>
-                                <span className="custom-radio" />
+                                <div className="radio-outer flex items-center justify-center">
+                                    <span className="radio-inner"/>
+                                </div>
                         </label>
                         <label className="text-lg font-semibold radio-container hover:drop-shadow-xl">
                             Drinkware
@@ -137,7 +139,9 @@ const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
                                 defaultChecked={item.category === "DRINKWARE"} 
                                 onClick={(e)=>setItem({...item, category: e.target.value})}
                                 required/>
-                                <span className="custom-radio" />
+                               <div className="radio-outer flex items-center justify-center">
+                                    <span className="radio-inner"/>
+                                </div>
                         </label>
                         <label className="text-lg font-semibold radio-container hover:drop-shadow-xl">
                             Gift
@@ -145,7 +149,9 @@ const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
                                 defaultChecked={item.category === "GIFT"} 
                                 onClick={(e)=>setItem({...item, category: e.target.value})}
                                 required/>
-                                <span className="custom-radio" />
+                               <div className="radio-outer flex items-center justify-center">
+                                    <span className="radio-inner"/>
+                                </div>
                         </label>
                     </div>
                 </div>
