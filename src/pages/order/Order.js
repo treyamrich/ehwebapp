@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { Routes, Route } from 'react-router-dom';
-import { FiSettings } from 'react-icons/fi';
+import { CgShoppingCart } from 'react-icons/cg';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { Alert, Sidebar, Navbar, Footer, ThemeSettings } from '../../components/index';
 import { useStateContext } from '../../contexts/ContextProvider';
 
-import { Metrics, Inventory } from './index';
-import ManagePO from './purchase-order/ManagePO';
-import { dashboard_links } from '../../data/uidata';
+import { Bundles, Plaque, Bottle, Gift } from './index';
+import { order_links } from '../../data/uidata';
 
 //Database operation state
 const initialOpState = {
@@ -17,38 +16,37 @@ const initialOpState = {
     failItems: [] 
 };
 
-const Dashboard = () => {
-
+const Order = () => {
     const [opRes, setOpRes] = useState(initialOpState);
     const {activeMenu, themeSettings, setThemeSettings, currentColor, currentMode } = useStateContext();
 
     const resetOpRes = () => setOpRes(initialOpState);
-    return(
-        <div className={currentMode === 'Dark' ? 'dark' : ''}>
+  return (
+    <div className={currentMode === 'Dark' ? 'dark' : ''}>
           <div className="flex relative dark:bg-main-dark-bg">
             <div className="fixed right-4 bottom-4" style={{ zIndex: '1000' }}>
               <TooltipComponent
-                content="Settings"
+                content="Cart"
                 position="Top"
               >
                 <button
                   type="button"
                   onClick={() => setThemeSettings(true)}
-                  style={{ background: currentColor, borderRadius: '50%' }}
+                  style={{ background: '#c39f7f57', color: 'black', borderRadius: '50%' }}
                   className="text-3xl text-white p-3 hover:drop-shadow-xl hover:bg-light-gray"
                 >
-                  <FiSettings />
+                  <CgShoppingCart/>
                 </button>
   
               </TooltipComponent>
             </div>
             {activeMenu ? (
               <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-                <Sidebar links={dashboard_links}/>
+                <Sidebar links={order_links}/>
               </div>
             ) : (
               <div className="w-0 dark:bg-secondary-dark-bg">
-                <Sidebar links={dashboard_links}/>
+                <Sidebar links={order_links}/>
               </div>
             )}
             <div
@@ -67,17 +65,18 @@ const Dashboard = () => {
                 {themeSettings && (<ThemeSettings />)}
   
                 <Routes>
-                    <Route path="/" element={<Metrics/>}/>
-                    <Route path="metrics" element={<Metrics/>}/>
-                    <Route path="inventory" element={<Inventory opRes={opRes} setOpRes={setOpRes}/>}/>
-                    <Route path="purchase-order" element={<ManagePO opRes={opRes} setOpRes={setOpRes}/>}/>
+                    <Route path="/" element={<Bundles/>}/>
+                    <Route path="bundles" element={<Bundles/>}/>
+                    <Route path="plaques%20&%20plates" element={<Plaque opRes={opRes} setOpRes={setOpRes}/>}/>
+                    <Route path="engravable%20bottles" element={<Bottle opRes={opRes} setOpRes={setOpRes}/>}/>
+                    <Route path="personalized%20gifts" element={<Gift opRes={opRes} setOpRes={setOpRes}/>}/>
                 </Routes>
               </div>
               <Footer />
             </div>
           </div>
       </div>
-    );
+  )
 }
 
-export default Dashboard;
+export default Order

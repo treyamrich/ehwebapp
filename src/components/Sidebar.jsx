@@ -4,10 +4,9 @@ import { SiShopware } from 'react-icons/si';
 import { MdOutlineCancel } from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
-import { links } from '../data/uidata';
 import { useStateContext } from '../contexts/ContextProvider';
 
-const Sidebar = () => {
+const Sidebar = ({links}) => {
   const { currentColor, activeMenu, setActiveMenu, screenSize } = useStateContext();
 
   const handleCloseSideBar = () => {

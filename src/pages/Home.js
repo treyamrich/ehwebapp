@@ -14,6 +14,7 @@ const Home = ({isAuthenticated, name, signOut}) => {
             </div>
             <div>
                 <h1 className="text-7xl text-blue-500 underline"><Link to="/management">GO TO MANAGEMENT PORTAL</Link></h1>
+                <h1 className="text-7xl text-blue-500 underline"><Link to="/order">GO TO ORDER</Link></h1>
                 <Routes>
                     <Route element={<Landing/>} path="/"/>
                 </Routes>

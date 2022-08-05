@@ -1,12 +1,11 @@
-import { AiOutlineCalendar, AiOutlineShoppingCart, AiOutlineAreaChart, AiOutlineBarChart, AiOutlineStock } from 'react-icons/ai';
-import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart } from 'react-icons/fi';
-import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
-import { BiColorFill } from 'react-icons/bi';
+import { AiOutlineShoppingCart, AiOutlineBarChart, AiOutlineFire } from 'react-icons/ai';
+import { FiAward, FiEdit } from 'react-icons/fi';
+import { BsBoxSeam, BsGift } from 'react-icons/bs';
 import { IoMdContacts } from 'react-icons/io';
-import { RiContactsLine, RiTodoLine, RiStockLine } from 'react-icons/ri';
-import { GiLouvrePyramid } from 'react-icons/gi';
+import { RiTodoLine,  } from 'react-icons/ri';
+import { TbBottle } from 'react-icons/tb';
 
-export const links = [
+export const dashboard_links = [
     {
       title: 'Dashboard',
       links: [
@@ -40,65 +39,6 @@ export const links = [
             name: 'employees',
             icon: <IoMdContacts/>
         }
-      ],
-    },
-    {
-      title: 'Apps',
-      links: [
-        {
-          name: 'calendar',
-          icon: <AiOutlineCalendar />,
-        },
-        {
-          name: 'kanban',
-          icon: <BsKanban />,
-        },
-        {
-          name: 'editor',
-          icon: <FiEdit />,
-        },
-        {
-          name: 'color-picker',
-          icon: <BiColorFill />,
-        },
-      ],
-    },
-    {
-      title: 'Charts',
-      links: [
-        {
-          name: 'line',
-          icon: <AiOutlineStock />,
-        },
-        {
-          name: 'area',
-          icon: <AiOutlineAreaChart />,
-        },
-  
-        {
-          name: 'bar',
-          icon: <AiOutlineBarChart />,
-        },
-        {
-          name: 'pie',
-          icon: <FiPieChart />,
-        },
-        {
-          name: 'financial',
-          icon: <RiStockLine />,
-        },
-        {
-          name: 'color-mapping',
-          icon: <BsBarChart />,
-        },
-        {
-          name: 'pyramid',
-          icon: <GiLouvrePyramid />,
-        },
-        {
-          name: 'stacked',
-          icon: <AiOutlineBarChart />,
-        },
       ],
     },
   ];
@@ -154,3 +94,32 @@ export const inventoryColumns = [
     },
 ];
 
+export const order_links = [
+  {
+    title: 'Popular',
+    links: [
+      {
+        name: 'bundles',
+        icon: <AiOutlineFire />,
+      },
+    ],
+  },
+
+  {
+    title: 'Customize',
+    links: [
+      {
+        name: 'plaques & plates',
+        icon: <FiAward />,
+      },
+      {
+        name: 'engravable bottles',
+        icon: <TbBottle />,
+      },
+      {
+        name: 'personalized gifts',
+        icon: <BsGift />,
+      }
+    ],
+  },
+];

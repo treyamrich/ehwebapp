@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 
 import { SessionLogout, PrivateRoutes } from './util-components/index';
 import Login from './pages/auth/Login.js';
-import { Dashboard, Home } from './pages/index';
+import { Dashboard, Home, Order } from './pages/index';
 
 const initialFormState = {
   phoneNum:'',
@@ -88,11 +88,11 @@ const App = () => {
         <Routes>
 
           {/*Unprotected Routes*/}
-          <Route element={<Home signOut={signOut} name={name} isAuthenticated={isAuthenticated}/>} exact path="/"/>
+          <Route element={<Home signOut={signOut} name={name} isAuthenticated={isAuthenticated}/>} path="/*"/>
           <Route path="/login" element={
             <Login formState={formState} setFormState={setFormState} setAuth={userHasAuthenticated} setIsAdmin={setIsAdmin} setIsEmp={setIsEmp}/>
           }/>
-          <Route element={<h1>Order</h1>} path="/order"/>
+          <Route element={<Order/>} path="/order/*"/>
           
           {/*Protected Routes*/}
           <Route element={<PrivateRoutes auth={isAuthenticated}/>}>
