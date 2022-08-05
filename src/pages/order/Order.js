@@ -16,7 +16,26 @@ const initialOpState = {
     failItems: [] 
 };
 
+const initialOrderState = {
+    orderNum: '',
+    contactInfo: {
+        name: '',
+        phone: '',
+        email: '',
+    },
+    dateNeeded: '',
+    timeNeeded: '',
+    location: '',
+    status: 'NEW',
+    rushStatus: 'NONE',
+    cart: [],
+    notes: ''
+};
+
+
 const Order = () => {
+    const [order, setOrder] = useState(initialOrderState);
+    const [showContact, setShowContact] = useState(true);
     const [opRes, setOpRes] = useState(initialOpState);
     const {activeMenu, themeSettings, setThemeSettings, currentColor, currentMode } = useStateContext();
 
