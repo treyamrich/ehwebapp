@@ -44,11 +44,11 @@ const Dashboard = () => {
             </div>
             {activeMenu ? (
               <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-                <Sidebar links={dashboard_links}/>
+                <Sidebar themeColor={currentColor} links={dashboard_links}/>
               </div>
             ) : (
               <div className="w-0 dark:bg-secondary-dark-bg">
-                <Sidebar links={dashboard_links}/>
+                <Sidebar themeColor={currentColor} links={dashboard_links}/>
               </div>
             )}
             <div
@@ -59,7 +59,7 @@ const Dashboard = () => {
               }
             >
               <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
-                <Navbar />
+                <Navbar themeColor={currentColor}/>
                 {opRes.failureMsg !== "" ? <Alert variant="danger" dismissible onClose={resetOpRes}>{opRes.failureMsg}</Alert> : null}
                 {opRes.successMsg !== "" ? <Alert variant="success" dismissible onClose={resetOpRes}>{opRes.successMsg}</Alert> : null}
               </div>

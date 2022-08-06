@@ -10,11 +10,13 @@ export const dashboard_links = [
       title: 'Dashboard',
       links: [
         {
-          name: 'metrics',
+          name: 'Metrics',
+          to: 'metrics',
           icon: <AiOutlineBarChart />,
         },
         {
-            name: 'orders',
+            name: 'Orders',
+            to: 'orders',
             icon: <AiOutlineShoppingCart/>
         }
       ],
@@ -24,19 +26,23 @@ export const dashboard_links = [
       title: 'Pages',
       links: [
         {
-          name: 'inventory',
+          name: 'Inventory',
+          to: 'inventory',
           icon: <FiEdit />,
         },
         {
-          name: 'purchase order',
+          name: 'Purchase Orders',
+          to: 'purchase-orders',
           icon: <RiTodoLine />,
         },
         {
-          name: 'vendors',
+          name: 'Vendors',
+          to: 'vendors',
           icon: <BsBoxSeam />,
         },
         {
-            name: 'employees',
+            name: 'Employees',
+            to: 'employees',
             icon: <IoMdContacts/>
         }
       ],
@@ -99,7 +105,8 @@ export const order_links = [
     title: 'Popular',
     links: [
       {
-        name: 'bundles',
+        name: 'Bundles',
+        to: 'bundles',
         icon: <AiOutlineFire />,
       },
     ],
@@ -109,15 +116,18 @@ export const order_links = [
     title: 'Customize',
     links: [
       {
-        name: 'plaques & plates',
+        name: 'Plaques & Plates',
+        to: 'plaques-and-plates',
         icon: <FiAward />,
       },
       {
-        name: 'engravable bottles',
+        name: 'Engravable Bottles',
+        to: 'engravable-bottles',
         icon: <TbBottle />,
       },
       {
-        name: 'personalized gifts',
+        name: 'Personalized Gifts',
+        to: 'personalized-gifts',
         icon: <BsGift />,
       }
     ],

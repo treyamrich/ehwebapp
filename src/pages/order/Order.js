@@ -32,6 +32,8 @@ const initialOrderState = {
     notes: ''
 };
 
+const EH_COLOR_DARK = '#C39F7F';
+const EH_COLOR_LIGHT = '#c39f7f57';
 
 const Order = () => {
     const [order, setOrder] = useState(initialOrderState);
@@ -51,7 +53,7 @@ const Order = () => {
                 <button
                   type="button"
                   onClick={() => setThemeSettings(true)}
-                  style={{ background: '#c39f7f57', color: 'black', borderRadius: '50%' }}
+                  style={{ background: EH_COLOR_LIGHT, color: 'black', borderRadius: '50%' }}
                   className="text-3xl text-white p-3 hover:drop-shadow-xl hover:bg-light-gray"
                 >
                   <CgShoppingCart/>
@@ -61,11 +63,11 @@ const Order = () => {
             </div>
             {activeMenu ? (
               <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-                <Sidebar links={order_links}/>
+                <Sidebar themeColor={EH_COLOR_LIGHT} links={order_links}/>
               </div>
             ) : (
               <div className="w-0 dark:bg-secondary-dark-bg">
-                <Sidebar links={order_links}/>
+                <Sidebar themeColor={EH_COLOR_LIGHT} links={order_links}/>
               </div>
             )}
             <div
@@ -76,13 +78,13 @@ const Order = () => {
               }
             >
               <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
-                <Navbar />
+                <Navbar themeColor={EH_COLOR_DARK}/>
                 {opRes.failureMsg !== "" ? <Alert variant="danger" dismissible onClose={resetOpRes}>{opRes.failureMsg}</Alert> : null}
                 {opRes.successMsg !== "" ? <Alert variant="success" dismissible onClose={resetOpRes}>{opRes.successMsg}</Alert> : null}
               </div>
               <div>
                 {themeSettings && (<ThemeSettings />)}
-                
+
                 {display === 'start' && (
                   <ContactForm order={order} 
                   setOrder={setOrder} 

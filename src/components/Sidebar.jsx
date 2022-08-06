@@ -6,8 +6,8 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import { useStateContext } from '../contexts/ContextProvider';
 
-const Sidebar = ({links}) => {
-  const { currentColor, activeMenu, setActiveMenu, screenSize } = useStateContext();
+const Sidebar = ({themeColor, links}) => {
+  const { activeMenu, setActiveMenu, screenSize } = useStateContext();
 
   const handleCloseSideBar = () => {
     if (activeMenu !== undefined && screenSize <= 900) {
@@ -30,7 +30,7 @@ const Sidebar = ({links}) => {
               <button
                 type="button"
                 onClick={() => setActiveMenu(!activeMenu)}
-                style={{ color: currentColor }}
+                style={{ color: themeColor }}
                 className="text-xl rounded-full p-3 hover:bg-light-gray mt-4 block md:hidden"
               >
                 <MdOutlineCancel />
@@ -45,11 +45,11 @@ const Sidebar = ({links}) => {
                 </p>
                 {item.links.map((link) => (
                   <NavLink
-                    to={`${link.name}`}
+                    to={`${link.to}`}
                     key={link.name}
                     onClick={handleCloseSideBar}
                     style={({ isActive }) => ({
-                      backgroundColor: isActive ? currentColor : '',
+                      backgroundColor: isActive ? themeColor : '',
                     })}
                     className={({ isActive }) => (isActive ? activeLink : normalLink)}
                   >
