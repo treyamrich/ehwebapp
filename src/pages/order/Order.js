@@ -45,22 +45,6 @@ const Order = () => {
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
           <div className="flex relative dark:bg-main-dark-bg">
-            <div className="fixed right-4 bottom-4" style={{ zIndex: '1000' }}>
-              <TooltipComponent
-                content="Cart"
-                position="Top"
-              >
-                <button
-                  type="button"
-                  onClick={() => setThemeSettings(true)}
-                  style={{ background: EH_COLOR_LIGHT, color: 'black', borderRadius: '50%' }}
-                  className="text-3xl text-white p-3 hover:drop-shadow-xl hover:bg-light-gray"
-                >
-                  <CgShoppingCart/>
-                </button>
-  
-              </TooltipComponent>
-            </div>
             {activeMenu ? (
               <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
                 <Sidebar themeColor={EH_COLOR_LIGHT} links={order_links}/>
@@ -78,7 +62,7 @@ const Order = () => {
               }
             >
               <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
-                <Navbar themeColor={EH_COLOR_DARK}/>
+                <Navbar themeColor={EH_COLOR_DARK} user={{name: order.contactInfo.name}}/>
                 {opRes.failureMsg !== "" ? <Alert variant="danger" dismissible onClose={resetOpRes}>{opRes.failureMsg}</Alert> : null}
                 {opRes.successMsg !== "" ? <Alert variant="success" dismissible onClose={resetOpRes}>{opRes.successMsg}</Alert> : null}
               </div>
