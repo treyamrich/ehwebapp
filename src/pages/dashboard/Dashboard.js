@@ -59,7 +59,7 @@ const Dashboard = () => {
               }
             >
               <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
-                <Navbar themeColor={currentColor}/>
+                <Navbar user={{name: '', email: '', phone: ''}} themeColor={currentColor} showUserProfile/>
                 {opRes.failureMsg !== "" ? <Alert variant="danger" dismissible onClose={resetOpRes}>{opRes.failureMsg}</Alert> : null}
                 {opRes.successMsg !== "" ? <Alert variant="success" dismissible onClose={resetOpRes}>{opRes.successMsg}</Alert> : null}
               </div>

@@ -38,7 +38,7 @@ const ContactForm = ({order, setOrder, setDisplay}) => {
               <label className="text-lg font-semibold" htmlFor="phone">Phone Number</label>
               <input type="text" name="phone"
                 className="border px-3 py-2 w-full rounded-sm mb-4"
-                placeholder="(xxx) xxx - xxxx"
+                placeholder="Enter cell number"
                 onChange={(e)=>setContact({...contact, phone: e.target.value})}
                 value={phone}
               />

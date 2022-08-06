@@ -5,7 +5,7 @@ import { BsChatLeft, BsPersonCircle } from 'react-icons/bs';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
-import { Cart, Chat, UserProfile } from '.';
+import { Cart, Chat, UserProfile, CustomerInfo } from '.';
 import { useStateContext } from '../contexts/ContextProvider';
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
@@ -25,7 +25,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   </TooltipComponent>
 );
 
-const Navbar = ({themeColor, user}) => {
+const Navbar = ({themeColor, user, showUserProfile, setDisplay}) => {
   const { activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } = useStateContext();
 
   useEffect(() => {
@@ -55,10 +55,10 @@ const Navbar = ({themeColor, user}) => {
       <div className="flex">
         <NavButton title="Cart" customFunc={() => handleClick('cart')} color={themeColor} icon={<FiShoppingCart />} />
         <NavButton title="Chat" dotColor="#03C9D7" customFunc={() => handleClick('chat')} color={themeColor} icon={<BsChatLeft />} />
-        <TooltipComponent content="Profile" position="BottomCenter">
+        {showUserProfile && (<TooltipComponent content="Profile" position="BottomCenter">
           <div
             className="flex items-center gap-2 cursor-pointer p-1 pl-2 hover:bg-light-gray rounded-lg"
-            onClick={() => handleClick('userProfile')}
+            onClick={() => handleClick(`${showUserProfile ? 'userProfile' : 'customerInfo'}`)}
           >
             <BsPersonCircle color={themeColor} className="w-8 h-8"/>
             <p>
@@ -69,11 +69,27 @@ const Navbar = ({themeColor, user}) => {
             </p>
             <MdKeyboardArrowDown className="text-gray-400 text-14" />
           </div>
-        </TooltipComponent>
+        </TooltipComponent>)}
+        {!showUserProfile && (<TooltipComponent content="Customer Info" position="BottomCenter">
+          <div
+            className="flex items-center gap-2 cursor-pointer p-1 pl-2 hover:bg-light-gray rounded-lg"
+            onClick={() => handleClick(`${showUserProfile ? 'userProfile' : 'customerInfo'}`)}
+          >
+            <BsPersonCircle color={themeColor} className="w-8 h-8"/>
+            <p>
+              <span className="text-gray-400 text-14">Hi,</span>{' '}
+              <span className="text-gray-400 font-bold ml-1 text-14">
+                {user.name.split(' ')[0]}
+              </span>
+            </p>
+            <MdKeyboardArrowDown className="text-gray-400 text-14" />
+          </div>
+        </TooltipComponent>)}
 
         {isClicked.cart && (<Cart />)}
         {isClicked.chat && (<Chat />)}
         {isClicked.userProfile && (<UserProfile user={user}/>)}
+        {isClicked.customerInfo && (<CustomerInfo setDisplay={setDisplay} themeColor={themeColor} user={user}/>)}
       </div>
     </div>
   );
