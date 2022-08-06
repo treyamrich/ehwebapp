@@ -5,7 +5,7 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { Alert, Sidebar, Navbar, Footer, ThemeSettings } from '../../components/index';
 import { useStateContext } from '../../contexts/ContextProvider';
 
-import { Bundles, Plaque, Bottle, Gift } from './index';
+import { Bundles, Plaque, Bottle, Gift, ContactForm, StartScreen } from './index';
 import { order_links } from '../../data/uidata';
 
 //Database operation state
@@ -35,7 +35,7 @@ const initialOrderState = {
 
 const Order = () => {
     const [order, setOrder] = useState(initialOrderState);
-    const [showContact, setShowContact] = useState(true);
+    const [display, setDisplay] = useState('start'); //Control start, contact form, and order screen display
     const [opRes, setOpRes] = useState(initialOpState);
     const {activeMenu, themeSettings, setThemeSettings, currentColor, currentMode } = useStateContext();
 
@@ -82,7 +82,13 @@ const Order = () => {
               </div>
               <div>
                 {themeSettings && (<ThemeSettings />)}
-  
+                
+                {display === 'start' && (
+                  <ContactForm order={order} 
+                  setOrder={setOrder} 
+                  setDisplay={setDisplay}
+                />)}
+
                 <Routes>
                     <Route path="/" element={<Bundles/>}/>
                     <Route path="bundles" element={<Bundles/>}/>

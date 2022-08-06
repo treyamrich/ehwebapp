@@ -4,7 +4,7 @@ import { MdOutlineCancel } from 'react-icons/md';
 const PopUp = ({title, closePopUp, children}) => {
   return (
     <div className="bg-half-transparent w-screen fixed top-0 right-0 h-screen"
-    style={{zIndex: '10000'}}  
+    style={{zIndex: '10009'}}  
     >
       <div className="flex items-center justify-center h-full">
         <div className="p-4 bg-white dark:[#484b52] flex flex-col drop-shadow-2xl w-full lg:w-3/4 2xl:w-6/12 max-h-screen">
