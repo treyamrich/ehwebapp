@@ -19,3 +19,7 @@ export { default as PopUp } from './PopUp';
 export { default as Pager } from './Pager/Pager';
 export { default as Alert } from './Alert/Alert';
 export { default as ProductWidget } from './ProductWidget/ProductWidget';
+export { default as StepProgressForm } from './StepProgressForm/StepProgressForm';
+export { default as ChooseItem } from './ChooseItem';
+export { default as WriteMsg } from './WriteMsg';
+export { default as ChooseAddOn } from './ChooseAddOn';

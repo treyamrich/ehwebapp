@@ -54,8 +54,10 @@ const Navbar = ({themeColor, user, showUserProfile, setDisplay}) => {
       <NavButton title="Menu" customFunc={handleActiveMenu} color={themeColor} icon={<AiOutlineMenu />} />
       <div className="flex">
         <NavButton title="Cart" customFunc={() => handleClick('cart')} color={themeColor} icon={<FiShoppingCart />} />
+        
+        {showUserProfile && (<>
         <NavButton title="Chat" dotColor="#03C9D7" customFunc={() => handleClick('chat')} color={themeColor} icon={<BsChatLeft />} />
-        {showUserProfile && (<TooltipComponent content="Profile" position="BottomCenter">
+        <TooltipComponent content="Profile" position="BottomCenter">
           <div
             className="flex items-center gap-2 cursor-pointer p-1 pl-2 hover:bg-light-gray rounded-lg"
             onClick={() => handleClick(`${showUserProfile ? 'userProfile' : 'customerInfo'}`)}
@@ -69,7 +71,7 @@ const Navbar = ({themeColor, user, showUserProfile, setDisplay}) => {
             </p>
             <MdKeyboardArrowDown className="text-gray-400 text-14" />
           </div>
-        </TooltipComponent>)}
+        </TooltipComponent></>)}
         {!showUserProfile && (<TooltipComponent content="Customer Info" position="BottomCenter">
           <div
             className="flex items-center gap-2 cursor-pointer p-1 pl-2 hover:bg-light-gray rounded-lg"

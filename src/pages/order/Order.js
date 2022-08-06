@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { Routes, Route } from 'react-router-dom';
-import { CgShoppingCart } from 'react-icons/cg';
-import { TooltipComponent } from '@syncfusion/ej2-react-popups';
-import { Alert, Sidebar, Navbar, Footer, ThemeSettings } from '../../components/index';
+
+import { Alert, Sidebar, Navbar, Footer } from '../../components/index';
 import { useStateContext } from '../../contexts/ContextProvider';
 
-import { Bundles, Plaque, Bottle, Gift, ContactForm, StartScreen } from './index';
+import { Bundles, Plaque, Bottle, Gift, ContactForm } from '.';
 import { order_links } from '../../data/uidata';
 
 //Database operation state
@@ -39,7 +38,7 @@ const Order = () => {
     const [order, setOrder] = useState(initialOrderState);
     const [display, setDisplay] = useState('start'); //Control start, contact form, and order screen display
     const [opRes, setOpRes] = useState(initialOpState);
-    const {activeMenu, themeSettings, setThemeSettings, currentColor, currentMode } = useStateContext();
+    const {activeMenu, currentMode } = useStateContext();
 
     const resetOpRes = () => setOpRes(initialOpState);
   return (
@@ -67,7 +66,6 @@ const Order = () => {
                 {opRes.successMsg !== "" ? <Alert variant="success" dismissible onClose={resetOpRes}>{opRes.successMsg}</Alert> : null}
               </div>
               <div>
-                {themeSettings && (<ThemeSettings />)}
 
                 {display === 'start' && (
                   <ContactForm order={order} 
@@ -78,9 +76,9 @@ const Order = () => {
                 <Routes>
                     <Route path="/" element={<Bundles/>}/>
                     <Route path="bundles" element={<Bundles/>}/>
-                    <Route path="plaques%20&%20plates" element={<Plaque opRes={opRes} setOpRes={setOpRes}/>}/>
-                    <Route path="engravable%20bottles" element={<Bottle opRes={opRes} setOpRes={setOpRes}/>}/>
-                    <Route path="personalized%20gifts" element={<Gift opRes={opRes} setOpRes={setOpRes}/>}/>
+                    <Route path="plaques-and-plates" element={<Plaque opRes={opRes} setOpRes={setOpRes}/>}/>
+                    <Route path="engravable-bottles" element={<Bottle opRes={opRes} setOpRes={setOpRes}/>}/>
+                    <Route path="personalized-gifts" element={<Gift opRes={opRes} setOpRes={setOpRes}/>}/>
                 </Routes>
               </div>
               <Footer />

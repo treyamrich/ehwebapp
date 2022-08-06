@@ -1,0 +1,23 @@
+.indexedStep {
+  height: 40px;
+  width: 40px;
+  background-color: rgba(211, 211, 211, 0.6);
+  border-radius: 50%;
+  color: black;
+  position: relative;
+}
+
+.step-num {
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.accomplished {
+  background-color: #C39F7F;
+}
+
+.current {
+  background-color: black;
+}
