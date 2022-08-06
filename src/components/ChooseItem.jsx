@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { ProductSelector } from '.';
 
-const ChooseItem = () => {
+const ChooseItem = ({ items }) => {
+    const [selectedIdx, setSelectedIdx] = useState(null);
   return (
-    <div>ChooseItem</div>
+    <div>
+        <ProductSelector products={items} orientation="horizontal" selectedIdx={selectedIdx} setSelectedIdx={setSelectedIdx}/>
+    </div>
   )
 }
 

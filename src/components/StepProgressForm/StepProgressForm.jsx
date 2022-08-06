@@ -33,22 +33,24 @@ const StepProgressForm = ({children}) => {
         ))}
         </ProgressBar>
       </div>
-      <div className="mt-24">
+      <div className="mt-32">
         {stepComponents[currentStep]}
-        <button
-          className={`absolute bottom-0 left-0 py-3 px-4 border-1 rounded-md hover:drop-shadow-xl ${currentStep === 0 ? 'text-gray-300' : ''}`}
-          onClick={()=>setCurrentStep(prevStep=>prevStep-1)}
-          disabled={currentStep === 0}
-        >
-          Back
-        </button>
-        <button
-          className="absolute bottom-0 right-0 py-3 px-4 border-1 rounded-md hover:drop-shadow-xl"
-          onClick={()=>setCurrentStep(prevStep=>prevStep+1)}
-          style={{background: currentStep === stepComponents.length-1 ? '#4db193' : 'black' , color: 'white'}}
-        >
-          {currentStep === stepComponents.length-1 ? 'Submit' : 'Next'}
-        </button>
+        <div className="flex justify-between mt-6">
+          <button
+            className={`py-3 px-4 border-1 rounded-md hover:drop-shadow-xl ${currentStep === 0 ? 'text-gray-300' : ''}`}
+            onClick={()=>setCurrentStep(prevStep=>prevStep-1)}
+            disabled={currentStep === 0}
+          >
+            Back
+          </button>
+          <button
+            className="py-3 px-4 border-1 rounded-md hover:drop-shadow-xl"
+            onClick={()=>setCurrentStep(prevStep=>prevStep+1)}
+            style={{background: currentStep === stepComponents.length-1 ? '#4db193' : 'black' , color: 'white'}}
+          >
+            {currentStep === stepComponents.length-1 ? 'Submit' : 'Next'}
+          </button>
+        </div>
       </div>
     </div>
   )
