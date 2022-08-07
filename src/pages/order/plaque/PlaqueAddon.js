@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+
+import { CardAdder } from '../../../components';
 
 const animatedComponents = makeAnimated();
 
@@ -10,8 +12,11 @@ const options = [
   { value: 'color-fill', label: 'Color Fill'}
 ]
 
-const ChooseAddOn = () => {
+const PlaqueAddon = () => {
   const [services, setServices] = useState([]);
+  const [graphics, setGraphics] = useState([]);
+  const [cutouts, setCutouts] = useState([]);
+
   return (
     <div>
       <h4 className="font-semibold">Services</h4>
@@ -26,29 +31,11 @@ const ChooseAddOn = () => {
       />
       </div>
       <h4 className="font-semibold">Graphics</h4>
-      <div>
-      <Select
-        closeMenuOnSelect={true}
-        components={animatedComponents}
-        defaultValue={[options[4], options[5]]}
-        isMulti
-        options={options}
-        onChange={(selOps)=>setServices(selOps)}
-      />
-      </div>
+      <CardAdder options={options}/>
       <h4 className="font-semibold">Wood Cutouts</h4>
-      <div>
-        <Select
-          closeMenuOnSelect={true}
-          components={animatedComponents}
-          defaultValue={[options[4], options[5]]}
-          isMulti
-          options={options}
-          onChange={(selOps)=>setServices(selOps)}
-        />
-      </div>
+      <CardAdder options={options}/>
     </div>
   )
 }
 
-export default ChooseAddOn
+export default PlaqueAddon

@@ -4,7 +4,7 @@ import { AiOutlineCheck } from 'react-icons/ai';
 
 const ProductCard = ({selected, onClick}) => {
     return (
-        <div className="h-100 w-60 p-4 drop-shadow-lg rounded-lg mr-4 mb-4 bg-white text-sm"
+        <div className="relative h-100 w-60 p-4 hover:drop-shadow-lg rounded-lg mr-4 mb-4 bg-white text-sm"
             style={{minWidth: '15rem', outline: selected ? '1px solid blue' : ''}}
             onClick={onClick}
         >
