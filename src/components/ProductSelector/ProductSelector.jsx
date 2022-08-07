@@ -29,7 +29,7 @@ const ProductCard = ({selected, onClick}) => {
 
 const ProductSelector = ({ products, orientation, selectedIdx, setSelectedIdx }) => {
   return (
-    <div className={`flex p-1 ${orientation === 'vertical' ? 'justify-center flex-wrap' : 'overflow-x-auto'}`}>
+    <div className={`flex p-1 ${orientation === 'vertical' ? 'justify-center flex-wrap' : ''}`}>
     {products.map((product, idx) =>(
         <ProductCard key={idx} product={product} selected={selectedIdx === idx} onClick={()=>setSelectedIdx(idx)}/>
     ))}

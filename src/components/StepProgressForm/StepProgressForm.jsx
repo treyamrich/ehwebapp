@@ -13,6 +13,14 @@ const StepProgressForm = ({children}) => {
       return currentStep * (100 / (stepComponents.length - 1))
     }
 
+    const handleNextStep = () => {
+      let validateFunc = stepComponents[currentStep].props.validateStep;
+      //If no validation func provided or validation func returns true, move forward
+      if(validateFunc && validateFunc() || !validateFunc) {
+        setCurrentStep(prevStep=>prevStep+1);
+      }
+    }
+
   return (
     <div id="progress-form" className="relative">
       <div className="w-3/4 m-auto">
@@ -34,7 +42,11 @@ const StepProgressForm = ({children}) => {
         </ProgressBar>
       </div>
       <div className="mt-32">
+        <div className="overflow-x-auto" 
+          style={{height: '300px', width: '100%'}}
+        >
         {stepComponents[currentStep]}
+        </div>
         <div className="flex justify-between mt-6">
           <button
             className={`py-3 px-4 border-1 rounded-md hover:drop-shadow-xl ${currentStep === 0 ? 'text-gray-300' : ''}`}
@@ -45,7 +57,7 @@ const StepProgressForm = ({children}) => {
           </button>
           <button
             className="py-3 px-4 border-1 rounded-md hover:drop-shadow-xl"
-            onClick={()=>setCurrentStep(prevStep=>prevStep+1)}
+            onClick={handleNextStep}
             style={{background: currentStep === stepComponents.length-1 ? '#4db193' : 'black' , color: 'white'}}
           >
             {currentStep === stepComponents.length-1 ? 'Submit' : 'Next'}
