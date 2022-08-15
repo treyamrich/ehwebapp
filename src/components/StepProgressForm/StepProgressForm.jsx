@@ -43,7 +43,7 @@ const StepProgressForm = ({children}) => {
       </div>
       <div className="mt-32">
         <div className="overflow-x-auto" 
-          style={{height: '300px', width: '100%'}}
+          style={{height: '400px', width: '100%'}}
         >
         {stepComponents[currentStep]}
         </div>

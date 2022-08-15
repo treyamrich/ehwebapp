@@ -7,7 +7,7 @@ const Bundles = () => {
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 rounded-3xl bg-slate-50">
       <Header category="Popular" title="Bundles" />
-      <ProductSelector orientation="vertical"/>
+      <ProductSelector products={bundles} orientation="vertical"/>
     </div>
   )
 }

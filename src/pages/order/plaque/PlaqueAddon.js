@@ -19,21 +19,25 @@ const PlaqueAddon = () => {
 
   return (
     <div>
-      <h4 className="font-semibold">Services</h4>
-      <div>
-      <Select
-        closeMenuOnSelect={true}
-        components={animatedComponents}
-        defaultValue={[options[4], options[5]]}
-        isMulti
-        options={options}
-        onChange={(selOps)=>setServices(selOps)}
-      />
+      <h4 className="font-bold">Services</h4>
+      <div className="mb-3">
+        <Select
+          closeMenuOnSelect={true}
+          components={animatedComponents}
+          defaultValue={[options[4], options[5]]}
+          isMulti
+          options={options}
+          onChange={(selOps)=>setServices(selOps)}
+        />
       </div>
-      <h4 className="font-semibold">Graphics</h4>
-      <CardAdder options={options}/>
-      <h4 className="font-semibold">Wood Cutouts</h4>
-      <CardAdder options={options}/>
+      <h4 className="font-bold">Graphics</h4>
+      <div className="mb-3">
+        <CardAdder options={options}/>
+      </div>
+      <h4 className="font-bold">Wood Cutouts</h4>
+      <div className="mb-3">
+        <CardAdder options={options}/>
+      </div>
     </div>
   )
 }
