@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
@@ -12,11 +12,8 @@ const options = [
   { value: 'color-fill', label: 'Color Fill'}
 ]
 
-const PlaqueAddon = () => {
-  const [services, setServices] = useState([]);
-  const [graphics, setGraphics] = useState([]);
-  const [cutouts, setCutouts] = useState([]);
-
+const PlaqueAddon = ({addonState}) => {
+  const { services, setServices, graphics, setGraphics, cutouts, setCutouts } = addonState;
   return (
     <div>
       <h4 className="font-bold">Services</h4>
@@ -26,17 +23,17 @@ const PlaqueAddon = () => {
           components={animatedComponents}
           defaultValue={[options[4], options[5]]}
           isMulti
-          options={options}
+          options={services}
           onChange={(selOps)=>setServices(selOps)}
         />
       </div>
       <h4 className="font-bold">Graphics</h4>
       <div className="mb-3">
-        <CardAdder options={options}/>
+        <CardAdder options={graphics} setOptions={setGraphics}/>
       </div>
       <h4 className="font-bold">Wood Cutouts</h4>
       <div className="mb-3">
-        <CardAdder options={options}/>
+        <CardAdder options={cutouts} setOptions={setCutouts}/>
       </div>
     </div>
   )

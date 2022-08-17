@@ -2,14 +2,30 @@ import React from 'react'
 import { MdOutlineCancel } from 'react-icons/md';
 import { GoDiffAdded } from 'react-icons/go';
 
-const Card = () => (
+const Card = ({cardName, options, setOptions}) => {
+  const handleRemoveCard = () => {
+    let i = 0;
+    let found = false;
+    let newOpts = [];
+    while(i < options.length) {
+      //Skip the card to remove
+      if(options[i] == cardName && !found) {
+        found = true;
+      } else {
+        newOpts.push(options[i]);
+      }
+      i++;
+    }
+    setOptions(newOpts);
+  }
+  return (
     <div className="relative px-2 hover:drop-shadow-lg rounded-lg mr-4 bg-white text-sm"
       style={{minWidth: '12rem'}}
     >
         <div className="absolute top-1 right-1">
             <button
               type="button"
-              onClick={() =>{}}
+              onClick={handleRemoveCard}
               style={{ color: 'rgb(153, 171, 180)', borderRadius: '50%' }}
               className="text-xl p-2 hover:drop-shadow-xl hover:bg-light-gray"
             >
@@ -20,20 +36,26 @@ const Card = () => (
           <div className="h-20 border-1 border-blue-300 mb-1">
 
           </div>
-          <p className="font-semibold">Graphic name</p>
+          <p className="font-semibold">{cardName}</p>
         </div>
     </div>
-)
+)}
 
-const CardAdder = ({ onChange, options}) => {
+const CardAdder = ({ options, setOptions}) => {
   return (
     <div className="h-52 border-1 rounded-sm overflow-x-auto">
       <div className="flex p-4 h-full items-center">
         {options.map((option, idx)=>(
-            <Card key={idx} name={option}/>
+            <Card key={idx} 
+              cardName={option} 
+              options={options}
+              setOptions={setOptions}
+            />
         ))}
         <div className="flex justify-center items-center w-20 p-4 rounded-lg mr-4 bg-gray-100 text-sm text-gray-300 hover:bg-gray-200 hover:text-gray-600">
-            <button type="button">
+            <button type="button"
+              onClick={()=>{}}
+            >
                 <GoDiffAdded size={25}/>
             </button>
         </div>
