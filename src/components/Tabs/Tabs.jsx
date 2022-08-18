@@ -18,8 +18,8 @@ const TabNav = ({ title, active, onClick }) => (
     </li>
 );
 
-const Tabs = ({ defaultActiveIndex, children }) => {
-    const [activeTab, setActiveTab] = useState(defaultActiveIndex);
+const Tabs = ({ children }) => {
+    const [activeTab, setActiveTab] = useState(0);
     const childArr = Children.toArray(children);
     
   return (

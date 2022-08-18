@@ -2,7 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
-
+import GraphicForm from '../GraphicForm';
 import { CardAdder, Tabs, Tab } from '../../../components';
 
 const animatedComponents = makeAnimated();
@@ -17,7 +17,7 @@ const PlaqueAddon = ({addonState}) => {
   const { services, setServices, graphics, setGraphics, cutouts, setCutouts } = addonState;
   return (
     <div>
-      <Tabs defaultActiveIdx={0}>
+      <Tabs>
         <Tab title="Plate(s)">
           <h1>hi</h1>
         </Tab>
@@ -32,10 +32,20 @@ const PlaqueAddon = ({addonState}) => {
           />
         </Tab>
         <Tab title="Graphics">
-          <CardAdder options={graphics} setOptions={setGraphics}/>
+          <CardAdder 
+            options={graphics} 
+            setOptions={setGraphics}
+            title="Add Graphic(s)"
+            addComponent={<GraphicForm />}
+          />
         </Tab>
         <Tab title="Wood Cutouts">
-          <CardAdder options={cutouts} setOptions={setCutouts}/>
+          <CardAdder 
+            options={cutouts} 
+            setOptions={setCutouts}
+            title="Add Cutout(s)"
+            addComponent={<GraphicForm />}
+          />
         </Tab>
       </Tabs>
     </div>

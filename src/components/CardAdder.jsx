@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MdOutlineCancel } from 'react-icons/md';
 import { GoDiffAdded } from 'react-icons/go';
+import { PopUp } from '.';
 
 const Card = ({cardName, options, setOptions}) => {
   const handleRemoveCard = () => {
@@ -41,18 +42,22 @@ const Card = ({cardName, options, setOptions}) => {
     </div>
 )}
 
-const CardAdder = ({ options, setOptions}) => {
+const CardAdder = ({ title, options, setOptions, addComponent}) => {
+  const [showAddComp, setShowAddComp] = useState(false);
   return (
     <div className="h-52 border-1 rounded-sm overflow-x-auto">
+      {showAddComp ? <PopUp title={title} closePopUp={()=>setShowAddComp(false)}>
+          { addComponent }
+        </PopUp> : null}
       <div className="flex p-4 h-full items-center">
         <div className="flex justify-center items-center p-4 rounded-lg mr-4 text-sm hover:text-gray-400 bg-gray-200 text-gray-500 box-border"
           style={{ minWidth: '5rem'}}
+          onClick={()=>setShowAddComp(true)}
         >
             <button type="button"
               className="select-none"
-              onClick={()=>{}}
             >
-                <GoDiffAdded size={25}/>
+              <GoDiffAdded size={25}/>
             </button>
         </div>
         {options.map((option, idx)=>(
