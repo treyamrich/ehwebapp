@@ -45,6 +45,15 @@ const CardAdder = ({ options, setOptions}) => {
   return (
     <div className="h-52 border-1 rounded-sm overflow-x-auto">
       <div className="flex p-4 h-full items-center">
+        <div className="flex justify-center items-center p-4 rounded-lg mr-4 text-sm hover:text-gray-400 bg-gray-200 text-gray-500 box-border"
+          style={{ minWidth: '5rem'}}
+        >
+            <button type="button"
+              onClick={()=>{}}
+            >
+                <GoDiffAdded size={25}/>
+            </button>
+        </div>
         {options.map((option, idx)=>(
             <Card key={idx} 
               cardName={option} 
@@ -52,13 +61,6 @@ const CardAdder = ({ options, setOptions}) => {
               setOptions={setOptions}
             />
         ))}
-        <div className="flex justify-center items-center w-20 p-4 rounded-lg mr-4 bg-gray-100 text-sm text-gray-300 hover:bg-gray-200 hover:text-gray-600">
-            <button type="button"
-              onClick={()=>{}}
-            >
-                <GoDiffAdded size={25}/>
-            </button>
-        </div>
       </div>
     </div>
   )
