@@ -49,6 +49,7 @@ const CardAdder = ({ options, setOptions}) => {
           style={{ minWidth: '5rem'}}
         >
             <button type="button"
+              className="select-none"
               onClick={()=>{}}
             >
                 <GoDiffAdded size={25}/>
