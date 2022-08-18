@@ -22,3 +22,5 @@ export { default as ProductSelector } from './ProductSelector/ProductSelector';
 export { default as StepProgressForm } from './StepProgressForm/StepProgressForm';
 export { default as WriteMsg } from './WriteMsg';
 export { default as CardAdder } from './CardAdder';
+export { default as Tabs } from './Tabs/Tabs';
+export { default as Tab } from './Tabs/Tab';
