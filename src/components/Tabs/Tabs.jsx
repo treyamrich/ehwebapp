@@ -1,9 +1,9 @@
 import React, { useState, Children } from 'react'
 
 const TabNav = ({ title, active, onClick }) => (
-    <li className="inline mr-4">
+    <li className="inline">
         <button type="button" 
-            className="py-2 px-3 rounded-t-md"
+            className="py-2 px-3 rounded-t-md text-xs sm:text-sm"
             onClick={onClick}
             style={ active ? 
                 { color: 'white', 
