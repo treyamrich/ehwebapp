@@ -4,7 +4,7 @@ import PlaqueAddon from './PlaqueAddon';
 
 const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const Plaque = ({ order, setOrder }) => {
+const Plaque = ({ themeColor, order, setOrder }) => {
   //Selected product
   const [selectedIdx, setSelectedIdx] = useState(0);
   //Addons
@@ -25,6 +25,7 @@ const Plaque = ({ order, setOrder }) => {
           />
           <WriteMsg stepName="Write your customized message"/>
           <PlaqueAddon stepName="Add-ons"
+            themeColor={themeColor}
             addonState={{services, setServices, graphics, setGraphics, cutouts, setCutouts}}
           />
         </StepProgressForm>

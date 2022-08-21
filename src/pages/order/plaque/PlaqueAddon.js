@@ -13,7 +13,7 @@ const options = [
   { value: 'color-fill', label: 'Color Fill'}
 ]
 
-const PlaqueAddon = ({addonState}) => {
+const PlaqueAddon = ({themeColor, addonState}) => {
   const { services, setServices, graphics, setGraphics, cutouts, setCutouts } = addonState;
   return (
     <div>
@@ -36,7 +36,7 @@ const PlaqueAddon = ({addonState}) => {
             options={graphics} 
             setOptions={setGraphics}
             title="Add Graphic(s)"
-            addComponent={<GraphicForm />}
+            addComponent={<GraphicForm btnBgColor={themeColor}/>}
           />
         </Tab>
         <Tab title="Wood Cutouts">
@@ -44,7 +44,7 @@ const PlaqueAddon = ({addonState}) => {
             options={cutouts} 
             setOptions={setCutouts}
             title="Add Cutout(s)"
-            addComponent={<GraphicForm />}
+            addComponent={<GraphicForm btnBgColor={themeColor} />}
           />
         </Tab>
       </Tabs>

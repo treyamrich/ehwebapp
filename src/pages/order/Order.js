@@ -76,7 +76,12 @@ const Order = () => {
                 <Routes>
                     <Route path="/" element={<Bundles/>}/>
                     <Route path="bundles" element={<Bundles/>}/>
-                    <Route path="plaques-and-plates" element={<Plaque opRes={opRes} setOpRes={setOpRes}/>}/>
+                    <Route path="plaques-and-plates" element={
+                      <Plaque 
+                        opRes={opRes} setOpRes={setOpRes}
+                        themeColor={EH_COLOR_DARK}  
+                      />}
+                    />
                     <Route path="engravable-bottles" element={<Bottle opRes={opRes} setOpRes={setOpRes}/>}/>
                     <Route path="personalized-gifts" element={<Gift opRes={opRes} setOpRes={setOpRes}/>}/>
                 </Routes>
