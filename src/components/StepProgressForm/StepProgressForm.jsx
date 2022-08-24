@@ -47,6 +47,9 @@ const StepProgressForm = ({children}) => {
         >
         {stepComponents[currentStep]}
         </div>
+        <div className="text-center mt-6">
+          <p className="text-sm text-slate-400">{stepComponents[currentStep].props.stepTip}</p>
+        </div>
         <div className="flex justify-between mt-6">
           <button
             className={`py-3 px-4 border-1 rounded-md hover:drop-shadow-xl ${currentStep === 0 ? 'text-gray-300' : ''}`}
