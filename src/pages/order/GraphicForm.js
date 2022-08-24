@@ -7,7 +7,7 @@ GraphicForm Props:
 
 import React, { useRef, useState } from 'react'
 import { MdOutlineClose } from 'react-icons/md';
-import { CardSelector } from '../../components';
+import { CardSelector, SearchBar } from '../../components';
 
 const initFormControlState = {
     canUpload: true,
@@ -57,7 +57,10 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                 </div>
             </div>
             <div id="eimg">
-                <h4 className="text-lg font-semibold float-top mb-3">Choose a Graphic</h4>
+                <h4 className="text-lg font-semibold mb-3">Choose a Graphic</h4>
+                <div className="flex justify-end mb-3 px-3">
+                    <SearchBar color={btnBgColor}/>
+                </div>
                 <CardSelector items={[1, 2, 3, 4, 5]} 
                     selectedIdx={selGraphicIdx}
                     setSelectedIdx={setSelGraphicIdx}

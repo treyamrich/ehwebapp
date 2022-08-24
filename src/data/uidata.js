@@ -133,3 +133,11 @@ export const order_links = [
     ],
   },
 ];
+
+export const plateColors = [
+  { value: 'B/G', label: 'Black/Gold' },
+  { value: 'B/S', label: 'Black/Silver' },
+  { value: 'G/B', label: 'Gold/Black'},
+  { value: 'S/B', label: 'Silver/Black' },
+  { value: 'R/G', label: 'Red/Gold' }
+];

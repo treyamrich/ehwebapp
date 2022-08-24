@@ -3,6 +3,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
 import GraphicForm from '../GraphicForm';
+import PlateForm from './PlateForm';
 import { CardManager, Tabs, Tab } from '../../../components';
 
 const animatedComponents = makeAnimated();
@@ -19,17 +20,24 @@ const PlaqueAddon = ({themeColor, addonState}) => {
     <div>
       <Tabs>
         <Tab title="Plate(s)">
-          <h1>hi</h1>
+          <CardManager 
+            options={graphics} 
+            setOptions={setGraphics}
+            title="Add Plate"
+            addForm={<PlateForm btnBgColor={themeColor}/>}
+          />
         </Tab>
         <Tab title="Services">
+          <div>
           <Select
             closeMenuOnSelect={true}
             components={animatedComponents}
             defaultValue={[options[4], options[5]]}
             isMulti
-            options={services}
+            options={options}
             onChange={(selOps)=>setServices(selOps)}
           />
+          </div>
         </Tab>
         <Tab title="Graphics">
           <CardManager 
