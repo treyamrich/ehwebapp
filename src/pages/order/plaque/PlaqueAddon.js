@@ -3,7 +3,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
 import GraphicForm from '../GraphicForm';
-import { CardAdder, Tabs, Tab } from '../../../components';
+import { CardManager, Tabs, Tab } from '../../../components';
 
 const animatedComponents = makeAnimated();
 
@@ -32,19 +32,19 @@ const PlaqueAddon = ({themeColor, addonState}) => {
           />
         </Tab>
         <Tab title="Graphics">
-          <CardAdder 
+          <CardManager 
             options={graphics} 
             setOptions={setGraphics}
             title="Add Graphic(s)"
-            addComponent={<GraphicForm btnBgColor={themeColor}/>}
+            addForm={<GraphicForm btnBgColor={themeColor}/>}
           />
         </Tab>
         <Tab title="Wood Cutouts">
-          <CardAdder 
+          <CardManager 
             options={cutouts} 
             setOptions={setCutouts}
             title="Add Cutout(s)"
-            addComponent={<GraphicForm btnBgColor={themeColor} />}
+            addForm={<GraphicForm btnBgColor={themeColor}/>}
           />
         </Tab>
       </Tabs>

@@ -1,8 +1,8 @@
 import React from 'react';
-import './product_card.css';
+import './card_selector.css';
 import { AiOutlineCheck } from 'react-icons/ai';
 
-const ProductCard = ({selected, onClick}) => {
+const Card = ({selected, onClick}) => {
     return (
         <div className="relative h-100 w-60 p-4 hover:drop-shadow-lg rounded-lg mr-4 mb-4 bg-white text-sm"
             style={{minWidth: '15rem', outline: selected ? '1px solid blue' : ''}}
@@ -27,14 +27,32 @@ const ProductCard = ({selected, onClick}) => {
     )
 };
 
-const ProductSelector = ({ products, orientation, selectedIdx, setSelectedIdx }) => {
+const CardSelector = ({ items, orientation, selectedIdx, setSelectedIdx, onSelect, disabled }) => {
+    //Postcondition: selectedIdx is -1 if card is reselected/deselected
+    const handleSelect = idx => {
+        //Handle reselect
+        setSelectedIdx(selectedIdx == idx ? -1 : idx);
+        //Call callback func if provided
+        if(onSelect) {
+            try {
+                onSelect();
+            } catch(e) {
+                console.log(e);
+            }
+        }
+    }
   return (
-    <div className={`flex p-1 h-full ${orientation === 'vertical' ? 'justify-center flex-wrap' : ''}`}>
-    {products.map((product, idx) =>(
-        <ProductCard key={idx} product={product} selected={selectedIdx === idx} onClick={()=>setSelectedIdx(idx)}/>
+    <div className={`flex p-1 h-full relative ${orientation === 'vertical' ? 'justify-center flex-wrap' : ''}`}>
+    {disabled === true && (
+        <div className="bg-half-transparent absolute h-full w-full top-0 left-0 rounded-md"
+            style={{zIndex: "1000"}}
+        />
+    )}
+    {items.map((product, idx) =>(
+        <Card key={idx} product={product} selected={selectedIdx === idx} onClick={()=>handleSelect(idx)}/>
     ))}
     </div>
   )
 }
 
-export default ProductSelector
+export default CardSelector

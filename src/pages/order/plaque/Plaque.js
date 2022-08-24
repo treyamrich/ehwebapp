@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Header, StepProgressForm, WriteMsg, ProductSelector } from '../../../components';
+import { Header, StepProgressForm, WriteMsg, CardSelector } from '../../../components';
 import PlaqueAddon from './PlaqueAddon';
 
 const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -16,8 +16,8 @@ const Plaque = ({ themeColor, order, setOrder }) => {
       <Header category="Customize" title="Plaques and Plates" />
       <div className="mt-14">
         <StepProgressForm>
-          <ProductSelector 
-            products={items} 
+          <CardSelector 
+            items={items} 
             orientation="horizontal" 
             selectedIdx={selectedIdx} 
             setSelectedIdx={setSelectedIdx}

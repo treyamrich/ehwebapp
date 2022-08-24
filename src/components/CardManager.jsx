@@ -1,3 +1,11 @@
+/*Interface invariant
+
+CardManager props:
+
+:addForm - a component that will be rendered hits the 'Add' button.
+  - The addForm component should accept as props 'submitForm' - a function to close the form and pass the form result
+  - It may also accept an onAdd callback function
+*/
 import React, { useState } from 'react'
 import { MdOutlineCancel } from 'react-icons/md';
 import { GoDiffAdded } from 'react-icons/go';
@@ -42,17 +50,26 @@ const Card = ({cardName, options, setOptions}) => {
     </div>
 )}
 
-const CardAdder = ({ title, options, setOptions, addComponent}) => {
-  const [showAddComp, setShowAddComp] = useState(false);
+const CardManager = ({ title, options, setOptions, addForm}) => {
+  const [showAddForm, setShowAddForm] = useState(false);
+
+  const handleClosePopUp = () => setShowAddForm(false);
+
+  //Add card to options
+  const addCard = (newCard=null) => {
+    handleClosePopUp();
+    if(!newCard) return;
+    setOptions([newCard, ...options]);
+  }
   return (
     <div className="h-52 border-1 rounded-sm overflow-x-auto">
-      {showAddComp ? <PopUp title={title} closePopUp={()=>setShowAddComp(false)}>
-          { addComponent }
+      {showAddForm ? <PopUp title={title} closePopUp={handleClosePopUp}>
+          {React.cloneElement(addForm, {submitForm: addCard})}
         </PopUp> : null}
       <div className="flex p-4 h-full items-center">
         <div className="flex justify-center items-center p-4 rounded-lg mr-4 text-sm hover:text-gray-400 bg-gray-200 text-gray-500 box-border"
           style={{ minWidth: '5rem'}}
-          onClick={()=>setShowAddComp(true)}
+          onClick={()=>setShowAddForm(true)}
         >
             <button type="button"
               className="select-none"
@@ -72,4 +89,4 @@ const CardAdder = ({ title, options, setOptions, addComponent}) => {
   )
 }
 
-export default CardAdder
+export default CardManager
