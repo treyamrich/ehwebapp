@@ -44,12 +44,12 @@ const SearchBar = ({color, records, setRecords, searchFields}) => {
         type="text"
         value={query}
         onChange={handleSearch}
-        className="outline-0 placeholder:text-slate-300 w-max text-xs mr-1"
+        className="outline-0 placeholder:text-slate-300 w-max text-xs mr-1 px-2"
         placeholder="Search"
         onFocus={()=>setFocused(true)}
         onBlur={()=>setFocused(false)}
       />
-      <button type="submit">
+      <button type="button">
         <AiOutlineSearch/> 
       </button>
       <div 
