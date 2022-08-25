@@ -24,9 +24,7 @@ const Plaque = ({ themeColor, order, setOrder }) => {
             stepName="Choose a Plaque/Plate"
             stepTip="Tip: Dimensions are listed in format: Length x Width (L x W) and in the units of inches"
           />
-          <WriteMsg stepName="Write your customized message"
-            stepTip="Note: Plates are limited by the amount lines"
-          />
+          <WriteMsg stepName="Write your customized message"/>
           <PlaqueAddon stepName="Add-ons"
             themeColor={themeColor}
             addonState={{services, setServices, graphics, setGraphics, cutouts, setCutouts}}

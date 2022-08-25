@@ -5,6 +5,24 @@ import { IoMdContacts } from 'react-icons/io';
 import { RiTodoLine,  } from 'react-icons/ri';
 import { TbBottle } from 'react-icons/tb';
 
+export const plateColors = [
+  { value: 1, label: 'Black/Gold' },
+  { value: 2, label: 'Black/Silver' },
+  { value: 3, label: 'Gold/Black'},
+  { value: 4, label: 'Silver/Black' },
+  { value: 5, label: 'Red/Gold' }
+];
+export const plateSizes = [
+  { value: 1, label: '3x1.5"'},
+  { value: 2, label: '4x3"'},
+  { value: 3, label: '5x2"'},
+  { value: 4, label: '6x3"'},
+  { value: 5, label: '6x4"'},
+  { value: 6, label: '5x7"'},
+  { value: 7, label: '8x10"'},
+  { value: 8, label: 'Custom'}
+];
+
 export const dashboard_links = [
     {
       title: 'Dashboard',
@@ -132,12 +150,4 @@ export const order_links = [
       }
     ],
   },
-];
-
-export const plateColors = [
-  { value: 'B/G', label: 'Black/Gold' },
-  { value: 'B/S', label: 'Black/Silver' },
-  { value: 'G/B', label: 'Gold/Black'},
-  { value: 'S/B', label: 'Silver/Black' },
-  { value: 'R/G', label: 'Red/Gold' }
 ];
