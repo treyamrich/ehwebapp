@@ -65,6 +65,7 @@ const PlateForm = ({ btnBgColor, submitForm }) => {
                     setOptions={()=>{}}
                     title="Add Plate Graphic(s)"
                     addForm={<GraphicForm btnBgColor={btnBgColor}/>}
+                    hasNestedPopUp
                 />
             </div>
             <div className="p-2">

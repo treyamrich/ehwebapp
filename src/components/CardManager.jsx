@@ -66,7 +66,11 @@ const CardManager = ({ title, options, setOptions, addForm, hasNestedPopUp}) => 
   }
   return (
     <div className="h-52 border-1 rounded-sm overflow-x-auto">
-      {showAddForm ? <PopUp title={title} closePopUp={handleClosePopUp}>
+      {showAddForm ? 
+        <PopUp title={title} 
+          closePopUp={handleClosePopUp}
+          isNested={hasNestedPopUp}
+        >
           {React.cloneElement(addForm, {submitForm: addCard})}
         </PopUp> : null}
       <div className="flex p-4 h-full items-center">
