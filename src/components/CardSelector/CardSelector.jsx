@@ -42,15 +42,17 @@ const CardSelector = ({ items, orientation, selectedIdx, setSelectedIdx, onSelec
         }
     }
   return (
-    <div className={`flex p-1 h-full relative ${orientation === 'vertical' ? 'justify-center flex-wrap' : ''}`}>
-    {disabled === true && (
-        <div className="bg-half-transparent absolute h-full w-full top-0 left-0 rounded-md"
-            style={{zIndex: "1000"}}
-        />
-    )}
-    {items.map((product, idx) =>(
-        <Card key={idx} product={product} selected={selectedIdx === idx} onClick={()=>handleSelect(idx)}/>
-    ))}
+    <div className={orientation === 'horizontal' ? "overflow-x-auto" : ""}>
+        <div className={`flex p-1 h-full relative ${orientation === 'vertical' ? 'justify-center flex-wrap' : ''}`}>
+        {disabled === true && (
+            <div className="bg-half-transparent absolute h-full w-full top-0 left-0 rounded-md"
+                style={{zIndex: "1000"}}
+            />
+        )}
+        {items.map((product, idx) =>(
+            <Card key={idx} product={product} selected={selectedIdx === idx} onClick={()=>handleSelect(idx)}/>
+        ))}
+        </div>
     </div>
   )
 }

@@ -42,11 +42,9 @@ const StepProgressForm = ({children}) => {
         </ProgressBar>
       </div>
       <div className="mt-32">
-        <div className="overflow-x-auto" 
-          style={{height: '400px', width: '100%'}}
-        >
+        
         {stepComponents[currentStep]}
-        </div>
+
         <div className="text-center mt-6">
           <p className="text-sm text-slate-400">{stepComponents[currentStep].props.stepTip}</p>
         </div>

@@ -1,10 +1,3 @@
-/*Interface Invariant
-
-GraphicForm Props:
-  :onAdd - optional callback function before closing the addForm
-  :submitForm - a function to be called on form submission
-*/
-
 import React, { useRef, useState } from 'react'
 import { MdOutlineClose } from 'react-icons/md';
 import { CardSelector, SearchBar } from '../../components';
@@ -15,7 +8,7 @@ const initFormControlState = {
     canSubmit: false
 };
 
-const GraphicForm = ({ btnBgColor, submitForm }) => {
+const GraphicForm = ({ btnBgColor, infoContent }) => {
     const graphicRef = useRef();
     const [selGraphicIdx, setSelGraphicIdx] = useState(-1);
     const [formControl, setFormControl] = useState(initFormControlState);
@@ -31,15 +24,9 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
         //Toggles the disable state of the file input and submit button
         setFormControl({...formControl, canUpload: !canUpload, canSubmit: !canSubmit});
     }
-    //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
-    const handleSubmit = () => {
-        submitForm(1);
-    }
   return (
-    <div className="flex justify-center text-left flex-col"
-      style={{maxHeight: '85vh'}}
-    >
-        <div className="w-11/12 bg-slate-50 rounded-md drop-shadow-xl p-5 m-auto overflow-y-auto">
+    <div className="flex justify-center text-left flex-col">
+        <div className="p-2 m-auto">
             <div id="nimg">
                 <label className="text-lg font-semibold" htmlFor="item-code">Upload New</label>
                 <div className="p-3 flex items-center">
@@ -69,16 +56,6 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                     disabled={!canSelect}
                 />
             </div>
-        </div>
-        <div id="submit-popup-form" className='flex justify-end items-center p-4 ml-4'>
-            <button className="text-white w-full lg:w-1/6 hover:drop-shadow-xl p-3"
-                style={{borderRadius: '10px', backgroundColor: canSubmit ? btnBgColor : '#D1D5DB'}}
-                type="button"
-                onClick={handleSubmit}
-                disabled={!canSubmit}
-            >
-                Save
-            </button>
         </div>
     </div>
   )
