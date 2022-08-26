@@ -5,6 +5,9 @@ CardManager props:
 :addForm - a component that will be rendered hits the 'Add' button.
   - The addForm component should accept as props 'submitForm' - a function to close the form and pass the form result
   - It may also accept an onAdd callback function
+
+:hasNestedPopUp - boolean that is passed to the popup sub component, 
+  so that the popup can be above its parent.
 */
 import React, { useState } from 'react'
 import { MdOutlineCancel } from 'react-icons/md';
@@ -50,7 +53,7 @@ const Card = ({cardName, options, setOptions}) => {
     </div>
 )}
 
-const CardManager = ({ title, options, setOptions, addForm}) => {
+const CardManager = ({ title, options, setOptions, addForm, hasNestedPopUp}) => {
   const [showAddForm, setShowAddForm] = useState(false);
 
   const handleClosePopUp = () => setShowAddForm(false);
