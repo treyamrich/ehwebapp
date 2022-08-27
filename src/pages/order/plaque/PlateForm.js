@@ -2,7 +2,8 @@
 
 GraphicForm Props:
   :onAdd - optional callback function before closing the addForm
-  :submitForm - a function to be called on form submission
+  :submitForm - a function to be called on form submission. It must accept
+    an object.
 */
 
 import React, { useState } from 'react';
@@ -15,9 +16,11 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 const animatedComponents = makeAnimated();
 
-const PlateForm = ({ btnBgColor, submitForm }) => {
+const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
     const [selGraphicIdx, setSelGraphicIdx] = useState(-1);
     const [canSubmit, setCanSubmit] = useState(true);
+
+    const { pushPopUp, popPopUp } = managePopUp;
 
     const handlePlateSelect = () => {
         //Toggles the disable state of the file input and submit button
@@ -63,9 +66,12 @@ const PlateForm = ({ btnBgColor, submitForm }) => {
                 <CardManager 
                     options={[1, 2]} 
                     setOptions={()=>{}}
-                    title="Add Plate Graphic(s)"
-                    addForm={<GraphicForm btnBgColor={btnBgColor}/>}
-                    hasNestedPopUp
+                    onAddCard={()=>pushPopUp(
+                        <GraphicForm title="Add Plate Graphic" 
+                            btnBgColor={btnBgColor}
+                            submitForm={popPopUp}
+                        />
+                    )}
                 />
             </div>
             <div className="p-2">

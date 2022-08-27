@@ -14,8 +14,28 @@ const options = [
   { value: 'color-fill', label: 'Color Fill'}
 ]
 
-const PlaqueAddon = ({themeColor, addonState}) => {
-  const { services, setServices, graphics, setGraphics, cutouts, setCutouts } = addonState;
+const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
+  const { pushPopUp, popPopUp } = managePopUp;
+
+  const handleAddPlate = plateObj => {
+    popPopUp();
+    if(!plateObj) return;
+    setAddons({...addons, plates: [plateObj, ...addons.plates]});
+  }
+  const handleAddGraphic = graphicObj => {
+    popPopUp();
+    if(!graphicObj) return;
+    setAddons({...addons, graphics: [graphicObj, ...addons.graphics]})
+  }
+  const handleAddCutout = cutoutObj => {
+    popPopUp();
+    if(!cutoutObj) return;
+    setAddons({...addons, graphics: [cutoutObj, ...addons.cutouts]});
+  }
+  const handleRemovePlate = newArr => setAddons({...addons, plates: [...newArr]});
+  const handleRemoveGraphic = newArr => setAddons({...addons, graphics: [...newArr]});
+  const handleRemoveCutout = newArr => setAddons({...addons, cutouts: [...newArr]});
+  const handleUpdateServices = newArr => setAddons({...addons, services: [...newArr]});
   return (
     <div>
       <Tabs>
@@ -28,10 +48,15 @@ const PlaqueAddon = ({themeColor, addonState}) => {
           <div>
             <h4 className="text-lg font-semibold mb-1">Add your plate(s) here</h4>
             <CardManager 
-              options={graphics} 
-              setOptions={setGraphics}
-              title="Add Plate"
-              addForm={<PlateForm btnBgColor={themeColor}/>}
+              options={addons.plates} 
+              onDeleteCard={handleRemovePlate}
+              onAddCard={()=>pushPopUp(
+                <PlateForm title="Add Plate" 
+                  btnBgColor={themeColor}
+                  submitForm={handleAddPlate}
+                  managePopUp={managePopUp}
+                />
+              )}
             />
           </div>
         </Tab>
@@ -48,7 +73,7 @@ const PlaqueAddon = ({themeColor, addonState}) => {
               defaultValue={[options[4], options[5]]}
               isMulti
               options={options}
-              onChange={(selOps)=>setServices(selOps)}
+              onChange={handleUpdateServices}
             />
           </div>
         </Tab>
@@ -61,10 +86,15 @@ const PlaqueAddon = ({themeColor, addonState}) => {
           <div>
             <h4 className="text-lg font-semibold mb-1">Add your graphic(s) here</h4>
             <CardManager 
-              options={graphics} 
-              setOptions={setGraphics}
+              options={addons.graphics} 
+              onDeleteCard={handleRemoveGraphic}
               title="Add Plaque Graphic"
-              addForm={<GraphicForm btnBgColor={themeColor}/>}
+              onAddCard={()=>pushPopUp(
+                <GraphicForm title="Add Graphic" 
+                  btnBgColor={themeColor}
+                  submitForm={handleAddGraphic}
+                />
+              )}
             />
           </div>
         </Tab>
@@ -77,10 +107,15 @@ const PlaqueAddon = ({themeColor, addonState}) => {
           <div>
             <h4 className="text-lg font-semibold mb-1">Add your cutout(s) here</h4>
             <CardManager 
-              options={graphics} 
-              setOptions={setGraphics}
+              options={addons.cutouts} 
+              onDeleteCard={handleRemoveCutout}
               title="Add Wood Cutout"
-              addForm={<GraphicForm btnBgColor={themeColor}/>}
+              onAddCard={()=>pushPopUp(
+                <GraphicForm title="Add Cutout" 
+                  btnBgColor={themeColor}
+                  submitForm={handleAddCutout}
+                />
+              )}
             />
           </div>
         </Tab>
