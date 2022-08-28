@@ -47,7 +47,7 @@ const Order = () => {
     popups.pop();
     setPopUps([...popups]);
   }
-  const pushPopUp = component => setPopUps(prev => [...popups, component]);
+  const pushPopUp = component => setPopUps(prev => [...prev, component]);
   
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
