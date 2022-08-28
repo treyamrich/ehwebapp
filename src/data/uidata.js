@@ -5,14 +5,14 @@ import { IoMdContacts } from 'react-icons/io';
 import { RiTodoLine,  } from 'react-icons/ri';
 import { TbBottle } from 'react-icons/tb';
 
-export const plateColors = [
+export const pltColors = [
   { value: 1, label: 'Black/Gold' },
   { value: 2, label: 'Black/Silver' },
   { value: 3, label: 'Gold/Black'},
   { value: 4, label: 'Silver/Black' },
   { value: 5, label: 'Red/Gold' }
 ];
-export const plateSizes = [
+export const pltSizes = [
   { value: 1, label: '3x1.5"'},
   { value: 2, label: '4x3"'},
   { value: 3, label: '5x2"'},
@@ -21,6 +21,16 @@ export const plateSizes = [
   { value: 6, label: '5x7"'},
   { value: 7, label: '8x10"'},
   { value: 8, label: 'Custom'}
+];
+
+export const serviceOpts = [
+  { value: 'coin-mount', label: 'Coin Mount' },
+  { value: 'item-mount', label: 'Item Mount'},
+  { value: 'color-fill', label: 'Color Fill'}
+];
+
+export const graphicColOpts = [
+  { value: 1, label: 'Blue' }
 ];
 
 export const dashboard_links = [

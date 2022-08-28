@@ -6,13 +6,9 @@ import GraphicForm from '../GraphicForm';
 import PlateForm from './PlateForm';
 import { CardManager, Tabs, Tab } from '../../../components';
 
-const animatedComponents = makeAnimated();
+import { serviceOpts } from '../../../data/uidata';
 
-const options = [
-  { value: 'coin-mount', label: 'Coin Mount' },
-  { value: 'item-mount', label: 'Item Mount'},
-  { value: 'color-fill', label: 'Color Fill'}
-]
+const animatedComponents = makeAnimated();
 
 const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
   const { pushPopUp, popPopUp } = managePopUp;
@@ -70,9 +66,8 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
             <Select
               closeMenuOnSelect={true}
               components={animatedComponents}
-              defaultValue={[options[4], options[5]]}
               isMulti
-              options={options}
+              options={serviceOpts}
               onChange={handleUpdateServices}
             />
           </div>

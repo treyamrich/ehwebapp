@@ -8,6 +8,12 @@ GraphicForm Props:
 import React, { useRef, useState } from 'react'
 import { MdOutlineClose } from 'react-icons/md';
 import { CardSelector, SearchBar } from '../../components';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+
+import { graphicColOpts } from '../../data/uidata';
+
+const animatedComponents = makeAnimated();
 
 const initFormControlState = {
     canUpload: true,
@@ -40,6 +46,19 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
       style={{maxHeight: '85vh'}}
     >
         <div className="w-11/12 bg-slate-50 rounded-md drop-shadow-xl p-5 m-auto overflow-y-auto">
+            <div className="p-2">
+                <h4 className="text-lg font-semibold mb-1">Color</h4>
+                <Select
+                    closeMenuOnSelect={true}
+                    components={animatedComponents}
+                    options={graphicColOpts}
+                    onChange={()=>{}}
+                    className="mb-3"
+                />
+                <div className="text-center">
+                    <p className="text-sm text-slate-400">Tip: The default "color" is the same colorfill chosen for your engraved message. If you would like your graphic to be a different color, please specify here.</p>
+                </div>
+            </div>
             <div id="nimg">
                 <label className="text-lg font-semibold" htmlFor="item-code">Upload New</label>
                 <div className="p-3 flex items-center">

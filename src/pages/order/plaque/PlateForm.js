@@ -7,7 +7,7 @@ GraphicForm Props:
 */
 
 import React, { useState } from 'react';
-import { plateColors, plateSizes } from '../../../data/uidata';
+import { pltSizes, pltColors } from '../../../data/uidata';
 
 import { CardManager } from '../../../components';
 import GraphicForm from '../GraphicForm';
@@ -40,7 +40,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
                 <Select
                     closeMenuOnSelect={true}
                     components={animatedComponents}
-                    options={plateColors}
+                    options={pltColors}
                     onChange={()=>{}}
                     className="mb-3"
                 />
@@ -53,7 +53,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
                 <Select
                     closeMenuOnSelect={true}
                     components={animatedComponents}
-                    options={plateSizes}
+                    options={pltSizes}
                     onChange={()=>{}}
                     className="mb-3"
                 />
