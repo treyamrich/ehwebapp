@@ -38,7 +38,7 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
         <Tab title="Plate(s)">
           <div className="p-2 text-center mb-1">
             <p className="text-sm text-slate-400">
-              Info: Plates add a clean metallic look which makes your plaque pop. They are either mounted on the plaque by us, or come with double-sided tape for your liberty.
+              <strong>Info:</strong> Plates add a clean metallic look which makes your plaque pop. They are either mounted on the plaque by us, or come with double-sided tape for your liberty.
             </p>
           </div>
           <div>
@@ -59,7 +59,7 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
         <Tab title="Services">
           <div className="p-2 text-center mb-1">
             <p className="text-sm text-slate-400">
-              Info: Services are anything that we do for item.
+              <strong>Info:</strong> Services are anything that we do for item.
             </p>
           </div>
           <div className="h-36">
@@ -75,7 +75,7 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
         <Tab title="Graphics">
           <div className="p-2 text-center mb-1">
             <p className="text-sm text-slate-400">
-              Info: Graphics are engraved directly on the plaque. It's recommended to add graphics when your plaque is feeling empty.
+              <strong>Info:</strong> Graphics are engraved directly on the plaque. It's recommended to add graphics when your plaque is feeling empty.
             </p>
           </div>
           <div>
@@ -96,7 +96,7 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
         <Tab title="Wood Cutouts">
           <div className="p-2 text-center mb-1">
             <p className="text-sm text-slate-400">
-              Info: Wood Cutouts are mounted on the plaque. We recommend them alongside adding a plate. This will give your plaque a "pop" effect
+              <strong>Info:</strong> Wood Cutouts are mounted on the plaque. We recommend them alongside adding a plate. This will give your plaque a "pop" effect
             </p>
           </div>
           <div>
