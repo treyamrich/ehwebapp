@@ -50,7 +50,7 @@ const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
     <div className="flex justify-center text-left flex-col"
       style={{maxHeight: '85vh'}}
     >
-      <div className="w-11/12 bg-slate-50 rounded-md drop-shadow-xl p-3 m-auto overflow-y-auto">
+      <div className="w-11/12 bg-gray-50 rounded-md drop-shadow-xl p-3 m-auto overflow-y-auto">
             <div className="p-3">
                 <label className="text-lg font-semibold" htmlFor="item-code">Item Code:</label>
                 <input className={`border px-3 py-2 w-full rounded-sm ${mode === "edit" ? "disabled" : ''}`} 
