@@ -30,7 +30,8 @@ export const serviceOpts = [
 ];
 
 export const graphicColOpts = [
-  { value: 1, label: 'Blue' }
+  { value: 1, label: 'Default - Same as other addons'},
+  { value: 2, label: 'Blue' }
 ];
 
 export const dashboard_links = [

@@ -51,12 +51,13 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                 <Select
                     closeMenuOnSelect={true}
                     components={animatedComponents}
+                    defaultValue={[graphicColOpts[0]]}
                     options={graphicColOpts}
                     onChange={()=>{}}
                     className="mb-3"
                 />
                 <div className="text-center">
-                    <p className="text-sm text-slate-400">Tip: The default "color" is the same colorfill chosen for your engraved message. If you would like your graphic to be a different color, please specify here.</p>
+                    <p className="text-sm text-slate-400"><strong>Tip:</strong> The default "color" is the same colorfill chosen for your engraved message. If you would like your graphic to be a different color, please specify here.</p>
                 </div>
             </div>
             <div id="nimg">
@@ -75,6 +76,9 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                     />
                 </div>
             </div>
+            <div className="text-center">
+                    <p className="text-sm text-slate-400"><strong>IMPORTANT:</strong> If your graphic is going to be very <strong>small</strong> (anything smaller than 1.5x1.5"), please make sure the image isn't too complex. Small graphics with high detail don't engrave well. If you are uploading a graphic, make sure it's <strong>black/white clip art</strong> (high quality). Feel free to ask us if you have any questions!</p>
+                </div>
             <div id="eimg">
                 <h4 className="text-lg font-semibold mb-3">Choose a Graphic</h4>
                 <div className="flex justify-end mb-3 px-3">

@@ -14,11 +14,12 @@ import GraphicForm from '../GraphicForm';
 
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+
 const animatedComponents = makeAnimated();
 
 const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
     const [selGraphicIdx, setSelGraphicIdx] = useState(-1);
-    const [canSubmit, setCanSubmit] = useState(true);
+    const [canSubmit, setCanSubmit] = useState(false);
 
     const { pushPopUp, popPopUp } = managePopUp;
 
@@ -40,12 +41,13 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
                 <Select
                     closeMenuOnSelect={true}
                     components={animatedComponents}
+                    defaultValue={[pltColors[0]]}
                     options={pltColors}
                     onChange={()=>{}}
                     className="mb-3"
                 />
                 <div className="text-center">
-                    <p className="text-sm text-slate-400">Tip: Dimensions are listed in format: Length x Width (L x W) and in the units of inches</p>
+                    <p className="text-sm text-slate-400"><strong>Tip:</strong> Dimensions are listed in format: <strong>Length x Width</strong> (L x W) and in the <strong>units of inches.</strong> The default color is black/gold because it usually goes with all plaque colors, although <strong>we recommend you choose the color that matches your other addons.</strong></p>
                 </div>
             </div>
             <div className="p-2">
@@ -54,11 +56,11 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
                     closeMenuOnSelect={true}
                     components={animatedComponents}
                     options={pltSizes}
-                    onChange={()=>{}}
+                    onChange={()=>setCanSubmit(true)}
                     className="mb-3"
                 />
                 <div className="text-center">
-                    <p className="text-sm text-slate-400">Note: Plates are limited by the amount lines</p>
+                    <p className="text-sm text-slate-400"><strong>Note:</strong> Plates are limited by the amount lines</p>
                 </div>
             </div>
             <div className="p-2">
@@ -76,7 +78,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
             </div>
             <div className="p-2">
                 <div className="text-center">
-                    <h4 className="text-lg font-semibold mb-3">Write your message here!</h4>
+                    <h4 className="text-lg font-semibold mb-3">Write your message here! ADD verify message if the user doesn't put any text.</h4>
                 </div>
                 <div className="w-full h-96 bg-white mb-3">
 
