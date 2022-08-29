@@ -23,6 +23,11 @@ import product6 from './product6.jpg';
 import product7 from './product7.jpg';
 import product8 from './product8.jpg';
 
+export const testItems = [
+  { name: 'Cherry 10x13" Plaque', code: 'DCP11013', category: 'PLAQUE', price: 40.0, cost: 1.27, qty: 20 },
+  { name: 'Walnut 16x20" Plaque', code: 'VAL12016', category: 'PLAQUE', price: 60.0, cost: 5.20, qty: 10 }
+];
+
 export const gridOrderImage = (props) => (
   <div>
     <img

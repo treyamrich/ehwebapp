@@ -31,7 +31,7 @@ const Bundles = () => {
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 rounded-3xl bg-slate-50">
       <Header category="Popular" title="Bundles" />
-      <CardSelector items={bundles} orientation="vertical"/>
+      <CardSelector items={bundles} orientation="vertical" isCardDisabled={()=>false}/>
     </div>
   )
 }

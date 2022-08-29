@@ -2,9 +2,9 @@ import React from 'react';
 import './card_selector.css';
 import { AiOutlineCheck } from 'react-icons/ai';
 
-const Card = ({selected, onClick, disabled}) => {
+const Card = ({ item, selected, onClick, disabled }) => {
     return (
-        <div className="relative h-100 w-60 p-4 hover:drop-shadow-lg rounded-lg mr-4 mb-4 bg-white text-sm"
+        <div className="relative h-100 w-60 p-4 drop-shadow-md hover:drop-shadow-lg rounded-lg mr-4 mb-4 bg-white text-sm"
             style={{minWidth: '15rem', outline: selected ? '1px solid blue' : '', opacity: disabled ? 0.3 : 1}}
             onClick={disabled ? null : onClick}
         >
@@ -13,7 +13,7 @@ const Card = ({selected, onClick, disabled}) => {
                 <img src="https://www.plaquemaker.com/site/images/Products/PL-ALM-PH_main-001.jpg" className="h-50 w-50"/>
             </div>
             <div>
-                <p className="font-semibold">Bundle Name</p>
+                <p className="font-semibold">{ item.name }</p>
             </div>
         </div>
     )
@@ -49,12 +49,12 @@ const CardSelector = ({ items, orientation, selectedIdx, setSelectedIdx, onSelec
         <div className={`flex p-1 h-full relative ${orientation === 'vertical' ? 'justify-center flex-wrap' : ''}`}
             style={{opacity: disabled ? 0.5 : 1}}
         >
-        {items.map((product, idx) =>(
+        {items.map((item, idx) =>(
             <Card key={idx} 
-                product={product} 
+                item={item} 
                 selected={selectedIdx === idx} 
                 onClick={()=>handleSelect(idx)}
-                disabled={disabled || isCardDisabled(product)}
+                disabled={disabled || isCardDisabled(item)}
             />
         ))}
         </div>
