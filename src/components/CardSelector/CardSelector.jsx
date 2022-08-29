@@ -13,16 +13,8 @@ const Card = ({selected, onClick, disabled}) => {
                 <img src="https://www.plaquemaker.com/site/images/Products/PL-ALM-PH_main-001.jpg" className="h-50 w-50"/>
             </div>
             <div>
-                <h6 className="font-semibold">Bundle Name</h6>
-                <ul className="text-xs">
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                </ul>
+                <p className="font-semibold">Bundle Name</p>
             </div>
-            <button
-                className="rounded-sm px-3 py-2 absolute bottom-0 right-0 add-button"
-            >Add to cart</button>
         </div>
     )
 };
