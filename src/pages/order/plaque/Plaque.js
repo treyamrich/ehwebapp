@@ -26,6 +26,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
             setSelectedIdx={setSelectedIdx}
             stepName="Choose a Plaque/Plate"
             stepTip="Tip: Dimensions are listed in format: Length x Width (L x W) and in the units of inches"
+            isCardDisabled={()=>true}
           />
           <WriteMsg stepName="Write your customized message"/>
           <PlaqueAddon stepName="Add-ons"

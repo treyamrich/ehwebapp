@@ -2,11 +2,11 @@ import React from 'react';
 import './card_selector.css';
 import { AiOutlineCheck } from 'react-icons/ai';
 
-const Card = ({selected, onClick}) => {
+const Card = ({selected, onClick, disabled}) => {
     return (
         <div className="relative h-100 w-60 p-4 hover:drop-shadow-lg rounded-lg mr-4 mb-4 bg-white text-sm"
-            style={{minWidth: '15rem', outline: selected ? '1px solid blue' : ''}}
-            onClick={onClick}
+            style={{minWidth: '15rem', outline: selected ? '1px solid blue' : '', opacity: disabled ? 0.3 : 1}}
+            onClick={disabled ? null : onClick}
         >
             {selected ? <div className="absolute top-3 right-3"><AiOutlineCheck color={'blue'}/></div> : null}
             <div className="p-5">
@@ -27,7 +27,18 @@ const Card = ({selected, onClick}) => {
     )
 };
 
-const CardSelector = ({ items, orientation, selectedIdx, setSelectedIdx, onSelect, disabled }) => {
+/*Interface Invariant
+
+Card Selector Props
+
+:items - a list of objects {name: string, img: string}
+:orientation - string (horizontal/vertical)
+:selectedIdx and setSelectedIdx - react useState hook to keep track of selected card
+:onSelect - func to call when a card is selected
+:disabled - boolean if the entire selector is disabled
+:isCardDisabled - a func which accepts the items[i] object to determine if it's disabled
+*/
+const CardSelector = ({ items, orientation, selectedIdx, setSelectedIdx, onSelect, disabled, isCardDisabled }) => {
     //Postcondition: selectedIdx is -1 if card is reselected/deselected
     const handleSelect = idx => {
         //Handle reselect
@@ -43,14 +54,16 @@ const CardSelector = ({ items, orientation, selectedIdx, setSelectedIdx, onSelec
     }
   return (
     <div className={orientation === 'horizontal' ? "overflow-x-auto" : ""}>
-        <div className={`flex p-1 h-full relative ${orientation === 'vertical' ? 'justify-center flex-wrap' : ''}`}>
-        {disabled === true && (
-            <div className="bg-half-transparent absolute h-full w-full top-0 left-0 rounded-md"
-                style={{zIndex: "1000"}}
-            />
-        )}
+        <div className={`flex p-1 h-full relative ${orientation === 'vertical' ? 'justify-center flex-wrap' : ''}`}
+            style={{opacity: disabled ? 0.5 : 1}}
+        >
         {items.map((product, idx) =>(
-            <Card key={idx} product={product} selected={selectedIdx === idx} onClick={()=>handleSelect(idx)}/>
+            <Card key={idx} 
+                product={product} 
+                selected={selectedIdx === idx} 
+                onClick={()=>handleSelect(idx)}
+                disabled={disabled || isCardDisabled(product)}
+            />
         ))}
         </div>
     </div>

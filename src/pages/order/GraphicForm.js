@@ -46,7 +46,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
       style={{maxHeight: '85vh'}}
     >
         <div className="w-11/12 bg-slate-50 rounded-md drop-shadow-xl p-5 m-auto overflow-y-auto">
-            <div className="p-2">
+            <div className="py-2 px-1">
                 <h4 className="text-lg font-semibold mb-1">Color</h4>
                 <Select
                     closeMenuOnSelect={true}
@@ -60,7 +60,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                     <p className="text-sm text-slate-400"><strong>Tip:</strong> The default "color" is the same colorfill chosen for your engraved message. If you would like your graphic to be a different color, please specify here.</p>
                 </div>
             </div>
-            <div id="nimg">
+            <div className="py-2 px-1">
                 <label className="text-lg font-semibold" htmlFor="item-code">Upload New</label>
                 <div className="p-3 flex items-center">
                     <button type="button"
@@ -79,7 +79,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
             <div className="text-center">
                     <p className="text-sm text-slate-400"><strong>IMPORTANT:</strong> If your graphic is going to be very <strong>small</strong> (anything smaller than 1.5x1.5"), please make sure the image isn't too complex. Small graphics with high detail don't engrave well. If you are uploading a graphic, make sure it's <strong>black/white clip art</strong> (high quality). Feel free to ask us if you have any questions!</p>
                 </div>
-            <div id="eimg">
+            <div className="py-2 px-1">
                 <h4 className="text-lg font-semibold mb-3">Choose a Graphic</h4>
                 <div className="flex justify-end mb-3 px-3">
                     <SearchBar color={btnBgColor}/>
@@ -90,12 +90,13 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                     orientation="vertical"
                     onSelect={handleImgSelect}
                     disabled={!canSelect}
+                    isCardDisabled={()=>false}
                 />
             </div>
         </div>
         <div id="submit-popup-form" className='flex justify-end items-center p-4 lg:ml-4'>
             <button className="text-white w-full lg:w-1/6 hover:drop-shadow-xl p-3"
-                style={{borderRadius: '10px', backgroundColor: canSubmit ? btnBgColor : '#D1D5DB'}}
+                style={{borderRadius: '10px', backgroundColor: btnBgColor, opacity: canSubmit ? 1 : 0.3}}
                 type="button"
                 onClick={handleSubmit}
                 disabled={!canSubmit}

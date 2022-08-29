@@ -36,7 +36,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
       style={{maxHeight: '85vh'}}
     >
         <div className="w-11/12 bg-slate-50 rounded-md drop-shadow-xl p-5 m-auto overflow-y-auto">
-            <div className="p-2">
+            <div className="py-2 px-1">
                 <h4 className="text-lg font-semibold mb-1">Color</h4>
                 <Select
                     closeMenuOnSelect={true}
@@ -50,7 +50,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
                     <p className="text-sm text-slate-400"><strong>Tip:</strong> Dimensions are listed in format: <strong>Length x Width</strong> (L x W) and in the <strong>units of inches.</strong> The default color is black/gold because it usually goes with all plaque colors, although <strong>we recommend you choose the color that matches your other addons.</strong></p>
                 </div>
             </div>
-            <div className="p-2">
+            <div className="py-2 px-1">
                 <h4 className="text-lg font-semibold mb-1">Plate Size</h4>
                 <Select
                     closeMenuOnSelect={true}
@@ -76,7 +76,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
                     )}
                 />
             </div>
-            <div className="p-2">
+            <div className="py-2 px-1">
                 <div className="text-center">
                     <h4 className="text-lg font-semibold mb-3">Write your message here! ADD verify message if the user doesn't put any text.</h4>
                 </div>
@@ -88,7 +88,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
         </div>
         <div id="submit-popup-form" className='flex justify-end items-center p-4 ml-4'>
             <button className="text-white w-full lg:w-1/6 hover:drop-shadow-xl p-3"
-                style={{borderRadius: '10px', backgroundColor: canSubmit ? btnBgColor : '#D1D5DB'}}
+                style={{borderRadius: '10px', backgroundColor: btnBgColor, opacity: canSubmit ? 1 : 0.3}}
                 type="button"
                 onClick={handleSubmit}
                 disabled={!canSubmit}

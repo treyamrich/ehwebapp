@@ -63,6 +63,7 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
             </p>
           </div>
           <div className="h-36">
+            <h4 className="text-lg font-semibold mb-1">Select your service(s) here</h4>
             <Select
               closeMenuOnSelect={true}
               components={animatedComponents}
