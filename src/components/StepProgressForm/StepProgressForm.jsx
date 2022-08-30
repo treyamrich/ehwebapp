@@ -15,9 +15,14 @@ const StepProgressForm = ({children}) => {
 
     const handleNextStep = () => {
       let validateFunc = stepComponents[currentStep].props.validateStep;
-      //If no validation func provided or validation func returns true, move forward
+      let confirmFunc = stepComponents[currentStep].props.confirmStep;
+      //Validate the step first
       if(validateFunc && validateFunc() || !validateFunc) {
-        setCurrentStep(prevStep=>prevStep+1);
+        if(!confirmFunc) {
+          setCurrentStep(prevStep=>prevStep+1);
+        } else {
+          confirmFunc(()=>setCurrentStep(prevStep=>prevStep+1));
+        }
       }
     }
 

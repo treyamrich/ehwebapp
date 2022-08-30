@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Header, StepProgressForm, WriteMsg, CardSelector } from '../../../components';
 import PlaqueAddon from './PlaqueAddon';
+import ConfirmSelItem from './ConfirmSelItem';
 
 import { testItems } from '../../../data/dummy';
 
@@ -15,6 +16,14 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   //Selected product
   const [selItemIdx, setSelItemIdx] = useState(0);
   const [addons, setAddons] = useState(initAddOnState);
+
+  const confirmSelItem = nextStepFunc => {
+    managePopUp.pushPopUp(<ConfirmSelItem
+      onSubmit={()=>{managePopUp.popPopUp(); nextStepFunc()}}
+      onCancel={managePopUp.popPopUp}
+      themeColor={themeColor}
+    />);
+  }
   return (
     <div className="m-2 md:m-10 mt-14 lg:mt-24 p-2 md:p-10 rounded-3xl bg-slate-50">
       <Header category="Customize" title="Plaques and Plates" />
@@ -28,6 +37,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
             stepName="Choose an item"
             stepTip="Tip: Dimensions are listed in format: Length x Width (L x W) and in the units of inches"
             isCardDisabled={()=>false}
+            confirmStep={confirmSelItem}
           />
           <WriteMsg stepName="Write your customized message"/>
           <PlaqueAddon stepName="Add-ons"
