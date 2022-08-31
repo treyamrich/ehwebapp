@@ -14,7 +14,7 @@ const initAddOnState = {
 
 const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   //Selected product
-  const [selItemIdx, setSelItemIdx] = useState(0);
+  const [selItemIdx, setSelItemIdx] = useState(-1);
   const [addons, setAddons] = useState(initAddOnState);
 
   const confirmSelItem = nextStepFunc => {
@@ -37,7 +37,9 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
             stepName="Choose an item"
             stepTip="Tip: Dimensions are listed in format: Length x Width (L x W) and in the units of inches"
             isCardDisabled={()=>false}
+            skipStepAmt={2}
             confirmStep={confirmSelItem}
+            shouldConfStep={selItemIdx === -1}
           />
           <WriteMsg stepName="Write your customized message"/>
           <PlaqueAddon stepName="Add-ons"
