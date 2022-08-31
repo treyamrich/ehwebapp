@@ -14,7 +14,7 @@ const PopUp = ({title, closePopUp, children}) => {
     >
       <div className="flex items-center justify-center h-full relative">
         <div className="py-4 px-2 bg-white dark:[#484b52] flex flex-col drop-shadow-2xl w-full lg:w-3/4 2xl:w-6/12 max-h-screen">
-          <div className="flex justify-between items-center p-4 ml-4">
+          <div className="flex justify-between items-center px-3 py-1 mb-2 ml-4">
             <p className="font-semibold text-2xl">{title}</p>
             <button
               type="button"
