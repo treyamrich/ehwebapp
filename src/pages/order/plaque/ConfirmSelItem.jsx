@@ -17,7 +17,7 @@ const ConfirmSelItem = ({ onSubmit, onCancel, themeColor}) => {
                 Continue
             </button>
             <button className="text-white w-28 hover:drop-shadow-xl p-3"
-                style={{borderRadius: '10px', backgroundColor: '#4db193'}}
+                style={{borderRadius: '10px', backgroundColor: themeColor}}
                 type="button"
                 onClick={onCancel}
             >
