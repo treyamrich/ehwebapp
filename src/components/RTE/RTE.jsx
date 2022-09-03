@@ -54,6 +54,37 @@ const RTE = ({ lineLimit }) => {
   const editor = React.useRef();
   lineLimit = 5;
 
+  let className = 'RichEditor-editor';
+  let contentState = editorState.getCurrentContent();
+
+  const splitLine = () => {
+    contentState = Modifier.splitBlock(contentState, selection);
+    const selection = editorState.getSelection();
+    const currentBlock = contentState.getBlockForKey(selection.getEndKey());
+    const nextBlock = contentState
+      .getBlockMap()
+      .toSeq()
+      .skipUntil(v => v === currentBlock)
+      .rest()
+      .first();
+
+    const nextBlockKey = nextBlock.getKey();
+
+    const nextBlockEmptySelection = new SelectionState({
+      anchorKey: nextBlockKey,
+      anchorOffset: 0,
+      focusKey: nextBlockKey,
+      focusOffset: 0
+    });
+
+    contentState = Modifier.setBlockData(
+      contentState,
+      nextBlockEmptySelection,
+      new Map()
+        .set("data1", "Hello this is block data")
+        .set("data2", 3)
+    );
+  }
   const handleKeyCommand = (command, editorState) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
@@ -85,15 +116,7 @@ const RTE = ({ lineLimit }) => {
     const newState = RichUtils.toggleInlineStyle(removeState, newFont);
     setEditorState(newState);
   }
-  // If the user changes block type before entering any text, we can
-  // either style the placeholder or hide it. Let's just hide it now.
-  let className = 'RichEditor-editor';
-  const selection = editorState.getSelection();
-  let contentState = editorState.getCurrentContent();
 
-  
-
-  useEffect(()=> console.log(contentState.getBlockMap()), [editorState]);
   return (
     <div className="RichEditor-root">
       <EditorToolbar
