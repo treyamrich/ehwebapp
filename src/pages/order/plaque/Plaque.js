@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Header, StepProgressForm, WriteMsg, CardSelector } from '../../../components';
+import { Header, StepProgressForm, RTE, CardSelector } from '../../../components';
 import PlaqueAddon from './PlaqueAddon';
 import ConfirmSelItem from './ConfirmSelItem';
 
@@ -41,7 +41,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
             confirmStep={confirmSelItem}
             shouldConfStep={selItemIdx === -1}
           />
-          <WriteMsg stepName="Write your customized message"/>
+          <RTE stepName="Write your customized message"/>
           <PlaqueAddon stepName="Add-ons"
             themeColor={themeColor}
             managePopUp={managePopUp}
