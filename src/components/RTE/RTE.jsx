@@ -49,41 +49,111 @@ const getBlockStyle = block => {
   }
 }
 
-const RTE = ({ lineLimit }) => {
+const RTE = ({ lineLimit, lineLenLimit }) => {
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
   const editor = React.useRef();
   lineLimit = 5;
+  lineLenLimit = 10;
 
   let className = 'RichEditor-editor';
   let contentState = editorState.getCurrentContent();
+  let selection = editorState.getSelection();
 
-  const splitLine = () => {
-    contentState = Modifier.splitBlock(contentState, selection);
-    const selection = editorState.getSelection();
-    const currentBlock = contentState.getBlockForKey(selection.getEndKey());
-    const nextBlock = contentState
-      .getBlockMap()
-      .toSeq()
-      .skipUntil(v => v === currentBlock)
-      .rest()
-      .first();
+  const appendNewLine = () => {
+    let lblock = contentState.getLastBlock();
+    contentState = Modifier.splitBlock(contentState,
+      new SelectionState({
+        anchorKey: lblock.key,
+        focusKey: lblock.key,
+        anchorOffset: lblock.text.length,
+        focusOffset: lblock.text.length,
+      })  
+    );
 
-    const nextBlockKey = nextBlock.getKey();
-
-    const nextBlockEmptySelection = new SelectionState({
-      anchorKey: nextBlockKey,
+    return {newState: EditorState.createWithContent(contentState), 
+      nxtBlkKey: contentState.getLastBlock().key};
+  }
+  const updateSelection = (editorState, nxtBlkKey) => {
+    const newSel = new SelectionState({
+      anchorKey: nxtBlkKey,
       anchorOffset: 0,
-      focusKey: nextBlockKey,
+      focusKey: nxtBlkKey,
       focusOffset: 0
     });
-
-    contentState = Modifier.setBlockData(
-      contentState,
-      nextBlockEmptySelection,
-      new Map()
-        .set("data1", "Hello this is block data")
-        .set("data2", 3)
+    return EditorState.forceSelection(
+      editorState,
+      newSel
     );
+  }
+  const handleBlkOverflow = (curBlk, insTxt) => {
+    //Check if inserting space at end of line
+    if(insTxt === ' ' && selection.getEndOffset() === curBlk.text.length) 
+      return editorState;
+
+    let blkArr = contentState.getBlockMap().toArray();
+    let blkIdx = 0;
+    let lwfc;
+
+    //Trav the rest of the blocks
+    for(blkIdx; blkIdx < blkArr.length; blkIdx++)
+      if(blkArr[blkIdx] === curBlk) break;
+    
+    for(blkIdx; blkIdx < blkArr.length; blkIdx++) {
+      //Get the last word's first char in block
+      lwfc = lineLenLimit;
+      for(lwfc; lwfc >= 0; lwfc--)
+        if(blkArr[blkIdx].text[lwfc] === ' ') break;
+
+      //Since the entire line is a word, add the insTxt to beginning of 
+      //next line with a space after it
+      if(lwfc === 0) console.log("a");
+    
+      //If at the last block and is full, add another block
+      let newLineRes;
+      if(blkIdx === blkArr.length - 1 && blkArr[blkIdx].text.length >= lineLenLimit) {
+        newLineRes = appendNewLine();
+        contentState = newLineRes.newState.getCurrentContent();
+        blkArr = contentState.getBlockMap().toArray();
+      }
+
+      //Remove word from current block
+      contentState = Modifier.replaceText(
+        contentState,
+        new SelectionState({
+          anchorKey: blkArr[blkIdx].key,
+          focusKey: blkArr[blkIdx].key,
+          anchorOffset: lwfc,
+          focusOffset: lineLenLimit,
+        }),
+        ""
+      );
+
+      //Insert word to next block
+      contentState = Modifier.insertText(
+        contentState,
+        new SelectionState({
+          anchorKey: blkArr[blkIdx+1].key,
+          focusKey: blkArr[blkIdx+1].key,
+          anchorOffset: 0,
+          focusOffset: 0
+        }),
+        blkArr[blkIdx].text.slice(lwfc, lineLenLimit)
+      );
+
+      if(newLineRes) break;
+      blkArr = contentState.getBlockMap().toArray();
+    }
+    return EditorState.createWithContent(contentState);
+  }
+  const handleBeforeInput = (char) => {
+    //Get block from selection
+    const selKey =  selection.getEndKey();
+    const curBlk = contentState.getBlockForKey(selKey);
+    if(curBlk.text.length >= lineLenLimit) {
+      setEditorState(handleBlkOverflow(curBlk, char));
+      return true;
+    }
+    return false;
   }
   const handleKeyCommand = (command, editorState) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -136,6 +206,7 @@ const RTE = ({ lineLimit }) => {
           customStyleMap={styleMap}
           handleKeyCommand={handleKeyCommand}
           keyBindingFn={mapKeyToEditorCommand}
+          handleBeforeInput={handleBeforeInput}
         />
         {!contentState.hasText() && (
           <div className="RE-ph-container">
