@@ -54,26 +54,12 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
   const editor = React.useRef();
 
   lineLimit = 5;
-  lineLenLimit = 10;
+  lineLenLimit = 65;
 
   let className = 'RichEditor-editor';
   let contentState = editorState.getCurrentContent();
   let selection = editorState.getSelection();
 
-  const appendNewLine = () => {
-    let lblock = contentState.getLastBlock();
-    contentState = Modifier.splitBlock(contentState,
-      new SelectionState({
-        anchorKey: lblock.key,
-        focusKey: lblock.key,
-        anchorOffset: lblock.text.length,
-        focusOffset: lblock.text.length,
-      })  
-    );
-
-    return {newState: EditorState.createWithContent(contentState), 
-      nxtBlkKey: contentState.getLastBlock().key};
-  }
   const updateCursor = (editorState, blkKey, offset, isForced) => {
     const newSel = new SelectionState({
       anchorKey: blkKey,
@@ -88,25 +74,9 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
       editorState,
       newSel
     );
-  }
-  const interBlkTxtMove = (srcBlkKey, srcAnchOffset, srcFocOffset, destBlkKey, destAnchOffset, destFocOffset) => {
-    return Modifier.moveText(
-      contentState,
-      new SelectionState({
-        anchorKey: srcBlkKey,
-        focusKey: srcBlkKey,
-        anchorOffset: srcAnchOffset,
-        focusOffset: srcFocOffset,
-      }),
-      new SelectionState({
-        anchorKey: destBlkKey,
-        focusKey: destBlkKey,
-        anchorOffset: destAnchOffset,
-        focusOffset: destFocOffset
-      }));
-  }
+  }/*
   const handleBlkOverflow = curBlk => {
-
+    
     let blkArr = contentState.getBlockMap().toArray();
     let blkIdx = -1;
     let lwfc; //Last word's first char in block
@@ -161,7 +131,7 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
       newCursorOffset,
       true
     );
-  }
+  }*/
   //Inserts text into the block at the selection
   //Postcondition: Changes the contentState
   const manualTxtIns = (txt) => {
@@ -172,14 +142,15 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
       selection,
       txt
     );
+    
     //Update cursor
-    editorState = updateCursor(EditorState.createWithContent(contentState),
+    return updateCursor(EditorState.createWithContent(contentState),
       curBlk.key,
       selection.getEndOffset() + txt.length,
-      false
+      true
     );
-    return curBlk;
   }
+  /*
   //Sets the line map in the content block
   const setCustomMap = (blk, value) => {
     const newBlk = new ContentBlock({
@@ -200,28 +171,83 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
       if(contBlk[i][0] === 'lineMap')
         return contBlk[i][1];
     return undefined;
+  }*/
+  const trimWhtSpc = (trimBeg, trimEnd, inStr) => {
+    var start = trimBeg ? -1 : 0;
+    let end = trimEnd ? inStr.length : inStr.length-1;
+  
+    if(trimBeg) {
+      while(++start < inStr.length && inStr[start] == ' ');
+    }
+    if(trimEnd) {
+      while(--end >= 0 && inStr[end] == ' ');
+    }
+    return inStr.slice(start, end+1);
   }
+  const wordWrap = (txt, width) => {
+    console.log("Wrapping words ", txt);
+    if(txt.length <= width) {
+      return txt;
+    } else {
+      let lwfc = width+1;
+      while(--lwfc >= 0 && txt[lwfc] !== ' ');
+  
+      //If no spaces use the width as idx
+      let lineSplitIdx = lwfc < 0 ? width : lwfc;
+      //Split line
+      let leftLine = txt.slice(0, lineSplitIdx);
+      let rightLine = txt.slice(
+        lineSplitIdx === width ? lineSplitIdx : lineSplitIdx + 1,
+        txt.length
+      );
+      rightLine = trimWhtSpc(true, false, rightLine);
+      return leftLine + '\n' + wordWrap(rightLine, width);
+    }
+  }
+  const wrapBlkTxt = blk => {
+    //Remove new lines
+    let blkTxt = "";
+    for(let i = 0; i < blk.text.length; i++) {
+      if(blk.text[i] !== '\n')
+        blkTxt += blk.text[i];
+      else
+        blkTxt += ' ';
+    }
+    let wrapTxt = wordWrap(blkTxt, lineLenLimit);
+    
+    contentState = Modifier.replaceText(
+      contentState,
+      new SelectionState({
+        anchorKey: blk.key,
+        anchorOffset: 0,
+        focusKey: blk.key,
+        focusOffset: blk.text.length
+      }),
+      wrapTxt
+    );
+    
+    //Update cursor
+    return updateCursor(EditorState.createWithContent(contentState),
+      blk.key,
+      selection.getEndOffset(),
+      true
+    );
+  }
+
   const handleBeforeInput = (char) => {
     const selKey =  selection.getEndKey();
     let curBlk = contentState.getBlockForKey(selKey);
 
-    //Get line map for block
-    curBlk = setCustomMap(curBlk, 123);
-
-    console.log(getLineMap(curBlk));
-    return false;
-
-    //const curBlk = manualTxtIns(char);
-    //Check block overflow
-    if(curBlk.text.length > lineLenLimit) {
-      setEditorState(RichUtils.insertSoftNewline(editorState));
-      
-      
-      //setEditorState(handleBlkOverflow(curBlk));
-      return true;
-    }
-    return false;
+    let newEditState = manualTxtIns(char);
+    contentState = newEditState.getCurrentContent();
+    console.log("Before ", selection.getEndOffset());
+    selection = newEditState.getSelection();
+    console.log("After ", selection.getEndOffset());
+    curBlk = contentState.getBlockForKey(selKey);
+    setEditorState(wrapBlkTxt(curBlk, lineLenLimit));
+    return true;
   }
+
   const handleKeyCommand = (command, editorState) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
@@ -255,6 +281,7 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
   }
 
   return (
+    <div className="RTE-container">
     <div className="RichEditor-root">
       <EditorToolbar
         editorState={editorState}
@@ -286,6 +313,7 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
           Lines: {contentState.getBlockMap().size}{`${lineLimit ? ' / ' + lineLimit : ''}`}
         </p>
       </div>
+    </div>
     </div>
   );
 }
