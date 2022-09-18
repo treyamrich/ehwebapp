@@ -54,7 +54,7 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
   const editor = React.useRef();
 
   lineLimit = 5;
-  lineLenLimit = 65;
+  lineLenLimit = 10;
 
   let className = 'RichEditor-editor';
   let contentState = editorState.getCurrentContent();
@@ -74,64 +74,7 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
       editorState,
       newSel
     );
-  }/*
-  const handleBlkOverflow = curBlk => {
-    
-    let blkArr = contentState.getBlockMap().toArray();
-    let blkIdx = -1;
-    let lwfc; //Last word's first char in block
-    let newCursorOffset;
-    let newCursorBlkKey;
-
-    while(blkArr[++blkIdx] !== curBlk);
-
-    //Trav the rest of the blocks    
-    while(blkIdx < blkArr.length && blkArr[blkIdx].text.length >= lineLenLimit) {
-
-      lwfc = lineLenLimit;
-      while(--lwfc >= 0 && blkArr[blkIdx].text[lwfc] !== ' ');
-    
-      //If at the last block and is full, add another block
-      let newLineRes;
-      if(blkIdx === blkArr.length - 1) {
-        newLineRes = appendNewLine();
-        contentState = newLineRes.newState.getCurrentContent();
-        blkArr = contentState.getBlockMap().toArray();
-      }
-
-      //If at the starting block, store the info to move the cursor
-      if(blkArr[blkIdx] === curBlk) {
-        newCursorOffset = blkArr[blkIdx].text.length - lwfc;
-        newCursorBlkKey = blkArr[blkIdx+1].key;
-      }
-
-      //Since the entire line is a word, add the last char to beginning of 
-      //next line with a space after it
-      if(lwfc === -1) {
-        contentState = interBlkTxtMove(
-          blkArr[blkIdx].key, 
-          blkArr[blkIdx].text.length-1, 
-          blkArr[blkIdx].text.length,
-          blkArr[++blkIdx].key, 0, 0
-        );
-        newCursorOffset = 1;
-      } else {
-        //Move overflow text to next block
-        contentState = interBlkTxtMove(
-          blkArr[blkIdx].key, lwfc, blkArr[blkIdx].text.length,
-          blkArr[++blkIdx].key, 0, 0
-        );
-      }
-
-      if(newLineRes) break; //Stop if new block appended
-      blkArr = contentState.getBlockMap().toArray();
-    }
-    return updateCursor(EditorState.createWithContent(contentState),
-      newCursorBlkKey,
-      newCursorOffset,
-      true
-    );
-  }*/
+  }
   //Inserts text into the block at the selection
   //Postcondition: Changes the contentState
   const manualTxtIns = (txt) => {
@@ -142,36 +85,16 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
       selection,
       txt
     );
-    
+    let newOffset = selection.isCollapsed() ?
+      selection.getEndOffset() + txt.length :
+      selection.getStartOffset() + txt.length;
     //Update cursor
     return updateCursor(EditorState.createWithContent(contentState),
       curBlk.key,
-      selection.getEndOffset() + txt.length,
+      newOffset,
       true
     );
   }
-  /*
-  //Sets the line map in the content block
-  const setCustomMap = (blk, value) => {
-    const newBlk = new ContentBlock({
-      ...blk.toJS(),
-      lineMap: value
-    });
-    contentState = contentState.set('blockMap', 
-      contentState.getBlockMap().set(blk.key, newBlk));
-    return newBlk;
-  }
-  //Postcondition: Returns the line map in the content block
-  //Returns undefined if no lineMap exists
-  const getLineMap = blk => {
-    let contBlk = contentState
-      .getBlockForKey(blk.key)
-      ._map._root.entries;
-    for(let i = contBlk.length - 1; i >= 0; i--)
-      if(contBlk[i][0] === 'lineMap')
-        return contBlk[i][1];
-    return undefined;
-  }*/
   const trimWhtSpc = (trimBeg, trimEnd, inStr) => {
     var start = trimBeg ? -1 : 0;
     let end = trimEnd ? inStr.length : inStr.length-1;
@@ -185,7 +108,6 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
     return inStr.slice(start, end+1);
   }
   const wordWrap = (txt, width) => {
-    console.log("Wrapping words ", txt);
     if(txt.length <= width) {
       return txt;
     } else {
@@ -226,10 +148,13 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
       wrapTxt
     );
     
+    //Account for any newlines added from breaking on the width
+    let txtLenDiff = wrapTxt.length - blk.text.length;
+
     //Update cursor
     return updateCursor(EditorState.createWithContent(contentState),
       blk.key,
-      selection.getEndOffset(),
+      selection.getEndOffset() + txtLenDiff,
       true
     );
   }
