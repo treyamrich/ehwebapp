@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Header, StepProgressForm, RTE, CardSelector } from '../../../components';
 import PlaqueAddon from './PlaqueAddon';
 import ConfirmSelItem from './ConfirmSelItem';
-
+import { EditorState } from 'draft-js';
 import { testItems } from '../../../data/dummy';
 
 const initAddOnState = {
@@ -16,6 +16,10 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   //Selected product
   const [selItemIdx, setSelItemIdx] = useState(-1);
   const [addons, setAddons] = useState(initAddOnState);
+  const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
+
+  let lineLimit = 5;
+  let lineLenLimit = 10;
 
   const confirmSelItem = nextStepFunc => {
     managePopUp.pushPopUp(<ConfirmSelItem
@@ -41,7 +45,12 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
             confirmStep={confirmSelItem}
             shouldConfStep={selItemIdx === -1}
           />
-          <RTE stepName="Write your customized message"/>
+          <RTE stepName="Write your customized message"
+            editorState={editorState}
+            setEditorState={setEditorState}
+            lineLimit={lineLimit}
+            lineLenLimit={lineLenLimit}
+          />
           <PlaqueAddon stepName="Add-ons"
             themeColor={themeColor}
             managePopUp={managePopUp}

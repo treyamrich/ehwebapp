@@ -76,24 +76,41 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
     );
   }
   //Inserts text into the block at the selection
+  //Precondition: the selection state must not span multiple blocks
   //Postcondition: Changes the contentState
-  const manualTxtIns = (txt) => {
+  //Inserts text in the block at the selection
+  const manualTxtIns = (txt, replaceSel, newOffset) => {
+
     const selKey =  selection.getEndKey();
     const curBlk = contentState.getBlockForKey(selKey);
+    
     contentState = Modifier.replaceText(
       contentState,
-      selection,
+      replaceSel,
       txt
     );
-    let newOffset = selection.isCollapsed() ?
-      selection.getEndOffset() + txt.length :
-      selection.getStartOffset() + txt.length;
+
     //Update cursor
     return updateCursor(EditorState.createWithContent(contentState),
       curBlk.key,
       newOffset,
       true
     );
+  }
+  //Precondition: Selection must be non-collapsed
+  //Selection must not span multiple blocks
+  const deleteTxt = () => {
+    if(selection.isCollapsed()) return;
+    const selKey =  selection.getEndKey();
+    let curBlk = contentState.getBlockForKey(selKey);
+    let remSel = new SelectionState({
+      anchorKey: curBlk.key,
+      focusKey: curBlk.key,
+      anchorKey: selection.getStartOffset(),
+      focusKey: selection.getEndOffset()
+    });
+    contentState = Modifier.removeRange(contentState, remSel, 'backward');
+    setEditorState(EditorState.createWithContent(contentState));
   }
   const trimWhtSpc = (trimBeg, trimEnd, inStr) => {
     var start = trimBeg ? -1 : 0;
@@ -126,6 +143,7 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
       return leftLine + '\n' + wordWrap(rightLine, width);
     }
   }
+  /*MAYBE ADD A PASTE/IMPORT TEXT FEATURE
   const wrapBlkTxt = blk => {
     //Remove new lines
     let blkTxt = "";
@@ -157,23 +175,47 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
       selection.getEndOffset() + txtLenDiff,
       true
     );
-  }
+  }*/
 
-  const handleBeforeInput = (char) => {
+  const myHandleInput = text => {
+
     const selKey =  selection.getEndKey();
     let curBlk = contentState.getBlockForKey(selKey);
 
-    let newEditState = manualTxtIns(char);
-    contentState = newEditState.getCurrentContent();
-    console.log("Before ", selection.getEndOffset());
-    selection = newEditState.getSelection();
-    console.log("After ", selection.getEndOffset());
-    curBlk = contentState.getBlockForKey(selKey);
-    setEditorState(wrapBlkTxt(curBlk, lineLenLimit));
+    if(selection.getStartKey() !== selection.getEndKey())
+      return true;
+
+    if(curBlk.text.length + text.length < lineLenLimit) 
+      return false;
+
+    //If pasting, try pasting part of the text
+    let remLen = lineLenLimit - curBlk.text.length;
+    let replTxtLen = selection.getEndOffset() - selection.getStartOffset();
+    remLen += replTxtLen;
+    if(remLen >= 0) {
+      let newOffset = selection.isCollapsed() ?
+        selection.getEndOffset() + text.length :
+        selection.getStartOffset() + text.length;
+
+      setEditorState(
+        manualTxtIns(
+          text.slice(0, Math.min(remLen+1, text.length)),
+          selection,
+          newOffset
+      ));
+    }
+    
     return true;
+  }
+  const handleBeforeInput = char => {
+    return myHandleInput(char);
+  }
+  const handlePastedText = txt => {
+    return myHandleInput(txt);
   }
 
   const handleKeyCommand = (command, editorState) => {
+    
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
       setEditorState(newState);
@@ -182,15 +224,76 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
     return false;
   }
   const mapKeyToEditorCommand = e => {
-    if(e.keyCode === 9) { //TAB
-      const newEditorState = RichUtils.onTab(e, editorState, 4);
-      if(newEditorState !== editorState) {
-        setEditorState(newEditorState);
+    const selKey =  selection.getEndKey();
+    let curBlk = contentState.getBlockForKey(selKey);
+    
+    switch(e.keyCode) {
+      case 9: { //TAB
+        const newEditorState = RichUtils.onTab(e, editorState, 4);
+        if(newEditorState !== editorState) {
+          setEditorState(newEditorState);
+        }
+        return;
       }
-      return;
-    } else if(e.keyCode === 13) { //Enter
-      if(contentState.getBlockMap().size === lineLimit) return;
+      case 13: { //Enter
+        if(contentState.getBlockMap().size === lineLimit) return;
+        break;
+      }
+      case 8: { //Backspace
+        e.preventDefault();
+        if(selection.getStartKey() !== selection.getEndKey() ||
+          selection.getEndOffset() === 0
+        )
+          return;
+        if(!selection.isCollapsed()) {
+          deleteTxt();
+          return;
+        }
+        let newOffset = selection.getEndOffset() - 1;
+        let replaceSel = new SelectionState({
+          anchorKey: curBlk.key,
+          focusKey: curBlk.key,
+          focusOffset: selection.getEndOffset(),
+          anchorOffset: newOffset
+        });
+        setEditorState(manualTxtIns("", replaceSel, newOffset));
+        return;
+      }
+      case 46: { //Delete
+        e.preventDefault();
+        if(selection.getStartKey() !== selection.getEndKey())
+          return;
+        if(!selection.isCollapsed()) {
+          deleteTxt();
+          return;
+        }
+        let replaceSel = new SelectionState({
+          anchorKey: curBlk.key,
+          focusKey: curBlk.key,
+          focusOffset: selection.getEndOffset() + 1,
+          anchorOffset: selection.getStartOffset()
+        });
+        setEditorState(manualTxtIns(
+          "", 
+          replaceSel, 
+          selection.getStartOffset()
+        ));
+        return;
+      }
     }
+    if(e.ctrlKey) {
+      switch(e.keyCode) {
+        case 88: { //Cut op: ctrl + x
+          if(selection.getStartKey() !== selection.getEndKey()) {
+            e.preventDefault();
+            return;
+          }
+          deleteTxt();
+          return;
+        }
+      }
+    }
+
     return getDefaultKeyBinding(e);
   }
   const toggleBlockType = blockType => {
@@ -226,6 +329,7 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
           handleKeyCommand={handleKeyCommand}
           keyBindingFn={mapKeyToEditorCommand}
           handleBeforeInput={handleBeforeInput}
+          handlePastedText={handlePastedText}
         />
         {!contentState.hasText() && (
           <div className="RE-ph-container">
