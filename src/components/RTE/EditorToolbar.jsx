@@ -26,7 +26,7 @@ const BLOCK_TYPES = [
   {label: 'ar', icon: <GrTextAlignRight size={ICON_SIZE}/>, style: 'right'}
 ];
 
-const StyleButton = ({ onToggle, icon, active, style, applyInitial }) => {
+const StyleButton = ({ onToggle, icon, active, style, applyInitial, stopApplyInit }) => {
   let className = 'RichEditor-styleButton';
   if (active) {
     className += ' RichEditor-activeButton';
@@ -38,7 +38,7 @@ const StyleButton = ({ onToggle, icon, active, style, applyInitial }) => {
   useEffect(()=>{
     if(applyInitial) {
         onToggle(style);
-        BLOCK_TYPES[3].applyInitial = false;
+        stopApplyInit();
     }
   }, []);
   return (
@@ -66,7 +66,7 @@ const InlineStyleControls = ({ editorState, onToggle }) => {
   );
 };
 
-const BlockStyleControls = ({ editorState, onToggle }) => {
+const BlockStyleControls = ({ editorState, onToggle, autoTxtCenter, setAutoTxtCenter }) => {
   const selection = editorState.getSelection();
   const blockType = editorState
       .getCurrentContent()
@@ -82,7 +82,8 @@ const BlockStyleControls = ({ editorState, onToggle }) => {
             icon={type.icon}
             onToggle={onToggle}
             style={type.style}
-            applyInitial={type.applyInitial}
+            applyInitial={type.applyInitial && autoTxtCenter}
+            stopApplyInit={()=>setAutoTxtCenter(false)}
           />
       )}
       </div>
@@ -153,7 +154,7 @@ const FontSizeSelector = ({ editorState, changeFontSize, onToggle }) => {
         </div>
     );
 }
-const EditorToolbar = ({ editorState, toggleBlockType, toggleInlineStyle, changeFontSize }) => {
+const EditorToolbar = ({ editorState, toggleBlockType, toggleInlineStyle, changeFontSize, autoTxtCenter, setAutoTxtCenter }) => {
     
     return (
         <div>
@@ -169,6 +170,8 @@ const EditorToolbar = ({ editorState, toggleBlockType, toggleInlineStyle, change
             <BlockStyleControls 
                 editorState={editorState}
                 onToggle={toggleBlockType}
+                autoTxtCenter={autoTxtCenter}
+                setAutoTxtCenter={setAutoTxtCenter}
             />
         </div>
     );

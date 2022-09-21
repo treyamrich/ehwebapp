@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Header, StepProgressForm, RTE, CardSelector } from '../../../components';
 import PlaqueAddon from './PlaqueAddon';
 import ConfirmSelItem from './ConfirmSelItem';
@@ -13,6 +13,9 @@ const initAddOnState = {
 }
 
 const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
+  //On first render, instruct the RTE to center the text
+  const [autoTxtCenter, setAutoTxtCenter] = useState(true);
+
   //Selected product
   const [selItemIdx, setSelItemIdx] = useState(-1);
   const [addons, setAddons] = useState(initAddOnState);
@@ -34,6 +37,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
       <p className="text-sm">Your message is too long :(</p>
     </div>);
   }
+
   return (
     <div className="m-2 md:m-10 mt-14 lg:mt-24 p-2 md:p-10 rounded-3xl bg-slate-50">
       <Header category="Customize" title="Plaques and Plates" />
@@ -58,6 +62,8 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
             lineLenLimit={lineLenLimit}
             confirmStep={confirmLineCount}
             shouldConfStep={editorState.getCurrentContent().getBlockMap().size > lineLimit}
+            autoTxtCenter={autoTxtCenter}
+            setAutoTxtCenter={setAutoTxtCenter}
           />
           <PlaqueAddon stepName="Add-ons"
             themeColor={themeColor}

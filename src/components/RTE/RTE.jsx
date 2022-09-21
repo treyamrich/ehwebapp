@@ -49,7 +49,7 @@ const getBlockStyle = block => {
   }
 }
 
-const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit }) => {
+const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit, autoTxtCenter, setAutoTxtCenter }) => {
   const editor = React.useRef();
 
   let className = 'RichEditor-editor';
@@ -90,7 +90,7 @@ const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit }) => {
       newOffset,
       true
     );
-  }
+  } 
   //Precondition: Selection must be non-collapsed
   //sel must have anchorKey before focusKey
   //Postcondition: Deletes selection foward
@@ -391,6 +391,8 @@ const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit }) => {
         toggleBlockType={toggleBlockType}
         toggleInlineStyle={toggleInlineStyle}
         changeFontSize={changeFontSize}
+        autoTxtCenter={autoTxtCenter}
+        setAutoTxtCenter={setAutoTxtCenter}
       />
       <div className={className} onClick={()=>editor.current.focus()}>
         <Editor 
