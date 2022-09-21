@@ -37,7 +37,7 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
       <Tabs>
         <Tab title="Plate(s)">
           <div className="p-2 text-center mb-1">
-            <p className="text-sm text-slate-400">
+            <p className="text-xs text-slate-400">
               <strong>Info:</strong> Plates add a clean metallic look which makes your plaque pop. They are either mounted on the plaque by us, or come with double-sided tape for your liberty.
             </p>
           </div>
@@ -58,7 +58,7 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
         </Tab>
         <Tab title="Services">
           <div className="p-2 text-center mb-1">
-            <p className="text-sm text-slate-400">
+            <p className="text-xs text-slate-400">
               <strong>Info:</strong> Services are anything that we do for item.
             </p>
           </div>
@@ -75,7 +75,7 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
         </Tab>
         <Tab title="Graphics">
           <div className="p-2 text-center mb-1">
-            <p className="text-sm text-slate-400">
+            <p className="text-xs text-slate-400">
               <strong>Info:</strong> Graphics are engraved directly on the plaque. It's recommended to add graphics when your plaque is feeling empty.
             </p>
           </div>
@@ -96,7 +96,7 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
         </Tab>
         <Tab title="Wood Cutouts">
           <div className="p-2 text-center mb-1">
-            <p className="text-sm text-slate-400">
+            <p className="text-xs text-slate-400">
               <strong>Info:</strong> Wood Cutouts are mounted on the plaque. We recommend them alongside adding a plate. This will give your plaque a "pop" effect
             </p>
           </div>

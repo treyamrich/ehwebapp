@@ -62,7 +62,7 @@ const StepProgressForm = ({children}) => {
         {stepComps[currStep]}
 
         <div className="text-center mt-6">
-          <p className="text-sm text-slate-400">{stepComps[currStep].props.stepTip}</p>
+          <p className="text-xs text-slate-400">{stepComps[currStep].props.stepTip}</p>
         </div>
         <div className="flex justify-between mt-6">
           <button

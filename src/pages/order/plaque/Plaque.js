@@ -29,13 +29,21 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
       onSubmit={()=>{managePopUp.popPopUp(); nextStepFunc()}}
       onCancel={managePopUp.popPopUp}
       themeColor={themeColor}
+      title="No Item Selected"
     />);
   }
   const confirmLineCount = () => {
     managePopUp.pushPopUp(
     <div className="w-11/12 bg-gray-50 rounded-md drop-shadow-xl p-3 sm:p-5 m-auto overflow-y-auto">
-      <p className="text-sm">Your message is too long :(</p>
+      <p className="text-sm">Your message exceeds the line limit. Please shorten your message to proceed.</p>
     </div>);
+  }
+  const confirmMsg = nextStepFunc => {
+    managePopUp.pushPopUp(
+      <div className="bg-white rounded-sm drop-shadow">
+        
+      </div>
+    );
   }
 
   return (
@@ -60,8 +68,8 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
             setEditorState={setEditorState}
             lineLimit={lineLimit}
             lineLenLimit={lineLenLimit}
-            confirmStep={confirmLineCount}
-            shouldConfStep={editorState.getCurrentContent().getBlockMap().size > lineLimit}
+            confirmStep={editorState.getCurrentContent().getBlockMap().size > lineLimit ? confirmLineCount : confirmMsg}
+            shouldConfStep={true}
             autoTxtCenter={autoTxtCenter}
             setAutoTxtCenter={setAutoTxtCenter}
           />

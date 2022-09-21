@@ -385,6 +385,11 @@ const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit, autoTxtCent
 
   return (
     <div className="RTE-container">
+      <div className='text-center'>
+        <h1 className="text-xs text-slate-400 mb-3">
+          <strong>Note:</strong> Lines are separated by dashed lines. The amount of lines may be limited depending on your selected item.
+        </h1>
+      </div>
     <div className="RichEditor-root">
       <EditorToolbar
         editorState={editorState}
@@ -425,6 +430,17 @@ const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit, autoTxtCent
         </p>
       </div>
     </div>
+    <div id="RTE-example" className="mt-5 m-auto"
+        style={{maxWidth: 550}}
+      >
+        <h1 className="text-sm text-slate-400 mb-3">
+          Sample Message:
+        </h1>
+        <div id="RTE-ex-content" className="bg-white rounded-sm drop-shadow-md p-3 text-center">
+          <h1 style={{fontSize: 24}} className="">CPT America</h1>
+          <p>Thank you for your commitment, dedication and hardwork to the Avengers.</p>
+        </div>
+      </div>
     </div>
   );
 }
