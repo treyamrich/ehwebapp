@@ -25,7 +25,6 @@ const StepProgressForm = ({children}) => {
             confirmFunc(() => {
               setCurrStep(prevStep => prevStep + skipAmt);
               stepStack.current.push(skipAmt);
-              console.log(stepStack.current)
           });
           } catch(e) { console.log(e) }
         } else {

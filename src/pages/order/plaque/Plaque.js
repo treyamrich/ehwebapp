@@ -19,7 +19,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
 
   let lineLimit = 5;
-  let lineLenLimit = 10;
+  let lineLenLimit = 65;
 
   const confirmSelItem = nextStepFunc => {
     managePopUp.pushPopUp(<ConfirmSelItem

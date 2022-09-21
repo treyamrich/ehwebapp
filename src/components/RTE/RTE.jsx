@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Editor, EditorState, EditorBlock, getDefaultKeyBinding, RichUtils, Modifier, SelectionState, ContentBlock } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import './rte.css';
@@ -53,9 +53,6 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
   const editor = React.useRef();
 
-  lineLimit = 5;
-  lineLenLimit = 10;
-
   let className = 'RichEditor-editor';
   let contentState = editorState.getCurrentContent();
   let selection = editorState.getSelection();
@@ -76,13 +73,11 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
     );
   }
   //Inserts text into the block at the selection
-  //Precondition: the selection state must not span multiple blocks
   //Postcondition: Changes the contentState
   //Inserts text in the block at the selection
   const manualTxtIns = (txt, replaceSel, newOffset) => {
 
-    const selKey =  selection.getEndKey();
-    const curBlk = contentState.getBlockForKey(selKey);
+    const curBlk = contentState.getBlockForKey(selection.getStartKey());
     
     contentState = Modifier.replaceText(
       contentState,
@@ -98,113 +93,174 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
     );
   }
   //Precondition: Selection must be non-collapsed
-  //Selection must not span multiple blocks
-  const deleteTxt = () => {
+  //sel must have anchorKey before focusKey
+  //Postcondition: Deletes selection foward
+  const delSelection = (sel=null) => {
+    if(sel) selection = sel;
     if(selection.isCollapsed()) return;
-    const selKey =  selection.getEndKey();
-    let curBlk = contentState.getBlockForKey(selKey);
-    let remSel = new SelectionState({
-      anchorKey: curBlk.key,
-      focusKey: curBlk.key,
-      anchorKey: selection.getStartOffset(),
-      focusKey: selection.getEndOffset()
-    });
-    contentState = Modifier.removeRange(contentState, remSel, 'backward');
-    setEditorState(EditorState.createWithContent(contentState));
-  }
-  const trimWhtSpc = (trimBeg, trimEnd, inStr) => {
-    var start = trimBeg ? -1 : 0;
-    let end = trimEnd ? inStr.length : inStr.length-1;
-  
-    if(trimBeg) {
-      while(++start < inStr.length && inStr[start] == ' ');
-    }
-    if(trimEnd) {
-      while(--end >= 0 && inStr[end] == ' ');
-    }
-    return inStr.slice(start, end+1);
-  }
-  const wordWrap = (txt, width) => {
-    if(txt.length <= width) {
-      return txt;
-    } else {
-      let lwfc = width+1;
-      while(--lwfc >= 0 && txt[lwfc] !== ' ');
-  
-      //If no spaces use the width as idx
-      let lineSplitIdx = lwfc < 0 ? width : lwfc;
-      //Split line
-      let leftLine = txt.slice(0, lineSplitIdx);
-      let rightLine = txt.slice(
-        lineSplitIdx === width ? lineSplitIdx : lineSplitIdx + 1,
-        txt.length
-      );
-      rightLine = trimWhtSpc(true, false, rightLine);
-      return leftLine + '\n' + wordWrap(rightLine, width);
-    }
-  }
-  /*MAYBE ADD A PASTE/IMPORT TEXT FEATURE
-  const wrapBlkTxt = blk => {
-    //Remove new lines
-    let blkTxt = "";
-    for(let i = 0; i < blk.text.length; i++) {
-      if(blk.text[i] !== '\n')
-        blkTxt += blk.text[i];
-      else
-        blkTxt += ' ';
-    }
-    let wrapTxt = wordWrap(blkTxt, lineLenLimit);
+    let curBlk = contentState.getBlockForKey(selection.getStartKey());
     
-    contentState = Modifier.replaceText(
-      contentState,
-      new SelectionState({
-        anchorKey: blk.key,
-        anchorOffset: 0,
-        focusKey: blk.key,
-        focusOffset: blk.text.length
-      }),
-      wrapTxt
-    );
-    
-    //Account for any newlines added from breaking on the width
-    let txtLenDiff = wrapTxt.length - blk.text.length;
-
-    //Update cursor
-    return updateCursor(EditorState.createWithContent(contentState),
-      blk.key,
-      selection.getEndOffset() + txtLenDiff,
+    contentState = Modifier.removeRange(contentState, selection, 'forward');
+    let newEditState = updateCursor(
+      EditorState.createWithContent(contentState),
+      curBlk.key,
+      selection.getStartOffset(),
       true
     );
-  }*/
+    setEditorState(wordWrap(newEditState));
+  }
+  const appendNewBlk = () => {
+    let lblock = contentState.getLastBlock();
+    contentState = Modifier.splitBlock(
+      contentState,
+      new SelectionState({
+        anchorKey: lblock.key,
+        focusKey: lblock.key,
+        anchorOffset: lblock.text.length,
+        focusOffset: lblock.text.length
+      })
+    );
+    return {
+      newState: EditorState.createWithContent(contentState),
+      nxtBlkKey: contentState.getLastBlock().key
+    }
+  }
+  //Precondition: The newBlkArr must contain enough new blks
+  //after the curBlk, after handling overflow
+  const calcWrappedCursor = (overflowAmt, curBlk, newBlkArr) => {
+    let newSelBlkKey;
+    let newSelOffset;
+    let amtBlksToMv = 1;
+    let blkIdx = 0;
 
-  const myHandleInput = text => {
+    if(selection.isCollapsed()) {
+      //If cursor was to the left of the line break, don't update
+      if(selection.getEndOffset() <= lineLenLimit) {
+        newSelOffset = selection.getEndOffset();
+        newSelBlkKey = curBlk.key;
+      } else {
+        newSelOffset = overflowAmt % lineLenLimit;
+        amtBlksToMv += Math.floor(overflowAmt / lineLenLimit);
 
-    const selKey =  selection.getEndKey();
-    let curBlk = contentState.getBlockForKey(selKey);
+        //Find curBlk
+        for(blkIdx; blkIdx < newBlkArr.length; blkIdx++)
+          if(newBlkArr[blkIdx].key === curBlk.key) break;
+  
+        //Advance blk idx
+        while(amtBlksToMv > 0 && blkIdx < newBlkArr.length) {
+          blkIdx++;
+          amtBlksToMv--;
+        }
+        
+        newSelBlkKey = newBlkArr[blkIdx].key;
+      }
+    }
+    else {
+      newSelOffset = selection.getStartOffset();
+      newSelBlkKey = selection.getStartKey();
+    }
+    return {
+      key: newSelBlkKey,
+      offset: newSelOffset
+    }
+  } 
+  const wordWrap = newEditState => {
+    
+    //Update local state variables
+    contentState = newEditState.getCurrentContent();
+    selection = newEditState.getSelection();
 
-    if(selection.getStartKey() !== selection.getEndKey())
-      return true;
+    const curBlk = contentState.getBlockForKey(selection.getStartKey());
+    let leftLineEnd; //Index to split line
+    let blkArr = contentState.getBlocksAsArray();
+    let blkIdx = 0; //Index to traverse blkArr
+    
+    //Store overflow amt on first iter
+    let overflowAmt;
+    
+    //Get the blkIdx to the curBlk
+    for(blkIdx; blkIdx < blkArr.length; blkIdx++)
+      if(blkArr[blkIdx].key === curBlk.key) break;
 
-    if(curBlk.text.length + text.length < lineLenLimit) 
-      return false;
+    //Propagate overflow to sucessor blks
+    //The loop length may grow as new blks are added
+    while(blkIdx < blkArr.length && blkArr[blkIdx].text.length > lineLenLimit) {
+      
+      //If at last block add new blk
+      if(blkIdx === blkArr.length - 1) {
+        let newLineRes = appendNewBlk();
+        contentState = newLineRes.newState.getCurrentContent();
+        blkArr = contentState.getBlocksAsArray();
+      }
 
-    //If pasting, try pasting part of the text
-    let remLen = lineLenLimit - curBlk.text.length;
-    let replTxtLen = selection.getEndOffset() - selection.getStartOffset();
-    remLen += replTxtLen;
-    if(remLen >= 0) {
-      let newOffset = selection.isCollapsed() ?
-        selection.getEndOffset() + text.length :
-        selection.getStartOffset() + text.length;
+      //Find the left most whitespace from the line len lim
+      leftLineEnd = lineLenLimit;
+      for(leftLineEnd; leftLineEnd >= 0; leftLineEnd--)
+        if(blkArr[blkIdx].text[leftLineEnd] === ' ') break;
+      
+      //Set to either the line limit or after the whitespace
+      leftLineEnd = leftLineEnd < 0 ? lineLenLimit : leftLineEnd + 1;
+  
+      //If at first block save the overflowAmt for calculating cursor position
+      if(blkArr[blkIdx].key === curBlk.key) {
+        overflowAmt = selection.getEndOffset() - leftLineEnd;
+      }
 
-      setEditorState(
-        manualTxtIns(
-          text.slice(0, Math.min(remLen+1, text.length)),
-          selection,
-          newOffset
-      ));
+      //Move overflow to next block
+      contentState = Modifier.moveText(
+        contentState,
+        new SelectionState({
+          anchorKey: blkArr[blkIdx].key,
+          focusKey: blkArr[blkIdx].key,
+          anchorOffset: leftLineEnd,
+          focusOffset: blkArr[blkIdx].text.length
+        }),
+        new SelectionState({
+          anchorKey: blkArr[blkIdx+1].key,
+          focusKey: blkArr[blkIdx+1].key,
+          anchorOffset: 0,
+          focusOffset: 0
+        })
+      );
+      
+      blkArr = contentState.getBlocksAsArray();
+      blkIdx++;
     }
     
+    let wrappedCursor = calcWrappedCursor(overflowAmt, curBlk, blkArr);
+
+    return updateCursor(
+      EditorState.createWithContent(contentState),
+      wrappedCursor.key,
+      wrappedCursor.offset,
+      true  
+    );
+  }
+  
+  const myHandleInput = txt => {
+
+    const curBlk = contentState.getBlockForKey(selection.getStartKey());
+
+    //If selection doesn't span multiple blks
+    if(selection.getStartKey() === selection.getEndKey()) {
+      //Account for txt replacement; check if wordWrap unnecessary
+      let remLen = lineLenLimit - curBlk.text.length;
+      let replTxtLen = selection.getEndOffset() - selection.getStartOffset();
+      remLen += replTxtLen;
+      if(txt.length <= remLen) return false;
+    }
+
+    //Insert the txt manually
+    let newOffset = selection.isCollapsed() ?
+        selection.getEndOffset() + txt.length :
+        selection.getStartOffset() + txt.length;
+    let newEditorState = manualTxtIns(
+      txt, 
+      selection, 
+      newOffset
+    );
+    
+    setEditorState(wordWrap(newEditorState, txt));
     return true;
   }
   const handleBeforeInput = char => {
@@ -224,8 +280,7 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
     return false;
   }
   const mapKeyToEditorCommand = e => {
-    const selKey =  selection.getEndKey();
-    let curBlk = contentState.getBlockForKey(selKey);
+    const curBlk = contentState.getBlockForKey(selection.getEndKey());
     
     switch(e.keyCode) {
       case 9: { //TAB
@@ -235,65 +290,91 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
         }
         return;
       }
-      case 13: { //Enter
-        if(contentState.getBlockMap().size === lineLimit) return;
-        break;
-      }
       case 8: { //Backspace
         e.preventDefault();
-        if(selection.getStartKey() !== selection.getEndKey() ||
-          selection.getEndOffset() === 0
-        )
-          return;
+        let prevBlk = contentState.getBlockBefore(curBlk.key);
+
         if(!selection.isCollapsed()) {
-          deleteTxt();
-          return;
+          delSelection();
         }
-        let newOffset = selection.getEndOffset() - 1;
-        let replaceSel = new SelectionState({
-          anchorKey: curBlk.key,
-          focusKey: curBlk.key,
-          focusOffset: selection.getEndOffset(),
-          anchorOffset: newOffset
-        });
-        setEditorState(manualTxtIns("", replaceSel, newOffset));
+        //Delete line if not first line
+        else if(selection.getStartOffset() === 0 &&
+          prevBlk
+        ) {
+          //Check if an extra whitespace exists at prev block
+          let anchOffset = prevBlk.text.length > lineLenLimit ?
+            prevBlk.text.length - 1 : prevBlk.text.length;
+          delSelection(new SelectionState({
+            anchorKey: prevBlk.key,
+            focusKey: curBlk.key,
+            focusOffset: 0,
+            anchorOffset: anchOffset
+          }));
+        }
+        else if(selection.getEndOffset() > 0) {
+          //Del char before sel offset if offset > 0
+          let newOffset = selection.getEndOffset() - 1;
+          let replaceSel = new SelectionState({
+            anchorKey: curBlk.key,
+            focusKey: curBlk.key,
+            focusOffset: selection.getEndOffset(),
+            anchorOffset: newOffset
+          });
+          setEditorState(manualTxtIns("", replaceSel, newOffset));
+        }
         return;
       }
       case 46: { //Delete
         e.preventDefault();
-        if(selection.getStartKey() !== selection.getEndKey())
-          return;
+        let nextBlk = contentState.getBlockAfter(curBlk.key);
+
         if(!selection.isCollapsed()) {
-          deleteTxt();
-          return;
+          delSelection();
         }
-        let replaceSel = new SelectionState({
-          anchorKey: curBlk.key,
-          focusKey: curBlk.key,
-          focusOffset: selection.getEndOffset() + 1,
-          anchorOffset: selection.getStartOffset()
-        });
-        setEditorState(manualTxtIns(
-          "", 
-          replaceSel, 
-          selection.getStartOffset()
-        ));
+        //Delete line if at end of line and not last line
+        else if(selection.getEndOffset() === curBlk.text.length && 
+          nextBlk
+        ) {
+          
+          delSelection(new SelectionState({
+            anchorKey: curBlk.key,
+            focusKey: nextBlk.key,
+            focusOffset: 0,
+            anchorOffset: curBlk.text.length
+          }));
+        } 
+        else if(selection.getEndOffset() < curBlk.text.length) {
+          //Del char after sel offset
+          let replaceSel = new SelectionState({
+            anchorKey: curBlk.key,
+            focusKey: curBlk.key,
+            focusOffset: selection.getEndOffset() + 1,
+            anchorOffset: selection.getStartOffset()
+          });
+          setEditorState(manualTxtIns(
+            "", 
+            replaceSel, 
+            selection.getStartOffset()
+          ));
+        }
         return;
       }
     }
     if(e.ctrlKey) {
       switch(e.keyCode) {
         case 88: { //Cut op: ctrl + x
-          if(selection.getStartKey() !== selection.getEndKey()) {
-            e.preventDefault();
-            return;
-          }
-          deleteTxt();
+          let selTxt = window.getSelection().toString();
+          //Remove newlines from selection
+          console.log('before', selTxt)
+          selTxt = selTxt.split('\n');
+          console.log('after', selTxt);
+          navigator.clipboard.writeText(window.getSelection().toString());
+          delSelection();
           return;
         }
       }
     }
-
+    
     return getDefaultKeyBinding(e);
   }
   const toggleBlockType = blockType => {
@@ -330,6 +411,7 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
           keyBindingFn={mapKeyToEditorCommand}
           handleBeforeInput={handleBeforeInput}
           handlePastedText={handlePastedText}
+          handleDrop={()=>true}
         />
         {!contentState.hasText() && (
           <div className="RE-ph-container">
@@ -338,7 +420,11 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
         )}
       </div>
       <div className="text-right">
-        <p className="text-sm mt-3" style={{color: '#C39F7F'}}>
+        <p className="text-sm mt-3" 
+          style= {{
+            color: contentState.getBlockMap().size > lineLimit ? '#f54949' :
+            '#C39F7F'
+        }}>
           Lines: {contentState.getBlockMap().size}{`${lineLimit ? ' / ' + lineLimit : ''}`}
         </p>
       </div>

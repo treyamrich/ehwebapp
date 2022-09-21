@@ -7,7 +7,6 @@
   font-family: 'Georgia', serif;
   font-size: 14px;
   padding: 15px;
-  width: 460px;
   margin: auto;
 }
 
@@ -58,7 +57,7 @@
 
 .RE-line {
     position: relative;
-    border-bottom: 1px dashed #ddd;
+    border-bottom: 1px dashed #C39F7F;
 }
 
 .RichEditor-styleButton {
