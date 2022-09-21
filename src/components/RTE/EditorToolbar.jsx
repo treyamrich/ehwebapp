@@ -36,7 +36,10 @@ const StyleButton = ({ onToggle, icon, active, style, applyInitial }) => {
     onToggle(style);
   }
   useEffect(()=>{
-    if(applyInitial) onToggle(style);
+    if(applyInitial) {
+        onToggle(style);
+        BLOCK_TYPES[3].applyInitial = false;
+    }
   }, []);
   return (
     <span className={className} onMouseDown={handleClick}>
@@ -86,7 +89,7 @@ const BlockStyleControls = ({ editorState, onToggle }) => {
   );
 };
 
-const FontSizeSelector = ({ editorState, changeFont, onToggle }) => {
+const FontSizeSelector = ({ editorState, changeFontSize, onToggle }) => {
     const currentStyle = editorState.getCurrentInlineStyle();
     const [showFSMenu, setShowFSMenu] = useState(false);
     const [hasFontChanged, setHasFontChanged] = useState(false);
@@ -97,7 +100,7 @@ const FontSizeSelector = ({ editorState, changeFont, onToggle }) => {
         let none = true;
         for(let i = 0; i < FONT_SIZES.length; i++) {
             if(currentStyle.has(FONT_SIZES[i].className)) {
-                changeFont(FONT_SIZES[i].className, fontClass);
+                changeFontSize(FONT_SIZES[i].className, fontClass);
                 none = false;
                 break;
             }
@@ -150,7 +153,7 @@ const FontSizeSelector = ({ editorState, changeFont, onToggle }) => {
         </div>
     );
 }
-const EditorToolbar = ({ editorState, toggleBlockType, toggleInlineStyle, changeFont }) => {
+const EditorToolbar = ({ editorState, toggleBlockType, toggleInlineStyle, changeFontSize }) => {
     
     return (
         <div>
@@ -161,7 +164,7 @@ const EditorToolbar = ({ editorState, toggleBlockType, toggleInlineStyle, change
             <FontSizeSelector
                 editorState={editorState}
                 onToggle={toggleInlineStyle}
-                changeFont={changeFont}
+                changeFontSize={changeFontSize}
             />
             <BlockStyleControls 
                 editorState={editorState}

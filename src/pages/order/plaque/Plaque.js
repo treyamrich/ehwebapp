@@ -28,6 +28,12 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
       themeColor={themeColor}
     />);
   }
+  const confirmLineCount = () => {
+    managePopUp.pushPopUp(
+    <div className="w-11/12 bg-gray-50 rounded-md drop-shadow-xl p-3 sm:p-5 m-auto overflow-y-auto">
+      <p className="text-sm">Your message is too long :(</p>
+    </div>);
+  }
   return (
     <div className="m-2 md:m-10 mt-14 lg:mt-24 p-2 md:p-10 rounded-3xl bg-slate-50">
       <Header category="Customize" title="Plaques and Plates" />
@@ -50,6 +56,8 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
             setEditorState={setEditorState}
             lineLimit={lineLimit}
             lineLenLimit={lineLenLimit}
+            confirmStep={confirmLineCount}
+            shouldConfStep={editorState.getCurrentContent().getBlockMap().size > lineLimit}
           />
           <PlaqueAddon stepName="Add-ons"
             themeColor={themeColor}

@@ -49,8 +49,7 @@ const getBlockStyle = block => {
   }
 }
 
-const RTE = ({ lineLimit, lineLenLimit }) => {
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
+const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit }) => {
   const editor = React.useRef();
 
   let className = 'RichEditor-editor';
@@ -267,7 +266,7 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
     return myHandleInput(char);
   }
   const handlePastedText = txt => {
-    return myHandleInput(txt);
+    return !txt ? false : myHandleInput(txt);
   }
 
   const handleKeyCommand = (command, editorState) => {
@@ -363,11 +362,6 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
     if(e.ctrlKey) {
       switch(e.keyCode) {
         case 88: { //Cut op: ctrl + x
-          let selTxt = window.getSelection().toString();
-          //Remove newlines from selection
-          console.log('before', selTxt)
-          selTxt = selTxt.split('\n');
-          console.log('after', selTxt);
           navigator.clipboard.writeText(window.getSelection().toString());
           delSelection();
           return;
@@ -383,7 +377,7 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
   const toggleInlineStyle = inlineStyle => {
     setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle));
   }
-  const changeFont = (prevFont, newFont) => {
+  const changeFontSize = (prevFont, newFont) => {
     const removeState = RichUtils.toggleInlineStyle(editorState, prevFont);
     const newState = RichUtils.toggleInlineStyle(removeState, newFont);
     setEditorState(newState);
@@ -396,7 +390,7 @@ const RTE = ({ lineLimit, lineLenLimit }) => {
         editorState={editorState}
         toggleBlockType={toggleBlockType}
         toggleInlineStyle={toggleInlineStyle}
-        changeFont={changeFont}
+        changeFontSize={changeFontSize}
       />
       <div className={className} onClick={()=>editor.current.focus()}>
         <Editor 
