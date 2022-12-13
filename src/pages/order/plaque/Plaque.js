@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Header, StepProgressForm, RTE, CardSelector } from '../../../components';
 import PlaqueAddon from './PlaqueAddon';
-import ConfirmSelItem from './ConfirmSelItem';
+import { ConfirmPopUp } from '../../../components';
 import { EditorState } from 'draft-js';
 import { testItems } from '../../../data/dummy';
 
@@ -25,10 +25,11 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   let lineLenLimit = 65;
 
   const confirmSelItem = nextStepFunc => {
-    managePopUp.pushPopUp(<ConfirmSelItem
+    managePopUp.pushPopUp(<ConfirmPopUp
       onSubmit={()=>{managePopUp.popPopUp(); nextStepFunc()}}
       onCancel={managePopUp.popPopUp}
       themeColor={themeColor}
+      msg="Are you sure you want to proceed without choosing an item?"
       title="No Item Selected"
     />);
   }
@@ -39,11 +40,13 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
     </div>);
   }
   const confirmMsg = nextStepFunc => {
-    managePopUp.pushPopUp(
-      <div className="bg-white rounded-sm drop-shadow">
-        
-      </div>
-    );
+    managePopUp.pushPopUp(<ConfirmPopUp
+      onSubmit={()=>{managePopUp.popPopUp(); nextStepFunc()}}
+      onCancel={managePopUp.popPopUp}
+      themeColor={themeColor}
+      msg="Before proceeding, please double check your message for any spelling or grammatical errors."
+      title="Confirm Verbage"
+    />);
   }
 
   return (
@@ -78,6 +81,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
             managePopUp={managePopUp}
             addons={addons}
             setAddons={setAddons}
+            stepTip=""
           />
         </StepProgressForm>
       </div>

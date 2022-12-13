@@ -22,6 +22,7 @@ const StepProgressForm = ({children}) => {
         if(stepComps[currStep].props.shouldConfStep) {
           try {
             let skipAmt = stepComps[currStep].props.skipStepAmt;
+            skipAmt = skipAmt ? skipAmt : 1;  
             confirmFunc(() => {
               setCurrStep(prevStep => prevStep + skipAmt);
               stepStack.current.push(skipAmt);

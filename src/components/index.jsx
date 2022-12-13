@@ -25,3 +25,4 @@ export { default as CardManager } from './CardManager';
 export { default as Tabs } from './Tabs/Tabs';
 export { default as Tab } from './Tabs/Tab';
 export { default as RTE } from './RTE/RTE'; 
+export { default as ConfirmPopUp } from './ConfirmPopUp';
