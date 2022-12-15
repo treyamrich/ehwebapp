@@ -17,8 +17,18 @@ import makeAnimated from 'react-select/animated';
 
 const animatedComponents = makeAnimated();
 
+
+const InitialPlateState = {
+    label: "",
+    pltSize: "",
+    pltColor: pltColors[0].label,
+    pltGraphics: [],
+    pltMsg: undefined //This will be a Draft.js state object
+};
+
 const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
     const [selGraphicIdx, setSelGraphicIdx] = useState(-1);
+    const [plate, setPlate] = useState(InitialPlateState);
     const [canSubmit, setCanSubmit] = useState(false);
 
     const { pushPopUp, popPopUp } = managePopUp;
@@ -27,9 +37,17 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
         //Toggles the disable state of the file input and submit button
         setCanSubmit(true);
     }
+    const handleSelPltColor = (color) => {
+        setPlate({...plate, pltColor: color, label: plate.pltSize + " " + color + " plate"})
+    };
+    const handleSelPltSize = (size) => {
+        setPlate({...plate, pltSize: size, label: size + " " + plate.pltColor + " plate"});
+        setCanSubmit(true);
+    }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
-        submitForm({cardName: "B/G 5x2", cardImg: ""});
+        console.log(plate);
+        submitForm(plate);
     }
   return (
     <div className="flex justify-center text-left flex-col"
@@ -43,7 +61,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
                     components={animatedComponents}
                     defaultValue={[pltColors[0]]}
                     options={pltColors}
-                    onChange={()=>{}}
+                    onChange={option=>handleSelPltColor(option.label)}
                     className="mb-3"
                 />
                 <div className="text-center">
@@ -56,7 +74,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
                     closeMenuOnSelect={true}
                     components={animatedComponents}
                     options={pltSizes}
-                    onChange={()=>setCanSubmit(true)}
+                    onChange={option=>handleSelPltSize(option.label)}
                     className="mb-3"
                 />
                 <div className="text-center">
@@ -66,8 +84,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
             <div className="p-2">
                 <h4 className="text-lg font-semibold mb-1">Plate Graphic(s)</h4>
                 <CardManager 
-                    options={[1, 2]} 
-                    setOptions={()=>{}}
+                    options={plate.pltGraphics} 
                     onAddCard={()=>pushPopUp(
                         <GraphicForm title="Add Plate Graphic" 
                             btnBgColor={btnBgColor}

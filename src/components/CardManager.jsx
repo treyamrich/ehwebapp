@@ -15,7 +15,7 @@ import React from 'react'
 import { MdOutlineCancel } from 'react-icons/md';
 import { GoDiffAdded } from 'react-icons/go';
 
-const Card = ({cardName, options, onDeleteCard}) => {
+const Card = ({cardName, cardImg, options, onDeleteCard}) => {
   const handleRemoveCard = () => {
     let i = 0;
     let found = false;
@@ -47,7 +47,7 @@ const Card = ({cardName, options, onDeleteCard}) => {
         </div>
         <div className="w-full h-28 px-1 pb-1 mt-10 mb-1 border-2 border-red-300">
           <div className="h-20 border-1 border-blue-300 mb-1">
-
+            <img src={cardImg}/>
           </div>
           <p className="font-semibold">{cardName}</p>
         </div>
@@ -70,7 +70,8 @@ const CardManager = ({ options, onDeleteCard, onAddCard}) => {
         </div>
         {options.map((option, idx)=>(
             <Card key={idx} 
-              cardName={option} 
+              cardName={option.label} 
+              cardImg={option.img}
               options={options}
               onDeleteCard={onDeleteCard}
             />
