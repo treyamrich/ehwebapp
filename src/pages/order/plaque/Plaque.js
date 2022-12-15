@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Header, StepProgressForm, RTE, CardSelector } from '../../../components';
 import PlaqueAddon from './PlaqueAddon';
 import { ConfirmPopUp } from '../../../components';
@@ -11,6 +11,8 @@ const initAddOnState = {
   cutouts: [],
   plates: []
 }
+const lineLimit = 5;
+const lineLenLimit = 65;
 
 const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   //On first render, instruct the RTE to center the text
@@ -20,9 +22,6 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   const [selItemIdx, setSelItemIdx] = useState(-1);
   const [addons, setAddons] = useState(initAddOnState);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
-
-  let lineLimit = 5;
-  let lineLenLimit = 65;
 
   const confirmSelItem = nextStepFunc => {
     managePopUp.pushPopUp(<ConfirmPopUp

@@ -7,17 +7,32 @@ GraphicForm Props:
 */
 
 import React, { useState } from 'react';
+import { EditorState } from 'draft-js';
 import { pltSizes, pltColors } from '../../../data/uidata';
 
-import { CardManager } from '../../../components';
+import { CardManager, RTE } from '../../../components';
 import GraphicForm from '../GraphicForm';
 
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
 const animatedComponents = makeAnimated();
-
-
+/*
+THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
+THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
+THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
+THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
+THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
+THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
+THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
+THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
+THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
+THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
+THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
+THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
+THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
+THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
+*/
 const InitialPlateState = {
     label: "",
     pltSize: "",
@@ -26,10 +41,16 @@ const InitialPlateState = {
     pltMsg: undefined //This will be a Draft.js state object
 };
 
+const lineLimit = 5;
+const lineLenLimit = 65;
+
 const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
-    const [selGraphicIdx, setSelGraphicIdx] = useState(-1);
     const [plate, setPlate] = useState(editPlate ? editPlate : InitialPlateState);
     const [canSubmit, setCanSubmit] = useState(editPlate != undefined);
+
+    //RTE state
+    const [editorState, setEditorState] = useState(() => editPlate ? editPlate.pltMsg : EditorState.createEmpty(),);
+    const [autoTxtCenter, setAutoTxtCenter] = useState(true); //On first render, instruct the RTE to center the text
 
     const { pushPopUp, popPopUp } = managePopUp;
 
@@ -42,6 +63,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
+        plate.pltMsg = editorState;
         submitForm(plate);
     }
   return (
@@ -94,7 +116,14 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
                     <h4 className="text-lg font-semibold mb-3">Write your message here! ADD verify message if the user doesn't put any text.</h4>
                 </div>
                 <div className="w-full h-96 bg-white mb-3">
-
+                <RTE stepName="Write your customized message"
+                    editorState={editorState}
+                    setEditorState={setEditorState}
+                    lineLimit={lineLimit}
+                    lineLenLimit={lineLenLimit}
+                    autoTxtCenter={autoTxtCenter}
+                    setAutoTxtCenter={setAutoTxtCenter}
+                />
                 </div>
                 <p className="text-sm text-slate-400">Note: Plates are limited by the amount of lines</p>
             </div>
