@@ -28,7 +28,8 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
     if(!cutoutObj) return;
     setAddons({...addons, graphics: [cutoutObj, ...addons.cutouts]});
   }
-  const handleRemovePlate = newArr => setAddons({...addons, plates: [...newArr]});
+  const handleRemovePlate = newArr => {setAddons({...addons, plates: [...newArr]});
+  }
   const handleRemoveGraphic = newArr => setAddons({...addons, graphics: [...newArr]});
   const handleRemoveCutout = newArr => setAddons({...addons, cutouts: [...newArr]});
   const handleUpdateServices = newArr => setAddons({...addons, services: [...newArr]});

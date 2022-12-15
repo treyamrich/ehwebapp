@@ -15,20 +15,14 @@ import React from 'react'
 import { MdOutlineCancel } from 'react-icons/md';
 import { GoDiffAdded } from 'react-icons/go';
 
-const Card = ({cardName, cardImg, options, onDeleteCard}) => {
+const Card = ({ idx, cardName, cardImg, options, onDeleteCard }) => {
   const handleRemoveCard = () => {
-    let i = 0;
-    let found = false;
     let newOpts = [];
-    while(i < options.length) {
-      //Skip the card to remove
-      if(options[i] == cardName && !found) {
-        found = true;
-      } else {
-        newOpts.push(options[i]);
-      }
-      i++;
+    for(let i = 0; i < options.length; i++) {
+      if(i == idx) continue;
+      newOpts.push(options[i]);
     }
+    console.log(newOpts);
     onDeleteCard(newOpts);
   }
   return (
@@ -70,6 +64,7 @@ const CardManager = ({ options, onDeleteCard, onAddCard}) => {
         </div>
         {options.map((option, idx)=>(
             <Card key={idx} 
+              idx={idx}
               cardName={option.label} 
               cardImg={option.img}
               options={options}
