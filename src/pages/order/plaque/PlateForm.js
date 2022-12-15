@@ -26,17 +26,13 @@ const InitialPlateState = {
     pltMsg: undefined //This will be a Draft.js state object
 };
 
-const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
+const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
     const [selGraphicIdx, setSelGraphicIdx] = useState(-1);
-    const [plate, setPlate] = useState(InitialPlateState);
-    const [canSubmit, setCanSubmit] = useState(false);
+    const [plate, setPlate] = useState(editPlate ? editPlate : InitialPlateState);
+    const [canSubmit, setCanSubmit] = useState(editPlate != undefined);
 
     const { pushPopUp, popPopUp } = managePopUp;
 
-    const handlePlateSelect = () => {
-        //Toggles the disable state of the file input and submit button
-        setCanSubmit(true);
-    }
     const handleSelPltColor = (color) => {
         setPlate({...plate, pltColor: color, label: plate.pltSize + " " + color + " plate"})
     };
@@ -46,7 +42,6 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
-        console.log(plate);
         submitForm(plate);
     }
   return (
@@ -59,7 +54,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
                 <Select
                     closeMenuOnSelect={true}
                     components={animatedComponents}
-                    defaultValue={[pltColors[0]]}
+                    defaultValue={editPlate ? [{label: editPlate.pltColor, value: -1}] : [pltColors[0]]}
                     options={pltColors}
                     onChange={option=>handleSelPltColor(option.label)}
                     className="mb-3"
@@ -74,6 +69,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp }) => {
                     closeMenuOnSelect={true}
                     components={animatedComponents}
                     options={pltSizes}
+                    defaultValue={editPlate ? [{label: editPlate.pltSize, value: -1}] : null}
                     onChange={option=>handleSelPltSize(option.label)}
                     className="mb-3"
                 />

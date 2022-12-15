@@ -13,23 +13,29 @@ const animatedComponents = makeAnimated();
 const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
   const { pushPopUp, popPopUp } = managePopUp;
 
-  const handleAddPlate = plateObj => {
+  const handleAddPlate = pltObj => {
     popPopUp();
-    if(!plateObj) return;
-    setAddons({...addons, plates: [plateObj, ...addons.plates]});
+    setAddons({...addons, plates: [pltObj, ...addons.plates]});
+  }
+  const handleEditPlate = (newPltObj, prevPltIdx) => {
+    popPopUp();
+    let newPlts = [];
+    //Create new arr of plates without the edited plate
+    for(let i = 0; i < addons.plates.length; i++) {
+      if(i == prevPltIdx) continue;
+      newPlts.push(addons.plates[i]);
+    }
+    setAddons({...addons, plates: [newPltObj, ...newPlts]});
   }
   const handleAddGraphic = graphicObj => {
     popPopUp();
-    if(!graphicObj) return;
     setAddons({...addons, graphics: [graphicObj, ...addons.graphics]})
   }
   const handleAddCutout = cutoutObj => {
     popPopUp();
-    if(!cutoutObj) return;
     setAddons({...addons, graphics: [cutoutObj, ...addons.cutouts]});
   }
-  const handleRemovePlate = newArr => {setAddons({...addons, plates: [...newArr]});
-  }
+  const handleRemovePlate = newArr => setAddons({...addons, plates: [...newArr]});
   const handleRemoveGraphic = newArr => setAddons({...addons, graphics: [...newArr]});
   const handleRemoveCutout = newArr => setAddons({...addons, cutouts: [...newArr]});
   const handleUpdateServices = newArr => setAddons({...addons, services: [...newArr]});
@@ -47,6 +53,14 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
             <CardManager 
               options={addons.plates} 
               onDeleteCard={handleRemovePlate}
+              onEditCard={(idx)=>pushPopUp(
+                <PlateForm title="Edit Plate" 
+                  btnBgColor={themeColor}
+                  submitForm={newPltObj=>handleEditPlate(newPltObj, idx)}
+                  managePopUp={managePopUp}
+                  editPlate={addons.plates[idx]}
+                />
+              )}
               onAddCard={()=>pushPopUp(
                 <PlateForm title="Add Plate" 
                   btnBgColor={themeColor}

@@ -13,16 +13,16 @@ Note: This component provides event handlers for the client. The client must
 */
 import React from 'react'
 import { MdOutlineCancel } from 'react-icons/md';
+import { AiOutlineEdit } from 'react-icons/ai';
 import { GoDiffAdded } from 'react-icons/go';
 
-const Card = ({ idx, cardName, cardImg, options, onDeleteCard }) => {
+const Card = ({ idx, cardName, cardImg, options, onDeleteCard, onEditCard }) => {
   const handleRemoveCard = () => {
     let newOpts = [];
     for(let i = 0; i < options.length; i++) {
       if(i == idx) continue;
       newOpts.push(options[i]);
     }
-    console.log(newOpts);
     onDeleteCard(newOpts);
   }
   return (
@@ -39,7 +39,18 @@ const Card = ({ idx, cardName, cardImg, options, onDeleteCard }) => {
               <MdOutlineCancel />
             </button>
         </div>
-        <div className="w-full h-28 px-1 pb-1 mt-10 mb-1 border-2 border-red-300">
+        <div className="absolute top-1 right-8">
+            <button
+              type="button"
+              onClick={()=>onEditCard(idx)}
+              style={{ color: 'rgb(153, 171, 180)', borderRadius: '50%' }}
+              className="text-xl p-2 hover:drop-shadow-xl hover:bg-light-gray"
+            >
+              <AiOutlineEdit />
+            </button>
+        </div>
+        <div className="w-full h-28 px-1 pb-1 mt-10 mb-1 border-2 border-red-300"
+        >
           <div className="h-20 border-1 border-blue-300 mb-1">
             <img src={cardImg}/>
           </div>
@@ -48,7 +59,7 @@ const Card = ({ idx, cardName, cardImg, options, onDeleteCard }) => {
     </div>
 )}
 
-const CardManager = ({ options, onDeleteCard, onAddCard}) => {
+const CardManager = ({ options, onDeleteCard, onAddCard, onEditCard}) => {
   return (
     <div className="h-52 border-1 rounded-sm overflow-x-auto">
       <div className="flex p-4 h-full items-center">
@@ -69,6 +80,7 @@ const CardManager = ({ options, onDeleteCard, onAddCard}) => {
               cardImg={option.img}
               options={options}
               onDeleteCard={onDeleteCard}
+              onEditCard={onEditCard}
             />
         ))}
       </div>
