@@ -54,8 +54,13 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
 
     const { pushPopUp, popPopUp } = managePopUp;
 
+    const handleAddPltGraphic = graphicObj => {
+        console.log('handling add plate graphic');
+        popPopUp();
+        setPlate({...plate, pltGraphics: [graphicObj, ...plate.pltGraphics]});
+    };
     const handleSelPltColor = (color) => {
-        setPlate({...plate, pltColor: color, label: plate.pltSize + " " + color + " plate"})
+        setPlate({...plate, pltColor: color, label: plate.pltSize + " " + color + " plate"});
     };
     const handleSelPltSize = (size) => {
         setPlate({...plate, pltSize: size, label: size + " " + plate.pltColor + " plate"});
@@ -106,7 +111,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
                     onAddCard={()=>pushPopUp(
                         <GraphicForm title="Add Plate Graphic" 
                             btnBgColor={btnBgColor}
-                            submitForm={popPopUp}
+                            submitForm={handleAddPltGraphic}
                         />
                     )}
                 />

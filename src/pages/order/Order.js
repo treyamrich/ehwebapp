@@ -44,11 +44,13 @@ const Order = () => {
   const resetOpRes = () => setOpRes(initialOpState);
   
   const popPopUp = () => {
-    popups.pop();
-    setPopUps([...popups]);
+    setPopUps(prevPopups=> {
+      prevPopups.pop();
+      return [...prevPopups];
+    });
   }
   const pushPopUp = component => setPopUps(prev => [...prev, component]);
-  
+
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
       <div className="flex relative dark:bg-main-dark-bg">

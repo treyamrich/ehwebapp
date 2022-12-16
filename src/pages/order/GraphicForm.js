@@ -21,6 +21,8 @@ const initFormControlState = {
     canSubmit: false
 };
 
+const TEST_GRAPHICS = ["LTC", "ABC", "gen", "ki"];//DELETE THIS LATER
+
 const GraphicForm = ({ btnBgColor, submitForm }) => {
     const graphicRef = useRef();
     const [selGraphicIdx, setSelGraphicIdx] = useState(-1);
@@ -39,7 +41,8 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
-        submitForm(1);
+        console.log('handling graphic submit');
+        submitForm({label: TEST_GRAPHICS[selGraphicIdx]});
     }
   return (
     <div className="flex justify-center text-left flex-col"
@@ -84,7 +87,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                 <div className="flex justify-end mb-3 px-3">
                     <SearchBar color={btnBgColor}/>
                 </div>
-                <CardSelector items={[1, 2, 3, 4, 5]} 
+                <CardSelector items={TEST_GRAPHICS} 
                     selectedIdx={selGraphicIdx}
                     setSelectedIdx={setSelGraphicIdx}
                     orientation="vertical"
