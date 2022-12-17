@@ -140,17 +140,17 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
             </div>
             <div className="py-2 px-1">
                 <div className="text-center">
-                    <h4 className="text-lg font-semibold mb-3">Write your message here! ADD verify message if the user doesn't put any text.</h4>
+                    <h4 className="text-lg font-semibold mb-3">Write your message here!</h4>
                 </div>
-                <div className="w-full h-96 bg-white mb-3">
-                <RTE stepName="Write your customized message"
-                    editorState={editorState}
-                    setEditorState={setEditorState}
-                    lineLimit={lineLimit}
-                    lineLenLimit={lineLenLimit}
-                    autoTxtCenter={autoTxtCenter}
-                    setAutoTxtCenter={setAutoTxtCenter}
-                />
+                <div className="w-full bg-white mb-3 py-3">
+                    <RTE stepName="Write your customized message"
+                        editorState={editorState}
+                        setEditorState={setEditorState}
+                        lineLimit={lineLimit}
+                        lineLenLimit={lineLenLimit}
+                        autoTxtCenter={autoTxtCenter}
+                        setAutoTxtCenter={setAutoTxtCenter}
+                    />
                 </div>
                 <p className="text-sm text-slate-400">Note: Plates are limited by the amount of lines</p>
             </div>
