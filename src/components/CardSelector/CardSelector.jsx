@@ -27,15 +27,26 @@ Card Selector Props
 :orientation - string (horizontal/vertical)
 :selectedIdx and setSelectedIdx - react useState hook to keep track of selected card
 :onSelect - func to call when a card is selected
+:onReselect - func to call when a card is deselected
 :disabled - boolean if the entire selector is disabled
 :isCardDisabled - a func which accepts the items[i] object to determine if it's disabled
 */
-const CardSelector = ({ items, orientation, selectedIdx, setSelectedIdx, onSelect, disabled, isCardDisabled }) => {
+const CardSelector = ({ items, orientation, selectedIdx, setSelectedIdx, onSelect, onReselect, disabled, isCardDisabled }) => {
     //Postcondition: selectedIdx is -1 if card is reselected/deselected
     const handleSelect = idx => {
         //Handle reselect
-        setSelectedIdx(selectedIdx == idx ? -1 : idx);
-        //Call callback func if provided
+        if(selectedIdx == idx) {
+            if(onReselect) {
+                try {
+                    onReselect();
+                } catch(e) {
+                    console.log(e);
+                }
+            }
+            setSelectedIdx(-1);
+            return;
+        }
+        //Handle select
         if(onSelect) {
             try {
                 onSelect();
@@ -43,6 +54,7 @@ const CardSelector = ({ items, orientation, selectedIdx, setSelectedIdx, onSelec
                 console.log(e);
             }
         }
+        setSelectedIdx(idx);
     }
   return (
     <div className={orientation === 'horizontal' ? "overflow-x-auto" : ""}>

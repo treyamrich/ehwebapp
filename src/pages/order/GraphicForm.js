@@ -5,7 +5,7 @@ GraphicForm Props:
   :submitForm - a function to be called on form submission
 */
 
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { MdOutlineClose } from 'react-icons/md';
 import { CardSelector, SearchBar } from '../../components';
 import Select from 'react-select';
@@ -37,7 +37,10 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
     const handleImgSelect = () => {
         handleResetFile();
         //Toggles the disable state of the file input and submit button
-        setFormControl({...formControl, canUpload: !canUpload, canSubmit: !canSubmit});
+        setFormControl({...formControl, canUpload: false, canSubmit: true});
+    }
+    const handleImgReselect = () => {
+        setFormControl({...formControl, canUpload: true, canSubmit: false})
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
@@ -91,6 +94,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                     setSelectedIdx={setSelGraphicIdx}
                     orientation="vertical"
                     onSelect={handleImgSelect}
+                    onReselect={handleImgReselect}
                     disabled={!canSelect}
                     isCardDisabled={()=>false}
                 />
