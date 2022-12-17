@@ -50,7 +50,8 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
 
     //RTE state
     const [editorState, setEditorState] = useState(() => editPlate ? editPlate.pltMsg : EditorState.createEmpty(),);
-    const [autoTxtCenter, setAutoTxtCenter] = useState(true); //On first render, instruct the RTE to center the text
+    //Center text on first render. If there is a plate to edit, preserve the alignment.
+    const [autoTxtCenter, setAutoTxtCenter] = useState(editPlate == undefined); 
 
     const { pushPopUp, popPopUp } = managePopUp;
 
