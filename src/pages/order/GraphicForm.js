@@ -26,6 +26,7 @@ const TEST_GRAPHICS = [{name: "LTC", link: 'asdf'}, {name: "ABC", link: 'asdf'},
 const GraphicForm = ({ btnBgColor, submitForm }) => {
     const graphicRef = useRef();
     const [selGraphicIdx, setSelGraphicIdx] = useState(-1);
+    const [graphicColor, setGraphicColor ] = useState(""); 
     const [formControl, setFormControl] = useState(initFormControlState);
 
     const { canSubmit, canSelect, canUpload } = formControl;
@@ -44,7 +45,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
-        submitForm(TEST_GRAPHICS[selGraphicIdx]);
+        submitForm({color: graphicColor, name: TEST_GRAPHICS[selGraphicIdx].name});
     }
   return (
     <div className="flex justify-center text-left flex-col"
@@ -58,7 +59,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                     components={animatedComponents}
                     defaultValue={[graphicColOpts[0]]}
                     options={graphicColOpts}
-                    onChange={()=>{}}
+                    onChange={option => setGraphicColor(option.label)}
                     className="mb-3"
                 />
                 <div className="text-center">
