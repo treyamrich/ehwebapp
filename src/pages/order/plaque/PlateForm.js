@@ -10,13 +10,12 @@ import React, { useState } from 'react';
 import { EditorState } from 'draft-js';
 import { pltSizes, pltColors } from '../../../data/uidata';
 
-import { CardManager, RTE } from '../../../components';
+import { CardManager, RTE, MyInput } from '../../../components';
 import GraphicForm from '../GraphicForm';
 
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
-import '../../../components/SearchBar/searchbar.css';
 const animatedComponents = makeAnimated();
 /*
 THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
@@ -106,20 +105,25 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
                     <div className="text-center mb-3">
                         <p className="text-sm text-slate-400 mb-2">Please enter the dimensions in inches</p>
                         <div className="flex justify-center h-9">
-                            <input className="mr-3 w-16 border-1 pl-1"
+                            <label className="mr-3 font-semibold" 
+                                htmlFor="custom-w">Width:
+                            </label>
+                            <MyInput 
                                 type="number"
                                 onChange={(e)=>setPlate({...plate, customW: e.target.value})} 
                                 value={plate.customW}
                                 id="custom-w"
+                                color={btnBgColor}
                             />
                             <label className="mr-3 font-semibold" 
                                 htmlFor="custom-h">Height:
                             </label>
-                            <input className="w-16 border-1 pl-1"
+                            <MyInput
                                 type="number"
                                 value={plate.customH}
                                 onChange={(e)=>setPlate({...plate, customH: e.target.value})}
                                 id="custom-h"
+                                color={btnBgColor}
                             />
                         </div>
                     </div>

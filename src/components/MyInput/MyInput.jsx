@@ -8,11 +8,12 @@ import './myinput.css';
 :onChange, value, placeholder - props of a normal HTML input
 */
 
-const MyInput = ({color, componentBtn, placeholder, value, onChange, type}) => {
+const MyInput = ({color, componentBtn, placeholder, value, onChange, type, id}) => {
     const [focused, setFocus] = useState(false);
   return (
     <div className="relative h-7 leading-6 border-0 flex">
       <input 
+        id={id}
         type={type}
         value={value}
         onChange={onChange}
