@@ -20,7 +20,6 @@ export { default as Pager } from './Pager/Pager';
 export { default as Alert } from './Alert/Alert';
 export { default as CardSelector } from './CardSelector/CardSelector';
 export { default as StepProgressForm } from './StepProgressForm/StepProgressForm';
-export { default as WriteMsg } from './WriteMsg';
 export { default as CardManager } from './CardManager';
 export { default as Tabs } from './Tabs/Tabs';
 export { default as Tab } from './Tabs/Tab';
