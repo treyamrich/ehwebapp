@@ -82,7 +82,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
                     className="mb-3"
                 />
                 <div className="text-center">
-                    <p className="text-sm text-slate-400"><strong>Tip:</strong> Dimensions are listed in format: <strong>Length x Width</strong> (L x W) and in the <strong>units of inches.</strong> The default color is black/gold because it usually goes with all plaque colors, although <strong>we recommend you choose the color that matches your other addons.</strong></p>
+                    <p className="text-sm text-slate-400"><strong>Tip:</strong> Dimensions are listed in format: <strong>Width x Height</strong> (W x H) and in the <strong>units of inches.</strong> The default color is black/gold because it usually goes with all plaque colors, although <strong>we recommend you choose the color that matches your other addons.</strong></p>
                 </div>
             </div>
             <div className="py-2 px-1">

@@ -26,7 +26,7 @@ Card Selector Props
 
 :items - a list of objects {name: string, img: string}
 :orientation - string (horizontal/vertical)
-:selectedIdx and setSelectedIdx - react useState hook to keep track of selected card
+:selectedCard and setSelectedCard - react useState hook to keep track of selected card
 :onSelect - func to call when a card is selected
 :onReselect - func to call when a card is deselected
 :disabled - boolean if the entire selector is disabled
