@@ -10,29 +10,14 @@ import React, { useState } from 'react';
 import { EditorState } from 'draft-js';
 import { pltSizes, pltColors } from '../../../data/uidata';
 
-import { CardManager, RTE, MyInput } from '../../../components';
+import { CardManager, RTE, MyInput, ConfirmPopUp } from '../../../components';
 import GraphicForm from '../GraphicForm';
 
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
 const animatedComponents = makeAnimated();
-/*
-THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
-THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
-THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
-THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
-THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
-THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
-THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
-THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
-THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
-THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
-THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
-THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
-THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
-THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
-*/
+
 const InitialPlateState = {
     label: "",
     pltSize: "",
@@ -49,7 +34,7 @@ const lineLenLimit = 65;
 const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
     const [plate, setPlate] = useState(editPlate ? editPlate : InitialPlateState);
     const canSubmit = plate.pltSize !== "" && plate.pltSize !== "Custom" || plate.customW !== "" && plate.customH !== "";
-    const [focused, setFocused] = useState(false);
+
     //RTE state
     const [editorState, setEditorState] = useState(() => editPlate ? editPlate.pltMsg : EditorState.createEmpty(),);
     //Center text on first render. If there is a plate to edit, preserve the alignment.
@@ -66,6 +51,15 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
     };
     const handleSelPltSize = (size) => {
         setPlate({...plate, pltSize: size, name: size + " " + plate.pltColor + " plate"});
+    }
+    const confirmPlateMsg = () => {
+        managePopUp.pushPopUp(<ConfirmPopUp
+          onSubmit={()=>{managePopUp.popPopUp(); handleSubmit()}}
+          onCancel={managePopUp.popPopUp}
+          themeColor={btnBgColor}
+          msg="Before proceeding, please double check your message for any spelling or grammatical errors."
+          title="Confirm Plate Verbage"
+        />)
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
@@ -165,7 +159,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
             <button className="text-white w-full lg:w-1/6 hover:drop-shadow-xl p-3"
                 style={{borderRadius: '10px', backgroundColor: btnBgColor, opacity: canSubmit ? 1 : 0.3}}
                 type="button"
-                onClick={handleSubmit}
+                onClick={confirmPlateMsg}
                 disabled={!canSubmit}
             >
                 Save
