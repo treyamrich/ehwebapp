@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Header, StepProgressForm, RTE, CardSelector } from '../../../components';
+import { Header, StepProgressForm, RTE, ConfirmPopUp } from '../../../components';
 import PlaqueAddon from './PlaqueAddon';
-import { ConfirmPopUp } from '../../../components';
+import OrderItemChooser from '../OrderItemChooser';
 import { EditorState } from 'draft-js';
-import { testItems } from '../../../data/dummy';
 
 const initAddOnState = {
   services: [],
@@ -15,12 +14,10 @@ const lineLimit = 5;
 const lineLenLimit = 65;
 
 const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
-  const [itemChoices, setItemChoices] = useState(testItems);
 
   //On first render, instruct the RTE to center the text
   const [autoTxtCenter, setAutoTxtCenter] = useState(true);
   
-  //Selected product
   const [selectedItem, setSelectedItem] = useState(null);
   const [addons, setAddons] = useState(initAddOnState);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
@@ -55,14 +52,10 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
       <Header category="Customize" title="Plaques and Plates" />
       <div className="mt-14">
         <StepProgressForm>
-          <CardSelector 
-            color={themeColor}
-            items={itemChoices} 
-            setItems={setItemChoices}
-            orientation="horizontal"
-            selectedCard={selectedItem}
-            setSelectedCard={setSelectedItem}
-            isCardDisabled={()=>false}
+          <OrderItemChooser
+            themeColor={themeColor}
+            selectedItem={selectedItem}
+            setSelectedItem={setSelectedItem}
             stepName="Choose an item"
             stepTip="Tip: Dimensions are listed in format: Width x Height (W x H) and in the units of inches"
             skipStepAmt={2}
