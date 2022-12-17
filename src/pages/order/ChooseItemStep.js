@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { CardSelector } from '../../components';
 import { testItems } from '../../data/dummy';
 
-const OrderItemChooser = ({ themeColor, selectedItem, setSelectedItem }) => {
+const ChooseItemStep = ({ themeColor, selectedItem, setSelectedItem }) => {
     const [itemChoices, setItemChoices] = useState(testItems);
 
   return (
@@ -18,4 +18,4 @@ const OrderItemChooser = ({ themeColor, selectedItem, setSelectedItem }) => {
   )
 }
 
-export default OrderItemChooser
+export default ChooseItemStep

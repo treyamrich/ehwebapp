@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Header, StepProgressForm, RTE, ConfirmPopUp } from '../../../components';
 import PlaqueAddon from './PlaqueAddon';
-import OrderItemChooser from '../OrderItemChooser';
+import ChooseItemStep from '../ChooseItemStep';
 import { EditorState } from 'draft-js';
 
 const initAddOnState = {
@@ -52,7 +52,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
       <Header category="Customize" title="Plaques and Plates" />
       <div className="mt-14">
         <StepProgressForm>
-          <OrderItemChooser
+          <ChooseItemStep
             themeColor={themeColor}
             selectedItem={selectedItem}
             setSelectedItem={setSelectedItem}
