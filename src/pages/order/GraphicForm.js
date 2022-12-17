@@ -90,14 +90,9 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                 </div>
             <div className="py-2 px-1">
                 <h4 className="text-lg font-semibold mb-3">Choose a Graphic</h4>
-                <div className="flex justify-end mb-3 px-3">
-                    <SearchBar color={btnBgColor}
-                        records={graphicSelection}
-                        setRecords={setGraphicSelection}
-                        searchFields={['name']}
-                    />
-                </div>
-                <CardSelector items={graphicSelection} 
+                <CardSelector color={btnBgColor}
+                    items={graphicSelection}
+                    setItems={setGraphicSelection} 
                     selectedIdx={selGraphicIdx}
                     setSelectedIdx={setSelGraphicIdx}
                     orientation="vertical"
@@ -105,6 +100,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                     onReselect={handleImgReselect}
                     disabled={!canSelect}
                     isCardDisabled={()=>false}
+
                 />
             </div>
         </div>

@@ -15,9 +15,11 @@ const lineLimit = 5;
 const lineLenLimit = 65;
 
 const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
+  const [itemChoices, setItemChoices] = useState(testItems);
+
   //On first render, instruct the RTE to center the text
   const [autoTxtCenter, setAutoTxtCenter] = useState(true);
-
+  
   //Selected product
   const [selItemIdx, setSelItemIdx] = useState(-1);
   const [addons, setAddons] = useState(initAddOnState);
@@ -54,7 +56,8 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
       <div className="mt-14">
         <StepProgressForm>
           <CardSelector 
-            items={testItems} 
+            items={itemChoices} 
+            setItems={setItemChoices}
             orientation="horizontal" 
             selectedIdx={selItemIdx} 
             setSelectedIdx={setSelItemIdx}
