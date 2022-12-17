@@ -5,7 +5,7 @@ GraphicForm Props:
   :submitForm - a function to be called on form submission
 */
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { MdOutlineClose } from 'react-icons/md';
 import { CardSelector, SearchBar } from '../../components';
 import Select from 'react-select';
@@ -21,12 +21,13 @@ const initFormControlState = {
     canSubmit: false
 };
 
+const DEFAULT_COLOR = "Default - Same as other addons";
 const TEST_GRAPHICS = [{name: "LTC", link: 'asdf'}, {name: "ABC", link: 'asdf'}, {name: "gen", link: 'asdf'}, {name: "ki", link: 'asdf'}];//DELETE THIS LATER
 
 const GraphicForm = ({ btnBgColor, submitForm }) => {
     const graphicRef = useRef();
     const [selGraphicIdx, setSelGraphicIdx] = useState(-1);
-    const [graphicColor, setGraphicColor ] = useState(""); 
+    const [graphicColor, setGraphicColor ] = useState(DEFAULT_COLOR); 
     const [formControl, setFormControl] = useState(initFormControlState);
 
     const { canSubmit, canSelect, canUpload } = formControl;
@@ -45,7 +46,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
-        submitForm({color: graphicColor, name: TEST_GRAPHICS[selGraphicIdx].name});
+        submitForm({color: graphicColor, name: `${graphicColor !== DEFAULT_COLOR ? graphicColor : 'Default Color'} - ${TEST_GRAPHICS[selGraphicIdx].name}`});
     }
   return (
     <div className="flex justify-center text-left flex-col"
