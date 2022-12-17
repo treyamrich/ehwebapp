@@ -76,7 +76,7 @@ const CardManager = ({ options, onDeleteCard, onAddCard, onEditCard}) => {
         {options.map((option, idx)=>(
             <Card key={idx} 
               idx={idx}
-              cardName={option.label} 
+              cardName={option.name} 
               cardImg={option.img}
               options={options}
               onDeleteCard={onDeleteCard}

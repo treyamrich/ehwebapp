@@ -55,15 +55,14 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
     const { pushPopUp, popPopUp } = managePopUp;
 
     const handleAddPltGraphic = graphicObj => {
-        console.log('handling add plate graphic');
         popPopUp();
         setPlate({...plate, pltGraphics: [graphicObj, ...plate.pltGraphics]});
     };
     const handleSelPltColor = (color) => {
-        setPlate({...plate, pltColor: color, label: plate.pltSize + " " + color + " plate"});
+        setPlate({...plate, pltColor: color, name: plate.pltSize + " " + color + " plate"});
     };
     const handleSelPltSize = (size) => {
-        setPlate({...plate, pltSize: size, label: size + " " + plate.pltColor + " plate"});
+        setPlate({...plate, pltSize: size, name: size + " " + plate.pltColor + " plate"});
         setCanSubmit(true);
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs

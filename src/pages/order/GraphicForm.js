@@ -21,7 +21,7 @@ const initFormControlState = {
     canSubmit: false
 };
 
-const TEST_GRAPHICS = ["LTC", "ABC", "gen", "ki"];//DELETE THIS LATER
+const TEST_GRAPHICS = [{name: "LTC", link: 'asdf'}, {name: "ABC", link: 'asdf'}, {name: "gen", link: 'asdf'}, {name: "ki", link: 'asdf'}];//DELETE THIS LATER
 
 const GraphicForm = ({ btnBgColor, submitForm }) => {
     const graphicRef = useRef();
@@ -41,8 +41,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
-        console.log('handling graphic submit');
-        submitForm({label: TEST_GRAPHICS[selGraphicIdx]});
+        submitForm(TEST_GRAPHICS[selGraphicIdx]);
     }
   return (
     <div className="flex justify-center text-left flex-col"
