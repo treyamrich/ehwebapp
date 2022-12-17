@@ -39,16 +39,18 @@ const Card = ({ idx, cardName, cardImg, options, onDeleteCard, onEditCard }) => 
               <MdOutlineCancel />
             </button>
         </div>
+        {onEditCard && (
         <div className="absolute top-1 right-8">
-            <button
-              type="button"
-              onClick={()=>onEditCard(idx)}
-              style={{ color: 'rgb(153, 171, 180)', borderRadius: '50%' }}
-              className="text-xl p-2 hover:drop-shadow-xl hover:bg-light-gray"
-            >
-              <AiOutlineEdit />
-            </button>
+          <button
+            type="button"
+            onClick={()=>onEditCard(idx)}
+            style={{ color: 'rgb(153, 171, 180)', borderRadius: '50%' }}
+            className="text-xl p-2 hover:drop-shadow-xl hover:bg-light-gray"
+          >
+            <AiOutlineEdit />
+          </button>
         </div>
+        )}
         <div className="w-full h-28 px-1 pb-1 mt-10 mb-1 border-2 border-red-300"
         >
           <div className="h-20 border-1 border-blue-300 mb-1">
