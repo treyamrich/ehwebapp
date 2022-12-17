@@ -32,11 +32,11 @@ Card Selector Props
 :disabled - boolean if the entire selector is disabled
 :isCardDisabled - a func which accepts the items[i] object to determine if it's disabled
 */
-const CardSelector = ({ items, setItems, orientation, selectedIdx, setSelectedIdx, onSelect, onReselect, disabled, isCardDisabled, color }) => {
+const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedCard, onSelect, onReselect, disabled, isCardDisabled, color }) => {
     //Postcondition: selectedIdx is -1 if card is reselected/deselected
-    const handleSelect = idx => {
+    const handleSelect = selItem => {
         //Handle reselect
-        if(selectedIdx == idx) {
+        if(selItem == selectedCard) {
             if(onReselect) {
                 try {
                     onReselect();
@@ -44,7 +44,7 @@ const CardSelector = ({ items, setItems, orientation, selectedIdx, setSelectedId
                     console.log(e);
                 }
             }
-            setSelectedIdx(-1);
+            setSelectedCard(null);
             return;
         }
         //Handle select
@@ -55,7 +55,7 @@ const CardSelector = ({ items, setItems, orientation, selectedIdx, setSelectedId
                 console.log(e);
             }
         }
-        setSelectedIdx(idx);
+        setSelectedCard(selItem);
     }
   return (
     <div className={orientation === 'horizontal' ? "overflow-x-auto" : ""}>
@@ -73,8 +73,8 @@ const CardSelector = ({ items, setItems, orientation, selectedIdx, setSelectedId
         {items.map((item, idx) =>(
             <Card key={idx} 
                 cardName={item.name}
-                selected={selectedIdx === idx} 
-                onClick={()=>handleSelect(idx)}
+                selected={selectedCard === item} 
+                onClick={()=>handleSelect(item)}
                 disabled={disabled || isCardDisabled(item)}
             />
         ))}

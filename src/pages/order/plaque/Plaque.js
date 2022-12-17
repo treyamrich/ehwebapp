@@ -21,7 +21,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   const [autoTxtCenter, setAutoTxtCenter] = useState(true);
   
   //Selected product
-  const [selItemIdx, setSelItemIdx] = useState(-1);
+  const [selectedItem, setSelectedItem] = useState(null);
   const [addons, setAddons] = useState(initAddOnState);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
 
@@ -59,15 +59,15 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
             color={themeColor}
             items={itemChoices} 
             setItems={setItemChoices}
-            orientation="horizontal" 
-            selectedIdx={selItemIdx} 
-            setSelectedIdx={setSelItemIdx}
-            stepName="Choose an item"
-            stepTip="Tip: Dimensions are listed in format: Length x Width (L x W) and in the units of inches"
+            orientation="horizontal"
+            selectedCard={selectedItem}
+            setSelectedCard={setSelectedItem}
             isCardDisabled={()=>false}
+            stepName="Choose an item"
+            stepTip="Tip: Dimensions are listed in format: Width x Height (W x H) and in the units of inches"
             skipStepAmt={2}
             confirmStep={confirmSelItem}
-            shouldConfStep={selItemIdx === -1}
+            shouldConfStep={selectedItem === null}
           />
           <RTE stepName="Write your customized message"
             editorState={editorState}

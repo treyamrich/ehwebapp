@@ -26,7 +26,7 @@ const TEST_GRAPHICS = [{name: "LTC", link: 'asdf'}, {name: "ABC", link: 'asdf'},
 
 const GraphicForm = ({ btnBgColor, submitForm }) => {
     const graphicRef = useRef();
-    const [selGraphicIdx, setSelGraphicIdx] = useState(-1);
+    const [selGraphic, setSelGraphic] = useState(null);
     const [graphicColor, setGraphicColor ] = useState(DEFAULT_COLOR); 
     const [formControl, setFormControl] = useState(initFormControlState);
     const [graphicSelection, setGraphicSelection] = useState(TEST_GRAPHICS);
@@ -47,7 +47,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
-        submitForm({color: graphicColor, name: `${graphicColor !== DEFAULT_COLOR ? graphicColor : 'Default Color'} - ${TEST_GRAPHICS[selGraphicIdx].name}`});
+        submitForm({color: graphicColor, name: `${graphicColor !== DEFAULT_COLOR ? graphicColor : 'Default Color'} - ${selGraphic.name}`});
     }
   return (
     <div className="flex justify-center text-left flex-col"
@@ -93,8 +93,8 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                 <CardSelector color={btnBgColor}
                     items={graphicSelection}
                     setItems={setGraphicSelection} 
-                    selectedIdx={selGraphicIdx}
-                    setSelectedIdx={setSelGraphicIdx}
+                    selectedCard={selGraphic}
+                    setSelectedCard={setSelGraphic}
                     orientation="vertical"
                     onSelect={handleImgSelect}
                     onReselect={handleImgReselect}
