@@ -73,7 +73,7 @@ const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedC
         {items.map((item, idx) =>(
             <Card key={idx} 
                 cardName={item.name}
-                selected={selectedCard === item} 
+                selected={selectedCard && selectedCard.name === item.name} 
                 onClick={()=>handleSelect(item)}
                 disabled={disabled || isCardDisabled(item)}
             />
