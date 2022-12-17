@@ -69,6 +69,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                 <label className="text-lg font-semibold" htmlFor="item-code">Upload New</label>
                 <div className="p-3 flex items-center">
                     <button type="button"
+                        disabled={!canUpload}
                         onClick={handleResetFile}
                         className="border rounded-sm hover:bg-slate-200 mr-5"    
                     ><MdOutlineClose size={25} color="red"/></button>
