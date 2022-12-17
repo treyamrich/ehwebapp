@@ -16,6 +16,7 @@ import GraphicForm from '../GraphicForm';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
+import '../../../components/SearchBar/searchbar.css';
 const animatedComponents = makeAnimated();
 /*
 THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
@@ -36,6 +37,8 @@ THE PLATE MESSAGE SHOULD BE CONFIRMED WHEN THE USER SUBMITS
 const InitialPlateState = {
     label: "",
     pltSize: "",
+    customW: "",
+    customH: "",
     pltColor: pltColors[0].label,
     pltGraphics: [],
     pltMsg: undefined //This will be a Draft.js state object
@@ -46,8 +49,8 @@ const lineLenLimit = 65;
 
 const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
     const [plate, setPlate] = useState(editPlate ? editPlate : InitialPlateState);
-    const [canSubmit, setCanSubmit] = useState(editPlate != undefined);
-
+    const canSubmit = plate.pltSize !== "" && plate.pltSize !== "Custom" || plate.customW !== "" && plate.customH !== "";
+    const [focused, setFocused] = useState(false);
     //RTE state
     const [editorState, setEditorState] = useState(() => editPlate ? editPlate.pltMsg : EditorState.createEmpty(),);
     //Center text on first render. If there is a plate to edit, preserve the alignment.
@@ -64,7 +67,6 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
     };
     const handleSelPltSize = (size) => {
         setPlate({...plate, pltSize: size, name: size + " " + plate.pltColor + " plate"});
-        setCanSubmit(true);
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
@@ -100,6 +102,28 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
                     onChange={option=>handleSelPltSize(option.label)}
                     className="mb-3"
                 />
+                {plate.pltSize === "Custom" && (
+                    <div className="text-center mb-3">
+                        <p className="text-sm text-slate-400 mb-2">Please enter the dimensions in inches</p>
+                        <div className="flex justify-center h-9">
+                            <input className="mr-3 w-16 border-1 pl-1"
+                                type="number"
+                                onChange={(e)=>setPlate({...plate, customW: e.target.value})} 
+                                value={plate.customW}
+                                id="custom-w"
+                            />
+                            <label className="mr-3 font-semibold" 
+                                htmlFor="custom-h">Height:
+                            </label>
+                            <input className="w-16 border-1 pl-1"
+                                type="number"
+                                value={plate.customH}
+                                onChange={(e)=>setPlate({...plate, customH: e.target.value})}
+                                id="custom-h"
+                            />
+                        </div>
+                    </div>
+                )}
                 <div className="text-center">
                     <p className="text-sm text-slate-400"><strong>Note:</strong> Plates are limited by the amount lines</p>
                 </div>
