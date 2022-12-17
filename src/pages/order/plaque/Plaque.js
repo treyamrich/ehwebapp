@@ -56,6 +56,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
       <div className="mt-14">
         <StepProgressForm>
           <CardSelector 
+            color={themeColor}
             items={itemChoices} 
             setItems={setItemChoices}
             orientation="horizontal" 
