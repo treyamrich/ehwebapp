@@ -29,6 +29,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
     const [selGraphicIdx, setSelGraphicIdx] = useState(-1);
     const [graphicColor, setGraphicColor ] = useState(DEFAULT_COLOR); 
     const [formControl, setFormControl] = useState(initFormControlState);
+    const [graphicSelection, setGraphicSelection] = useState(TEST_GRAPHICS);
 
     const { canSubmit, canSelect, canUpload } = formControl;
 
@@ -90,9 +91,13 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
             <div className="py-2 px-1">
                 <h4 className="text-lg font-semibold mb-3">Choose a Graphic</h4>
                 <div className="flex justify-end mb-3 px-3">
-                    <SearchBar color={btnBgColor}/>
+                    <SearchBar color={btnBgColor}
+                        records={graphicSelection}
+                        setRecords={setGraphicSelection}
+                        searchFields={['name']}
+                    />
                 </div>
-                <CardSelector items={TEST_GRAPHICS} 
+                <CardSelector items={graphicSelection} 
                     selectedIdx={selGraphicIdx}
                     setSelectedIdx={setSelGraphicIdx}
                     orientation="vertical"
