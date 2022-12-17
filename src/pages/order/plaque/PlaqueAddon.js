@@ -38,7 +38,10 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
   const handleRemovePlate = newArr => setAddons({...addons, plates: [...newArr]});
   const handleRemoveGraphic = newArr => setAddons({...addons, graphics: [...newArr]});
   const handleRemoveCutout = newArr => setAddons({...addons, cutouts: [...newArr]});
-  const handleUpdateServices = newArr => setAddons({...addons, services: [...newArr]});
+  const handleUpdateServices = newServices => {
+    //Strip the label from the objects
+    setAddons({...addons, services: newServices.map(selectOpt => selectOpt.label)});
+  }
   return (
     <div>
       <Tabs>
