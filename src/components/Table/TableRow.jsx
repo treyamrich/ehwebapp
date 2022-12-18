@@ -1,5 +1,6 @@
 import React from 'react';
-import { TableCheckBox , useTableContext} from './TableIndex';
+import { useTableContext} from './TableIndex';
+import { MyCheckbox} from '..';
 
 import './table.css';
 
@@ -26,7 +27,7 @@ const TableRow = ({record}) => {
                 className="text-sm h-14 px-5 py-2 leading-5"
             >
                 {colChild.props.type === 'checkbox' ? 
-                    <TableCheckBox checked={selected} type="normal"/> :
+                    <MyCheckbox checked={selected} type="normal"/> :
                     <p className="truncate"
                         style={{width: colChild.props.width + 'px'}}
                     >{record[colChild.props.field]}</p>

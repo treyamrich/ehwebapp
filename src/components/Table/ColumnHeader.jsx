@@ -1,5 +1,6 @@
 import React from 'react';
-import { TableCheckBox, useTableContext } from './TableIndex';
+import { useTableContext } from './TableIndex';
+import { MyCheckbox } from '..';
 
 const ColumnHeader = ({headerText, type, textAlign, width}) => {
     const { allSel, handleSelAll } = useTableContext();
@@ -11,7 +12,7 @@ const ColumnHeader = ({headerText, type, textAlign, width}) => {
         >
             <div className="h-8 leading-8 font-semibold flex" style={{textAlign}}>
                 {type === 'checkbox' ? 
-                    <TableCheckBox checked={allSel} customFunc={()=>handleSelAll()} /> :
+                    <MyCheckbox checked={allSel} customFunc={()=>handleSelAll()} /> :
                     <p className="truncate"
                         style={{width: width + 'px'}}
                     >{headerText}</p>
