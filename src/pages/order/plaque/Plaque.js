@@ -18,7 +18,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   //On first render, instruct the RTE to center the text
   const [autoTxtCenter, setAutoTxtCenter] = useState(true);
   
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selItem, setSelItem] = useState(null);
   const [addons, setAddons] = useState(initAddOnState);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
 
@@ -46,16 +46,28 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
       title="Confirm Verbage"
     />);
   }
+  const addItemToCart = () => {
+    const item = {};
+    item.itemName = selItem.itemName;
+    item.itemCode = selItem.itemCode;
+    item.itemPrice = selItem.itemPrice;
+    item.services = addons.services;
+    //Plate
+    item.subItems = 1;
+    item.graphics = addons.graphics;
+    
 
+    setOrder({...order, cart: [...order.cart, item]});
+  }
   return (
     <div className="m-2 md:m-10 mt-14 lg:mt-24 p-2 md:p-10 rounded-3xl bg-slate-50">
       <Header category="Customize" title="Plaques and Plates" />
       <div className="mt-14">
-        <StepProgressForm>
+        <StepProgressForm resetOnSubmit={true} onSubmit={addItemToCart}>
           <ChooseItemStep
             themeColor={themeColor}
-            selectedItem={selectedItem}
-            setSelectedItem={setSelectedItem}
+            selectedItem={selItem}
+            setSelectedItem={setSelItem}
             stepName="Choose an item"
             stepTip="Tip: Dimensions are listed in format: Width x Height (W x H) and in the units of inches"
             skipStepAmt={2}
