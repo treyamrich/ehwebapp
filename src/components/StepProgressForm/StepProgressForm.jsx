@@ -3,7 +3,7 @@ import { ProgressBar, Step } from "react-step-progress-bar";
 import "react-step-progress-bar/styles.css";
 import "./step_progress_form.css";
 
-const StepProgressForm = ({children}) => {
+const StepProgressForm = ({ children, onSubmit, resetOnSubmit }) => {
     const [currStep, setCurrStep] = useState(0);
     const stepStack = useRef([]);
     const stepComps = Children.toArray(children);
@@ -37,6 +37,10 @@ const StepProgressForm = ({children}) => {
       let stepAmt = stepStack.current.length > 0 ? 
         stepStack.current.pop() : 1;
       setCurrStep(prevStep => prevStep - stepAmt);
+    }
+    const handleSubmit = () => {
+      if(resetOnSubmit) setCurrStep(0);
+      onSubmit();
     }
   return (
     <div id="progress-form" className="relative">
@@ -75,7 +79,7 @@ const StepProgressForm = ({children}) => {
           </button>
           <button
             className="py-3 px-4 border-1 rounded-md hover:drop-shadow-xl"
-            onClick={handleNextStep}
+            onClick={currStep === stepComps.length-1 ? handleSubmit : handleNextStep}
             style={{background: currStep === stepComps.length-1 ? '#4db193' : 'black' , color: 'white'}}
           >
             {currStep === stepComps.length-1 ? 'Submit' : 'Next'}
