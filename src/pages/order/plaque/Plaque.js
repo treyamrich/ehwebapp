@@ -5,17 +5,23 @@ import ChooseItemStep from '../ChooseItemStep';
 import ItemLayout from '../ItemLayout';
 import { EditorState } from 'draft-js';
 
-const initAddOnState = {
+const InitCartItemState = {
+  itemName: "",
+  itemCode: "",
+  itemPrice: 0.0,
   services: [],
   graphics: [],
   cutouts: [],
-  plates: []
-};
-const initPostOrderDetails = {
+  subItems: [],
+  quantity: 1,
+  txtLines: null, //draft-js object
+  font: "", //probably get rid of this later
+  layoutImg: "",
   postGraphics: false,
   postTxt: false,
   postLayout: false
 };
+
 const lineLimit = 5;
 const lineLenLimit = 65;
 
@@ -24,9 +30,9 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   //On first render, instruct the RTE to center the text
   const [autoTxtCenter, setAutoTxtCenter] = useState(true);
   
+  const [cartItem, setCartItem] = useState(InitCartItemState);
   const [selItem, setSelItem] = useState(null);
-  const [addons, setAddons] = useState(initAddOnState);
-  const [postOrder, setPostOrder] = useState(initPostOrderDetails);
+  //const [addons, setAddons] = useState(initAddOnState);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
 
   const confirmSelItem = nextStepFunc => {
@@ -56,8 +62,8 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   const itemLayout = () => {
     managePopUp.pushPopUp(<ItemLayout
       themeColor={themeColor}
-      itemInfo={postOrder}
-      setItemInfo={setPostOrder}
+      itemInfo={cartItem}
+      setItemInfo={setCartItem}
       handleSubmit={managePopUp.popPopUp}
     />);
   }
@@ -70,6 +76,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
     //Plate
     item.subItems = 1;
     item.graphics = addons.graphics;
+    //Must add the editor state from the draft-js object
 
 
     setOrder({...order, cart: [...order.cart, item]});
@@ -102,8 +109,8 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
           <PlaqueAddon stepName="Add-ons"
             themeColor={themeColor}
             managePopUp={managePopUp}
-            addons={addons}
-            setAddons={setAddons}
+            cartItem={cartItem}
+            setCartItem={setCartItem}
             stepTip=""
           />
         </StepProgressForm>

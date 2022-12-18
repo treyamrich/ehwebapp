@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Editor, EditorState, EditorBlock, getDefaultKeyBinding, RichUtils, Modifier, SelectionState, ContentBlock } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import './rte.css';
 import EditorToolbar from './EditorToolbar';
+import { MyCheckbox } from '..';
 
 const Line = props => {
   const { block, contentState } = props;
@@ -443,7 +444,9 @@ const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit, autoTxtCent
       </div>
       <div id="post-order-txt">
         <label className="text-xs text-slate-400 mb-3">Check if you are sending your verbage via email</label>
-        <input type="checkbox"/>
+        <MyCheckbox checked={cartItem.postTxt}
+          customFunc={()=>setCartItem({...cartItem, postTxt: !cartItem.postTxt})}
+        />
       </div>
     </div>
   );
