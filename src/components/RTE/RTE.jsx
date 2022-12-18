@@ -49,7 +49,7 @@ const getBlockStyle = block => {
   }
 }
 
-const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit, autoTxtCenter, setAutoTxtCenter }) => {
+const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit, autoTxtCenter, setAutoTxtCenter, cartItem, setCartItem }) => {
   const editor = React.useRef();
 
   let className = 'RichEditor-editor';
@@ -390,47 +390,47 @@ const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit, autoTxtCent
           <strong>Note:</strong> Lines are separated by dashed lines. The amount of lines may be limited depending on your selected item.
         </h1>
       </div>
-    <div className="RichEditor-root">
-      <EditorToolbar
-        editorState={editorState}
-        toggleBlockType={toggleBlockType}
-        toggleInlineStyle={toggleInlineStyle}
-        changeFontSize={changeFontSize}
-        autoTxtCenter={autoTxtCenter}
-        setAutoTxtCenter={setAutoTxtCenter}
-      />
-      <div className={className} onClick={()=>editor.current.focus()}>
-        <Editor 
-          editorState={editorState} 
-          onChange={setEditorState}
-          spellCheck={true}
-          ref={editor}
-          blockStyleFn={getBlockStyle}
-          blockRendererFn={blockRendererFn}
-          customStyleMap={styleMap}
-          handleKeyCommand={handleKeyCommand}
-          keyBindingFn={mapKeyToEditorCommand}
-          handleBeforeInput={handleBeforeInput}
-          handlePastedText={handlePastedText}
-          handleDrop={()=>true}
+      <div className="RichEditor-root">
+        <EditorToolbar
+          editorState={editorState}
+          toggleBlockType={toggleBlockType}
+          toggleInlineStyle={toggleInlineStyle}
+          changeFontSize={changeFontSize}
+          autoTxtCenter={autoTxtCenter}
+          setAutoTxtCenter={setAutoTxtCenter}
         />
-        {!contentState.hasText() && (
-          <div className="RE-ph-container">
-            <div className="RE-ph">Write your creative message here...</div>
-          </div>
-        )}
+        <div className={className} onClick={()=>editor.current.focus()}>
+          <Editor 
+            editorState={editorState} 
+            onChange={setEditorState}
+            spellCheck={true}
+            ref={editor}
+            blockStyleFn={getBlockStyle}
+            blockRendererFn={blockRendererFn}
+            customStyleMap={styleMap}
+            handleKeyCommand={handleKeyCommand}
+            keyBindingFn={mapKeyToEditorCommand}
+            handleBeforeInput={handleBeforeInput}
+            handlePastedText={handlePastedText}
+            handleDrop={()=>true}
+          />
+          {!contentState.hasText() && (
+            <div className="RE-ph-container">
+              <div className="RE-ph">Write your creative message here...</div>
+            </div>
+          )}
+        </div>
+        <div className="text-right">
+          <p className="text-sm mt-3" 
+            style= {{
+              color: contentState.getBlockMap().size > lineLimit ? '#f54949' :
+              '#C39F7F'
+          }}>
+            Lines: {contentState.getBlockMap().size}{`${lineLimit ? ' / ' + lineLimit : ''}`}
+          </p>
+        </div>
       </div>
-      <div className="text-right">
-        <p className="text-sm mt-3" 
-          style= {{
-            color: contentState.getBlockMap().size > lineLimit ? '#f54949' :
-            '#C39F7F'
-        }}>
-          Lines: {contentState.getBlockMap().size}{`${lineLimit ? ' / ' + lineLimit : ''}`}
-        </p>
-      </div>
-    </div>
-    <div id="RTE-example" className="mt-5 m-auto"
+      <div id="RTE-example" className="mt-5 m-auto"
         style={{maxWidth: 550}}
       >
         <h1 className="text-sm text-slate-400 mb-3">
@@ -440,6 +440,10 @@ const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit, autoTxtCent
           <h1 style={{fontSize: 24}} className="">CPT America</h1>
           <p>Thank you for your commitment, dedication and hardwork to the Avengers.</p>
         </div>
+      </div>
+      <div id="post-order-txt">
+        <label className="text-xs text-slate-400 mb-3">Check if you are sending your verbage via email</label>
+        <input type="checkbox"/>
       </div>
     </div>
   );
