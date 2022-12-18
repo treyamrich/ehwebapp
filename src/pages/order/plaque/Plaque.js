@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Header, StepProgressForm, RTE, ConfirmPopUp } from '../../../components';
 import PlaqueAddon from './PlaqueAddon';
 import ChooseItemStep from '../ChooseItemStep';
+import ItemLayout from '../ItemLayout';
 import { EditorState } from 'draft-js';
 
 const initAddOnState = {
@@ -9,7 +10,12 @@ const initAddOnState = {
   graphics: [],
   cutouts: [],
   plates: []
-}
+};
+const initPostOrderDetails = {
+  postGraphics: false,
+  postTxt: false,
+  postLayout: false
+};
 const lineLimit = 5;
 const lineLenLimit = 65;
 
@@ -20,6 +26,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   
   const [selItem, setSelItem] = useState(null);
   const [addons, setAddons] = useState(initAddOnState);
+  const [postOrder, setPostOrder] = useState(initPostOrderDetails);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
 
   const confirmSelItem = nextStepFunc => {
@@ -46,6 +53,14 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
       title="Confirm Verbage"
     />);
   }
+  const itemLayout = () => {
+    managePopUp.pushPopUp(<ItemLayout
+      themeColor={themeColor}
+      itemInfo={postOrder}
+      setItemInfo={setPostOrder}
+      handleSubmit={managePopUp.popPopUp}
+    />);
+  }
   const addItemToCart = () => {
     const item = {};
     item.itemName = selItem.itemName;
@@ -55,7 +70,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
     //Plate
     item.subItems = 1;
     item.graphics = addons.graphics;
-    
+
 
     setOrder({...order, cart: [...order.cart, item]});
   }
@@ -72,7 +87,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
             stepTip="Tip: Dimensions are listed in format: Width x Height (W x H) and in the units of inches"
             skipStepAmt={2}
             confirmStep={confirmSelItem}
-            shouldConfStep={selectedItem === null}
+            shouldConfStep={selItem === null}
           />
           <RTE stepName="Write your customized message"
             editorState={editorState}
