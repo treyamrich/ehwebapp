@@ -4,23 +4,7 @@ import PlaqueAddon from './PlaqueAddon';
 import ChooseItemStep from '../ChooseItemStep';
 import ItemLayout from '../ItemLayout';
 import { EditorState } from 'draft-js';
-
-const InitCartItemState = {
-  itemName: "",
-  itemCode: "",
-  itemPrice: 0.0,
-  services: [],
-  graphics: [],
-  cutouts: [],
-  subItems: [],
-  quantity: 1,
-  txtLines: null, //draft-js object
-  font: "", //probably get rid of this later
-  layoutImg: "",
-  postGraphics: false,
-  postTxt: false,
-  postLayout: false
-};
+import { InitCartItemState } from '../../../data/uidata';
 
 const lineLimit = 5;
 const lineLenLimit = 65;
@@ -69,13 +53,13 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   }
   const addItemToCart = () => {
     const item = {};
-    item.itemName = selItem.itemName;
-    item.itemCode = selItem.itemCode;
-    item.itemPrice = selItem.itemPrice;
-    item.services = addons.services;
+    //item.itemName = selItem.itemName;
+    //item.itemCode = selItem.itemCode;
+    //item.itemPrice = selItem.itemPrice;
+    //item.services = addons.services;
     //Plate
-    item.subItems = 1;
-    item.graphics = addons.graphics;
+    //item.subItems = 1;
+    //item.graphics = addons.graphics;
     //Must add the editor state from the draft-js object
 
 
@@ -105,6 +89,8 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
             shouldConfStep={true}
             autoTxtCenter={autoTxtCenter}
             setAutoTxtCenter={setAutoTxtCenter}
+            cartItem={cartItem}
+            setCartItem={setCartItem}
           />
           <PlaqueAddon stepName="Add-ons"
             themeColor={themeColor}

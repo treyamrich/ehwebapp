@@ -7,7 +7,7 @@ GraphicForm Props:
 
 import React, { useRef, useState } from 'react'
 import { MdOutlineClose } from 'react-icons/md';
-import { CardSelector, SearchBar } from '../../components';
+import { CardSelector } from '../../components';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 

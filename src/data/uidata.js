@@ -162,3 +162,20 @@ export const order_links = [
     ],
   },
 ];
+
+export const InitCartItemState = {
+  name: "",
+  code: "",
+  price: 0.0,
+  services: [],
+  graphics: [],
+  cutouts: [],
+  subItems: [],
+  quantity: 1,
+  txtLines: null, //draft-js object
+  font: "", //probably get rid of this later
+  layoutImg: "",
+  postGraphics: false,
+  postTxt: false,
+  postLayout: false
+};

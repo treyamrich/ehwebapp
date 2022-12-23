@@ -10,37 +10,37 @@ import { serviceOpts } from '../../../data/uidata';
 
 const animatedComponents = makeAnimated();
 
-const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
+const PlaqueAddon = ({themeColor, managePopUp, cartItem, setCartItem}) => {
   const { pushPopUp, popPopUp } = managePopUp;
 
   const handleAddPlate = pltObj => {
     popPopUp();
-    setAddons({...addons, plates: [pltObj, ...addons.plates]});
+    setCartItem({...cartItem, subItems: [pltObj, ...cartItem.subItems]});
   }
   const handleEditPlate = (newPltObj, prevPltIdx) => {
     popPopUp();
     let newPlts = [];
     //Create new arr of plates without the edited plate
-    for(let i = 0; i < addons.plates.length; i++) {
+    for(let i = 0; i < cartItem.subItems.length; i++) {
       if(i == prevPltIdx) continue;
-      newPlts.push(addons.plates[i]);
+      newPlts.push(cartItem.subItems[i]);
     }
-    setAddons({...addons, plates: [newPltObj, ...newPlts]});
+    setCartItem({...cartItem, subItems: [newPltObj, ...newPlts]});
   }
   const handleAddGraphic = graphicObj => {
     popPopUp();
-    setAddons({...addons, graphics: [graphicObj, ...addons.graphics]})
+    setCartItem({...cartItem, graphics: [graphicObj, ...cartItem.graphics]})
   }
   const handleAddCutout = cutoutObj => {
     popPopUp();
-    setAddons({...addons, cutouts: [cutoutObj, ...addons.cutouts]});
+    setCartItem({...cartItem, cutouts: [cutoutObj, ...cartItem.cutouts]});
   }
-  const handleRemovePlate = newArr => setAddons({...addons, plates: [...newArr]});
-  const handleRemoveGraphic = newArr => setAddons({...addons, graphics: [...newArr]});
-  const handleRemoveCutout = newArr => setAddons({...addons, cutouts: [...newArr]});
+  const handleRemovePlate = newArr => setCartItem({...cartItem, subItems: [...newArr]});
+  const handleRemoveGraphic = newArr => setCartItem({...cartItem, graphics: [...newArr]});
+  const handleRemoveCutout = newArr => setCartItem({...cartItem, cutouts: [...newArr]});
   const handleUpdateServices = newServices => {
     //Strip the label from the objects
-    setAddons({...addons, services: newServices.map(selectOpt => selectOpt.label)});
+    setCartItem({...cartItem, services: newServices.map(selectOpt => selectOpt.label)});
   }
   return (
     <div>
@@ -54,14 +54,14 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
           <div>
             <h4 className="text-lg font-semibold mb-1">Add your plate(s) here</h4>
             <CardManager 
-              options={addons.plates} 
+              options={cartItem.subItems} 
               onDeleteCard={handleRemovePlate}
               onEditCard={(idx)=>pushPopUp(
                 <PlateForm title="Edit Plate" 
                   btnBgColor={themeColor}
                   submitForm={newPltObj=>handleEditPlate(newPltObj, idx)}
                   managePopUp={managePopUp}
-                  editPlate={addons.plates[idx]}
+                  editPlate={cartItem.subItems[idx]}
                 />
               )}
               onAddCard={()=>pushPopUp(
@@ -100,7 +100,7 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
           <div>
             <h4 className="text-lg font-semibold mb-1">Add your graphic(s) here</h4>
             <CardManager 
-              options={addons.graphics} 
+              options={cartItem.graphics} 
               onDeleteCard={handleRemoveGraphic}
               title="Add Plaque Graphic"
               onAddCard={()=>pushPopUp(
@@ -121,7 +121,7 @@ const PlaqueAddon = ({themeColor, managePopUp, addons, setAddons}) => {
           <div>
             <h4 className="text-lg font-semibold mb-1">Add your cutout(s) here</h4>
             <CardManager 
-              options={addons.cutouts} 
+              options={cartItem.cutouts} 
               onDeleteCard={handleRemoveCutout}
               title="Add Wood Cutout"
               onAddCard={()=>pushPopUp(

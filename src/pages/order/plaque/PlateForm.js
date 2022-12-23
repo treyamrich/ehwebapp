@@ -1,14 +1,19 @@
 /*Interface Invariant
 
-GraphicForm Props:
+PlateForm Props:
   :onAdd - optional callback function before closing the addForm
   :submitForm - a function to be called on form submission. It must accept
     an object.
+
+
+Plate .name attribute format as a cartItem: [Custom] {SIZE}" {COLOR} plate 
+Ex 1: 5x2" B/G Plate
+Ex 2: Custom 10x15" G/B plate
 */
 
 import React, { useState } from 'react';
 import { EditorState } from 'draft-js';
-import { pltSizes, pltColors } from '../../../data/uidata';
+import { pltSizes, pltColors, InitCartItemState } from '../../../data/uidata';
 
 import { CardManager, RTE, MyInput, ConfirmPopUp } from '../../../components';
 import GraphicForm from '../GraphicForm';
@@ -19,7 +24,7 @@ import makeAnimated from 'react-select/animated';
 const animatedComponents = makeAnimated();
 
 const InitialPlateState = {
-    label: "",
+    name: "",
     pltSize: "",
     customW: "",
     customH: "",
@@ -32,11 +37,31 @@ const lineLimit = 5;
 const lineLenLimit = 65;
 
 const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
-    const [plate, setPlate] = useState(editPlate ? editPlate : InitialPlateState);
+    const [cartItem, setCartItem] = useState(editPlate ? editPlate : InitCartItemState);
+    const [plate, setPlate] = useState(()=>{
+        const newPltObj = {...InitialPlateState};
+        if(editPlate) {
+           //Parse the plate name for size and color
+           let tokens = editPlate.name.split(' ');
+           if(tokens[0] == 'Custom') {
+            let sizeTokens = tokens[1].split('x');
+            newPltObj.customW = sizeTokens[0];
+            newPltObj.customH = sizeTokens[1].substring(0, sizeTokens[1].length-1);
+            newPltObj.pltSize = tokens[0];
+           } else {
+            newPltObj.pltSize = tokens[0];
+            newPltObj.pltColor = tokens[1];
+           }
+           newPltObj.pltGraphics = cartItem.graphics;
+           newPltObj.pltMsg = cartItem.txtObj;
+           newPltObj.name = cartItem.name;
+        }
+        return newPltObj;
+    });
     const canSubmit = plate.pltSize !== "" && plate.pltSize !== "Custom" || plate.customW !== "" && plate.customH !== "";
 
     //RTE state
-    const [editorState, setEditorState] = useState(() => editPlate ? editPlate.pltMsg : EditorState.createEmpty(),);
+    const [editorState, setEditorState] = useState(() => editPlate ? editPlate.txtObj : EditorState.createEmpty(),);
     //Center text on first render. If there is a plate to edit, preserve the alignment.
     const [autoTxtCenter, setAutoTxtCenter] = useState(editPlate == undefined); 
 
@@ -44,14 +69,8 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
 
     const handleAddPltGraphic = graphicObj => {
         popPopUp();
-        setPlate({...plate, pltGraphics: [graphicObj, ...plate.pltGraphics]});
+        setPlate({...plate, graphics: [graphicObj, ...plate.pltGraphics]});
     };
-    const handleSelPltColor = (color) => {
-        setPlate({...plate, pltColor: color, name: plate.pltSize + " " + color + " plate"});
-    };
-    const handleSelPltSize = (size) => {
-        setPlate({...plate, pltSize: size, name: size + " " + plate.pltColor + " plate"});
-    }
     const confirmPlateMsg = () => {
         managePopUp.pushPopUp(<ConfirmPopUp
           onSubmit={()=>{managePopUp.popPopUp(); handleSubmit()}}
@@ -63,8 +82,11 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
-        plate.pltMsg = editorState;
-        submitForm(plate);
+        cartItem.txtObj = editorState;
+        cartItem.name = plate.pltSize === 'Custom' ? 
+            `Custom ${plate.customW}x${plate.customH}" ${plate.pltColor} plate` :
+            `${plate.pltSize} ${plate.pltColor} plate`;
+        submitForm(cartItem);
     }
   return (
     <div className="flex justify-center text-left flex-col"
@@ -76,9 +98,9 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
                 <Select
                     closeMenuOnSelect={true}
                     components={animatedComponents}
-                    defaultValue={editPlate ? [{label: editPlate.pltColor, value: -1}] : [pltColors[0]]}
+                    defaultValue={editPlate ? [{label: plate.pltColor, value: -1}] : [pltColors[0]]}
                     options={pltColors}
-                    onChange={option=>handleSelPltColor(option.label)}
+                    onChange={option=>setPlate({...plate, pltColor: option.label})}
                     className="mb-3"
                 />
                 <div className="text-center">
@@ -91,8 +113,8 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
                     closeMenuOnSelect={true}
                     components={animatedComponents}
                     options={pltSizes}
-                    defaultValue={editPlate ? [{label: editPlate.pltSize, value: -1}] : null}
-                    onChange={option=>handleSelPltSize(option.label)}
+                    defaultValue={editPlate ? [{label: plate.pltSize, value: -1}] : null}
+                    onChange={option=>setPlate({...plate, pltSize: option.label})}
                     className="mb-3"
                 />
                 {plate.pltSize === "Custom" && (
@@ -150,6 +172,8 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
                         lineLenLimit={lineLenLimit}
                         autoTxtCenter={autoTxtCenter}
                         setAutoTxtCenter={setAutoTxtCenter}
+                        cartItem={cartItem}
+                        setCartItem={setCartItem}
                     />
                 </div>
                 <p className="text-sm text-slate-400">Note: Plates are limited by the amount of lines</p>
