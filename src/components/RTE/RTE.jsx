@@ -442,8 +442,8 @@ const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit, autoTxtCent
           <p>Thank you for your commitment, dedication and hardwork to the Avengers.</p>
         </div>
       </div>
-      <div id="post-order-txt">
-        <label className="text-xs text-slate-400 mb-3">Check if you are sending your verbage via email</label>
+      <div id="post-order-txt" className="mt-5 text-center">
+        <label className="text-xs text-slate-400 mb-3 mr-1">Check if you are sending your verbage via email</label>
         <MyCheckbox checked={cartItem.postTxt}
           customFunc={()=>setCartItem({...cartItem, postTxt: !cartItem.postTxt})}
         />
