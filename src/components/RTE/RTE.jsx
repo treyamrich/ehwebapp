@@ -443,7 +443,7 @@ const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit, autoTxtCent
         </div>
       </div>
       <div id="post-order-txt" className="mt-5 text-center">
-        <label className="text-xs text-slate-400 mb-3 mr-1">Check if you are sending your verbage via email</label>
+        <label className="text-xs text-slate-400 mb-3 mr-1">I will send the verbage via email</label>
         <MyCheckbox checked={cartItem.postTxt}
           customFunc={()=>setCartItem({...cartItem, postTxt: !cartItem.postTxt})}
         />

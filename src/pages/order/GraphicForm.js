@@ -5,9 +5,8 @@ GraphicForm Props:
   :submitForm - a function to be called on form submission
 */
 
-import React, { useRef, useState } from 'react'
-import { MdOutlineClose } from 'react-icons/md';
-import { CardSelector } from '../../components';
+import React, { useState } from 'react'
+import { CardSelector, MyCheckbox } from '../../components';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
@@ -15,39 +14,33 @@ import { graphicColOpts } from '../../data/uidata';
 
 const animatedComponents = makeAnimated();
 
-const initFormControlState = {
-    canUpload: true,
-    canSelect: true,
-    canSubmit: false
-};
-
 const DEFAULT_COLOR = "Default - Same as other addons";
 const TEST_GRAPHICS = [{name: "LTC", link: 'asdf'}, {name: "ABC", link: 'asdf'}, {name: "gen", link: 'asdf'}, {name: "ki", link: 'asdf'}];//DELETE THIS LATER
 
 const GraphicForm = ({ btnBgColor, submitForm }) => {
-    const graphicRef = useRef();
     const [selGraphic, setSelGraphic] = useState(null);
     const [graphicColor, setGraphicColor ] = useState(DEFAULT_COLOR); 
-    const [formControl, setFormControl] = useState(initFormControlState);
     const [graphicSelection, setGraphicSelection] = useState(TEST_GRAPHICS);
+    const [emailGraphicFlag, setEmailGraphicFlag] = useState(false);
 
-    const { canSubmit, canSelect, canUpload } = formControl;
+    const canSubmit = emailGraphicFlag || selGraphic !== null;
 
-    const handleResetFile = () => {
-        document.getElementById("nif").value = "";
-        setFormControl({...formControl, canSelect: true, canSubmit: false})
-    }
-    const handleImgSelect = () => {
-        handleResetFile();
-        //Toggles the disable state of the file input and submit button
-        setFormControl({...formControl, canUpload: false, canSubmit: true});
-    }
-    const handleImgReselect = () => {
-        setFormControl({...formControl, canUpload: true, canSubmit: false})
+    const handleWillEmailGraphic = () => {
+        //Reset selection and flip the flag
+        setSelGraphic(null);
+        setEmailGraphicFlag(prev=>!prev);
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
-        submitForm({color: graphicColor, name: `${graphicColor !== DEFAULT_COLOR ? graphicColor : 'Default Color'} - ${selGraphic.name}`});
+        if(emailGraphicFlag) {
+            submitForm({color: graphicColor, name: 'Emailed Graphic'});
+        } else {
+            submitForm({color: graphicColor, 
+                name: `${graphicColor !== DEFAULT_COLOR ? 
+                    graphicColor : 
+                    'Default Color'} - ${selGraphic.name}`
+            });
+        }
     }
   return (
     <div className="flex justify-center text-left flex-col"
@@ -69,8 +62,16 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                 </div>
             </div>
             <div className="py-2 px-1">
-                <label className="text-lg font-semibold" htmlFor="item-code">Upload New</label>
+                <label className="text-lg font-semibold" htmlFor="item-code">Post Order</label>
                 <div className="p-3 flex items-center">
+                    {/*
+                    JS PART
+                    const graphicRef = useRef();
+                    const handleResetFile = () => {
+                        document.getElementById("nif").value = "";
+                        setFormControl({...formControl, canSelect: true, canSubmit: false})
+                    }
+                    TYPE SCRIPT PART
                     <button type="button"
                         disabled={!canUpload}
                         onClick={handleResetFile}
@@ -82,12 +83,18 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                         ref={graphicRef}
                         disabled={!canUpload}
                         onChange={()=>setFormControl({...formControl, canSelect: false, canSubmit: true})}
-                    />
+                    />*/}
+                    <div id="post-order-txt" className="mt-5 text-center">
+                        <label className="text-xs text-slate-400 mb-3 mr-1">I will send the graphic via email</label>
+                        <MyCheckbox checked={emailGraphicFlag}
+                            customFunc={handleWillEmailGraphic}
+                        />
+                    </div>
                 </div>
             </div>
             <div className="text-center">
-                    <p className="text-sm text-slate-400"><strong>IMPORTANT:</strong> If your graphic is going to be very <strong>small</strong> (anything smaller than 1.5x1.5"), please make sure the image isn't too complex. Small graphics with high detail don't engrave well. If you are uploading a graphic, make sure it's <strong>black/white clip art</strong> (high quality). Feel free to ask us if you have any questions!</p>
-                </div>
+                <p className="text-sm text-slate-400"><strong>Emailed Graphic Tips:</strong> If your graphic is going to be very <strong>small</strong> (anything smaller than 1.5x1.5"), please make sure the image isn't too complex. Small graphics with high detail don't engrave well. If you are uploading a graphic, make sure it's <strong>black/white clip art</strong> (high quality). Feel free to ask us if you have any questions!</p>
+            </div>
             <div className="py-2 px-1">
                 <h4 className="text-lg font-semibold mb-3">Choose a Graphic</h4>
                 <CardSelector color={btnBgColor}
@@ -96,9 +103,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                     selectedCard={selGraphic}
                     setSelectedCard={setSelGraphic}
                     orientation="vertical"
-                    onSelect={handleImgSelect}
-                    onReselect={handleImgReselect}
-                    disabled={!canSelect}
+                    disabled={emailGraphicFlag}
                     isCardDisabled={()=>false}
 
                 />
