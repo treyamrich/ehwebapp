@@ -33,7 +33,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
         if(emailGraphicFlag) {
-            submitForm({color: graphicColor, name: 'Emailed Graphic'});
+            submitForm({color: graphicColor, name: 'Sent via Email'});
         } else {
             submitForm({color: graphicColor, 
                 name: `${graphicColor !== DEFAULT_COLOR ? 
@@ -63,7 +63,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
             </div>
             <div className="py-2 px-1">
                 <label className="text-lg font-semibold" htmlFor="item-code">Post Order</label>
-                <div className="p-3 flex items-center">
+                <div className="p-1 rounded-sm">
                     {/*
                     JS PART
                     const graphicRef = useRef();
@@ -84,16 +84,16 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                         disabled={!canUpload}
                         onChange={()=>setFormControl({...formControl, canSelect: false, canSubmit: true})}
                     />*/}
-                    <div id="post-order-txt" className="mt-5 text-center">
-                        <label className="text-xs text-slate-400 mb-3 mr-1">I will send the graphic via email</label>
+                    
+                        <label className="mr-1">I will send the graphic via email</label>
                         <MyCheckbox checked={emailGraphicFlag}
                             customFunc={handleWillEmailGraphic}
                         />
-                    </div>
+                    
                 </div>
             </div>
             <div className="text-center">
-                <p className="text-sm text-slate-400"><strong>Emailed Graphic Tips:</strong> If your graphic is going to be very <strong>small</strong> (anything smaller than 1.5x1.5"), please make sure the image isn't too complex. Small graphics with high detail don't engrave well. If you are uploading a graphic, make sure it's <strong>black/white clip art</strong> (high quality). Feel free to ask us if you have any questions!</p>
+                <p className="text-sm text-slate-400"><strong>Emailed Graphic Tips:</strong> Small graphics with high detail don't engrave well; a small graphic is any image smaller than 1.5x1.5". Make sure it's <strong>black/white clip art</strong> with the highest resolution available. Ask us if you have any questions!</p>
             </div>
             <div className="py-2 px-1">
                 <h4 className="text-lg font-semibold mb-3">Choose a Graphic</h4>
