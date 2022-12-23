@@ -8,16 +8,19 @@ import './myinput.css';
 :onChange, value, placeholder - props of a normal HTML input
 */
 
-const MyInput = ({color, componentBtn, placeholder, value, onChange, type, id}) => {
+const MyInput = ({color, componentBtn, placeholder, value, onChange, type, id, style}) => {
     const [focused, setFocus] = useState(false);
   return (
-    <div className="relative h-7 leading-6 border-0 flex">
+    <div className="relative h-7 leading-6 border-0 flex"
+      style={style}
+    >
       <input 
         id={id}
         type={type}
         value={value}
         onChange={onChange}
-        className="outline-0 placeholder:text-slate-300 w-max text-xs mr-1 px-2"
+        className={`outline-0 placeholder:text-slate-300 text-xs px-2 ${componentBtn ? 'mr-1 ': ''}`}
+        style={{width: '100%', height: '100%'}}
         placeholder={placeholder}
         onFocus={()=>setFocus(true)}
         onBlur={()=>setFocus(false)}
@@ -25,7 +28,7 @@ const MyInput = ({color, componentBtn, placeholder, value, onChange, type, id}) 
       {componentBtn}
       <div 
         className={`${focused ? 'focus' : ''} unfocus`}
-        style={{background: color}}
+        style={{background: color, width: '100%'}}
       />
     </div>
   )

@@ -120,27 +120,33 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
                 {plate.pltSize === "Custom" && (
                     <div className="text-center mb-3">
                         <p className="text-sm text-slate-400 mb-2">Please enter the dimensions in inches</p>
-                        <div className="flex justify-center h-9">
-                            <label className="mr-3 font-semibold" 
-                                htmlFor="custom-w">Width:
-                            </label>
-                            <MyInput 
-                                type="number"
-                                onChange={(e)=>setPlate({...plate, customW: e.target.value})} 
-                                value={plate.customW}
-                                id="custom-w"
-                                color={btnBgColor}
-                            />
-                            <label className="mr-3 font-semibold" 
-                                htmlFor="custom-h">Height:
-                            </label>
-                            <MyInput
-                                type="number"
-                                value={plate.customH}
-                                onChange={(e)=>setPlate({...plate, customH: e.target.value})}
-                                id="custom-h"
-                                color={btnBgColor}
-                            />
+                        <div className="flex justify-center">
+                            <div className="flex mr-4">
+                                <label className="mr-2 font-semibold" 
+                                    htmlFor="custom-w">Width:
+                                </label>
+                                <MyInput 
+                                    type="number"
+                                    onChange={(e)=>setPlate({...plate, customW: e.target.value})} 
+                                    value={plate.customW}
+                                    id="custom-w"
+                                    color={btnBgColor}
+                                    style={{width: '75px'}}
+                                />
+                            </div>
+                            <div className="flex">
+                                <label className="mr-2 font-semibold" 
+                                    htmlFor="custom-h">Height:
+                                </label>
+                                <MyInput
+                                    type="number"
+                                    value={plate.customH}
+                                    onChange={(e)=>setPlate({...plate, customH: e.target.value})}
+                                    id="custom-h"
+                                    color={btnBgColor}
+                                    style={{width: '75px'}}
+                                />
+                            </div>
                         </div>
                     </div>
                 )}
