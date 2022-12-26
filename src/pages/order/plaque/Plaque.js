@@ -16,7 +16,6 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   
   const [cartItem, setCartItem] = useState(InitCartItemState);
   const [selItem, setSelItem] = useState(null);
-  //const [addons, setAddons] = useState(initAddOnState);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
 
   const confirmSelItem = nextStepFunc => {
@@ -43,14 +42,6 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
       title="Confirm Verbage"
     />);
   }
-  const itemLayout = () => {
-    managePopUp.pushPopUp(<ItemLayout
-      themeColor={themeColor}
-      itemInfo={cartItem}
-      setItemInfo={setCartItem}
-      handleSubmit={managePopUp.popPopUp}
-    />);
-  }
   const addItemToCart = () => {
     const item = {};
     //item.itemName = selItem.itemName;
@@ -61,8 +52,6 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
     //item.subItems = 1;
     //item.graphics = addons.graphics;
     //Must add the editor state from the draft-js object
-
-
     setOrder({...order, cart: [...order.cart, item]});
   }
   return (
@@ -97,6 +86,10 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
             managePopUp={managePopUp}
             cartItem={cartItem}
             setCartItem={setCartItem}
+            stepTip=""
+          />
+          <ItemLayout
+            stepName="Layout"
             stepTip=""
           />
         </StepProgressForm>

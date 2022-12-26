@@ -89,7 +89,6 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
                         <MyCheckbox checked={emailGraphicFlag}
                             customFunc={handleWillEmailGraphic}
                         />
-                    
                 </div>
             </div>
             <div className="text-center">
