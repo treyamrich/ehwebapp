@@ -11,7 +11,6 @@ const ItemLayout = ({ cartItem, setCartItem }) => {
               <input className="border px-3 py-2 w-full rounded-sm" 
                 id="nif"
                 type="file" name="item-layout"
-                value={selFile}
                 onChange={e=>setCartItem({...cartItem, layoutImg: e.target.files[0]})}
             />
           </div>
