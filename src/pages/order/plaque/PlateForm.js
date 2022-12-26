@@ -167,6 +167,13 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
                     )}
                 />
             </div>
+            <div className="p-2">
+                <h4 className="text-lg font-semibold mb-1">Additional notes</h4>
+                <input type="text" 
+                    value={plate.notes}
+                    onChange={e=>setPlate({...plate, notes: e.target.value})}
+                />
+            </div>
             <div className="py-2 px-1">
                 <div className="text-center">
                     <h4 className="text-lg font-semibold mb-3">Write your message here!</h4>

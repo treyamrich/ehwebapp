@@ -64,31 +64,10 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
             <div className="py-2 px-1">
                 <label className="text-lg font-semibold" htmlFor="item-code">Post Order</label>
                 <div className="p-1 rounded-sm">
-                    {/*
-                    JS PART
-                    const graphicRef = useRef();
-                    const handleResetFile = () => {
-                        document.getElementById("nif").value = "";
-                        setFormControl({...formControl, canSelect: true, canSubmit: false})
-                    }
-                    TYPE SCRIPT PART
-                    <button type="button"
-                        disabled={!canUpload}
-                        onClick={handleResetFile}
-                        className="border rounded-sm hover:bg-slate-200 mr-5"    
-                    ><MdOutlineClose size={25} color="red"/></button>
-                    <input className="border px-3 py-2 w-full rounded-sm" 
-                        id="nif"
-                        type="file" name="new-graphic"
-                        ref={graphicRef}
-                        disabled={!canUpload}
-                        onChange={()=>setFormControl({...formControl, canSelect: false, canSubmit: true})}
-                    />*/}
-                    
-                        <label className="mr-1">I will send the graphic via email</label>
-                        <MyCheckbox checked={emailGraphicFlag}
-                            customFunc={handleWillEmailGraphic}
-                        />
+                    <label className="mr-1">I will send the graphic via email</label>
+                    <MyCheckbox checked={emailGraphicFlag}
+                        customFunc={handleWillEmailGraphic}
+                    />
                 </div>
             </div>
             <div className="text-center">

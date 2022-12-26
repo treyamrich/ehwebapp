@@ -42,6 +42,11 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
       title="Confirm Verbage"
     />);
   }
+  const addNotesToItem = submitItemFunc => {
+    managePopUp.pushPopUp(
+      
+    );
+  }
   const addItemToCart = () => {
     const item = {};
     //item.itemName = selItem.itemName;
@@ -90,7 +95,9 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
           />
           <ItemLayout
             stepName="Layout"
-            stepTip=""
+            stepTip="The layout describes 'what' goes 'where' on your item."
+            cartItem={cartItem}
+            setCartItem={setCartItem}
           />
         </StepProgressForm>
       </div>

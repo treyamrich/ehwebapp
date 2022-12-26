@@ -174,7 +174,7 @@ export const InitCartItemState = {
   quantity: 1,
   txtLines: null, //draft-js object
   font: "", //probably get rid of this later
-  layoutImg: "",
+  layoutImg: null,
   postGraphics: false,
   postTxt: false,
   postLayout: false
