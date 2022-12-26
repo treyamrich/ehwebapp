@@ -69,7 +69,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
 
     const handleAddPltGraphic = graphicObj => {
         popPopUp();
-        setPlate({...plate, graphics: [graphicObj, ...plate.pltGraphics]});
+        setPlate({...plate, pltGraphics: [graphicObj, ...plate.pltGraphics]});
     };
     const confirmPlateMsg = () => {
         managePopUp.pushPopUp(<ConfirmPopUp
@@ -86,6 +86,7 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
         cartItem.name = plate.pltSize === 'Custom' ? 
             `Custom ${plate.customW}x${plate.customH}" ${plate.pltColor} plate` :
             `${plate.pltSize} ${plate.pltColor} plate`;
+        cartItem.graphics = plate.pltGraphics;
         submitForm(cartItem);
     }
   return (
