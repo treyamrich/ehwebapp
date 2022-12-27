@@ -13,24 +13,23 @@ const StepProgressForm = ({ children, onSubmit, resetOnSubmit }) => {
       if(stepComps.length <= 1) return 0;
       return currStep * (100 / (stepComps.length - 1))
     }
-
+    //Advances the step form
+    const advanceStep = stepSize => {
+      setCurrStep(prevStep => prevStep + stepSize);
+      stepStack.current.push(stepSize);
+    }
+    //Confirms a step if it should be confirmed. If it should, it will use the skipStepAmt.
+    //If no confirmation or skipStepAmt is provided, the step size is 1.
     const handleNextStep = () => {
-      let validateFunc = stepComps[currStep].props.validateStep;
       let confirmFunc = stepComps[currStep].props.confirmStep;
-      //Validate the step first
-      if(validateFunc && validateFunc() || !validateFunc) {
-        if(stepComps[currStep].props.shouldConfStep) {
-          try {
-            let skipAmt = stepComps[currStep].props.skipStepAmt;
-            skipAmt = skipAmt ? skipAmt : 1;  
-            confirmFunc(() => {
-              setCurrStep(prevStep => prevStep + skipAmt);
-              stepStack.current.push(skipAmt);
-          });
-          } catch(e) { console.log(e) }
-        } else {
-          setCurrStep(prevStep=>prevStep+1);
-        }
+      if(stepComps[currStep].props.shouldConfStep) {
+        try {
+          let stepSize = stepComps[currStep].props.skipStepAmt;
+          stepSize = stepSize ? stepSize : 1;
+          confirmFunc(()=>advanceStep(stepSize));
+        } catch(e) { console.log(e) }
+      } else {
+        advanceStep(1);
       }
     }
     const handleBackStep = () => {

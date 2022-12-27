@@ -3,6 +3,7 @@ import { Header, StepProgressForm, RTE, ConfirmPopUp } from '../../../components
 import PlaqueAddon from './PlaqueAddon';
 import ChooseItemStep from '../ChooseItemStep';
 import ItemLayout from '../ItemLayout';
+import AdditionalNotes from '../AdditionalNotes';
 import { EditorState } from 'draft-js';
 import { InitCartItemState } from '../../../data/uidata';
 
@@ -43,9 +44,12 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
     />);
   }
   const addNotesToItem = submitItemFunc => {
-    managePopUp.pushPopUp(
-      
-    );
+    managePopUp.pushPopUp(<AdditionalNotes
+      onSubmit={addItemToCart}
+      onCancel={managePopUp.popPopUp}
+      themeColor={themeColor}
+      title="Additional Notes"
+    />);
   }
   const addItemToCart = () => {
     const item = {};
@@ -63,7 +67,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
     <div className="m-2 md:m-10 mt-14 lg:mt-24 p-2 md:p-10 rounded-3xl bg-slate-50">
       <Header category="Customize" title="Plaques and Plates" />
       <div className="mt-14">
-        <StepProgressForm resetOnSubmit={true} onSubmit={addItemToCart}>
+        <StepProgressForm resetOnSubmit={true} onSubmit={addNotesToItem}>
           <ChooseItemStep
             themeColor={themeColor}
             selectedItem={selItem}
