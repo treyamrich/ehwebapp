@@ -30,7 +30,9 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   }
   const confirmLineCount = () => {
     managePopUp.pushPopUp(
-    <div className="w-11/12 bg-gray-50 rounded-md drop-shadow-xl p-3 sm:p-5 m-auto overflow-y-auto">
+    <div className="w-11/12 bg-gray-50 rounded-md drop-shadow-xl p-3 sm:p-5 m-auto overflow-y-auto"
+      title="Line Count Limit Exceeded"
+    >
       <p className="text-sm">Your message exceeds the line limit. Please shorten your message to proceed.</p>
     </div>);
   }
