@@ -71,7 +71,12 @@ const Order = () => {
           }
       >
         <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
-          <Navbar themeColor={EH_COLOR_DARK} setDisplay={setDisplay} user={{...order.contactInfo}}/>
+          <Navbar themeColor={EH_COLOR_DARK} s
+            etDisplay={setDisplay} 
+            user={{...order.contactInfo}}
+            order={order}
+            setOrder={setOrder}
+          />
           {opRes.failureMsg !== "" ? <Alert variant="danger" dismissible onClose={resetOpRes}>{opRes.failureMsg}</Alert> : null}
           {opRes.successMsg !== "" ? <Alert variant="success" dismissible onClose={resetOpRes}>{opRes.successMsg}</Alert> : null}
         </div>
