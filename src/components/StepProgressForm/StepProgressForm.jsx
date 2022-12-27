@@ -3,7 +3,13 @@ import { ProgressBar, Step } from "react-step-progress-bar";
 import "react-step-progress-bar/styles.css";
 import "./step_progress_form.css";
 
-const StepProgressForm = ({ children, onSubmit, resetOnSubmit }) => {
+/*StepProgressForm props
+
+:onSubmit - a function that is called when the form is submitted. The function
+  should take a callback function as a parameter to reset the form
+
+*/
+const StepProgressForm = ({ children, onSubmit }) => {
     const [currStep, setCurrStep] = useState(0);
     const stepStack = useRef([]);
     const stepComps = Children.toArray(children);
@@ -37,10 +43,7 @@ const StepProgressForm = ({ children, onSubmit, resetOnSubmit }) => {
         stepStack.current.pop() : 1;
       setCurrStep(prevStep => prevStep - stepAmt);
     }
-    const handleSubmit = () => {
-      if(resetOnSubmit) setCurrStep(0);
-      onSubmit();
-    }
+    const handleSubmit = () => onSubmit(()=>setCurrStep(0));
   return (
     <div id="progress-form" className="relative">
       <div className="w-3/4 m-auto">

@@ -98,6 +98,8 @@ const Order = () => {
                   managePopUp={{pushPopUp, popPopUp}}
                   opRes={opRes} setOpRes={setOpRes}
                   themeColor={EH_COLOR_DARK}  
+                  order={order}
+                  setOrder={setOrder}
                 />}
               />
               <Route path="engravable-bottles" element={<Bottle opRes={opRes} setOpRes={setOpRes}/>}/>

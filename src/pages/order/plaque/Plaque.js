@@ -43,31 +43,31 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
       title="Confirm Verbage"
     />);
   }
-  const addNotesToItem = submitItemFunc => {
+  //Takes a callback function resetStepForm to reset the StepProgressForm
+  const addNotesToItem = resetStepForm => {
     managePopUp.pushPopUp(<AdditionalNotes
-      onSubmit={addItemToCart}
+      cartItem={cartItem}
+      setCartItem={setCartItem}
+      onSubmit={()=>{
+        managePopUp.popPopUp(); 
+        addToCart(); 
+        resetStepForm()
+      }}
       onCancel={managePopUp.popPopUp}
       themeColor={themeColor}
       title="Additional Notes"
     />);
   }
-  const addItemToCart = () => {
-    const item = {};
-    //item.itemName = selItem.itemName;
-    //item.itemCode = selItem.itemCode;
-    //item.itemPrice = selItem.itemPrice;
-    //item.services = addons.services;
-    //Plate
-    //item.subItems = 1;
-    //item.graphics = addons.graphics;
-    //Must add the editor state from the draft-js object
-    setOrder({...order, cart: [...order.cart, item]});
+  const addToCart = () => {
+    //Must json stringify the draft-js object
+    setOrder({...order, cart: [...order.cart, cartItem]});
+    setCartItem(InitCartItemState);
   }
   return (
     <div className="m-2 md:m-10 mt-14 lg:mt-24 p-2 md:p-10 rounded-3xl bg-slate-50">
       <Header category="Customize" title="Plaques and Plates" />
       <div className="mt-14">
-        <StepProgressForm resetOnSubmit={true} onSubmit={addNotesToItem}>
+        <StepProgressForm onSubmit={addNotesToItem}>
           <ChooseItemStep
             themeColor={themeColor}
             selectedItem={selItem}
