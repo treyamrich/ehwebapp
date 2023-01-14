@@ -4,17 +4,16 @@ import { addonFields } from '../../data/uidata';
 
 const CartItem = ({ item }) => {
     const getTxtFromEditorState = () => {
-        let txt = "";
-        let i = 0;
         //item.txtLines is a draft-js editorstate object
         const contentBlkArr = item.txtLines.getCurrentContent().getBlocksAsArray();
-        while(i < 2 && i < contentBlkArr.length) {
-            txt += contentBlkArr[i++].getText() + '.';
-        }
-        const textJsx = contentBlkArr.map((blk, idx)=>{
-            if(idx < 2) return <p key={idx}>{blk.getText()}<br/></p>
+        let isEmpty = true;
+        const textJsx = contentBlkArr.map((blk, idx) => {
+            //Check if the verbage is empty
+            let line = blk.getText();
+            if(line.length > 0) isEmpty = false;
+            if(idx < 2) return <p key={idx}>{line}<br/></p>
         });
-        return txt.length > 0 ? textJsx : "No verbage";
+        return isEmpty ? null : textJsx;
     }
     const firstLetterUppercase = str => {
         return `${str.substring(0,1).toUpperCase()}${str.substring(1,str.length).toLowerCase()}`;
@@ -27,7 +26,30 @@ const CartItem = ({ item }) => {
         }
         return str;
     }
-    const verbagePreview = getTxtFromEditorState();
+    const getVerbageJsx = () => {
+        let previewJsx = getTxtFromEditorState();
+        return previewJsx ? 
+            (<li className="text-xs">
+                <h4 className="font-semibold">Verbage Preview</h4>
+                {getTxtFromEditorState()}
+            </li>) : null;
+    }
+    const getAddonJsx = () => {
+        let hasAnAddon = false;
+        const addonJsx = addonFields.map((field, key) => {
+            if(item[field].length > 0) hasAnAddon = true;
+            return (
+                <li key={key} className="text-xs">
+                    {item[field].length > 0 && (
+                    <h4 className="font-semibold">{firstLetterUppercase(field)}</h4>
+                    )}
+                    {toNameString(item[field])}
+                </li>);
+        });
+        return hasAnAddon ? addonJsx : null;
+    }
+    const verbageJsx = getVerbageJsx();
+    const addonJsx = getAddonJsx();
   return (
     <div>
         <div className="border-b-1 border-color dark:border-gray-600 p-4">
@@ -46,23 +68,13 @@ const CartItem = ({ item }) => {
                 </div>
                 </div>
             </div>
-            <h3 className="text-gray-600 dark:text-gray-400 text-sm font-semibold">Item Details</h3>
-            <ul>
-                {verbagePreview.length > 0 ? (
-                <li className="text-xs">
-                    <h4 className="font-semibold">Verbage Preview</h4>
-                    {verbagePreview}
-                </li>) : null
-                }
-                {addonFields.map((field, key) =>
-                <li key={key} className="text-xs">
-                    {item[field].length > 0 && (
-                    <h4 className="font-semibold">{firstLetterUppercase(field)}</h4>
-                    )}
-                    {toNameString(item[field])}
-                </li>
-                )}
-            </ul>
+            {(verbageJsx || addonJsx) && (<>
+                <h3 className="text-gray-600 dark:text-gray-400 text-sm font-semibold">Item Details</h3>
+                <ul>
+                    {verbageJsx}
+                    {addonJsx}
+                </ul>
+            </>)}
         </div>
     </div>
   )
