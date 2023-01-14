@@ -52,8 +52,9 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
       setCartItem={setCartItem}
       onSubmit={()=>{
         managePopUp.popPopUp(); 
+        //Official cart item submission
         addToCart(); 
-        resetStepForm()
+        resetStepForm();
       }}
       onCancel={managePopUp.popPopUp}
       themeColor={themeColor}
@@ -67,9 +68,15 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
     cartItem.category = selItem.category;
     cartItem.price = selItem.price;
     cartItem.txtLines = editorState;
-    //Must json stringify the draft-js object
+    //!!!!!Must json stringify the draft-js object
     setOrder({...order, cart: [...order.cart, cartItem]});
-    setCartItem(InitCartItemState);
+
+    //Reset the state whole customization process
+    setCartItem({...InitCartItemState});
+    setSelItem(null);
+    setEditorState(EditorState.createEmpty());
+    setAutoTxtCenter(true);
+
   }
   return (
     <div className="m-2 md:m-10 mt-14 lg:mt-24 p-2 md:p-10 rounded-3xl bg-slate-50">
