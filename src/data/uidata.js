@@ -180,3 +180,5 @@ export const InitCartItemState = {
   postTxt: false,
   postLayout: false
 };
+
+export const addonFields = ['graphics', 'cutouts', 'services'];

@@ -12,7 +12,7 @@ const animatedComponents = makeAnimated();
 
 const PlaqueAddon = ({themeColor, managePopUp, cartItem, setCartItem}) => {
   const { pushPopUp, popPopUp } = managePopUp;
-  console.log(cartItem);
+
   const handleAddPlate = pltObj => {
     popPopUp();
     setCartItem({...cartItem, subItems: [pltObj, ...cartItem.subItems]});
