@@ -37,7 +37,7 @@ const lineLimit = 5;
 const lineLenLimit = 65;
 
 const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
-    const [cartItem, setCartItem] = useState(editPlate ? editPlate : InitCartItemState);
+    const [cartItem, setCartItem] = useState(editPlate ? editPlate : {...InitCartItemState});
     const [plate, setPlate] = useState(()=>{
         const newPltObj = {...InitialPlateState};
         if(editPlate) {

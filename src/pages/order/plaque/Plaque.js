@@ -15,7 +15,7 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   //On first render, instruct the RTE to center the text
   const [autoTxtCenter, setAutoTxtCenter] = useState(true);
   
-  const [cartItem, setCartItem] = useState(InitCartItemState);
+  const [cartItem, setCartItem] = useState({...InitCartItemState});
   const [selItem, setSelItem] = useState(null);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
 
