@@ -17,6 +17,7 @@ import { pltSizes, pltColors, InitCartItemState } from '../../../data/uidata';
 
 import { CardManager, RTE, MyInput, ConfirmPopUp } from '../../../components';
 import GraphicForm from '../GraphicForm';
+import { useStateContext } from '../../../contexts/ContextProvider';
 
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -36,14 +37,14 @@ const InitialPlateState = {
 const lineLimit = 5;
 const lineLenLimit = 65;
 
-const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
+const PlateForm = ({ btnBgColor, submitForm, editPlate }) => {
     const [cartItem, setCartItem] = useState(editPlate ? editPlate : {...InitCartItemState});
     const [plate, setPlate] = useState(()=>{
         const newPltObj = {...InitialPlateState};
         if(editPlate) {
            //Parse the plate name for size and color
            let tokens = editPlate.name.split(' ');
-           if(tokens[0] == 'Custom') {
+           if(tokens[0] === 'Custom') {
             let sizeTokens = tokens[1].split('x');
             newPltObj.customW = sizeTokens[0];
             newPltObj.customH = sizeTokens[1].substring(0, sizeTokens[1].length-1);
@@ -58,23 +59,23 @@ const PlateForm = ({ btnBgColor, submitForm, managePopUp, editPlate }) => {
         }
         return newPltObj;
     });
-    const canSubmit = plate.pltSize !== "" && plate.pltSize !== "Custom" || plate.customW !== "" && plate.customH !== "";
+    const canSubmit = (plate.pltSize !== "" && plate.pltSize !== "Custom") || (plate.customW !== "" && plate.customH !== "");
 
     //RTE state
     const [editorState, setEditorState] = useState(() => editPlate ? editPlate.txtObj : EditorState.createEmpty(),);
     //Center text on first render. If there is a plate to edit, preserve the alignment.
-    const [autoTxtCenter, setAutoTxtCenter] = useState(editPlate == undefined); 
+    const [autoTxtCenter, setAutoTxtCenter] = useState(editPlate === undefined); 
 
-    const { pushPopUp, popPopUp } = managePopUp;
+    const { pushPopUp, popPopUp } = useStateContext();
 
     const handleAddPltGraphic = graphicObj => {
         popPopUp();
         setPlate({...plate, pltGraphics: [graphicObj, ...plate.pltGraphics]});
     };
     const confirmPlateMsg = () => {
-        managePopUp.pushPopUp(<ConfirmPopUp
-          onSubmit={()=>{managePopUp.popPopUp(); handleSubmit()}}
-          onCancel={managePopUp.popPopUp}
+        pushPopUp(<ConfirmPopUp
+          onSubmit={()=>{popPopUp(); handleSubmit()}}
+          onCancel={popPopUp}
           themeColor={btnBgColor}
           msg="Before proceeding, please double check your message for any spelling or grammatical errors."
           title="Confirm Plate Verbage"

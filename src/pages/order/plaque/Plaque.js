@@ -11,7 +11,7 @@ import { useStateContext } from '../../../contexts/ContextProvider';
 const lineLimit = 5;
 const lineLenLimit = 65;
 
-const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
+const Plaque = ({ themeColor, order, setOrder }) => {
 
   //On first render, instruct the RTE to center the text
   const [autoTxtCenter, setAutoTxtCenter] = useState(true);
@@ -20,19 +20,19 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   const [selItem, setSelItem] = useState(null);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
 
-  const { handleClick } = useStateContext();
+  const { handleClick, popPopUp, pushPopUp } = useStateContext();
 
   const confirmSelItem = nextStepFunc => {
-    managePopUp.pushPopUp(<ConfirmPopUp
-      onSubmit={()=>{managePopUp.popPopUp(); nextStepFunc()}}
-      onCancel={managePopUp.popPopUp}
+    pushPopUp(<ConfirmPopUp
+      onSubmit={()=>{popPopUp(); nextStepFunc()}}
+      onCancel={popPopUp}
       themeColor={themeColor}
       msg="Are you sure you want to proceed without choosing an item?"
       title="No Item Selected"
     />);
   }
   const confirmLineCount = () => {
-    managePopUp.pushPopUp(
+    pushPopUp(
     <div className="w-11/12 bg-gray-50 rounded-md drop-shadow-xl p-3 sm:p-5 m-auto overflow-y-auto"
       title="Line Count Limit Exceeded"
     >
@@ -40,9 +40,9 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
     </div>);
   }
   const confirmMsg = nextStepFunc => {
-    managePopUp.pushPopUp(<ConfirmPopUp
-      onSubmit={()=>{managePopUp.popPopUp(); nextStepFunc()}}
-      onCancel={managePopUp.popPopUp}
+    pushPopUp(<ConfirmPopUp
+      onSubmit={()=>{popPopUp(); nextStepFunc()}}
+      onCancel={popPopUp}
       themeColor={themeColor}
       msg="Before proceeding, please double check your message for any spelling or grammatical errors."
       title="Confirm Verbage"
@@ -50,16 +50,16 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   }
   //Takes a callback function resetStepForm to reset the StepProgressForm
   const addNotesToItem = resetStepForm => {
-    managePopUp.pushPopUp(<AdditionalNotes
+    pushPopUp(<AdditionalNotes
       cartItem={cartItem}
       setCartItem={setCartItem}
       onSubmit={()=>{
-        managePopUp.popPopUp(); 
+        popPopUp(); 
         //Official cart item submission
         addToCart(); 
         resetStepForm();
       }}
-      onCancel={managePopUp.popPopUp}
+      onCancel={popPopUp}
       themeColor={themeColor}
       title="Additional Notes"
     />);
@@ -114,7 +114,6 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
           />
           <PlaqueAddon stepName="Add-ons"
             themeColor={themeColor}
-            managePopUp={managePopUp}
             cartItem={cartItem}
             setCartItem={setCartItem}
             stepTip=""

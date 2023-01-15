@@ -38,18 +38,9 @@ const Order = () => {
   const [order, setOrder] = useState(initialOrderState);
   const [display, setDisplay] = useState('start'); //Control start, contact form, and order screen display
   const [opRes, setOpRes] = useState(initialOpState);
-  const [popups, setPopUps] = useState([]); //PopUps are implemented as a stack
-  const {activeMenu, currentMode } = useStateContext();
+  const {activeMenu, currentMode, popups, popPopUp } = useStateContext();
 
   const resetOpRes = () => setOpRes(initialOpState);
-  
-  const popPopUp = () => {
-    setPopUps(prevPopups=> {
-      prevPopups.pop();
-      return [...prevPopups];
-    });
-  }
-  const pushPopUp = component => setPopUps(prev => [...prev, component]);
 
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
@@ -100,7 +91,6 @@ const Order = () => {
               <Route path="bundles" element={<Bundles/>}/>
               <Route path="plaques-and-plates" element={
                 <Plaque 
-                  managePopUp={{pushPopUp, popPopUp}}
                   opRes={opRes} setOpRes={setOpRes}
                   themeColor={EH_COLOR_DARK}  
                   order={order}

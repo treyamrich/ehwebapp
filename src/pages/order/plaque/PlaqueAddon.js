@@ -5,13 +5,14 @@ import makeAnimated from 'react-select/animated';
 import GraphicForm from '../GraphicForm';
 import PlateForm from './PlateForm';
 import { CardManager, Tabs, Tab } from '../../../components';
+import { useStateContext } from '../../../contexts/ContextProvider';
 
 import { serviceOpts } from '../../../data/uidata';
 
 const animatedComponents = makeAnimated();
 
-const PlaqueAddon = ({themeColor, managePopUp, cartItem, setCartItem}) => {
-  const { pushPopUp, popPopUp } = managePopUp;
+const PlaqueAddon = ({themeColor, cartItem, setCartItem}) => {
+  const { pushPopUp, popPopUp } = useStateContext();
 
   const handleAddPlate = pltObj => {
     popPopUp();
@@ -22,7 +23,7 @@ const PlaqueAddon = ({themeColor, managePopUp, cartItem, setCartItem}) => {
     let newPlts = [];
     //Create new arr of plates without the edited plate
     for(let i = 0; i < cartItem.subItems.length; i++) {
-      if(i == prevPltIdx) continue;
+      if(i === prevPltIdx) continue;
       newPlts.push(cartItem.subItems[i]);
     }
     setCartItem({...cartItem, subItems: [newPltObj, ...newPlts]});
@@ -60,7 +61,6 @@ const PlaqueAddon = ({themeColor, managePopUp, cartItem, setCartItem}) => {
                 <PlateForm title="Edit Plate" 
                   btnBgColor={themeColor}
                   submitForm={newPltObj=>handleEditPlate(newPltObj, idx)}
-                  managePopUp={managePopUp}
                   editPlate={cartItem.subItems[idx]}
                 />
               )}
@@ -68,7 +68,6 @@ const PlaqueAddon = ({themeColor, managePopUp, cartItem, setCartItem}) => {
                 <PlateForm title="Add Plate" 
                   btnBgColor={themeColor}
                   submitForm={handleAddPlate}
-                  managePopUp={managePopUp}
                 />
               )}
             />
