@@ -27,3 +27,4 @@ export { default as RTE } from './RTE/RTE';
 export { default as ConfirmPopUp } from './ConfirmPopUp';
 export { default as MyInput } from './MyInput/MyInput';
 export { default as MyCheckbox } from './MyCheckbox';
+export { default as MyTextArea } from './MyTextArea/MyTextArea';

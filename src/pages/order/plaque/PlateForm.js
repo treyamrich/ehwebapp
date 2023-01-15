@@ -21,6 +21,7 @@ import { useStateContext } from '../../../contexts/ContextProvider';
 
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+import { MyTextArea } from '../../../components';
 
 const animatedComponents = makeAnimated();
 
@@ -31,7 +32,7 @@ const InitialPlateState = {
     customH: "",
     pltColor: pltColors[0].label,
     pltGraphics: [],
-    pltMsg: undefined //This will be a Draft.js state object
+    notes: ""
 };
 
 const lineLimit = 5;
@@ -53,8 +54,8 @@ const PlateForm = ({ submitForm, editPlate }) => {
             newPltObj.pltSize = tokens[0];
             newPltObj.pltColor = tokens[1];
            }
+           newPltObj.notes = cartItem.notes;
            newPltObj.pltGraphics = cartItem.graphics;
-           newPltObj.pltMsg = cartItem.txtObj;
            newPltObj.name = cartItem.name;
         }
         return newPltObj;
@@ -88,6 +89,7 @@ const PlateForm = ({ submitForm, editPlate }) => {
             `Custom ${plate.customW}x${plate.customH}" ${plate.pltColor} plate` :
             `${plate.pltSize} ${plate.pltColor} plate`;
         cartItem.graphics = plate.pltGraphics;
+        cartItem.notes = plate.notes;
         submitForm(cartItem);
     }
   return (
@@ -169,10 +171,14 @@ const PlateForm = ({ submitForm, editPlate }) => {
             </div>
             <div className="p-2">
                 <h4 className="text-lg font-semibold mb-1">Additional notes</h4>
-                <input type="text" 
+                <MyTextArea name="plate-notes"
                     value={plate.notes}
                     onChange={e=>setPlate({...plate, notes: e.target.value})}
+                    style={{height:"100px"}}
                 />
+                <div className="text-center">
+                    <p className="text-sm text-slate-400">e.g Put the palm tree graphic at the top right (to the left of the name)</p>
+                </div>
             </div>
             <div className="py-2 px-1">
                 <div className="text-center">

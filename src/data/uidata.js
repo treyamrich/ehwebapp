@@ -176,6 +176,7 @@ export const InitCartItemState = {
   subItems: [],
   quantity: 1,
   txtLines: null, //draft-js object
+  notes: "",
   font: "", //probably get rid of this later
   category: "",
   layoutImg: null,

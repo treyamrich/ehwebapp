@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Header, StepProgressForm, RTE, ConfirmPopUp } from '../../../components';
+import { Header, StepProgressForm, RTE, ConfirmPopUp, MyTextArea } from '../../../components';
 import PlaqueAddon from './PlaqueAddon';
 import ChooseItemStep from '../ChooseItemStep';
 import ItemLayout from '../ItemLayout';
@@ -52,14 +52,12 @@ const Plaque = ({ order, setOrder }) => {
   const addNotesToItem = resetStepForm => {
     pushPopUp(<AdditionalNotes
       cartItem={cartItem}
-      setCartItem={setCartItem}
       onSubmit={()=>{
         popPopUp(); 
         //Official cart item submission
         addToCart(); 
         resetStepForm();
       }}
-      onCancel={popPopUp}
       themeColor={EH_COLOR_DARK}
       title="Additional Notes"
     />);

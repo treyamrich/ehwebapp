@@ -1,10 +1,17 @@
-import React from 'react'
-import { MyInput } from '../../components'
+import React, { useState } from 'react'
+import { MyTextArea } from '../../components'
 import { EH_COLOR_DARK } from '../../data/uidata'
 
-const AdditionalNotes = ({ cartItem, setCartItem, onSubmit }) => {
+const AdditionalNotes = ({ cartItem, onSubmit }) => {
+    //Must use a separate state for notes because this component is wrapped in a popup
+    //So, the popup won't rerender if the state was passed via props
+    const [notes, setNotes] = useState(cartItem.notes);
     const handleSubmit = () => {
         onSubmit();
+    }
+    const updateNotes = newNotes => {
+        setNotes(newNotes);
+        cartItem.notes = newNotes;
     }
   return (
     <div className="flex justify-center text-left flex-col"
@@ -14,11 +21,10 @@ const AdditionalNotes = ({ cartItem, setCartItem, onSubmit }) => {
             <div className="py-2 px-1">
                 <div className="mb-2 text-center">
                     <h4 className="text-lg font-semibold mb-1">Write your notes here...</h4>
-                    <MyInput
-                        type="text"
-                        color={EH_COLOR_DARK}
-                        value={cartItem.notes}
-                        onChange={e=>setCartItem({...cartItem, notes: e.target.value})}
+                    <MyTextArea
+                        value={notes}
+                        onChange={e=>updateNotes(e.target.value)}
+                        style={{height:"100px"}}
                     />
                 </div>
                 <div className="text-center">
