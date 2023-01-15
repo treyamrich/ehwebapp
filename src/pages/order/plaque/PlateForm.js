@@ -39,6 +39,12 @@ const lineLimit = 5;
 const lineLenLimit = 65;
 
 const PlateForm = ({ submitForm, editPlate }) => {
+    //RTE state
+    const [editorState, setEditorState] = useState(() => editPlate ? editPlate.txtObj : EditorState.createEmpty(),);
+    //Center text on first render. If there is a plate to edit, preserve the alignment.
+    const [autoTxtCenter, setAutoTxtCenter] = useState(editPlate === undefined); 
+    const { pushPopUp, popPopUp } = useStateContext();
+
     const [cartItem, setCartItem] = useState(editPlate ? editPlate : {...InitCartItemState});
     const [plate, setPlate] = useState(()=>{
         const newPltObj = {...InitialPlateState};
@@ -60,19 +66,13 @@ const PlateForm = ({ submitForm, editPlate }) => {
         }
         return newPltObj;
     });
-    const canSubmit = (plate.pltSize !== "" && plate.pltSize !== "Custom") || (plate.customW !== "" && plate.customH !== "");
-
-    //RTE state
-    const [editorState, setEditorState] = useState(() => editPlate ? editPlate.txtObj : EditorState.createEmpty(),);
-    //Center text on first render. If there is a plate to edit, preserve the alignment.
-    const [autoTxtCenter, setAutoTxtCenter] = useState(editPlate === undefined); 
-
-    const { pushPopUp, popPopUp } = useStateContext();
 
     const handleAddPltGraphic = graphicObj => {
         popPopUp();
         setPlate({...plate, pltGraphics: [graphicObj, ...plate.pltGraphics]});
-    };
+    }
+    const handleRemovePltGraphic = newGraphicsArr => setPlate({...plate, pltGraphics: [...newGraphicsArr]});
+    
     const confirmPlateMsg = () => {
         pushPopUp(<ConfirmPopUp
           onSubmit={()=>{popPopUp(); handleSubmit()}}
@@ -92,6 +92,7 @@ const PlateForm = ({ submitForm, editPlate }) => {
         cartItem.notes = plate.notes;
         submitForm(cartItem);
     }
+    const canSubmit = (plate.pltSize !== "" && plate.pltSize !== "Custom") || (plate.customW !== "" && plate.customH !== "");
   return (
     <div className="flex justify-center text-left flex-col"
       style={{maxHeight: '85vh'}}
@@ -167,6 +168,7 @@ const PlateForm = ({ submitForm, editPlate }) => {
                             submitForm={handleAddPltGraphic}
                         />
                     )}
+                    onDeleteCard={handleRemovePltGraphic}
                 />
             </div>
             <div className="p-2">
