@@ -3,10 +3,20 @@ import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 import { addonFields } from '../../data/uidata';
 import { firstLetterUppercase, toNameString } from '../../utility/Strings';
 
-const CartItem = ({ item }) => {
+const CartItem = ({ item, order, setOrder }) => {
     
     const updateItemQty = amt => {
-        
+        let newCart = [];
+        //Update the amount
+        item.quantity += amt;
+        //Remove item if no quantity
+        if(item.quantity === 0) {
+            order.cart.forEach(elm => {if(elm !== item) newCart.push(elm)});
+            
+        } else {
+            newCart = [...order.cart];
+        }
+        setOrder({...order, cart: newCart})
     }
     //Gets the first 2 lines or 2 blocks from the draft-js editor state object (item.txtLines)
     const getTxtFromEditorState = () => {
@@ -47,7 +57,11 @@ const CartItem = ({ item }) => {
                         <AiOutlineMinus />
                     </p>
                     <p className="p-2 border-r-1 border-color dark:border-gray-600 text-green-600">{item.quantity}</p>
-                    <p className="p-2 border-r-1 border-color dark:border-gray-600 text-green-600"><AiOutlinePlus /></p>
+                    <p className="p-2 border-r-1 border-color dark:border-gray-600 text-green-600"
+                        onClick={()=>updateItemQty(1)}
+                    >
+                        <AiOutlinePlus />
+                    </p>
                     </div>
                 </div>
                 </div>

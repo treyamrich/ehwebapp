@@ -57,7 +57,11 @@ const Cart = ({ order, setOrder }) => {
             </div>
           )}
           {cart.map((item, index) => (
-            <CartItem item={item} key={index}/>
+            <CartItem key={index}
+              item={item}
+              order={order}
+              setOrder={setOrder}
+            />
           ))}
           </div>
           <div className="mt-3 mb-3">
