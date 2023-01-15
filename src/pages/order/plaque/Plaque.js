@@ -6,6 +6,7 @@ import ItemLayout from '../ItemLayout';
 import AdditionalNotes from '../AdditionalNotes';
 import { EditorState } from 'draft-js';
 import { InitCartItemState } from '../../../data/uidata';
+import { useStateContext } from '../../../contexts/ContextProvider';
 
 const lineLimit = 5;
 const lineLenLimit = 65;
@@ -18,6 +19,8 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   const [cartItem, setCartItem] = useState({...InitCartItemState});
   const [selItem, setSelItem] = useState(null);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
+
+  const { handleClick } = useStateContext();
 
   const confirmSelItem = nextStepFunc => {
     managePopUp.pushPopUp(<ConfirmPopUp
@@ -77,6 +80,8 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
     setEditorState(EditorState.createEmpty());
     setAutoTxtCenter(true);
 
+    //Open cart
+    handleClick('cart');
   }
   return (
     <div className="m-2 md:m-10 mt-14 lg:mt-24 p-2 md:p-10 rounded-3xl bg-slate-50">
