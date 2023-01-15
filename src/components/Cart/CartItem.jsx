@@ -22,7 +22,7 @@ const CartItem = ({ item }) => {
         let str = "";
         for(let i = 0; i < arr.length; i++) {
             str += arr[i].name;
-            if(i != arr.length - 1) str += ", ";
+            if(i !== arr.length - 1) str += ", ";
         }
         return str;
     }
@@ -30,7 +30,7 @@ const CartItem = ({ item }) => {
         let previewJsx = getTxtFromEditorState();
         return previewJsx ? 
             (<li className="text-xs">
-                <h4 className="font-semibold">Verbage Preview</h4>
+                <h4 className="font-semibold">Text Preview</h4>
                 {getTxtFromEditorState()}
             </li>) : null;
     }

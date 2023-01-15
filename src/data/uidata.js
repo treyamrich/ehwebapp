@@ -181,4 +181,4 @@ export const InitCartItemState = {
   postLayout: false
 };
 
-export const addonFields = ['graphics', 'cutouts', 'services'];
+export const addonFields = ['graphics', 'cutouts', 'services', 'subItems'];
