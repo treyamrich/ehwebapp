@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Routes, Route } from 'react-router-dom';
 
 import { Alert, Sidebar, Navbar, Footer, PopUp } from '../../components/index';

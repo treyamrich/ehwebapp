@@ -11,7 +11,10 @@ const Card = ({ cardName, selected, onClick, disabled }) => {
         >
             {selected ? <div className="absolute top-3 right-3"><AiOutlineCheck color={'blue'}/></div> : null}
             <div className="p-5">
-                <img src="https://www.plaquemaker.com/site/images/Products/PL-ALM-PH_main-001.jpg" className="h-50 w-50"/>
+                <img src="https://www.plaquemaker.com/site/images/Products/PL-ALM-PH_main-001.jpg" 
+                    className="h-50 w-50"
+                    alt="Default Plaque"
+                />
             </div>
             <div>
                 <p className="font-semibold">{ cardName }</p>
@@ -36,7 +39,7 @@ const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedC
     //Postcondition: selectedIdx is -1 if card is reselected/deselected
     const handleSelect = selItem => {
         //Handle reselect
-        if(selItem == selectedCard) {
+        if(selItem === selectedCard) {
             if(onReselect) {
                 try {
                     onReselect();
