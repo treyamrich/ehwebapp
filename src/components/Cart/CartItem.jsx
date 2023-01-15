@@ -8,10 +8,10 @@ const CartItem = ({ item }) => {
         const contentBlkArr = item.txtLines.getCurrentContent().getBlocksAsArray();
         let isEmpty = true;
         const textJsx = contentBlkArr.map((blk, idx) => {
-            //Check if the verbage is empty
+            //Check if the text is empty
             let line = blk.getText();
             if(line.length > 0) isEmpty = false;
-            if(idx < 2) return <p key={idx}>{line}<br/></p>
+            return idx < 2 ? (<p key={idx}>{line}<br/></p>) : null
         });
         return isEmpty ? null : textJsx;
     }
