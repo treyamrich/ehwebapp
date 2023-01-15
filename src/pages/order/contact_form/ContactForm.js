@@ -11,7 +11,10 @@ const ContactForm = ({order, setOrder, setDisplay}) => {
 
   const [contact, setContact] = useState(initContactState);
   const { name, phone, email } = contact;
-
+  
+  const changeDateNeeded = date => {
+    setOrder({...order, dateNeeded: date});
+  }
   const submitContact = nextDisplay => {
     setDisplay(nextDisplay);
     setOrder({...order, contactInfo: {...contact}});
@@ -49,8 +52,14 @@ const ContactForm = ({order, setOrder, setDisplay}) => {
                 onChange={(e)=>setContact({...contact, email: e.target.value})}
                 value={email}
               />
+              <label className="text-lg font-semibold" htmlFor="date-needed">Date Order Needed</label>
+              <input type="date" name="date-needed"
+                className="border px-3 py-2 w-full rounded-sm mb-4"
+                onChange={e=>changeDateNeeded(e.target.value)}
+                value={order.dateNeeded}
+              />
               <div className="text-center">
-                <p className="text-slate-500 text-sm">We will never share your information with anyone.</p>
+                <p className="text-slate-500 text-sm">The default minimum turnaround time is 3-5 days. Rush options (fee applicable) are available.</p>
               </div>
             </div>
           </form>

@@ -22,7 +22,7 @@ const initialOrderState = {
         phone: '',
         email: '',
     },
-    dateNeeded: '',
+    dateNeeded: new Date(),
     timeNeeded: '',
     location: '',
     status: 'NEW',
