@@ -11,7 +11,7 @@ import { serviceOpts } from '../../../data/uidata';
 
 const animatedComponents = makeAnimated();
 
-const PlaqueAddon = ({themeColor, cartItem, setCartItem}) => {
+const PlaqueAddon = ({ cartItem, setCartItem}) => {
   const { pushPopUp, popPopUp } = useStateContext();
 
   const handleAddPlate = pltObj => {
@@ -59,14 +59,12 @@ const PlaqueAddon = ({themeColor, cartItem, setCartItem}) => {
               onDeleteCard={handleRemovePlate}
               onEditCard={(idx)=>pushPopUp(
                 <PlateForm title="Edit Plate" 
-                  btnBgColor={themeColor}
                   submitForm={newPltObj=>handleEditPlate(newPltObj, idx)}
                   editPlate={cartItem.subItems[idx]}
                 />
               )}
               onAddCard={()=>pushPopUp(
                 <PlateForm title="Add Plate" 
-                  btnBgColor={themeColor}
                   submitForm={handleAddPlate}
                 />
               )}
@@ -104,7 +102,6 @@ const PlaqueAddon = ({themeColor, cartItem, setCartItem}) => {
               title="Add Plaque Graphic"
               onAddCard={()=>pushPopUp(
                 <GraphicForm title="Add Graphic" 
-                  btnBgColor={themeColor}
                   submitForm={handleAddGraphic}
                 />
               )}
@@ -125,7 +122,6 @@ const PlaqueAddon = ({themeColor, cartItem, setCartItem}) => {
               title="Add Wood Cutout"
               onAddCard={()=>pushPopUp(
                 <GraphicForm title="Add Cutout" 
-                  btnBgColor={themeColor}
                   submitForm={handleAddCutout}
                 />
               )}

@@ -10,14 +10,14 @@ import { CardSelector, MyCheckbox } from '../../components';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
-import { graphicColOpts } from '../../data/uidata';
+import { graphicColOpts, EH_COLOR_DARK } from '../../data/uidata';
 
 const animatedComponents = makeAnimated();
 
 const DEFAULT_COLOR = "Default - Same as other addons";
 const TEST_GRAPHICS = [{name: "LTC", link: 'asdf'}, {name: "ABC", link: 'asdf'}, {name: "gen", link: 'asdf'}, {name: "ki", link: 'asdf'}];//DELETE THIS LATER
 
-const GraphicForm = ({ btnBgColor, submitForm }) => {
+const GraphicForm = ({ submitForm }) => {
     const [selGraphic, setSelGraphic] = useState(null);
     const [graphicColor, setGraphicColor ] = useState(DEFAULT_COLOR); 
     const [graphicSelection, setGraphicSelection] = useState(TEST_GRAPHICS);
@@ -75,7 +75,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
             </div>
             <div className="py-2 px-1">
                 <h4 className="text-lg font-semibold mb-3">Choose a Graphic</h4>
-                <CardSelector color={btnBgColor}
+                <CardSelector color={EH_COLOR_DARK}
                     items={graphicSelection}
                     setItems={setGraphicSelection} 
                     selectedCard={selGraphic}
@@ -89,7 +89,7 @@ const GraphicForm = ({ btnBgColor, submitForm }) => {
         </div>
         <div id="submit-popup-form" className='flex justify-end items-center p-4 lg:ml-4'>
             <button className="text-white w-full lg:w-1/6 hover:drop-shadow-xl p-3"
-                style={{borderRadius: '10px', backgroundColor: btnBgColor, opacity: canSubmit ? 1 : 0.3}}
+                style={{borderRadius: '10px', backgroundColor: EH_COLOR_DARK, opacity: canSubmit ? 1 : 0.3}}
                 type="button"
                 onClick={handleSubmit}
                 disabled={!canSubmit}

@@ -1,7 +1,8 @@
 import React from 'react'
 import { MyInput } from '../../components'
+import { EH_COLOR_DARK } from '../../data/uidata'
 
-const AdditionalNotes = ({ themeColor, cartItem, setCartItem, onSubmit }) => {
+const AdditionalNotes = ({ cartItem, setCartItem, onSubmit }) => {
     const handleSubmit = () => {
         onSubmit();
     }
@@ -15,7 +16,7 @@ const AdditionalNotes = ({ themeColor, cartItem, setCartItem, onSubmit }) => {
                     <h4 className="text-lg font-semibold mb-1">Write your notes here...</h4>
                     <MyInput
                         type="text"
-                        color={themeColor}
+                        color={EH_COLOR_DARK}
                         value={cartItem.notes}
                         onChange={e=>setCartItem({...cartItem, notes: e.target.value})}
                     />
@@ -27,7 +28,7 @@ const AdditionalNotes = ({ themeColor, cartItem, setCartItem, onSubmit }) => {
         </div>
         <div id="submit-popup-form" className='flex justify-end items-center p-4 lg:ml-4'>
             <button className="text-white w-full lg:w-1/6 hover:drop-shadow-xl p-3"
-                style={{borderRadius: '10px', backgroundColor: themeColor}}
+                style={{borderRadius: '10px', backgroundColor: EH_COLOR_DARK}}
                 type="button"
                 onClick={handleSubmit}
             >

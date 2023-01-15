@@ -13,7 +13,7 @@ Ex 2: Custom 10x15" G/B plate
 
 import React, { useState } from 'react';
 import { EditorState } from 'draft-js';
-import { pltSizes, pltColors, InitCartItemState } from '../../../data/uidata';
+import { pltSizes, pltColors, InitCartItemState, EH_COLOR_DARK } from '../../../data/uidata';
 
 import { CardManager, RTE, MyInput, ConfirmPopUp } from '../../../components';
 import GraphicForm from '../GraphicForm';
@@ -37,7 +37,7 @@ const InitialPlateState = {
 const lineLimit = 5;
 const lineLenLimit = 65;
 
-const PlateForm = ({ btnBgColor, submitForm, editPlate }) => {
+const PlateForm = ({ submitForm, editPlate }) => {
     const [cartItem, setCartItem] = useState(editPlate ? editPlate : {...InitCartItemState});
     const [plate, setPlate] = useState(()=>{
         const newPltObj = {...InitialPlateState};
@@ -76,7 +76,7 @@ const PlateForm = ({ btnBgColor, submitForm, editPlate }) => {
         pushPopUp(<ConfirmPopUp
           onSubmit={()=>{popPopUp(); handleSubmit()}}
           onCancel={popPopUp}
-          themeColor={btnBgColor}
+          themeColor={EH_COLOR_DARK}
           msg="Before proceeding, please double check your message for any spelling or grammatical errors."
           title="Confirm Plate Verbage"
         />)
@@ -132,7 +132,7 @@ const PlateForm = ({ btnBgColor, submitForm, editPlate }) => {
                                     onChange={(e)=>setPlate({...plate, customW: e.target.value})} 
                                     value={plate.customW}
                                     id="custom-w"
-                                    color={btnBgColor}
+                                    color={EH_COLOR_DARK}
                                     style={{width: '75px'}}
                                 />
                             </div>
@@ -145,7 +145,7 @@ const PlateForm = ({ btnBgColor, submitForm, editPlate }) => {
                                     value={plate.customH}
                                     onChange={(e)=>setPlate({...plate, customH: e.target.value})}
                                     id="custom-h"
-                                    color={btnBgColor}
+                                    color={EH_COLOR_DARK}
                                     style={{width: '75px'}}
                                 />
                             </div>
@@ -162,7 +162,6 @@ const PlateForm = ({ btnBgColor, submitForm, editPlate }) => {
                     options={plate.pltGraphics} 
                     onAddCard={()=>pushPopUp(
                         <GraphicForm title="Add Plate Graphic" 
-                            btnBgColor={btnBgColor}
                             submitForm={handleAddPltGraphic}
                         />
                     )}
@@ -196,7 +195,7 @@ const PlateForm = ({ btnBgColor, submitForm, editPlate }) => {
         </div>
         <div id="submit-popup-form" className='flex justify-end items-center p-4 ml-4'>
             <button className="text-white w-full lg:w-1/6 hover:drop-shadow-xl p-3"
-                style={{borderRadius: '10px', backgroundColor: btnBgColor, opacity: canSubmit ? 1 : 0.3}}
+                style={{borderRadius: '10px', backgroundColor: EH_COLOR_DARK, opacity: canSubmit ? 1 : 0.3}}
                 type="button"
                 onClick={confirmPlateMsg}
                 disabled={!canSubmit}

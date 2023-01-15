@@ -5,13 +5,13 @@ import ChooseItemStep from '../ChooseItemStep';
 import ItemLayout from '../ItemLayout';
 import AdditionalNotes from '../AdditionalNotes';
 import { EditorState } from 'draft-js';
-import { InitCartItemState } from '../../../data/uidata';
+import { InitCartItemState, EH_COLOR_DARK } from '../../../data/uidata';
 import { useStateContext } from '../../../contexts/ContextProvider';
 
 const lineLimit = 5;
 const lineLenLimit = 65;
 
-const Plaque = ({ themeColor, order, setOrder }) => {
+const Plaque = ({ order, setOrder }) => {
 
   //On first render, instruct the RTE to center the text
   const [autoTxtCenter, setAutoTxtCenter] = useState(true);
@@ -26,7 +26,7 @@ const Plaque = ({ themeColor, order, setOrder }) => {
     pushPopUp(<ConfirmPopUp
       onSubmit={()=>{popPopUp(); nextStepFunc()}}
       onCancel={popPopUp}
-      themeColor={themeColor}
+      themeColor={EH_COLOR_DARK}
       msg="Are you sure you want to proceed without choosing an item?"
       title="No Item Selected"
     />);
@@ -43,7 +43,7 @@ const Plaque = ({ themeColor, order, setOrder }) => {
     pushPopUp(<ConfirmPopUp
       onSubmit={()=>{popPopUp(); nextStepFunc()}}
       onCancel={popPopUp}
-      themeColor={themeColor}
+      themeColor={EH_COLOR_DARK}
       msg="Before proceeding, please double check your message for any spelling or grammatical errors."
       title="Confirm Verbage"
     />);
@@ -60,7 +60,7 @@ const Plaque = ({ themeColor, order, setOrder }) => {
         resetStepForm();
       }}
       onCancel={popPopUp}
-      themeColor={themeColor}
+      themeColor={EH_COLOR_DARK}
       title="Additional Notes"
     />);
   }
@@ -91,7 +91,6 @@ const Plaque = ({ themeColor, order, setOrder }) => {
       <div className="mt-14">
         <StepProgressForm onSubmit={addNotesToItem}>
           <ChooseItemStep
-            themeColor={themeColor}
             selectedItem={selItem}
             setSelectedItem={setSelItem}
             stepName="Choose an item"
@@ -113,7 +112,6 @@ const Plaque = ({ themeColor, order, setOrder }) => {
             setCartItem={setCartItem}
           />
           <PlaqueAddon stepName="Add-ons"
-            themeColor={themeColor}
             cartItem={cartItem}
             setCartItem={setCartItem}
             stepTip=""

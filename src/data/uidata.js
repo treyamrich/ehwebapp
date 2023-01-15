@@ -5,6 +5,9 @@ import { IoMdContacts } from 'react-icons/io';
 import { RiTodoLine,  } from 'react-icons/ri';
 import { TbBottle } from 'react-icons/tb';
 
+export const EH_COLOR_DARK = '#C39F7F';
+export const EH_COLOR_LIGHT = '#c39f7f57';
+
 export const pltColors = [
   { value: 1, label: 'Black/Gold' },
   { value: 2, label: 'Black/Silver' },

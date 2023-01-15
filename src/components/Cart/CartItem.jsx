@@ -2,21 +2,34 @@ import React from 'react';
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 import { addonFields } from '../../data/uidata';
 import { firstLetterUppercase, toNameString } from '../../utility/Strings';
+import { useStateContext } from '../../contexts/ContextProvider';
+import { ConfirmPopUp } from '../../components';
 
 const CartItem = ({ item, order, setOrder }) => {
     
+    const { pushPopUp, popPopUp } = useStateContext();
+
+    const updateCartItem = () => setOrder({...order, cart: [...order.cart]});
+    const removeCartItem = () => {
+        const newCart = [];
+        order.cart.forEach(elm => {
+            if(elm !== item) newCart.push(elm)
+        });
+        setOrder({...order, cart: newCart});
+    }
+    //Handles the general update item qty event
     const updateItemQty = amt => {
-        let newCart = [];
-        //Update the amount
-        item.quantity += amt;
         //Remove item if no quantity
-        if(item.quantity === 0) {
-            order.cart.forEach(elm => {if(elm !== item) newCart.push(elm)});
-            
+        if(item.quantity + amt === 0) {
+            pushPopUp(<ConfirmPopUp
+                onCancel={popPopUp}
+                onSubmit={()=>{removeCartItem(); popPopUp()}}
+                msg="Are you sure you want to remove this item?"
+            />);
         } else {
-            newCart = [...order.cart];
+            item.quantity += amt;
+            updateCartItem();
         }
-        setOrder({...order, cart: newCart})
     }
     //Gets the first 2 lines or 2 blocks from the draft-js editor state object (item.txtLines)
     const getTxtFromEditorState = () => {

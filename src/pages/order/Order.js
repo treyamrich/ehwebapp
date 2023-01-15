@@ -5,7 +5,7 @@ import { Alert, Sidebar, Navbar, Footer, PopUp } from '../../components/index';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { formatDate } from '../../utility/DateTimeFunctions';
 import { Bundles, Plaque, Bottle, Gift, ContactForm } from '.';
-import { order_links } from '../../data/uidata';
+import { order_links, EH_COLOR_DARK, EH_COLOR_LIGHT } from '../../data/uidata';
 
 //Database operation state
 const initialOpState = {
@@ -30,9 +30,6 @@ const initialOrderState = {
     cart: [],
     notes: ''
 };
-
-const EH_COLOR_DARK = '#C39F7F';
-const EH_COLOR_LIGHT = '#c39f7f57';
 
 const Order = () => {
   const [order, setOrder] = useState(initialOrderState);
@@ -91,8 +88,7 @@ const Order = () => {
               <Route path="bundles" element={<Bundles/>}/>
               <Route path="plaques-and-plates" element={
                 <Plaque 
-                  opRes={opRes} setOpRes={setOpRes}
-                  themeColor={EH_COLOR_DARK}  
+                  opRes={opRes} setOpRes={setOpRes}  
                   order={order}
                   setOrder={setOrder}
                 />}
