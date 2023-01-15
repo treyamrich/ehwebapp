@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Header, StepProgressForm, RTE, ConfirmPopUp, MyTextArea } from '../../../components';
+import { Header, StepProgressForm, RTE, ConfirmPopUp } from '../../../components';
 import PlaqueAddon from './PlaqueAddon';
 import ChooseItemStep from '../ChooseItemStep';
 import ItemLayout from '../ItemLayout';

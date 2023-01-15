@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { formatDate } from '../../../utility/DateTimeFunctions';
 import './contact_form.css';
 
@@ -8,10 +8,9 @@ const initContactState = {
   email: ''
 };
 
-const TODAY = formatDate(new Date());
-
 const ContactForm = ({order, setOrder, setDisplay}) => {
 
+  const today = useRef(formatDate(new Date()));
   const [contact, setContact] = useState(initContactState);
   const { name, phone, email } = contact;
   
@@ -23,6 +22,10 @@ const ContactForm = ({order, setOrder, setDisplay}) => {
     setOrder({...order, contactInfo: {...contact}});
   }
 
+  //Get today's date 
+  useEffect(()=>{
+    setOrder({...order, dateNeeded: today.current});
+  }, []);
   return (
     <div className="bg-white w-screen fixed top-0 right-0 h-screen"
       style={{zIndex: '10000'}}
@@ -61,7 +64,7 @@ const ContactForm = ({order, setOrder, setDisplay}) => {
                 className="border px-3 py-2 w-full rounded-sm mb-4"
                 onChange={e=>changeDateNeeded(e.target.value)}
                 value={order.dateNeeded}
-                min={TODAY}
+                min={today.current}
               />
               <div className="text-center">
                 <p className="text-slate-500 text-sm">The default minimum turnaround time is 3-5 days. Rush options may be available.</p>
