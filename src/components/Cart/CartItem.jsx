@@ -26,37 +26,22 @@ const CartItem = ({ item }) => {
         }
         return str;
     }
-    const getVerbageJsx = () => {
+    const getTxtJsx = () => {
         let previewJsx = getTxtFromEditorState();
         return previewJsx ? 
             (<li className="text-xs">
                 <h4 className="font-semibold">Text Preview</h4>
-                {getTxtFromEditorState()}
+                {previewJsx}
             </li>) : null;
     }
-    const getAddonJsx = () => {
-        let hasAnAddon = false;
-        const addonJsx = addonFields.map((field, key) => {
-            if(item[field].length > 0) hasAnAddon = true;
-            return (
-                <li key={key} className="text-xs">
-                    {item[field].length > 0 && (
-                    <h4 className="font-semibold">{firstLetterUppercase(field)}</h4>
-                    )}
-                    {toNameString(item[field])}
-                </li>);
-        });
-        return hasAnAddon ? addonJsx : null;
-    }
-    const verbageJsx = getVerbageJsx();
-    const addonJsx = getAddonJsx();
+    const txtJsx = getTxtJsx();
   return (
     <div>
         <div className="border-b-1 border-color dark:border-gray-600 p-4">
             <div className="flex items-center gap-5 leading-8">
                 <img className="rounded-lg h-80 w-24" src={item.image} alt="" />
                 <div>
-                <p className="font-semibold ">{item.name}</p>
+                <p className="font-semibold ">{item.name ? item.name : "No item selected"}</p>
                 <p className="text-gray-600 dark:text-gray-400 text-sm font-semibold">{firstLetterUppercase(item.category)}</p>
                 <div className="flex gap-4 mt-2 items-center">
                     <p className="font-semibold text-lg">{item.price}</p>
@@ -68,13 +53,17 @@ const CartItem = ({ item }) => {
                 </div>
                 </div>
             </div>
-            {(verbageJsx || addonJsx) && (<>
-                <h3 className="text-gray-600 dark:text-gray-400 text-sm font-semibold">Item Details</h3>
-                <ul>
-                    {verbageJsx}
-                    {addonJsx}
-                </ul>
-            </>)}
+            <ul>
+                {txtJsx}
+                {addonFields.map((field, key) => (
+                    <li key={key} className="text-xs">
+                        {item[field].length > 0 && (
+                        <h4 className="font-semibold">{firstLetterUppercase(field)}</h4>
+                        )}
+                        {toNameString(item[field])}
+                    </li>
+                ))}
+            </ul>
         </div>
     </div>
   )

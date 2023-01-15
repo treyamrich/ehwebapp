@@ -64,7 +64,7 @@ const ContactForm = ({order, setOrder, setDisplay}) => {
                 min={TODAY}
               />
               <div className="text-center">
-                <p className="text-slate-500 text-sm">The default minimum turnaround time is 3-5 days. Rush options might be available.</p>
+                <p className="text-slate-500 text-sm">The default minimum turnaround time is 3-5 days. Rush options may be available.</p>
               </div>
             </div>
           </form>

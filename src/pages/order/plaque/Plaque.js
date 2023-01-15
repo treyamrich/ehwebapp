@@ -66,10 +66,12 @@ const Plaque = ({ themeColor, managePopUp, order, setOrder }) => {
   }
   const addToCart = () => {
     //Copy attributes when adding to cart
-    cartItem.name = selItem.name;
-    cartItem.code = selItem.code;
-    cartItem.category = selItem.category;
-    cartItem.price = selItem.price;
+    if(selItem) { //If an item was selected
+      cartItem.name = selItem.name;
+      cartItem.code = selItem.code;
+      cartItem.category = selItem.category;
+      cartItem.price = selItem.price;
+    }
     cartItem.txtLines = editorState;
     //!!!!!Must json stringify the draft-js object
     setOrder({...order, cart: [...order.cart, cartItem]});
