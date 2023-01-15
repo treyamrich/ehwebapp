@@ -31,9 +31,9 @@ const CartItem = ({ item, order, setOrder }) => {
             updateCartItem();
         }
     }
-    //Gets the first 2 lines or 2 blocks from the draft-js editor state object (item.txtLines)
-    const getTxtFromEditorState = () => {
-        const contentBlkArr = item.txtLines.getCurrentContent().getBlocksAsArray();
+    //Gets the first 2 lines or 2 blocks from the draft-js editor state object (item.txtObj)
+    const getTxtFromEditorState = editorState => {
+        const contentBlkArr = editorState.getCurrentContent().getBlocksAsArray();
         let isEmpty = true;
         const textJsx = contentBlkArr.map((blk, idx) => {
             //Check if the text is empty
@@ -45,7 +45,7 @@ const CartItem = ({ item, order, setOrder }) => {
     }
     //Fetches the text from the draft-js editorstate object and puts it in jsx
     const getTxtJsx = () => {
-        let previewJsx = getTxtFromEditorState();
+        let previewJsx = getTxtFromEditorState(item.txtObj);
         return previewJsx ? 
             (<li className="text-xs">
                 <h4 className="font-semibold">Text Preview</h4>
@@ -89,6 +89,18 @@ const CartItem = ({ item, order, setOrder }) => {
                         {toNameString(item[field])}
                     </li>
                 ))}
+                {item.subItems.length > 0 && (<>
+                    <li><h4 className="font-semibold text-xs">Subitems</h4></li>
+                    {item.subItems.map((subItem, idx)=>(
+                        <li key={idx} className="text-xs">
+                            {subItem.name}
+                        </li>
+                    ))}
+                </>)}
+                {item.notes !== "" && (<>
+                    <li><h4 className="font-semibold text-xs">Additional Notes</h4></li>
+                    <li className="text-xs">{item.notes}</li>
+                </>)}
             </ul>
         </div>
     </div>

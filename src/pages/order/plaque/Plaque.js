@@ -70,7 +70,7 @@ const Plaque = ({ order, setOrder }) => {
       cartItem.category = selItem.category;
       cartItem.price = selItem.price;
     }
-    cartItem.txtLines = editorState;
+    cartItem.txtObj = editorState;
     //!!!!!Must json stringify the draft-js object
     setOrder({...order, cart: [...order.cart, cartItem]});
 

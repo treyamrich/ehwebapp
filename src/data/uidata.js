@@ -175,7 +175,7 @@ export const InitCartItemState = {
   cutouts: [],
   subItems: [],
   quantity: 1,
-  txtLines: null, //draft-js object
+  txtObj: null, //draft-js object
   notes: "",
   font: "", //probably get rid of this later
   category: "",
@@ -185,4 +185,4 @@ export const InitCartItemState = {
   postLayout: false
 };
 
-export const addonFields = ['graphics', 'cutouts', 'services', 'subItems'];
+export const addonFields = ['graphics', 'cutouts', 'services'];

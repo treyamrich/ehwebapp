@@ -21,6 +21,7 @@ const Cart = ({ order, setOrder }) => {
   const getTotalItemPrice = item => {
     let itemCost = item.price;
     addonFields.forEach(addonField => {
+      if(addonField === 'subItems') return;
       item[addonField].forEach(addon => itemCost += addon.price);
     });
     return itemCost;

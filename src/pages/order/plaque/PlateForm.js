@@ -72,7 +72,7 @@ const PlateForm = ({ submitForm, editPlate }) => {
         setPlate({...plate, pltGraphics: [graphicObj, ...plate.pltGraphics]});
     }
     const handleRemovePltGraphic = newGraphicsArr => setPlate({...plate, pltGraphics: [...newGraphicsArr]});
-    
+
     const confirmPlateMsg = () => {
         pushPopUp(<ConfirmPopUp
           onSubmit={()=>{popPopUp(); handleSubmit()}}
