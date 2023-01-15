@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import { Alert, Sidebar, Navbar, Footer, PopUp } from '../../components/index';
 import { useStateContext } from '../../contexts/ContextProvider';
-
+import { formatDate } from '../../utility/DateTimeFunctions';
 import { Bundles, Plaque, Bottle, Gift, ContactForm } from '.';
 import { order_links } from '../../data/uidata';
 
@@ -22,7 +22,7 @@ const initialOrderState = {
         phone: '',
         email: '',
     },
-    dateNeeded: new Date(),
+    dateNeeded: formatDate(new Date()),
     timeNeeded: '',
     location: '',
     status: 'NEW',
