@@ -39,8 +39,8 @@ const PlaqueAddon = ({themeColor, managePopUp, cartItem, setCartItem}) => {
   const handleRemoveGraphic = newArr => setCartItem({...cartItem, graphics: [...newArr]});
   const handleRemoveCutout = newArr => setCartItem({...cartItem, cutouts: [...newArr]});
   const handleUpdateServices = newServices => {
-    //Strip the label from the objects
-    setCartItem({...cartItem, services: newServices.map(selectOpt => selectOpt.label)});
+    //Map the services and the label attribute to name
+    setCartItem({...cartItem, services: newServices.map(selectOpt => {return {name: selectOpt.label}})});
   }
   return (
     <div>
