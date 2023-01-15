@@ -1,10 +1,15 @@
 import React from 'react';
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 import { addonFields } from '../../data/uidata';
+import { firstLetterUppercase, toNameString } from '../../utility/Strings';
 
 const CartItem = ({ item }) => {
+    
+    const updateItemQty = amt => {
+        
+    }
+    //Gets the first 2 lines or 2 blocks from the draft-js editor state object (item.txtLines)
     const getTxtFromEditorState = () => {
-        //item.txtLines is a draft-js editorstate object
         const contentBlkArr = item.txtLines.getCurrentContent().getBlocksAsArray();
         let isEmpty = true;
         const textJsx = contentBlkArr.map((blk, idx) => {
@@ -15,17 +20,7 @@ const CartItem = ({ item }) => {
         });
         return isEmpty ? null : textJsx;
     }
-    const firstLetterUppercase = str => {
-        return `${str.substring(0,1).toUpperCase()}${str.substring(1,str.length).toLowerCase()}`;
-    }
-    const toNameString = arr => {
-        let str = "";
-        for(let i = 0; i < arr.length; i++) {
-            str += arr[i].name;
-            if(i !== arr.length - 1) str += ", ";
-        }
-        return str;
-    }
+    //Fetches the text from the draft-js editorstate object and puts it in jsx
     const getTxtJsx = () => {
         let previewJsx = getTxtFromEditorState();
         return previewJsx ? 
@@ -46,7 +41,11 @@ const CartItem = ({ item }) => {
                 <div className="flex gap-4 mt-2 items-center">
                     <p className="font-semibold text-lg">{item.price}</p>
                     <div className="flex items-center border-1 border-r-0 border-color rounded">
-                    <p className="p-2 border-r-1 dark:border-gray-600 border-color text-red-600 "><AiOutlineMinus /></p>
+                    <p className="p-2 border-r-1 dark:border-gray-600 border-color text-red-600"
+                        onClick={()=>updateItemQty(-1)}
+                    >
+                        <AiOutlineMinus />
+                    </p>
                     <p className="p-2 border-r-1 border-color dark:border-gray-600 text-green-600">{item.quantity}</p>
                     <p className="p-2 border-r-1 border-color dark:border-gray-600 text-green-600"><AiOutlinePlus /></p>
                     </div>

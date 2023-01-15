@@ -4,7 +4,7 @@ import { updateItems } from '../../../graphql/mutations';
 import { getItems, listItems } from '../../../graphql/queries';
 import { POIncomingItems, POReceivedItems } from './index';
 import { formatDate } from '../../../utility/DateTimeFunctions';
-import { arrToString } from '../../../utility/ArrayToString';
+import { arrToString } from '../../../utility/Strings';
 
 function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
     const po = poForm.po;

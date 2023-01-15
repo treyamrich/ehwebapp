@@ -5,7 +5,7 @@ import { createItems, deleteItems, updateItems } from '../../../graphql/mutation
 import { TableComponent, ColumnHeader } from '../../../components/Table/TableIndex';
 import { Header } from '../../../components/index';
 import ItemForm from './ItemForm';
-import { arrToString } from '../../../utility/ArrayToString';
+import { arrToString } from '../../../utility/Strings';
 import '../../../styles/inventory.css';
 
 import { useStateContext } from '../../../contexts/ContextProvider';

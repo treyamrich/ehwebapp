@@ -3,7 +3,7 @@ import { API } from 'aws-amplify';
 import { listItems, listPurchaseOrders, getPurchaseOrder } from '../../../graphql/queries';
 import { POForm, PORunDown } from './index';
 import { createPurchaseOrder, updatePurchaseOrder, deletePurchaseOrder } from '../../../graphql/mutations';
-import { arrToString } from '../../../utility/ArrayToString';
+import { arrToString } from '../../../utility/Strings';
 
 const initialPOFormState = {
     op: "view-all",
