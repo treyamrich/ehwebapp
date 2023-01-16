@@ -175,14 +175,16 @@ const OrderSummary = ({ order, setOrder, getItemPrice }) => {
                 <div className='mb-3'>
                     <p className="text-gray-500 dark:text-gray-200 mb-1">Pickup Location</p>
                     {isEditing ? (
-                        <Select
-                            closeMenuOnSelect={true}
-                            components={animatedComponents}
-                            options={locations}
-                            defaultValue={orderInfo.location !== "" ? [{label: orderInfo.location, value: -1}] : []}
-                            onChange={option=>handleChangeLocation(option.label)}
-                            className="mb-3"
-                    />
+                        <div className="w-52">
+                            <Select
+                                closeMenuOnSelect={true}
+                                components={animatedComponents}
+                                options={locations}
+                                defaultValue={orderInfo.location !== "" ? [{label: orderInfo.location, value: -1}] : []}
+                                onChange={option=>handleChangeLocation(option.label)}
+                                className="mb-3"
+                            />
+                        </div>
                     ) : <p>{orderInfo.location}</p>}
                 </div>
                 <div>
