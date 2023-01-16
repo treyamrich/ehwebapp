@@ -96,7 +96,7 @@ const OrderSummary = ({ getItemPrice }) => {
             </div>
         )}
         <div className="w-11/12 bg-gray-50 rounded-md drop-shadow-xl p-3 sm:p-5 m-auto overflow-y-auto">
-            <button className="fixed top-3 right-3 rounded-md text-xl p-3 hover:bg-light-gray"
+            <button className="fixed top-3 right-3 rounded-md text-xl p-1 hover:bg-light-gray"
                 onClick={()=>setIsEditing(prev=>!prev)}
             >
                 <AiOutlineEdit size={25} color={EH_COLOR_DARK}/>

@@ -7,12 +7,18 @@ import "./step_progress_form.css";
 
 :onSubmit - a function that is called when the form is submitted. The function
   should take a callback function as a parameter to reset the form
+  
+:onCancel - a function that is called when the form is at step 0, 
+  and the user pressed the back button.
 
+:cancelMsg - a string to display for the cancel button at step 0
 */
-const StepProgressForm = ({ children, onSubmit }) => {
+const StepProgressForm = ({ children, onSubmit, onCancel, cancelMsg }) => {
     const [currStep, setCurrStep] = useState(0);
     const stepStack = useRef([]);
     const stepComps = Children.toArray(children);
+    const atFirstStep = currStep === 0;
+    const atLastStep = currStep === stepComps.length-1;
 
     //Convert step number to percentage
     const calcPercent = () => {
@@ -39,9 +45,17 @@ const StepProgressForm = ({ children, onSubmit }) => {
       }
     }
     const handleBackStep = () => {
-      let stepAmt = stepStack.current.length > 0 ? 
-        stepStack.current.pop() : 1;
-      setCurrStep(prevStep => prevStep - stepAmt);
+      //If stepping back is not allowed
+      if(atFirstStep) {
+        if(onCancel) {
+          try {
+            onCancel();
+          } catch(e) {console.log(e)}
+        }
+      } else {
+        let stepAmt = stepStack.current.pop(); 
+        setCurrStep(prevStep => prevStep - stepAmt);
+      }
     }
     const handleSubmit = () => onSubmit(()=>setCurrStep(0));
   return (
@@ -73,18 +87,18 @@ const StepProgressForm = ({ children, onSubmit }) => {
         </div>
         <div className="flex justify-between mt-6">
           <button
-            className={`py-3 px-4 border-1 rounded-md hover:drop-shadow-xl ${currStep === 0 ? 'text-gray-300' : ''}`}
+            className={`py-3 px-4 border-1 rounded-md hover:drop-shadow-xl ${atFirstStep ? onCancel ? 'bg-red-600 text-white' : 'text-gray-300' : ''}`}
             onClick={handleBackStep}
-            disabled={currStep === 0}
+            disabled={!onCancel && atFirstStep}
           >
-            Back
+            {atFirstStep && onCancel ? cancelMsg : "Back"}
           </button>
           <button
             className="py-3 px-4 border-1 rounded-md hover:drop-shadow-xl"
-            onClick={currStep === stepComps.length-1 ? handleSubmit : handleNextStep}
-            style={{background: currStep === stepComps.length-1 ? '#4db193' : 'black' , color: 'white'}}
+            onClick={atLastStep ? handleSubmit : handleNextStep}
+            style={{background: atLastStep ? '#4db193' : 'black' , color: 'white'}}
           >
-            {currStep === stepComps.length-1 ? 'Submit' : 'Next'}
+            {atLastStep ? 'Submit' : 'Next'}
           </button>
         </div>
       </div>

@@ -1,26 +1,18 @@
-import React, { useState } from 'react';
-import { Header, StepProgressForm, RTE, ConfirmPopUp } from '../../../components';
+import React from 'react';
+import { Header, StepProgressForm, RTE, ConfirmPopUp, Alert } from '../../../components';
 import PlaqueAddon from './PlaqueAddon';
 import ChooseItemStep from '../ChooseItemStep';
 import ItemLayout from '../ItemLayout';
 import AdditionalNotes from '../AdditionalNotes';
-import { EditorState } from 'draft-js';
-import { InitCartItemState, EH_COLOR_DARK } from '../../../data/uidata';
+import {  EH_COLOR_DARK } from '../../../data/uidata';
 import { useStateContext } from '../../../contexts/ContextProvider';
 
 const lineLimit = 5;
 const lineLenLimit = 65;
 
-const Plaque = () => {
+const Plaque = ({ editItemIdx, cancelEditItem, cartItem, setCartItem, selItem, setSelItem, editorState, setEditorState, autoTxtCenter, setAutoTxtCenter, addToCart }) => {
 
-  //On first render, instruct the RTE to center the text
-  const [autoTxtCenter, setAutoTxtCenter] = useState(true);
-  
-  const [cartItem, setCartItem] = useState({...InitCartItemState});
-  const [selItem, setSelItem] = useState(null);
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
-
-  const { handleClick, popPopUp, pushPopUp, order, setOrder } = useStateContext();
+  const { popPopUp, pushPopUp } = useStateContext();
 
   const confirmSelItem = nextStepFunc => {
     pushPopUp(<ConfirmPopUp
@@ -55,39 +47,28 @@ const Plaque = () => {
       onSubmit={()=>{
         popPopUp(); 
         //Official cart item submission
-        addToCart(); 
+        addToCart();
         resetStepForm();
       }}
       themeColor={EH_COLOR_DARK}
       title="Additional Notes"
     />);
   }
-  const addToCart = () => {
-    //Copy attributes when adding to cart
-    if(selItem) { //If an item was selected
-      cartItem.name = selItem.name;
-      cartItem.code = selItem.code;
-      cartItem.category = selItem.category;
-      cartItem.price = selItem.price;
-    }
-    cartItem.txtObj = editorState;
-    //!!!!!Must json stringify the draft-js object
-    setOrder({...order, cart: [...order.cart, cartItem]});
-
-    //Reset the state whole customization process
-    setCartItem({...InitCartItemState});
-    setSelItem(null);
-    setEditorState(EditorState.createEmpty());
-    setAutoTxtCenter(true);
-
-    //Open cart
-    handleClick('cart');
-  }
   return (
-    <div className="m-2 md:m-10 mt-14 lg:mt-24 p-2 md:p-10 rounded-3xl bg-slate-50">
+    <div className="m-2 md:m-10 mt-16 lg:mt-24 p-2 md:p-10 rounded-3xl bg-slate-50">
+      {editItemIdx !== -1 && (
+        <div className="opacity-50 text-center sticky top-14 right-0"
+          style={{zIndex: 10000}}
+        >
+            <Alert variant="success" size="small">Edit Mode</Alert>
+        </div>
+      )}
       <Header category="Customize" title="Plaques and Plates" />
       <div className="mt-14">
-        <StepProgressForm onSubmit={addNotesToItem}>
+        <StepProgressForm onSubmit={addNotesToItem} 
+          onCancel={editItemIdx === -1 ? undefined : cancelEditItem} 
+          cancelMsg="Cancel Edit"
+        >
           <ChooseItemStep
             selectedItem={selItem}
             setSelectedItem={setSelItem}

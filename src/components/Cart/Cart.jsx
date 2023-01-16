@@ -4,10 +4,10 @@ import { useStateContext } from '../../contexts/ContextProvider';
 import { Button } from '..';
 import CartItem from './CartItem';
 import OrderSummary from '../../pages/order/OrderSummary';
-import "./cart.css";
+import "../../styles/hidescrollbar.css";
 import { addonFields } from '../../data/uidata';
 
-const Cart = () => {
+const Cart = ({ handleEditCartItem }) => {
   const { currentColor, pushPopUp, order, setOrder } = useStateContext();
 
   //Recursively calculates the total given a cart item
@@ -61,6 +61,7 @@ const Cart = () => {
               order={order}
               setOrder={setOrder}
               getItemPrice={getItemPrice}
+              editCartItem={()=>handleEditCartItem(item, index)}
             />
           ))}
           </div>

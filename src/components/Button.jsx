@@ -3,13 +3,13 @@ import React from 'react';
 import { useStateContext } from '../contexts/ContextProvider';
 
 const Button = ({ icon, bgColor, color, bgHoverColor, size, text, borderRadius, width, customFunc }) => {
-  const { setIsClicked, initialState } = useStateContext();
+  const { setIsClicked, initialClickState } = useStateContext();
 
   return (
     <button
       type="button"
       onClick={() => {
-        setIsClicked(initialState);
+        setIsClicked(initialClickState);
         if(customFunc) {
           customFunc();
         }

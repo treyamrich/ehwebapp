@@ -359,6 +359,7 @@ const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit, autoTxtCent
         }
         return;
       }
+      default: {}
     }
     if(e.ctrlKey) {
       switch(e.keyCode) {
@@ -367,6 +368,7 @@ const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit, autoTxtCent
           delSelection();
           return;
         }
+        default: {}
       }
     }
     
@@ -385,7 +387,7 @@ const RTE = ({ editorState, setEditorState, lineLimit, lineLenLimit, autoTxtCent
   }
 
   return (
-    <div className="RTE-container p-1">
+    <div className="RTE-container p-3">
       <div className='text-center'>
         <h1 className="text-xs text-slate-400 mb-3">
           <strong>Note:</strong> Lines are separated by dashed lines. The amount of lines may be limited depending on your selected item.

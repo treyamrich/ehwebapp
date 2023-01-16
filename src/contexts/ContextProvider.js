@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 
 const StateContext = createContext();
 
-const initialState = {
+const initialClickState = {
   chat: false,
   cart: false,
   userProfile: false,
@@ -29,7 +29,7 @@ export const ContextProvider = ({ children }) => {
   const [currentMode, setCurrentMode] = useState('Light');
   const [themeSettings, setThemeSettings] = useState(false);
   const [activeMenu, setActiveMenu] = useState(true);
-  const [isClicked, setIsClicked] = useState(initialState);
+  const [isClicked, setIsClicked] = useState(initialClickState);
   const [order, setOrder] = useState(initialOrderState);
   const [popups, setPopUps] = useState([]); //PopUps are implemented as a stack
 
@@ -45,7 +45,7 @@ export const ContextProvider = ({ children }) => {
     setThemeSettings(false);
   };
 
-  const handleClick = (clicked) => setIsClicked({ ...initialState, [clicked]: true });
+  const handleClick = (clicked) => setIsClicked({ ...initialClickState, [clicked]: true });
 
   const popPopUp = () => {
     setPopUps(prevPopups=> {
@@ -57,7 +57,7 @@ export const ContextProvider = ({ children }) => {
 
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <StateContext.Provider value={{ currentColor, currentMode, activeMenu, screenSize, setScreenSize, handleClick, isClicked, initialState, setIsClicked, setActiveMenu, setCurrentColor, setCurrentMode, setMode, setColor, themeSettings, setThemeSettings, popups, popPopUp, pushPopUp, order, setOrder }}>
+    <StateContext.Provider value={{ currentColor, currentMode, activeMenu, screenSize, setScreenSize, handleClick, isClicked, initialClickState, setIsClicked, setActiveMenu, setCurrentColor, setCurrentMode, setMode, setColor, themeSettings, setThemeSettings, popups, popPopUp, pushPopUp, order, setOrder }}>
       {children}
     </StateContext.Provider>
   );
