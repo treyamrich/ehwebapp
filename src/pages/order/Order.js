@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Routes, Route } from 'react-router-dom';
 
-import { Alert, Sidebar, Navbar, Footer, PopUp } from '../../components/index';
+import { Alert, Sidebar, Navbar, Footer, PopUp } from '../../components';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { Bundles, Plaque, Bottle, Gift, ContactForm } from '.';
 import { order_links, EH_COLOR_DARK, EH_COLOR_LIGHT } from '../../data/uidata';

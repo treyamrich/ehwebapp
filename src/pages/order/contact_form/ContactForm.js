@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { formatDate } from '../../../utility/DateTimeFunctions';
 import './contact_form.css';
 
+import Select from 'react-select';
+import { locations, animatedComponents } from '../../../data/uidata';
+
 const initContactState = {
   name: '',
   phone: '',
@@ -59,6 +62,15 @@ const ContactForm = ({order, setOrder, setDisplay}) => {
                 onChange={(e)=>setContact({...contact, email: e.target.value})}
                 value={email}
               />
+              <label className="text-lg font-semibold" htmlFor="location">Pickup Location</label>
+              <Select
+                  closeMenuOnSelect={true}
+                  components={animatedComponents}
+                  options={locations}
+                  defaultValue={order.location !== "" ? [{label: order.location, value: -1}] : []}
+                  onChange={option=>setOrder({...order, location: option.label})}
+                  className="mb-3"
+              />
               <label className="text-lg font-semibold" htmlFor="date-needed">Date Order Needed</label>
               <input type="date" name="date-needed"
                 className="border px-3 py-2 w-full rounded-sm mb-4"
@@ -67,7 +79,7 @@ const ContactForm = ({order, setOrder, setDisplay}) => {
                 min={today.current}
               />
               <div className="text-center">
-                <p className="text-slate-500 text-sm">The default minimum turnaround time is 4-5 days. Rush options may be available.</p>
+                <p className="text-slate-500 text-sm">The minimum turnaround time is 4-5 days. Rush options may be available.</p>
               </div>
             </div>
           </form>

@@ -3,6 +3,7 @@ import { MdOutlineCancel } from 'react-icons/md';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { Button } from '..';
 import CartItem from './CartItem';
+import OrderSummary from '../../pages/order/OrderSummary';
 import "./cart.css";
 import { addonFields, HAWAII_SALES_TAX, RUSH_FEES } from '../../data/uidata';
 import { subtractDays } from '../../utility/DateTimeFunctions';
@@ -14,7 +15,7 @@ const InitOrderCost = {
 };
 
 const Cart = ({ order, setOrder }) => {
-  const { currentColor } = useStateContext();
+  const { currentColor, pushPopUp, popPopUp } = useStateContext();
   const [orderCost, setOrderCost] = useState(InitOrderCost);
 
   //Recursively calculates the total given a cart item
@@ -27,7 +28,7 @@ const Cart = ({ order, setOrder }) => {
       if(addonField === 'subItems') return;
       item[addonField].forEach(addon => itemCost += addon.price);
     });
-    
+
     //Text lines DEAL WITH THIS LATER
 
     //Add cost of children items
@@ -53,13 +54,21 @@ const Cart = ({ order, setOrder }) => {
     if(dateDiff <= 3) return 3;
     return 0;
   }
+  const showOrderSummary = () => {
+    pushPopUp(<OrderSummary
+      order={order}
+      setOrder={setOrder}
+      orderCost={orderCost}
+      title="Order Summary"
+    />)
+  }
   //Every time the order is updated, recalculate the cost
   useEffect(() => {
     //Must get # of rush days first since it's needed in cost calculation
     orderCost.numRushDays = getNumRushDays();
     setOrderCost(getTotal());
   }, [order]);
-  const { numRushDays } = orderCost;
+
   return (
     <div className="bg-half-transparent w-full fixed nav-item top-0 right-0 ">
       <div className="float-right h-screen duration-1000 ease-in-out dark:text-gray-200 transition-all dark:bg-[#484B52] bg-white md:w-400 w-full p-8">
@@ -89,25 +98,6 @@ const Cart = ({ order, setOrder }) => {
             />
           ))}
           </div>
-          <div className="mt-3 mb-3">
-            {orderCost.numRushDays > 0 && (
-            <div>
-              <p className="text-gray-500 dark:text-gray-200">Additional Charges</p>
-              <div className="flex justify-between items-center">
-                <p className="font-semibold text-xs">Rush Fee - {numRushDays} day(s)</p>
-                <p className="font-semibold text-xs">${RUSH_FEES[numRushDays].toFixed(2)}</p>
-              </div>
-            </div>
-            )}
-            <div className="flex justify-between items-center mt-3">
-              <p className="text-gray-500 dark:text-gray-200">Sub Total</p>
-              <p className="font-semibold">${orderCost.subtotal}</p>
-            </div>
-            <div className="flex justify-between items-center mt-3">
-              <p className="text-gray-500 dark:text-gray-200">Total</p>
-              <p className="font-semibold">${orderCost.total}</p>
-            </div>
-          </div>
           <div className="mt-5 mb-10">
             <Button
               color="white"
@@ -115,6 +105,7 @@ const Cart = ({ order, setOrder }) => {
               text="Place Order"
               borderRadius="10px"
               width="full"
+              customFunc={showOrderSummary}
             />
           </div>
         </div>

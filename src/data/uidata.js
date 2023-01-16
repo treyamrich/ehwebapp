@@ -4,6 +4,9 @@ import { BsBoxSeam, BsGift } from 'react-icons/bs';
 import { IoMdContacts } from 'react-icons/io';
 import { RiTodoLine,  } from 'react-icons/ri';
 import { TbBottle } from 'react-icons/tb';
+import makeAnimated from 'react-select/animated';
+
+export const animatedComponents = makeAnimated();
 
 export const EH_COLOR_DARK = '#C39F7F';
 export const EH_COLOR_LIGHT = '#c39f7f57';
@@ -184,7 +187,10 @@ export const InitCartItemState = {
   postTxt: false,
   postLayout: false
 };
-
+export const locations = [
+  { value: 1, label: 'Schofield Barracks'},
+  { value: 2, label: 'Kaneohe Bay'},
+];
 export const addonFields = ['graphics', 'cutouts', 'services'];
 export const HAWAII_SALES_TAX = 0.04;
 export const RUSH_FEES = { //Key = # of days

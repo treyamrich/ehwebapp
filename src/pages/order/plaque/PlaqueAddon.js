@@ -1,15 +1,12 @@
 import React from 'react';
 import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
 
 import GraphicForm from '../GraphicForm';
 import PlateForm from './PlateForm';
 import { CardManager, Tabs, Tab } from '../../../components';
 import { useStateContext } from '../../../contexts/ContextProvider';
 
-import { serviceOpts } from '../../../data/uidata';
-
-const animatedComponents = makeAnimated();
+import { serviceOpts, animatedComponents } from '../../../data/uidata';
 
 const PlaqueAddon = ({ cartItem, setCartItem}) => {
   const { pushPopUp, popPopUp } = useStateContext();

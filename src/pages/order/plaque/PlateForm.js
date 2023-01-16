@@ -13,17 +13,14 @@ Ex 2: Custom 10x15" G/B plate
 
 import React, { useState } from 'react';
 import { EditorState } from 'draft-js';
-import { pltSizes, pltColors, InitCartItemState, EH_COLOR_DARK } from '../../../data/uidata';
+import { pltSizes, pltColors, InitCartItemState, EH_COLOR_DARK, animatedComponents } from '../../../data/uidata';
 
 import { CardManager, RTE, MyInput, ConfirmPopUp } from '../../../components';
 import GraphicForm from '../GraphicForm';
 import { useStateContext } from '../../../contexts/ContextProvider';
 
 import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
 import { MyTextArea } from '../../../components';
-
-const animatedComponents = makeAnimated();
 
 const InitialPlateState = {
     name: "",
