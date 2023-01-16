@@ -28,3 +28,10 @@ export function subtractTime(time1, time2) {
 
   return hrDiff*60 + secDiff;
 }
+
+//Subtracts two Date objects and returns the difference in days
+export const subtractDays = (date1, date2) => {
+  let dif = Math.abs(date1-date2);
+  dif /= (1000 * 3600 * 24);
+  return dif;
+}

@@ -21,7 +21,7 @@ const initialOrderState = {
         phone: '',
         email: '',
     },
-    dateNeeded: null,
+    dateNeeded: '',
     timeNeeded: '',
     location: '',
     status: 'NEW',

@@ -186,3 +186,9 @@ export const InitCartItemState = {
 };
 
 export const addonFields = ['graphics', 'cutouts', 'services'];
+export const HAWAII_SALES_TAX = 0.04;
+export const RUSH_FEES = { //Key = # of days
+  0: 0,
+  1: 40,
+  3: 25
+};
