@@ -7,21 +7,18 @@ import OrderSummary from '../../pages/order/OrderSummary';
 import "./cart.css";
 import { addonFields } from '../../data/uidata';
 
-
-
-
-const Cart = ({ order, setOrder }) => {
-  const { currentColor, pushPopUp } = useStateContext();
+const Cart = () => {
+  const { currentColor, pushPopUp, order, setOrder } = useStateContext();
 
   //Recursively calculates the total given a cart item
   const getItemPrice = item => {
-    let itemCost = item.price;
+    let itemCost = item.price ? item.price : 0;
 
     //Current item cost
     addonFields.forEach(addonField => {
       //Skip subitems
       if(addonField === 'subItems') return;
-      item[addonField].forEach(addon => itemCost += addon.price);
+      item[addonField].forEach(addon => itemCost += addon.price ? addon.price : 0);
     });
 
     //Text lines DEAL WITH THIS LATER
@@ -31,10 +28,10 @@ const Cart = ({ order, setOrder }) => {
     return itemCost * item.quantity;
   }
   
+  //The OrderSummary component will pass a function back to copy state values
   const showOrderSummary = () => {
     pushPopUp(<OrderSummary
-      order={order}
-      setOrder={setOrder}
+      getItemPrice={getItemPrice}
       title="Order Summary"
     />)
   }

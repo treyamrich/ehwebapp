@@ -14,27 +14,10 @@ const initialOpState = {
     failItems: [] 
 };
 
-const initialOrderState = {
-    orderNum: '',
-    contactInfo: {
-        name: '',
-        phone: '',
-        email: '',
-    },
-    dateNeeded: '',
-    timeNeeded: '',
-    location: '',
-    status: 'NEW',
-    rushStatus: 'NONE',
-    cart: [],
-    notes: ''
-};
-
 const Order = () => {
-  const [order, setOrder] = useState(initialOrderState);
   const [display, setDisplay] = useState('start'); //Control start, contact form, and order screen display
   const [opRes, setOpRes] = useState(initialOpState);
-  const {activeMenu, currentMode, popups, popPopUp } = useStateContext();
+  const { activeMenu, currentMode, popups, popPopUp, order } = useStateContext();
 
   const resetOpRes = () => setOpRes(initialOpState);
 
@@ -58,11 +41,9 @@ const Order = () => {
           }
       >
         <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
-          <Navbar themeColor={EH_COLOR_DARK} s
-            etDisplay={setDisplay} 
-            user={{...order.contactInfo}}
-            order={order}
-            setOrder={setOrder}
+          <Navbar themeColor={EH_COLOR_DARK} 
+            setDisplay={setDisplay} 
+            user={{name: order.name, phone: order.phone, email: order.email}}
           />
           {opRes.failureMsg !== "" ? <Alert variant="danger" dismissible onClose={resetOpRes}>{opRes.failureMsg}</Alert> : null}
           {opRes.successMsg !== "" ? <Alert variant="success" dismissible onClose={resetOpRes}>{opRes.successMsg}</Alert> : null}
@@ -76,11 +57,7 @@ const Order = () => {
               { childElm }
             </PopUp>
           ))}
-          {display === 'start' && (
-            <ContactForm order={order} 
-            setOrder={setOrder} 
-            setDisplay={setDisplay}
-          />)}
+          {display === 'start' && (<ContactForm setDisplay={setDisplay}/>)}
 
           <Routes>
               <Route path="/" element={<Bundles/>}/>
@@ -88,8 +65,6 @@ const Order = () => {
               <Route path="plaques-and-plates" element={
                 <Plaque 
                   opRes={opRes} setOpRes={setOpRes}  
-                  order={order}
-                  setOrder={setOrder}
                 />}
               />
               <Route path="engravable-bottles" element={<Bottle opRes={opRes} setOpRes={setOpRes}/>}/>

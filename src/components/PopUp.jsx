@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Children } from 'react'
 import { MdOutlineCancel } from 'react-icons/md';
 
 /*Interface invariant
@@ -8,6 +8,14 @@ PopUp Props
 :title - a string for the header
 */
 const PopUp = ({title, closePopUp, children}) => {
+  //Signal to the child component that the popup is closing
+  const handleClosePopup = () => {
+    const childComps = Children.toArray(children);
+    childComps.forEach(comp => {
+      if(comp.onClosePopup) comp.onClosePopup();
+    });
+    closePopUp();
+  }
   return (
     <div className="fixed bg-half-transparent w-screen top-0 right-0 h-screen"
       style={{zIndex: '10009'}}  
@@ -18,7 +26,7 @@ const PopUp = ({title, closePopUp, children}) => {
             <p className="font-semibold text-2xl">{title}</p>
             <button
               type="button"
-              onClick={() => closePopUp()}
+              onClick={handleClosePopup}
               style={{ color: 'rgb(153, 171, 180)', borderRadius: '50%' }}
               className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
             >

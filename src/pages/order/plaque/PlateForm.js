@@ -98,6 +98,7 @@ const PlateForm = ({ submitForm, editPlate }) => {
             <div className="py-2 px-1">
                 <h4 className="text-lg font-semibold mb-1">Color</h4>
                 <Select
+                    isSearchable={false}
                     closeMenuOnSelect={true}
                     components={animatedComponents}
                     defaultValue={editPlate ? [{label: plate.pltColor, value: -1}] : [pltColors[0]]}
@@ -112,6 +113,7 @@ const PlateForm = ({ submitForm, editPlate }) => {
             <div className="py-2 px-1">
                 <h4 className="text-lg font-semibold mb-1">Plate Size</h4>
                 <Select
+                    isSearchable={false}
                     closeMenuOnSelect={true}
                     components={animatedComponents}
                     options={pltSizes}

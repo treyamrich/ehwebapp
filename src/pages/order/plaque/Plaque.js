@@ -11,7 +11,7 @@ import { useStateContext } from '../../../contexts/ContextProvider';
 const lineLimit = 5;
 const lineLenLimit = 65;
 
-const Plaque = ({ order, setOrder }) => {
+const Plaque = () => {
 
   //On first render, instruct the RTE to center the text
   const [autoTxtCenter, setAutoTxtCenter] = useState(true);
@@ -20,7 +20,7 @@ const Plaque = ({ order, setOrder }) => {
   const [selItem, setSelItem] = useState(null);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
 
-  const { handleClick, popPopUp, pushPopUp } = useStateContext();
+  const { handleClick, popPopUp, pushPopUp, order, setOrder } = useStateContext();
 
   const confirmSelItem = nextStepFunc => {
     pushPopUp(<ConfirmPopUp

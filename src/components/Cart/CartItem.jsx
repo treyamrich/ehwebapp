@@ -5,9 +5,9 @@ import { firstLetterUppercase, toNameString } from '../../utility/Strings';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { ConfirmPopUp } from '../../components';
 
-const CartItem = ({ item, order, setOrder, getItemPrice }) => {
+const CartItem = ({ item, getItemPrice }) => {
     
-    const { pushPopUp, popPopUp } = useStateContext();
+    const { pushPopUp, popPopUp, order, setOrder } = useStateContext();
 
     const updateCartItem = () => setOrder({...order, cart: [...order.cart]});
     const removeCartItem = () => {

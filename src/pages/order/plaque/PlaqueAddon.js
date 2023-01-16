@@ -77,6 +77,7 @@ const PlaqueAddon = ({ cartItem, setCartItem}) => {
           <div className="h-36">
             <h4 className="text-lg font-semibold mb-1">Select your service(s) here</h4>
             <Select
+              isSearchable={false}
               closeMenuOnSelect={true}
               components={animatedComponents}
               isMulti

@@ -1,27 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { formatDate } from '../../../utility/DateTimeFunctions';
 import './contact_form.css';
 import Select from 'react-select';
 import { locations, animatedComponents } from '../../../data/uidata';
+import { useStateContext } from '../../../contexts/ContextProvider';
 
-const initContactState = {
-  name: '',
-  phone: '',
-  email: ''
-};
+const ContactForm = ({ setDisplay}) => {
 
-const ContactForm = ({order, setOrder, setDisplay}) => {
-
+  const { order, setOrder } = useStateContext();
   const today = useRef(formatDate(new Date()));
-  const [contact, setContact] = useState(initContactState);
-  const { name, phone, email } = contact;
+  const { name, phone, email } = order;
   
-  const changeDateNeeded = date => {
-    setOrder({...order, dateNeeded: date});
-  }
   const submitContact = nextDisplay => {
     setDisplay(nextDisplay);
-    setOrder({...order, contactInfo: {...contact}});
   }
 
   //Get today's date 
@@ -44,21 +35,21 @@ const ContactForm = ({order, setOrder, setDisplay}) => {
               <input type="text" name="name"
                 className="border px-3 py-2 w-full rounded-sm mb-4"
                 placeholder="Full Name"
-                onChange={(e)=>setContact({...contact, name: e.target.value})}
+                onChange={(e)=>setOrder({...order, name: e.target.value})}
                 value={name}
               />
               <label className="text-lg font-semibold" htmlFor="phone">Phone Number</label>
               <input type="text" name="phone"
                 className="border px-3 py-2 w-full rounded-sm mb-4"
                 placeholder="Enter cell number"
-                onChange={(e)=>setContact({...contact, phone: e.target.value})}
+                onChange={(e)=>setOrder({...order, phone: e.target.value})}
                 value={phone}
               />
               <label className="text-lg font-semibold" htmlFor="email">Email</label>
               <input type="text" name="email"
                 className="border px-3 py-2 w-full rounded-sm mb-4"
                 placeholder="example@gmail.com"
-                onChange={(e)=>setContact({...contact, email: e.target.value})}
+                onChange={(e)=>setOrder({...order, email: e.target.value})}
                 value={email}
               />
               <label className="text-lg font-semibold" htmlFor="location">Pickup Location</label>
@@ -73,7 +64,7 @@ const ContactForm = ({order, setOrder, setDisplay}) => {
               <label className="text-lg font-semibold" htmlFor="date-needed">Date Order Needed</label>
               <input type="date" name="date-needed"
                 className="border px-3 py-2 w-full rounded-sm mb-4"
-                onChange={e=>changeDateNeeded(e.target.value)}
+                onChange={e=>setOrder({...order, dateNeeded: e.target.value})}
                 value={order.dateNeeded}
                 min={today.current}
               />

@@ -25,7 +25,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   </TooltipComponent>
 );
 
-const Navbar = ({themeColor, user, showUserProfile, setDisplay, order, setOrder}) => {
+const Navbar = ({ themeColor, user, showUserProfile, setDisplay }) => {
   const { activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } = useStateContext();
 
   useEffect(() => {
@@ -88,7 +88,7 @@ const Navbar = ({themeColor, user, showUserProfile, setDisplay, order, setOrder}
           </div>
         </TooltipComponent>)}
 
-        {isClicked.cart && (<Cart order={order} setOrder={setOrder}/>)}
+        {isClicked.cart && (<Cart />)}
         {isClicked.chat && (<Chat />)}
         {isClicked.userProfile && (<UserProfile user={user}/>)}
         {isClicked.customerInfo && (<CustomerInfo setDisplay={setDisplay} themeColor={themeColor} user={user}/>)}
