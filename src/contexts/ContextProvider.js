@@ -52,8 +52,12 @@ export const ContextProvider = ({ children }) => {
       prevPopups.pop();
       return [...prevPopups];
     });
+    document.documentElement.style.overflow = "scroll";
   }
-  const pushPopUp = component => setPopUps(prev => [...prev, component]);
+  const pushPopUp = component => {
+    setPopUps(prev => [...prev, component]);
+    document.documentElement.style.overflow = "hidden";
+  }
 
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values

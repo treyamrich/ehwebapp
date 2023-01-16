@@ -93,6 +93,7 @@ const Order = () => {
             setDisplay={setDisplay} 
             user={{name: order.name, phone: order.phone, email: order.email}}
             handleEditCartItem={handleEditCartItem}
+            editItemIdx={editItemIdx}
           />
           {opRes.failureMsg !== "" ? <Alert variant="danger" dismissible onClose={resetOpRes}>{opRes.failureMsg}</Alert> : null}
           {opRes.successMsg !== "" ? <Alert variant="success" dismissible onClose={resetOpRes}>{opRes.successMsg}</Alert> : null}

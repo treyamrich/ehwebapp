@@ -5,7 +5,7 @@ import { BsChatLeft, BsPersonCircle } from 'react-icons/bs';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
-import { Cart, Chat, UserProfile, CustomerInfo } from '.';
+import { Cart, Chat, UserProfile, CustomerInfo, Alert } from '.';
 import { useStateContext } from '../contexts/ContextProvider';
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
@@ -25,7 +25,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   </TooltipComponent>
 );
 
-const Navbar = ({ themeColor, user, showUserProfile, setDisplay, handleEditCartItem }) => {
+const Navbar = ({ themeColor, user, showUserProfile, setDisplay, handleEditCartItem, editItemIdx }) => {
   const { activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } = useStateContext();
 
   useEffect(() => {
@@ -50,8 +50,14 @@ const Navbar = ({ themeColor, user, showUserProfile, setDisplay, handleEditCartI
 
   return (
     <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
-
-      <NavButton title="Menu" customFunc={handleActiveMenu} color={themeColor} icon={<AiOutlineMenu />} />
+      <div className="flex gap-3">
+        <NavButton title="Menu" customFunc={handleActiveMenu} color={themeColor} icon={<AiOutlineMenu />} />
+        {editItemIdx !== -1 && (
+          <div className="opacity-50 text-center">
+              <Alert variant="success" size="small">Edit Mode</Alert>
+          </div>
+        )}
+      </div>
       <div className="flex">
         <NavButton title="Cart" customFunc={() => handleClick('cart')} color={themeColor} icon={<FiShoppingCart />} />
         
@@ -87,7 +93,6 @@ const Navbar = ({ themeColor, user, showUserProfile, setDisplay, handleEditCartI
             <MdKeyboardArrowDown className="text-gray-400 text-14" />
           </div>
         </TooltipComponent>)}
-
         {isClicked.cart && (<Cart handleEditCartItem={handleEditCartItem}/>)}
         {isClicked.chat && (<Chat />)}
         {isClicked.userProfile && (<UserProfile user={user}/>)}

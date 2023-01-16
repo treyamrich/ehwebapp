@@ -5,6 +5,7 @@ import Select from 'react-select';
 import { RUSH_FEES, EH_COLOR_DARK, locations, animatedComponents, HAWAII_SALES_TAX } from '../../data/uidata';
 import { formatDate, subtractDays } from '../../utility/DateTimeFunctions';
 import { useStateContext } from '../../contexts/ContextProvider';
+import "../../styles/hidescrollbar.css";
 
 const InitOrderCost = {
     subtotal: 0,
@@ -95,7 +96,7 @@ const OrderSummary = ({ getItemPrice }) => {
                 </Alert>
             </div>
         )}
-        <div className="w-11/12 bg-gray-50 rounded-md drop-shadow-xl p-3 sm:p-5 m-auto overflow-y-auto">
+        <div className="w-11/12 bg-gray-50 rounded-md drop-shadow-xl p-3 sm:p-5 m-auto overflow-y-auto scrollbar-hide">
             <button className="fixed top-3 right-3 rounded-md text-xl p-1 hover:bg-light-gray"
                 onClick={()=>setIsEditing(prev=>!prev)}
             >
@@ -103,10 +104,10 @@ const OrderSummary = ({ getItemPrice }) => {
             </button>
             <div className="flex flex-col md:flex-row md:gap-28">
                 <div className="mb-3 mr-3">
-                    <p className="text-gray-500 dark:text-gray-200 mb-1">Contact Info</p>
+                    <p className="text-gray-500 dark:text-gray-200 mb-2">Contact Info</p>
                     <ul className="text-xs">
                         {isEditing ? (
-                            <li className="mb-1">
+                            <li className="mb-2">
                                 <label className="mr-1">Name:</label>
                                 <MyInput 
                                     type="text"
@@ -118,7 +119,7 @@ const OrderSummary = ({ getItemPrice }) => {
                             </li>
                         ) : <li className="mb-1">Name: {order.name}</li>}
                         {isEditing ? (
-                            <li className="mb-1">
+                            <li className="mb-2">
                                 <label className="mr-1">Phone:</label>
                                 <MyInput 
                                     type="text"
@@ -144,7 +145,7 @@ const OrderSummary = ({ getItemPrice }) => {
                     </ul>
                 </div>
                 <div className='mb-3'>
-                    <p className="text-gray-500 dark:text-gray-200 mb-1">Pickup Location</p>
+                    <p className="text-gray-500 dark:text-gray-200 mb-2">Pickup Location</p>
                     {isEditing ? (
                         <div className="w-52">
                             <Select
@@ -159,7 +160,7 @@ const OrderSummary = ({ getItemPrice }) => {
                     ) : <p>{location}</p>}
                 </div>
                 <div>
-                    <p className="text-gray-500 dark:text-gray-200 mb-1">Date Needed</p>
+                    <p className="text-gray-500 dark:text-gray-200 mb-2">Date Needed</p>
                     {isEditing ? (
                         <input type="date" name="date-needed"
                             className="border px-3 py-2 w-full rounded-sm mb-4"

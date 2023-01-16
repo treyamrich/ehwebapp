@@ -78,7 +78,7 @@ const StepProgressForm = ({ children, onSubmit, onCancel, cancelMsg }) => {
         ))}
         </ProgressBar>
       </div>
-      <div className="mt-32">
+      <div className="mt-28">
         
         {stepComps[currStep]}
 

@@ -55,14 +55,7 @@ const Plaque = ({ editItemIdx, cancelEditItem, cartItem, setCartItem, selItem, s
     />);
   }
   return (
-    <div className="m-2 md:m-10 mt-16 lg:mt-24 p-2 md:p-10 rounded-3xl bg-slate-50">
-      {editItemIdx !== -1 && (
-        <div className="opacity-50 text-center sticky top-14 right-0"
-          style={{zIndex: 10000}}
-        >
-            <Alert variant="success" size="small">Edit Mode</Alert>
-        </div>
-      )}
+    <div className="m-2 md:m-3 mt-16 p-2 md:p-10 rounded-3xl bg-slate-50">
       <Header category="Customize" title="Plaques and Plates" />
       <div className="mt-14">
         <StepProgressForm onSubmit={addNotesToItem} 
