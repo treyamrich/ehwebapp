@@ -34,12 +34,17 @@ Card Selector Props
 :onReselect - func to call when a card is deselected
 :disabled - boolean if the entire selector is disabled
 :isCardDisabled - a func which accepts the items[i] object to determine if it's disabled
+:cmpField - a field on the object to compare for reselection
 */
-const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedCard, onSelect, onReselect, disabled, isCardDisabled, color }) => {
-    //Postcondition: selectedIdx is -1 if card is reselected/deselected
+const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedCard, onSelect, onReselect, disabled, isCardDisabled, color, cmpField }) => {
+    const isSameCard = card => {
+        //Ensure a cards are passed
+        return selectedCard && card[cmpField] === selectedCard[cmpField];
+    }
+    //Postcondition: selected card = null if card is reselected
     const handleSelect = selItem => {
         //Handle reselect
-        if(selItem === selectedCard) {
+        if(isSameCard(selItem)) {
             if(onReselect) {
                 try {
                     onReselect();
@@ -76,7 +81,7 @@ const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedC
         {items.map((item, idx) =>(
             <Card key={idx} 
                 cardName={item.name}
-                selected={selectedCard && selectedCard.name === item.name} 
+                selected={isSameCard(item)} 
                 onClick={()=>handleSelect(item)}
                 disabled={disabled || isCardDisabled(item)}
             />

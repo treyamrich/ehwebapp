@@ -81,7 +81,7 @@ const GraphicForm = ({ submitForm }) => {
                     orientation="vertical"
                     disabled={emailGraphicFlag}
                     isCardDisabled={()=>false}
-
+                    cmpField="name"
                 />
             </div>
         </div>

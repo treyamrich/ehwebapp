@@ -14,6 +14,7 @@ const ChooseItemStep = ({ selectedItem, setSelectedItem }) => {
         selectedCard={selectedItem}
         setSelectedCard={setSelectedItem}
         isCardDisabled={()=>false}
+        cmpField="name"
     />
   )
 }
