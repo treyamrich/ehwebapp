@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { formatDate } from '../../../utility/DateTimeFunctions';
 import './contact_form.css';
-
 import Select from 'react-select';
 import { locations, animatedComponents } from '../../../data/uidata';
 

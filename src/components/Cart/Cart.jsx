@@ -1,25 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { MdOutlineCancel } from 'react-icons/md';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { Button } from '..';
 import CartItem from './CartItem';
 import OrderSummary from '../../pages/order/OrderSummary';
 import "./cart.css";
-import { addonFields, HAWAII_SALES_TAX, RUSH_FEES } from '../../data/uidata';
-import { subtractDays } from '../../utility/DateTimeFunctions';
+import { addonFields } from '../../data/uidata';
 
-const InitOrderCost = {
-  subtotal: 0,
-  total: 0,
-  numRushDays: 0
-};
+
+
 
 const Cart = ({ order, setOrder }) => {
-  const { currentColor, pushPopUp, popPopUp } = useStateContext();
-  const [orderCost, setOrderCost] = useState(InitOrderCost);
+  const { currentColor, pushPopUp } = useStateContext();
 
   //Recursively calculates the total given a cart item
-  const getTotalItemPrice = item => {
+  const getItemPrice = item => {
     let itemCost = item.price;
 
     //Current item cost
@@ -32,43 +27,17 @@ const Cart = ({ order, setOrder }) => {
     //Text lines DEAL WITH THIS LATER
 
     //Add cost of children items
-    item.subItems.forEach(subItem => getTotalItemPrice(subItem) * subItem.quantity);
+    item.subItems.forEach(subItem => getItemPrice(subItem) * subItem.quantity);
     return itemCost * item.quantity;
   }
-  const round = num => Math.round((num + Number.EPSILON) * 100) / 100;
-  const getTotal = () => {
-    //Calculate subtotal
-    let subtotal = 0; 
-    order.cart.forEach(cartItem => subtotal += getTotalItemPrice(cartItem));
-    //Apply rush fee if applicable
-    subtotal += RUSH_FEES[orderCost.numRushDays];
-    //Apply tax and additional fees
-    let total = round(subtotal * (1 + HAWAII_SALES_TAX));
-    return {...orderCost, subtotal: subtotal.toFixed(2), total: total.toFixed(2)};
-  }
-  //Returns the nearest integer amount of rush days
-  const getNumRushDays = () => {
-    let dateDiff = subtractDays(new Date(), new Date(order.dateNeeded));
-    if(dateDiff >= 1) dateDiff -= 1; //Starts counting day after order is placed
-    if(dateDiff <= 1) return 1; 
-    if(dateDiff <= 3) return 3;
-    return 0;
-  }
+  
   const showOrderSummary = () => {
     pushPopUp(<OrderSummary
       order={order}
       setOrder={setOrder}
-      orderCost={orderCost}
       title="Order Summary"
     />)
   }
-  //Every time the order is updated, recalculate the cost
-  useEffect(() => {
-    //Must get # of rush days first since it's needed in cost calculation
-    orderCost.numRushDays = getNumRushDays();
-    setOrderCost(getTotal());
-  }, [order]);
-
   return (
     <div className="bg-half-transparent w-full fixed nav-item top-0 right-0 ">
       <div className="float-right h-screen duration-1000 ease-in-out dark:text-gray-200 transition-all dark:bg-[#484B52] bg-white md:w-400 w-full p-8">
@@ -94,7 +63,7 @@ const Cart = ({ order, setOrder }) => {
               item={item}
               order={order}
               setOrder={setOrder}
-              getTotalItemPrice={getTotalItemPrice}
+              getItemPrice={getItemPrice}
             />
           ))}
           </div>
@@ -102,7 +71,7 @@ const Cart = ({ order, setOrder }) => {
             <Button
               color="white"
               bgColor={currentColor}
-              text="Place Order"
+              text="Checkout"
               borderRadius="10px"
               width="full"
               customFunc={showOrderSummary}

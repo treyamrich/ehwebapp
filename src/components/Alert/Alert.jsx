@@ -12,7 +12,7 @@ const Alert = ({children, variant, dismissible, onClose, duration}) => {
     //On timeout, stop the timer and close the alert
     timer.current = setTimeout(()=>{
       clearTimeout(timer.current);
-      onClose();
+      if(onClose) onClose();
     }, 1000 * (duration ? duration : DEFAULT_DURATION));
   }
   useEffect(()=>{

@@ -16,7 +16,7 @@ const MyInput = ({color, componentBtn, placeholder, value, onChange, type, name,
     >
       <input 
         id={id}
-        namme={name}
+        name={name}
         type={type}
         value={value}
         onChange={onChange}

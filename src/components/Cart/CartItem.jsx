@@ -5,7 +5,7 @@ import { firstLetterUppercase, toNameString } from '../../utility/Strings';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { ConfirmPopUp } from '../../components';
 
-const CartItem = ({ item, order, setOrder, getTotalItemPrice }) => {
+const CartItem = ({ item, order, setOrder, getItemPrice }) => {
     
     const { pushPopUp, popPopUp } = useStateContext();
 
@@ -62,7 +62,7 @@ const CartItem = ({ item, order, setOrder, getTotalItemPrice }) => {
                 <p className="font-semibold ">{item.name ? item.name : "No item selected"}</p>
                 <p className="text-gray-600 dark:text-gray-400 text-sm font-semibold">{firstLetterUppercase(item.category)}</p>
                 <div className="flex gap-4 mt-2 items-center">
-                    <p className="font-semibold text-lg">${getTotalItemPrice(item).toFixed(2)}</p>
+                    <p className="font-semibold text-lg">${getItemPrice(item).toFixed(2)}</p>
                     <div className="flex items-center border-1 border-r-0 border-color rounded">
                     <p className="p-2 border-r-1 dark:border-gray-600 border-color text-red-600"
                         onClick={()=>updateItemQty(-1)}
