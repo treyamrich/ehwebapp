@@ -176,7 +176,7 @@ const PlateForm = ({ submitForm, editPlate }) => {
                 <MyTextArea name="plate-notes"
                     value={plate.notes}
                     onChange={e=>setPlate({...plate, notes: e.target.value})}
-                    style={{height:"100px"}}
+                    style={{height:"150px"}}
                 />
                 <div className="text-center">
                     <p className="text-sm text-slate-400">e.g Put the palm tree graphic at the top right (to the left of the name)</p>

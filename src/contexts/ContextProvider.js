@@ -15,7 +15,6 @@ const initialOrderState = {
   phone: '',
   email: '',
   dateNeeded: '',
-  timeNeeded: '',
   location: '',
   status: 'NEW',
   rushStatus: 'NONE',

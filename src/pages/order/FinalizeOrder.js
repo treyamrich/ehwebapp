@@ -1,5 +1,5 @@
 import React, {  useState } from 'react';
-import { MyInput, Alert } from '../../components';
+import { MyInput, Alert, MyTextArea } from '../../components';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { EH_COLOR_DARK } from '../../data/uidata';
 
@@ -37,14 +37,23 @@ const FinalizeOrder = () => {
             <div className="flex flex-col md:flex-row md:gap-28">
                 <div>
                     <p className="text-gray-500 dark:text-gray-200 mb-2">Order Info</p>
-                    <div className="text-xs">
+                    <div className="text-xs mb-3">
                         <label className="mr-1 font-semibold">Order number:</label>
                         <MyInput 
                             type="text"
                             onChange={(e)=>setOrder({...order, orderNum: e.target.value})} 
                             value={order.orderNum}
-                            id="ordernum"
+                            id="order-num"
                             color={EH_COLOR_DARK}
+                        />
+                    </div>
+                    <div className="text-xs">
+                        <label className="mr-1 font-semibold">Notes to engraver:</label>
+                        <MyTextArea 
+                            onChange={(e)=>setOrder({...order, notes: e.target.value})} 
+                            value={order.notes}
+                            id="order-notes"
+                            style={{height: "150px"}}
                         />
                     </div>
                 </div>

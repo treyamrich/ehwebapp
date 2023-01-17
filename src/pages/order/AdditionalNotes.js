@@ -24,7 +24,7 @@ const AdditionalNotes = ({ cartItem, onSubmit }) => {
                     <MyTextArea
                         value={notes}
                         onChange={e=>updateNotes(e.target.value)}
-                        style={{height:"100px"}}
+                        style={{height:"150px"}}
                     />
                 </div>
                 <div className="text-center">
