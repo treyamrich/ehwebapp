@@ -33,6 +33,8 @@ const CartItem = ({ item, getItemPrice, editCartItem }) => {
     }
     //Gets the first 2 lines or 2 blocks from the draft-js editor state object (item.txtObj)
     const getTxtFromEditorState = editorState => {
+        //Check if the customer is sending the text later
+        if(item.postTxt) return "Sending via email";
         const contentBlkArr = editorState.getCurrentContent().getBlocksAsArray();
         let isEmpty = true;
         const textJsx = contentBlkArr.map((blk, idx) => {
