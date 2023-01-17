@@ -30,9 +30,9 @@ export const pltSizes = [
 ];
 
 export const serviceOpts = [
-  { value: 'coin-mount', label: 'Coin Mount' },
-  { value: 'item-mount', label: 'Item Mount'},
-  { value: 'color-fill', label: 'Color Fill'}
+  { value: {name: 'Coin Mount', price: 5}, label: 'Coin Mount' },
+  { value: {name: 'Item Mount', price: 5}, label: 'Item Mount'},
+  { value: {name: 'Color Fill', price: 10}, label: 'Color Fill'}
 ];
 
 export const graphicColOpts = [

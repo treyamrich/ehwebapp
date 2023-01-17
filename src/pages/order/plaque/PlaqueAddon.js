@@ -37,9 +37,10 @@ const PlaqueAddon = ({ cartItem, setCartItem}) => {
   const handleRemoveGraphic = newArr => setCartItem({...cartItem, graphics: [...newArr]});
   const handleRemoveCutout = newArr => setCartItem({...cartItem, cutouts: [...newArr]});
   const handleUpdateServices = newServices => {
-    //Map the services and the label attribute to name
-    setCartItem({...cartItem, services: newServices.map(selectOpt => {return {name: selectOpt.label}})});
+    //Grab the service object in the value field
+    setCartItem({...cartItem, services: newServices.map(selectOpt => selectOpt.value)});
   }
+  
   return (
     <div>
       <Tabs>
@@ -83,6 +84,11 @@ const PlaqueAddon = ({ cartItem, setCartItem}) => {
               isMulti
               options={serviceOpts}
               onChange={handleUpdateServices}
+              defaultValue={serviceOpts.filter(opt => {
+                for(let i = 0; i < cartItem.services.length; i++)
+                  if(cartItem.services[i].name === opt.label) return true
+                return false;
+              })}
             />
           </div>
         </Tab>

@@ -51,9 +51,9 @@ const Card = ({ idx, cardName, cardImg, options, onDeleteCard, onEditCard }) => 
           </button>
         </div>
         )}
-        <div className="w-full h-28 px-1 pb-1 mt-10 mb-1 border-2 border-red-300"
+        <div className="w-full h-28 px-1 pb-1 mt-10 mb-1"
         >
-          <div className="h-20 border-1 border-blue-300 mb-1">
+          <div className="h-20 border-1 border-slate-300 mb-1">
             <img src={cardImg}/>
           </div>
           <p className="font-semibold">{cardName}</p>
