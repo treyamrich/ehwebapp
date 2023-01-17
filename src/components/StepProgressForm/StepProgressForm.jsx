@@ -67,8 +67,9 @@ const StepProgressForm = ({ children, onSubmit, onCancel, cancelMsg, submitMsg, 
       setCurrStep(0);
       stepStack.current = [];
     }
-    const handleSubmit = () => resetStepForm();
-    
+    const handleSubmit = () => {
+      onSubmit(resetStepForm);
+    }
     //Reset the form if signaled
     useEffect(()=>{
       if(shouldReset && shouldReset()) resetStepForm();
