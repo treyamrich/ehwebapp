@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { AiOutlineEdit } from 'react-icons/ai';
+import { AiOutlineEdit, AiOutlineCheck } from 'react-icons/ai';
 import { Alert, MyInput } from '../../components';
 import Select from 'react-select';
 import { RUSH_FEES, EH_COLOR_DARK, locations, animatedComponents, HAWAII_SALES_TAX } from '../../data/uidata';
@@ -100,7 +100,8 @@ const OrderSummary = ({ getItemPrice }) => {
             <button className="fixed top-3 right-3 rounded-md text-xl p-1 hover:bg-light-gray"
                 onClick={()=>setIsEditing(prev=>!prev)}
             >
-                <AiOutlineEdit size={25} color={EH_COLOR_DARK}/>
+                {isEditing ? <AiOutlineCheck size={25} color={"green"}/> : <AiOutlineEdit size={25} color={EH_COLOR_DARK}/>}
+                
             </button>
             <div className="flex flex-col md:flex-row md:gap-28">
                 <div className="mb-3 mr-3">

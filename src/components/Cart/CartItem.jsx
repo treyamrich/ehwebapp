@@ -1,7 +1,7 @@
 import React from 'react';
 import { AiOutlinePlus, AiOutlineMinus, AiOutlineEdit } from 'react-icons/ai';
 import { addonFields, EH_COLOR_DARK } from '../../data/uidata';
-import { firstLetterUppercase, toNameString } from '../../utility/Strings';
+import { firstLetterUppercase } from '../../utility/Strings';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { ConfirmPopUp } from '../../components';
 
@@ -47,10 +47,10 @@ const CartItem = ({ item, getItemPrice, editCartItem }) => {
     const getTxtJsx = () => {
         let previewJsx = getTxtFromEditorState(item.txtObj);
         return previewJsx ? 
-            (<li className="text-xs">
+            (<div className="text-xs">
                 <h4 className="font-semibold">Text Preview</h4>
                 {previewJsx}
-            </li>) : null;
+            </div>) : null;
     }
     const txtJsx = getTxtJsx();
   return (
@@ -83,29 +83,31 @@ const CartItem = ({ item, getItemPrice, editCartItem }) => {
                 </div>
             </div>
         </div>
-        <ul className="w-11/12">
+        <div className="w-11/12 flex flex-wrap gap-3 mt-2">
             {txtJsx}
             {addonFields.map((field, key) => (
-                <li key={key} className="text-xs">
-                    {item[field].length > 0 && (
-                    <h4 className="font-semibold">{firstLetterUppercase(field)}</h4>
-                    )}
-                    {toNameString(item[field])}
-                </li>
+                <div key={key} className="text-xs">
+                    {item[field].length > 0 && (<>
+                        <h4 className="font-semibold">{firstLetterUppercase(field)}</h4>
+                        <ul>
+                            {item[field].map((elm, idx) => (<li key={idx}>{elm.name}</li>))}
+                        </ul>
+                    </>)}
+                </div>
             ))}
-            {item.subItems.length > 0 && (<>
-                <li><h4 className="font-semibold text-xs">Subitems</h4></li>
+            {item.subItems.length > 0 && (<div>
+                <h4 className="font-semibold text-xs">Subitems</h4>
                 {item.subItems.map((subItem, idx)=>(
-                    <li key={idx} className="text-xs">
+                    <div key={idx} className="text-xs">
                         {subItem.name}
-                    </li>
+                    </div>
                 ))}
-            </>)}
-            {item.notes !== "" && (<>
-                <li><h4 className="font-semibold text-xs">Additional Notes</h4></li>
-                <li className="text-xs">{item.notes}</li>
-            </>)}
-        </ul>
+            </div>)}
+            {item.notes !== "" && (<div>
+                <h4 className="font-semibold text-xs">Additional Notes</h4>
+                <div className="text-xs">{item.notes}</div>
+            </div>)}
+        </div>
     </div>
   )
 }

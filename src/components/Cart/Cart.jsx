@@ -37,7 +37,7 @@ const Cart = ({ handleEditCartItem }) => {
   }
   return (
     <div className="bg-half-transparent w-full fixed nav-item top-0 right-0 ">
-      <div className="float-right h-screen duration-1000 ease-in-out dark:text-gray-200 transition-all dark:bg-[#484B52] bg-white md:w-400 w-full p-8">
+      <div className="float-right h-screen duration-1000 ease-in-out dark:text-gray-200 transition-all dark:bg-[#484B52] bg-white md:w-400 w-full p-6">
         <div className="flex justify-between items-center">
           <p className="font-semibold text-lg">Cart</p>
           <Button
