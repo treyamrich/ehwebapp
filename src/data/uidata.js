@@ -180,10 +180,8 @@ export const InitCartItemState = {
   quantity: 1,
   txtObj: null, //draft-js object
   notes: "",
-  font: "", //probably get rid of this later
   category: "",
   layoutImg: null,
-  postGraphics: false,
   postTxt: false,
   postLayout: false
 };

@@ -1,4 +1,5 @@
 import React from 'react'
+import { MyCheckbox } from '../../components';
 
 const ItemLayout = ({ cartItem, setCartItem }) => {
   return (
@@ -12,6 +13,12 @@ const ItemLayout = ({ cartItem, setCartItem }) => {
                 id="nif"
                 type="file" name="item-layout"
                 onChange={e=>setCartItem({...cartItem, layoutImg: e.target.files[0]})}
+            />
+          </div>
+          <div id="post-order-txt" className="mt-5 text-center">
+            <label className="text-xs text-slate-400 mb-3 mr-1">I will send the layout via email</label>
+            <MyCheckbox checked={cartItem.postLayout}
+              customFunc={()=>setCartItem({...cartItem, postLayout: !cartItem.postLayout})}
             />
           </div>
       </div>
