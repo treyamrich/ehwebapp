@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { AiOutlineEdit, AiOutlineCheck } from 'react-icons/ai';
 import { Alert, MyInput } from '../../components';
 import Select from 'react-select';
+import FinalizeOrder from './FinalizeOrder';
 import { RUSH_FEES, EH_COLOR_DARK, locations, animatedComponents, HAWAII_SALES_TAX } from '../../data/uidata';
 import { formatDate, subtractDays } from '../../utility/DateTimeFunctions';
 import { useStateContext } from '../../contexts/ContextProvider';
@@ -17,7 +18,7 @@ const OrderSummary = ({ getItemPrice }) => {
     //Form state
     const [isEditing, setIsEditing] = useState(false);
     const [orderCost, setOrderCost] = useState(InitOrderCost);
-    const { order, setOrder } = useStateContext();
+    const { order, setOrder, pushPopUp, popPopUp } = useStateContext();
     const today = useRef(formatDate(new Date()));
 
     const round = num => Math.round((num + Number.EPSILON) * 100) / 100;
@@ -60,10 +61,11 @@ const OrderSummary = ({ getItemPrice }) => {
         let total = round(subtotal * (1 + HAWAII_SALES_TAX));
         return {...orderCost, subtotal: subtotal.toFixed(2), total: total.toFixed(2)};
     }
-    //Adds the order to the database and resets the entire app by refreshing
-    const submitOrder = () => {
-        console.log("ORDER SUBMITTED");
-        console.log(order);
+    const finalizeOrder = () => {
+        popPopUp();
+        pushPopUp(<FinalizeOrder
+            title="Finalize Order"
+        />);
     }
     //Get today's date 
     useEffect(()=>{
@@ -196,10 +198,10 @@ const OrderSummary = ({ getItemPrice }) => {
             <button className="text-white w-full lg:w-1/6 hover:drop-shadow-xl p-3"
                 style={{borderRadius: '10px', backgroundColor: EH_COLOR_DARK, opacity: canSubmit ? 1 : 0.3}}
                 type="button"
-                onClick={submitOrder}
+                onClick={finalizeOrder}
                 disabled={!canSubmit}
             >
-                Place Order
+                Employee Verification
             </button>
         </div>
     </div>
