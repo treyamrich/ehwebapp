@@ -1,4 +1,4 @@
-import React, { useRef, useState, Children } from 'react'
+import React, { useRef, useState, useEffect, Children } from 'react'
 import { ProgressBar, Step } from "react-step-progress-bar";
 import "react-step-progress-bar/styles.css";
 import "./step_progress_form.css";
@@ -12,8 +12,14 @@ import "./step_progress_form.css";
   and the user pressed the back button.
 
 :cancelMsg - a string to display for the cancel button at step 0
+
+:submitMsg - a string to display for the submit button at final step
+
+:resetHook - a state hook which the step form will listen for a true value.
+  When the value is true the form will reset.
+:shouldReset - a function that checks returns a bool using the resetHook
 */
-const StepProgressForm = ({ children, onSubmit, onCancel, cancelMsg }) => {
+const StepProgressForm = ({ children, onSubmit, onCancel, cancelMsg, submitMsg, shouldReset, resetHook }) => {
     const [currStep, setCurrStep] = useState(0);
     const stepStack = useRef([]);
     const stepComps = Children.toArray(children);
@@ -57,7 +63,16 @@ const StepProgressForm = ({ children, onSubmit, onCancel, cancelMsg }) => {
         setCurrStep(prevStep => prevStep - stepAmt);
       }
     }
-    const handleSubmit = () => onSubmit(()=>setCurrStep(0));
+    const resetStepForm = () => {
+      setCurrStep(0);
+      stepStack.current = [];
+    }
+    const handleSubmit = () => resetStepForm();
+    
+    //Reset the form if signaled
+    useEffect(()=>{
+      if(shouldReset && shouldReset()) resetStepForm();
+    }, [resetHook]);
   return (
     <div id="progress-form" className="relative">
       <div className="w-3/4 m-auto">
@@ -98,7 +113,7 @@ const StepProgressForm = ({ children, onSubmit, onCancel, cancelMsg }) => {
             onClick={atLastStep ? handleSubmit : handleNextStep}
             style={{background: atLastStep ? '#4db193' : 'black' , color: 'white'}}
           >
-            {atLastStep ? 'Submit' : 'Next'}
+            {atLastStep ? submitMsg ? submitMsg : "Submit" : 'Next'}
           </button>
         </div>
       </div>

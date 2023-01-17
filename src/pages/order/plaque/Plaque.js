@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, StepProgressForm, RTE, ConfirmPopUp, Alert } from '../../../components';
+import { Header, StepProgressForm, RTE, ConfirmPopUp } from '../../../components';
 import PlaqueAddon from './PlaqueAddon';
 import ChooseItemStep from '../ChooseItemStep';
 import ItemLayout from '../ItemLayout';
@@ -61,6 +61,9 @@ const Plaque = ({ editItemIdx, cancelEditItem, cartItem, setCartItem, selItem, s
         <StepProgressForm onSubmit={addNotesToItem} 
           onCancel={editItemIdx === -1 ? undefined : cancelEditItem} 
           cancelMsg="Cancel Edit"
+          submitMsg="Add to cart"
+          shouldReset={()=>editItemIdx !== -1}
+          resetHook={editItemIdx}
         >
           <ChooseItemStep
             selectedItem={selItem}

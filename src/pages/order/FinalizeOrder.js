@@ -77,7 +77,7 @@ const FinalizeOrder = () => {
         </div>
         <div id="submit-popup-form" className='flex justify-end items-center p-4 ml-4'>
             <button className="text-white w-full lg:w-1/6 hover:drop-shadow-xl p-3"
-                style={{borderRadius: '10px', backgroundColor: isAuthenticated ? "rgb(34 197 94)" : EH_COLOR_DARK}}
+                style={{borderRadius: '10px', backgroundColor: isAuthenticated ? "#4db193" : EH_COLOR_DARK}}
                 type="button"
                 onClick={isAuthenticated ? submitOrder : handleCheckPin}
             >
