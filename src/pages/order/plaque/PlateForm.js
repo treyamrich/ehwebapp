@@ -179,7 +179,7 @@ const PlateForm = ({ submitForm, editPlate }) => {
                     style={{height:"150px"}}
                 />
                 <div className="text-center">
-                    <p className="text-sm text-slate-400">e.g Put the palm tree graphic at the top right (to the left of the name)</p>
+                    <p className="text-sm text-slate-400">e.g Put the palm tree graphic at the top left (to the left of the name)</p>
                 </div>
             </div>
             <div className="py-2 px-1">
