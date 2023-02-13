@@ -11,21 +11,44 @@ const FinalizeOrder = () => {
     const [falsePin, setFalsePin] = useState(false);
     const [empPin, setEmpPin] = useState(""); //Get employee pin
     const { order, setOrder } = useStateContext();
+
+    //Recursively creates a deep copy of each cart itemm
+    const getDeepCopy = items => {
+        if(items.length === 0) return [];
+        const newItems = items.map(item => {
+            const newItem = {...item};
+            newItem.subItems = getDeepCopy(item.subItems);
+            return newItem;
+        });
+        return newItems;
+    }
+    //Recursively turns each draft-js editorState's contentState obj to a string
+    const serializeTxtObj = cartItem => {
+        cartItem.txtObj = cartItem.postTxt ? "" : 
+        JSON.stringify(
+            convertToRaw(cartItem.txtObj.getCurrentContent()
+        ));
+        cartItem.subItems.forEach(subItem => serializeTxtObj(subItem));
+    }
     const submitOrder = () => {
         console.log("ORDER SUBMITTED");
         console.log(order);
+        
         //Convert all cart item's draft-js objects to string
-        const editorStates = [];
+        const deepCopy = getDeepCopy(order.cart);
         order.cart.forEach(cartItem => {
-            //Save editor state in case of failure
-            editorStates.push(cartItem.txtObj);
-            
-            //Check if verbage is beging sent later
-
             //Serialize draft-js obj as string
-            cartItem.txtObj = JSON.stringify(convertToRaw(cartItem.txtObj.getCurrentContent()));
-            console.log(cartItem.txtObj);
+            serializeTxtObj(cartItem);
         });
+
+        try {
+            //Submit order
+            console.log("Calling database");
+            //Reset order state
+        } catch(e) {
+            //Restore the cart
+            order.cart = deepCopy;
+        }
     }
     const handleCheckPin = () => {
         if(empPin === "1234") {
