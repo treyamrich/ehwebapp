@@ -7,50 +7,37 @@ export const onCreateOrders = /* GraphQL */ `
       id
       createdAt
       orderNum
-      contactInfo {
-        name
-        phone
-        faxPhone
-        email
-        address
-        city
-        state
-        zip
-      }
+      name
+      phone
+      email
       dateNeeded
       timeNeeded
       location
       status
       rushStatus
       cart {
-        itemName
-        itemCode
-        itemPrice
+        name
+        code
+        price
         services {
           name
           qty
         }
         subItems {
-          itemName
-          itemCode
-          itemPrice
+          name
+          code
+          price
           quantity
           txtLines
-          font
           layoutImg
           graphics
-          customGraphics
-          postGraphics
           postTxt
           postLayout
         }
         quantity
         txtLines
-        font
         layoutImg
         graphics
-        customGraphics
-        postGraphics
         postTxt
         postLayout
       }
@@ -65,50 +52,37 @@ export const onUpdateOrders = /* GraphQL */ `
       id
       createdAt
       orderNum
-      contactInfo {
-        name
-        phone
-        faxPhone
-        email
-        address
-        city
-        state
-        zip
-      }
+      name
+      phone
+      email
       dateNeeded
       timeNeeded
       location
       status
       rushStatus
       cart {
-        itemName
-        itemCode
-        itemPrice
+        name
+        code
+        price
         services {
           name
           qty
         }
         subItems {
-          itemName
-          itemCode
-          itemPrice
+          name
+          code
+          price
           quantity
           txtLines
-          font
           layoutImg
           graphics
-          customGraphics
-          postGraphics
           postTxt
           postLayout
         }
         quantity
         txtLines
-        font
         layoutImg
         graphics
-        customGraphics
-        postGraphics
         postTxt
         postLayout
       }
@@ -123,50 +97,37 @@ export const onDeleteOrders = /* GraphQL */ `
       id
       createdAt
       orderNum
-      contactInfo {
-        name
-        phone
-        faxPhone
-        email
-        address
-        city
-        state
-        zip
-      }
+      name
+      phone
+      email
       dateNeeded
       timeNeeded
       location
       status
       rushStatus
       cart {
-        itemName
-        itemCode
-        itemPrice
+        name
+        code
+        price
         services {
           name
           qty
         }
         subItems {
-          itemName
-          itemCode
-          itemPrice
+          name
+          code
+          price
           quantity
           txtLines
-          font
           layoutImg
           graphics
-          customGraphics
-          postGraphics
           postTxt
           postLayout
         }
         quantity
         txtLines
-        font
         layoutImg
         graphics
-        customGraphics
-        postGraphics
         postTxt
         postLayout
       }

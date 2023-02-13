@@ -6,7 +6,9 @@ type Orders @model @auth(rules: [
   createdAt: String!
   orderNum: String!
 
-  contactInfo: ContactInfo!
+  name: String!
+  phone: String!
+  email: AWSEmail
 
   dateNeeded: AWSDate!
   timeNeeded: AWSTime
@@ -60,23 +62,19 @@ type Service {
   qty: Int!
 }
 type CartItem {
-  itemName: String!
-  itemCode: String!
-  itemPrice: Float!
+  name: String!
+  code: String!
+  price: Float!
 
   services: [Service!]
   subItems: [CartItem!]
   quantity: Int!
 
   txtLines: [String!]
-  font: String
-
   layoutImg: String
   graphics: [String!]
-  customGraphics: [String!]
 
   #Postponed information flags
-  postGraphics: Boolean!
   postTxt: Boolean!
   postLayout: Boolean!
 }

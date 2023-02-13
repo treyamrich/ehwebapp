@@ -7,50 +7,37 @@ export const getOrders = /* GraphQL */ `
       id
       createdAt
       orderNum
-      contactInfo {
-        name
-        phone
-        faxPhone
-        email
-        address
-        city
-        state
-        zip
-      }
+      name
+      phone
+      email
       dateNeeded
       timeNeeded
       location
       status
       rushStatus
       cart {
-        itemName
-        itemCode
-        itemPrice
+        name
+        code
+        price
         services {
           name
           qty
         }
         subItems {
-          itemName
-          itemCode
-          itemPrice
+          name
+          code
+          price
           quantity
           txtLines
-          font
           layoutImg
           graphics
-          customGraphics
-          postGraphics
           postTxt
           postLayout
         }
         quantity
         txtLines
-        font
         layoutImg
         graphics
-        customGraphics
-        postGraphics
         postTxt
         postLayout
       }
@@ -70,32 +57,22 @@ export const listOrders = /* GraphQL */ `
         id
         createdAt
         orderNum
-        contactInfo {
-          name
-          phone
-          faxPhone
-          email
-          address
-          city
-          state
-          zip
-        }
+        name
+        phone
+        email
         dateNeeded
         timeNeeded
         location
         status
         rushStatus
         cart {
-          itemName
-          itemCode
-          itemPrice
+          name
+          code
+          price
           quantity
           txtLines
-          font
           layoutImg
           graphics
-          customGraphics
-          postGraphics
           postTxt
           postLayout
         }
@@ -182,11 +159,6 @@ export const listPurchaseOrders = /* GraphQL */ `
           numReceived
           receivedDate
           goodTill
-          adjustments {
-            adjAmt
-            reason
-            adjDate
-          }
         }
         isOpen
         createdAt

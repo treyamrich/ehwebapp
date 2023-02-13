@@ -33,11 +33,10 @@ const FinalizeOrder = () => {
     const submitOrder = () => {
         console.log("ORDER SUBMITTED");
         console.log(order);
-        
+
         //Convert all cart item's draft-js objects to string
         const deepCopy = getDeepCopy(order.cart);
         order.cart.forEach(cartItem => {
-            //Serialize draft-js obj as string
             serializeTxtObj(cartItem);
         });
 
