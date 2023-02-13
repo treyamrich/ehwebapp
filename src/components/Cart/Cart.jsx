@@ -24,7 +24,7 @@ const Cart = ({ handleEditCartItem }) => {
     //Text lines DEAL WITH THIS LATER
 
     //Add cost of children items
-    item.subItems.forEach(subItem => getItemPrice(subItem) * subItem.quantity);
+    item.subItems.forEach(subItem => itemCost += getItemPrice(subItem));
     return itemCost * item.quantity;
   }
   

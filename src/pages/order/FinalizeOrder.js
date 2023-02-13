@@ -2,6 +2,7 @@ import React, {  useState } from 'react';
 import { MyInput, Alert, MyTextArea } from '../../components';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { EH_COLOR_DARK } from '../../data/uidata';
+import { convertToRaw } from 'draft-js';
 
 /*This component is for the employee to fill in additional information e.g order number
 */
@@ -13,6 +14,18 @@ const FinalizeOrder = () => {
     const submitOrder = () => {
         console.log("ORDER SUBMITTED");
         console.log(order);
+        //Convert all cart item's draft-js objects to string
+        const editorStates = [];
+        order.cart.forEach(cartItem => {
+            //Save editor state in case of failure
+            editorStates.push(cartItem.txtObj);
+            
+            //Check if verbage is beging sent later
+
+            //Serialize draft-js obj as string
+            cartItem.txtObj = JSON.stringify(convertToRaw(cartItem.txtObj.getCurrentContent()));
+            console.log(cartItem.txtObj);
+        });
     }
     const handleCheckPin = () => {
         if(empPin === "1234") {

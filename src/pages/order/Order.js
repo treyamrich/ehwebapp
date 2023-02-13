@@ -56,7 +56,6 @@ const Order = () => {
       cartItem.price = selItem.price;
     }
     cartItem.txtObj = editorState;
-    //!!!!!Must json stringify the draft-js object
     //If editing, just replace the item at the index
     if(editItemIdx >= 0) {
       setOrder({...order, cart: order.cart.map((item, idx)=>editItemIdx === idx ? cartItem : item)});
