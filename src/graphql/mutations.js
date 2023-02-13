@@ -22,25 +22,47 @@ export const createOrders = /* GraphQL */ `
         name
         code
         price
+        quantity
+        category
         services {
           name
-          qty
+          code
+          price
+          quantity
+          category
+          tag
+        }
+        graphics {
+          name
+          code
+          price
+          quantity
+          category
+          tag
+        }
+        cutouts {
+          name
+          code
+          price
+          quantity
+          category
+          tag
         }
         subItems {
           name
           code
           price
           quantity
-          txtLines
+          category
+          txtObj
           layoutImg
-          graphics
+          notes
           postTxt
           postLayout
         }
-        quantity
-        txtLines
+        txtObj
         layoutImg
-        graphics
+        notes
         postTxt
         postLayout
       }
@@ -70,25 +92,47 @@ export const updateOrders = /* GraphQL */ `
         name
         code
         price
+        quantity
+        category
         services {
           name
-          qty
+          code
+          price
+          quantity
+          category
+          tag
+        }
+        graphics {
+          name
+          code
+          price
+          quantity
+          category
+          tag
+        }
+        cutouts {
+          name
+          code
+          price
+          quantity
+          category
+          tag
         }
         subItems {
           name
           code
           price
           quantity
-          txtLines
+          category
+          txtObj
           layoutImg
-          graphics
+          notes
           postTxt
           postLayout
         }
-        quantity
-        txtLines
+        txtObj
         layoutImg
-        graphics
+        notes
         postTxt
         postLayout
       }
@@ -118,25 +162,47 @@ export const deleteOrders = /* GraphQL */ `
         name
         code
         price
+        quantity
+        category
         services {
           name
-          qty
+          code
+          price
+          quantity
+          category
+          tag
+        }
+        graphics {
+          name
+          code
+          price
+          quantity
+          category
+          tag
+        }
+        cutouts {
+          name
+          code
+          price
+          quantity
+          category
+          tag
         }
         subItems {
           name
           code
           price
           quantity
-          txtLines
+          category
+          txtObj
           layoutImg
-          graphics
+          notes
           postTxt
           postLayout
         }
-        quantity
-        txtLines
+        txtObj
         layoutImg
-        graphics
+        notes
         postTxt
         postLayout
       }

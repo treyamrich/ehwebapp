@@ -3,6 +3,8 @@ import { MyInput, Alert, MyTextArea } from '../../components';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { EH_COLOR_DARK } from '../../data/uidata';
 import { convertToRaw } from 'draft-js';
+import { API } from 'aws-amplify';
+import { createOrders } from '../../graphql/mutations';
 
 /*This component is for the employee to fill in additional information e.g order number
 */
@@ -30,7 +32,7 @@ const FinalizeOrder = () => {
         ));
         cartItem.subItems.forEach(subItem => serializeTxtObj(subItem));
     }
-    const submitOrder = () => {
+    const submitOrder = async () => {
         console.log("ORDER SUBMITTED");
         console.log(order);
 
@@ -42,9 +44,16 @@ const FinalizeOrder = () => {
 
         try {
             //Submit order
-            console.log("Calling database");
-            //Reset order state
+            await API.graphql({ query: createOrders,
+                variables: {
+                    input: order
+                },
+                authMode: "AWS_IAM"
+            });
+            //Reset order state by refreshing page
+            window.location.reload();
         } catch(e) {
+            console.log(e);
             //Restore the cart
             order.cart = deepCopy;
         }
@@ -56,6 +65,7 @@ const FinalizeOrder = () => {
             setFalsePin(true);
         }
     }
+    const cantSubmitOrder = isAuthenticated && order.orderNum === '';
   return (
     <div className="flex justify-center text-left flex-col"
       style={{maxHeight: '85vh'}}
@@ -111,10 +121,11 @@ const FinalizeOrder = () => {
             )}
         </div>
         <div id="submit-popup-form" className='flex justify-end items-center p-4 ml-4'>
-            <button className="text-white w-full lg:w-1/6 hover:drop-shadow-xl p-3"
+            <button className={`text-white w-full lg:w-1/6 hover:drop-shadow-xl p-3 ${cantSubmitOrder ? 'opacity-50' : ''}`}
                 style={{borderRadius: '10px', backgroundColor: isAuthenticated ? "#4db193" : EH_COLOR_DARK}}
                 type="button"
                 onClick={isAuthenticated ? submitOrder : handleCheckPin}
+                disabled={cantSubmitOrder}
             >
                 {isAuthenticated ? "Submit Order" : "Continue"}
             </button>

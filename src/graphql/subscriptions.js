@@ -19,25 +19,47 @@ export const onCreateOrders = /* GraphQL */ `
         name
         code
         price
+        quantity
+        category
         services {
           name
-          qty
+          code
+          price
+          quantity
+          category
+          tag
+        }
+        graphics {
+          name
+          code
+          price
+          quantity
+          category
+          tag
+        }
+        cutouts {
+          name
+          code
+          price
+          quantity
+          category
+          tag
         }
         subItems {
           name
           code
           price
           quantity
-          txtLines
+          category
+          txtObj
           layoutImg
-          graphics
+          notes
           postTxt
           postLayout
         }
-        quantity
-        txtLines
+        txtObj
         layoutImg
-        graphics
+        notes
         postTxt
         postLayout
       }
@@ -64,25 +86,47 @@ export const onUpdateOrders = /* GraphQL */ `
         name
         code
         price
+        quantity
+        category
         services {
           name
-          qty
+          code
+          price
+          quantity
+          category
+          tag
+        }
+        graphics {
+          name
+          code
+          price
+          quantity
+          category
+          tag
+        }
+        cutouts {
+          name
+          code
+          price
+          quantity
+          category
+          tag
         }
         subItems {
           name
           code
           price
           quantity
-          txtLines
+          category
+          txtObj
           layoutImg
-          graphics
+          notes
           postTxt
           postLayout
         }
-        quantity
-        txtLines
+        txtObj
         layoutImg
-        graphics
+        notes
         postTxt
         postLayout
       }
@@ -109,25 +153,47 @@ export const onDeleteOrders = /* GraphQL */ `
         name
         code
         price
+        quantity
+        category
         services {
           name
-          qty
+          code
+          price
+          quantity
+          category
+          tag
+        }
+        graphics {
+          name
+          code
+          price
+          quantity
+          category
+          tag
+        }
+        cutouts {
+          name
+          code
+          price
+          quantity
+          category
+          tag
         }
         subItems {
           name
           code
           price
           quantity
-          txtLines
+          category
+          txtObj
           layoutImg
-          graphics
+          notes
           postTxt
           postLayout
         }
-        quantity
-        txtLines
+        txtObj
         layoutImg
-        graphics
+        notes
         postTxt
         postLayout
       }

@@ -57,22 +57,28 @@ enum ChoiceType {
   GRAPHIC
 }
 
-type Service {
+type CartAddon {
   name: String!
-  qty: Int!
+  code: String!
+  price: Float!
+  quantity: Int!
+  category: ItemCategory!
+  tag: String
 }
 type CartItem {
   name: String!
   code: String!
   price: Float!
-
-  services: [Service!]
-  subItems: [CartItem!]
   quantity: Int!
+  category: ItemCategory!
+  services: [CartAddon!]
+  graphics: [CartAddon!]
+  cutouts: [CartAddon!]
+  subItems: [CartItem!]
 
-  txtLines: [String!]
+  txtObj: String
   layoutImg: String
-  graphics: [String!]
+  notes: String
 
   #Postponed information flags
   postTxt: Boolean!
@@ -143,6 +149,8 @@ enum ItemCategory {
   PLAQUE
   DRINKWARE
   GIFT
+  GRAPHIC
+  SERVICE
 }
 
 type ModifierGroups @model @auth(rules: [
