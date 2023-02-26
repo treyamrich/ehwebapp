@@ -5,7 +5,7 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { Alert, Sidebar, Navbar, Footer, ThemeSettings } from '../../components/index';
 import { useStateContext } from '../../contexts/ContextProvider';
 
-import { Metrics, Inventory } from './index';
+import { Metrics, Inventory, ViewOrder } from './index';
 import ManagePO from './purchase-order/ManagePO';
 import { dashboard_links } from '../../data/uidata';
 
@@ -21,7 +21,7 @@ const Dashboard = () => {
 
     const [opRes, setOpRes] = useState(initialOpState);
     const {activeMenu, themeSettings, setThemeSettings, currentColor, currentMode } = useStateContext();
-
+  
     const resetOpRes = () => setOpRes(initialOpState);
     return(
         <div className={currentMode === 'Dark' ? 'dark' : ''}>
@@ -71,6 +71,7 @@ const Dashboard = () => {
                     <Route path="metrics" element={<Metrics/>}/>
                     <Route path="inventory" element={<Inventory opRes={opRes} setOpRes={setOpRes}/>}/>
                     <Route path="purchase-order" element={<ManagePO opRes={opRes} setOpRes={setOpRes}/>}/>
+                    <Route path="orders" element={<ViewOrder opRes={opRes} setOpRes={setOpRes}/>}/>
                 </Routes>
               </div>
               <Footer />

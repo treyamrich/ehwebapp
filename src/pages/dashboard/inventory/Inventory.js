@@ -3,14 +3,17 @@ import { API } from 'aws-amplify';
 import { listItems } from '../../../graphql/queries';
 import { createItems, deleteItems, updateItems } from '../../../graphql/mutations';
 import { TableComponent, ColumnHeader } from '../../../components/Table/TableIndex';
-import { Header } from '../../../components/index';
+
+import { DashboardPage } from '../';
 import ItemForm from './ItemForm';
 import { arrToString } from '../../../utility/Strings';
 import '../../../styles/inventory.css';
 
 import { useStateContext } from '../../../contexts/ContextProvider';
-import { inventoryColumns } from '../../../data/uidata'; 
+import { inventoryColumns, DEFAULT_TABLE_PAGE_SETTINGS } from '../../../data/uidata'; 
+import { fetchItems } from '../../../data/APICalls';
 
+const AUTH_MODE_COGNITO = "AMAZON_COGNITO_USER_POOLS";
 
 function ManageInventory({opRes, setOpRes}) {
 
@@ -29,7 +32,7 @@ function ManageInventory({opRes, setOpRes}) {
                             code: pk
                         }
                     },
-                    authMode: "AMAZON_COGNITO_USER_POOLS"
+                    authMode: AUTH_MODE_COGNITO
             }).catch((e)=> { 
                 opRes.failItems.push(pk); 
                 console.log(e);
@@ -46,7 +49,7 @@ function ManageInventory({opRes, setOpRes}) {
         try {
             await API.graphql({ query: updateItems, 
                 variables: {input: item}, 
-                authMode: "AMAZON_COGNITO_USER_POOLS"
+                authMode: AUTH_MODE_COGNITO
             });
         }
         catch (e) {
@@ -61,7 +64,7 @@ function ManageInventory({opRes, setOpRes}) {
         try {
             await API.graphql({ query: createItems, 
                 variables: {input: item}, 
-                authMode: "AMAZON_COGNITO_USER_POOLS"
+                authMode: AUTH_MODE_COGNITO
             });
         } catch(e) {
             opRes.failItems.push(item.code);
@@ -70,17 +73,11 @@ function ManageInventory({opRes, setOpRes}) {
         }
         opRes.succItems.push(item.code);
     }
-    async function fetchInventory() {
-        try {
-            const inventoryData = await API.graphql({query: listItems, 
-                authMode: 'AMAZON_COGNITO_USER_POOLS'
-            });
-            return inventoryData.data.listItems.items;
-        } catch(e) {
-            console.log(e);
-            setOpRes({...opRes, errorMsg:"Error: Could not fetch inventory"});
-        }
-        return [];
+    const fetchInventory = () => {
+        return fetchItems({listItems}, 
+            AUTH_MODE_COGNITO, 
+            err=>setOpRes({...opRes, errorMsg:"Error: Could not fetch inventory"})
+        );
     }
 
     async function performOp(op, items) {
@@ -129,28 +126,25 @@ function ManageInventory({opRes, setOpRes}) {
     }
     
     return (
-        <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-            <Header category="Page" title="Inventory" />
-            <div className="inventory-wrapper">
-                <TableComponent 
-                    data={undefined}
-                    onFetch={fetchInventory}
-                    onDelete={{callbackOperation: removeItems}}
-                    onAdd={{}}
-                    onEdit={{}}
-                    addForm={
-                        <ItemForm btnBgColor={currentColor} mode="add" dbOperation={performOp}/>
-                    }
-                    editForm={
-                        <ItemForm btnBgColor={currentColor} mode="edit" dbOperation={performOp}/>
-                    }
-                    color={currentColor}
-                    pageSettings={{pageSize: 12, pageCount: 5}}
-                >
-                    {inventoryColumns.map((colInfo, idx)=> <ColumnHeader key={idx} {...colInfo}/>)}
-                </TableComponent>
-            </div>
-        </div>
+        <DashboardPage category="Page" title="Inventory">
+            <TableComponent 
+                data={undefined}
+                onFetch={fetchInventory}
+                onDelete={{callbackOperation: removeItems}}
+                onAdd={{}}
+                onEdit={{}}
+                addForm={
+                    <ItemForm btnBgColor={currentColor} mode="add" dbOperation={performOp}/>
+                }
+                editForm={
+                    <ItemForm btnBgColor={currentColor} mode="edit" dbOperation={performOp}/>
+                }
+                color={currentColor}
+                pageSettings={DEFAULT_TABLE_PAGE_SETTINGS}
+            >
+                {inventoryColumns.map((colInfo, idx)=> <ColumnHeader key={idx} {...colInfo}/>)}
+            </TableComponent>
+        </DashboardPage>
     );
 }
 

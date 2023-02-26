@@ -98,42 +98,75 @@ export const inventoryColumns = [
     { field: 'price',
       headerText: 'Price',
       width: '75',
-      format: 'yMd',
       textAlign: 'Center'},
     {
       field: 'cost',
       headerText: 'Cost',
       width: '75',
-      textAlign: 'Center' },
+      textAlign: 'Center'
+    },
     { field: 'category',
       headerText: 'Category',
       width: '100',
-      format: 'yMd',
-      textAlign: 'Center' },
-  
+      textAlign: 'Center' 
+    },
     { field: 'qty',
       headerText: 'Qty.',
       width: '75',
       textAlign: 'Center' },
-  
     { field: 'qtyThresh',
       headerText: 'Reorder Threshold',
       width: '130',
       textAlign: 'Center',
     },
-
     { field: 'maxAddon',
       headerText: 'Max Addons',
       width: '100',
       textAlign: 'Center',
     },
-    
     { field: 'updatedAt',
       headerText: 'Last Updated',
       width: '120',
       textAlign: 'Center',
     },
 ];
+
+export const orderColumns = [
+  { field: 'orderNum',
+    isPrimaryKey: true,
+    headerText: 'Order #',
+    width: '75',
+    textAlign: 'Center' 
+  },
+  { field: 'dateNeeded',
+    headerText: 'Needed By',
+    width: '120',
+    textAlign: 'Center' 
+  },
+  { field: 'rushStatus',
+    headerText: 'Rush',
+    width: '75',
+    textAlign: 'Center'
+  },
+  {
+    field: 'location',
+    headerText: 'Location',
+    width: '75',
+    textAlign: 'Center' 
+  },
+  { field: 'status',
+    headerText: 'Status',
+    width: '100',
+    textAlign: 'Center' 
+  },
+  { field: 'updatedAt',
+    headerText: 'Last Updated',
+    width: '120',
+    textAlign: 'Center',
+  }
+];
+
+export const DEFAULT_TABLE_PAGE_SETTINGS = {pageSize: 12, pageCount: 5};
 
 export const order_links = [
   {
@@ -168,6 +201,19 @@ export const order_links = [
     ],
   },
 ];
+
+export const initialOrderState = {
+  orderNum: '',
+  name: '',
+  phone: '',
+  email: '',
+  dateNeeded: '',
+  location: '',
+  status: 'NEW',
+  rushStatus: 'NONE',
+  cart: [],
+  notes: ''
+};
 
 export const InitCartItemState = {
   name: "",

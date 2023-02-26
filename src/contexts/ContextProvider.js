@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
+import { initialOrderState } from '../data/uidata';
 
 const StateContext = createContext();
 
@@ -7,19 +8,6 @@ const initialClickState = {
   cart: false,
   userProfile: false,
   notification: false,
-};
-
-const initialOrderState = {
-  orderNum: '',
-  name: '',
-  phone: '',
-  email: '',
-  dateNeeded: '',
-  location: '',
-  status: 'NEW',
-  rushStatus: 'NONE',
-  cart: [],
-  notes: ''
 };
 
 export const ContextProvider = ({ children }) => {
