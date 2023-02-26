@@ -86,6 +86,9 @@ const OrderSummary = ({ getItemPrice }) => {
         phone !== "" &&
         email !== "";
     const canSubmit = noError && !isEditing;
+    let selectedLocation = locationOpts.find(opt => opt.value === location);
+    selectedLocation = selectedLocation ? selectedLocation.label : null;
+
   return (
     <div className="flex justify-center text-left flex-col"
       style={{maxHeight: '85vh'}}
@@ -154,7 +157,7 @@ const OrderSummary = ({ getItemPrice }) => {
                         <div className="w-52">
                             <LocationSelector/>
                         </div>
-                    ) : <p>{locationOpts.find(opt => opt.value === location).label}</p>}
+                    ) : <p>{selectedLocation}</p>}
                 </div>
                 <div>
                     <p className="text-gray-500 dark:text-gray-200 mb-2">Date Needed</p>
