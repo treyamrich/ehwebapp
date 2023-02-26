@@ -6,8 +6,10 @@ import { convertToRaw } from 'draft-js';
 import { API } from 'aws-amplify';
 import { createOrders } from '../../../graphql/mutations';
 
-/*This component is for the employee to fill in additional information e.g order number
-*/
+const AUTH_MODE_COGNITO = "AMAZON_COGNITO_USER_POOLS";
+const AUTH_MODE_IAM = "AWS_IAM'";
+
+//This component is for the employee to fill in additional information e.g order number
 const FinalizeOrder = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [falsePin, setFalsePin] = useState(false);
@@ -48,7 +50,7 @@ const FinalizeOrder = () => {
                 variables: {
                     input: order
                 },
-                authMode: "AWS_IAM"
+                authMode: AUTH_MODE_IAM
             });
             //Reset order state by refreshing page
             window.location.reload();

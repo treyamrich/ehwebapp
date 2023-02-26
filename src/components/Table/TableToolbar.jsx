@@ -110,30 +110,36 @@ const TableToolbar = ({color, numSel, records, setRecords, fieldNames, pkField, 
   return (
     <div className="flex justify-between p-2 mx-1 relative items-center">
         <div className="flex">
-            <ToolbarButton 
-                title="Delete" 
-                icon={
-                <BsTrash 
-                    className={numSel < 1 ? DISABLED_CLASS : ''}
-                />}
-                disabled={numSel < 1}
-                customFunc={handleOnDel}
-            />
-            <ToolbarButton 
-                title="Add Record" 
-                icon={<BsPlusSquare/>}
-                disabled={false} 
-                customFunc={handleOnAdd}
-            />
-            <ToolbarButton 
-                title="Edit Record" 
-                icon={
-                    <AiOutlineEdit 
-                        className={numSel !== 1 ? DISABLED_CLASS : ''}
-                />}
-                disabled={numSel !== 1}
-                customFunc={handleOnEdit}
-            />
+            {onDelete && (
+                <ToolbarButton 
+                    title="Delete" 
+                    icon={
+                    <BsTrash 
+                        className={numSel < 1 ? DISABLED_CLASS : ''}
+                    />}
+                    disabled={numSel < 1}
+                    customFunc={handleOnDel}
+                />
+            )}
+            {onAdd && (
+                <ToolbarButton 
+                    title="Add Record" 
+                    icon={<BsPlusSquare/>}
+                    disabled={false} 
+                    customFunc={handleOnAdd}
+                />
+            )}
+            {onEdit && (
+                <ToolbarButton 
+                    title="Edit Record" 
+                    icon={
+                        <AiOutlineEdit 
+                            className={numSel !== 1 ? DISABLED_CLASS : ''}
+                    />}
+                    disabled={numSel !== 1}
+                    customFunc={handleOnEdit}
+                />
+            )}
         </div>
         <SearchBar 
           color={color} 
