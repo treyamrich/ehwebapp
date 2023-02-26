@@ -1,5 +1,5 @@
 import React from 'react'
-import { MyCheckbox } from '../../components';
+import { MyCheckbox } from '../../../components';
 
 const ItemLayout = ({ cartItem, setCartItem }) => {
   return (

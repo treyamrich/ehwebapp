@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { AiOutlineEdit, AiOutlineCheck } from 'react-icons/ai';
-import { Alert, MyInput } from '../../components';
-import Select from 'react-select';
+import { Alert, MyInput } from '../../../components';
+import { LocationSelector } from '../order-components';
 import FinalizeOrder from './FinalizeOrder';
-import { RUSH_FEES, EH_COLOR_DARK, locations, animatedComponents, HAWAII_SALES_TAX } from '../../data/uidata';
-import { formatDate, subtractDays } from '../../utility/DateTimeFunctions';
-import { useStateContext } from '../../contexts/ContextProvider';
-import "../../styles/hidescrollbar.css";
+import { RUSH_FEES, EH_COLOR_DARK, HAWAII_SALES_TAX, locationOpts } from '../../../data/uidata';
+import { formatDate, subtractDays } from '../../../utility/DateTimeFunctions';
+import { useStateContext } from '../../../contexts/ContextProvider';
+import "../../../styles/hidescrollbar.css";
 
 const InitOrderCost = {
     subtotal: 0,
@@ -61,6 +61,7 @@ const OrderSummary = ({ getItemPrice }) => {
         let total = round(subtotal * (1 + HAWAII_SALES_TAX));
         return {...orderCost, subtotal: subtotal.toFixed(2), total: total.toFixed(2)};
     }
+
     const finalizeOrder = () => {
         popPopUp();
         pushPopUp(<FinalizeOrder
@@ -151,16 +152,9 @@ const OrderSummary = ({ getItemPrice }) => {
                     <p className="text-gray-500 dark:text-gray-200 mb-2">Pickup Location</p>
                     {isEditing ? (
                         <div className="w-52">
-                            <Select
-                                closeMenuOnSelect={true}
-                                components={animatedComponents}
-                                options={locations}
-                                defaultValue={location !== "" ? [{label: location, value: -1}] : []}
-                                onChange={option=>setOrder({...order, location: option.label})}
-                                className="mb-3"
-                            />
+                            <LocationSelector/>
                         </div>
-                    ) : <p>{location}</p>}
+                    ) : <p>{locationOpts.find(opt => opt.value === location).label}</p>}
                 </div>
                 <div>
                     <p className="text-gray-500 dark:text-gray-200 mb-2">Date Needed</p>

@@ -16,7 +16,7 @@ import { EditorState } from 'draft-js';
 import { pltSizes, pltColors, InitCartItemState, EH_COLOR_DARK, animatedComponents } from '../../../data/uidata';
 
 import { CardManager, RTE, MyInput, ConfirmPopUp } from '../../../components';
-import GraphicForm from '../GraphicForm';
+import GraphicForm from './GraphicForm';
 import { useStateContext } from '../../../contexts/ContextProvider';
 
 import Select from 'react-select';

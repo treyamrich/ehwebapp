@@ -1,8 +1,8 @@
 import React from 'react';
 import Select from 'react-select';
 
-import GraphicForm from '../GraphicForm';
-import PlateForm from './PlateForm';
+import GraphicForm from '../popups/GraphicForm';
+import PlateForm from '../popups/PlateForm';
 import { CardManager, Tabs, Tab } from '../../../components';
 import { useStateContext } from '../../../contexts/ContextProvider';
 

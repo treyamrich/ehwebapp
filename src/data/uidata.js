@@ -231,9 +231,9 @@ export const InitCartItemState = {
   postTxt: false,
   postLayout: false
 };
-export const locations = [
-  { value: 1, label: 'Schofield Barracks'},
-  { value: 2, label: 'Kaneohe Bay'},
+export const locationOpts = [
+  { value: "SCHO", label: 'Schofield Barracks'},
+  { value: "KBAY", label: 'Kaneohe Bay'},
 ];
 export const addonFields = ['graphics', 'cutouts', 'services'];
 export const HAWAII_SALES_TAX = 0.04;

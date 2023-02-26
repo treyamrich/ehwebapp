@@ -1,10 +1,10 @@
 import React, {  useState } from 'react';
-import { MyInput, Alert, MyTextArea } from '../../components';
-import { useStateContext } from '../../contexts/ContextProvider';
-import { EH_COLOR_DARK } from '../../data/uidata';
+import { MyInput, Alert, MyTextArea } from '../../../components';
+import { useStateContext } from '../../../contexts/ContextProvider';
+import { EH_COLOR_DARK } from '../../../data/uidata';
 import { convertToRaw } from 'draft-js';
 import { API } from 'aws-amplify';
-import { createOrders } from '../../graphql/mutations';
+import { createOrders } from '../../../graphql/mutations';
 
 /*This component is for the employee to fill in additional information e.g order number
 */

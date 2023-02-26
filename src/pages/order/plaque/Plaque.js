@@ -1,9 +1,9 @@
 import React from 'react';
 import { Header, StepProgressForm, RTE, ConfirmPopUp } from '../../../components';
-import PlaqueAddon from './PlaqueAddon';
-import ChooseItemStep from '../ChooseItemStep';
-import ItemLayout from '../ItemLayout';
-import AdditionalNotes from '../AdditionalNotes';
+import PlaqueAddon from '../steps/PlaqueAddon';
+import ChooseItemStep from '../steps/ChooseItemStep';
+import ItemLayout from '../steps/ItemLayout';
+import AdditionalNotes from '../popups/AdditionalNotes';
 import {  EH_COLOR_DARK } from '../../../data/uidata';
 import { useStateContext } from '../../../contexts/ContextProvider';
 

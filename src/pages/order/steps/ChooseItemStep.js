@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { CardSelector } from '../../components';
-import { testItems } from '../../data/dummy';
-import { EH_COLOR_DARK } from '../../data/uidata';
+import { CardSelector } from '../../../components';
+import { testItems } from '../../../data/dummy';
+import { EH_COLOR_DARK } from '../../../data/uidata';
 const ChooseItemStep = ({ selectedItem, setSelectedItem }) => {
     const [itemChoices, setItemChoices] = useState(testItems);
 

@@ -6,10 +6,10 @@ GraphicForm Props:
 */
 
 import React, { useState } from 'react'
-import { CardSelector, MyCheckbox } from '../../components';
+import { CardSelector, MyCheckbox } from '../../../components';
 import Select from 'react-select';
 
-import { graphicColOpts, EH_COLOR_DARK, animatedComponents } from '../../data/uidata';
+import { graphicColOpts, EH_COLOR_DARK, animatedComponents } from '../../../data/uidata';
 
 const DEFAULT_COLOR = "Default - Same as other addons";
 const TEST_GRAPHICS = [{name: "LTC", link: 'asdf'}, {name: "ABC", link: 'asdf'}, {name: "gen", link: 'asdf'}, {name: "ki", link: 'asdf'}];//DELETE THIS LATER

@@ -3,7 +3,7 @@ import { MdOutlineCancel } from 'react-icons/md';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { Button } from '..';
 import CartItem from './CartItem';
-import OrderSummary from '../../pages/order/OrderSummary';
+import OrderSummary from '../../pages/order/popups/OrderSummary';
 import "../../styles/hidescrollbar.css";
 import { addonFields } from '../../data/uidata';
 

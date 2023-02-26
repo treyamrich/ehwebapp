@@ -1,9 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import { formatDate } from '../../../utility/DateTimeFunctions';
 import './contact_form.css';
-import Select from 'react-select';
-import { locations, animatedComponents } from '../../../data/uidata';
+
 import { useStateContext } from '../../../contexts/ContextProvider';
+import { LocationSelector } from '../order-components';
 
 const ContactForm = ({ setDisplay}) => {
 
@@ -53,14 +53,7 @@ const ContactForm = ({ setDisplay}) => {
                 value={email}
               />
               <label className="text-lg font-semibold" htmlFor="location">Pickup Location</label>
-              <Select
-                  closeMenuOnSelect={true}
-                  components={animatedComponents}
-                  options={locations}
-                  defaultValue={order.location !== "" ? [{label: order.location, value: -1}] : []}
-                  onChange={option=>setOrder({...order, location: option.label})}
-                  className="mb-3"
-              />
+              <LocationSelector/>
               <label className="text-lg font-semibold" htmlFor="date-needed">Date Order Needed</label>
               <input type="date" name="date-needed"
                 className="border px-3 py-2 w-full rounded-sm mb-4"

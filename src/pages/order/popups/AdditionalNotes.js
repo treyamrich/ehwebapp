@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { MyTextArea } from '../../components'
-import { EH_COLOR_DARK } from '../../data/uidata'
+import { MyTextArea } from '../../../components'
+import { EH_COLOR_DARK } from '../../../data/uidata'
 
 const AdditionalNotes = ({ cartItem, onSubmit }) => {
     //Must use a separate state for notes because this component is wrapped in a popup
