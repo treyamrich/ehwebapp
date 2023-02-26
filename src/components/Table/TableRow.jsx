@@ -4,13 +4,14 @@ import { MyCheckbox} from '..';
 
 import './table.css';
 
-const TableRow = ({record}) => {
-    const { selectedRecords, setNumSel, colComponents } = useTableContext();
+//selectable: boolean whether the row can be selected
+const TableRow = ({ record}) => {
+    const { selectedRecords, setNumSel, colComponents, selectable } = useTableContext();
     const selected = selectedRecords.current.has(record);
   return (
     <tr
         className={`table-row-border ${selected ? 'selected-table-row' : ''}`}
-        onClick={()=>{
+        onClick={selectable.current ? ()=>{
             //If already checked
             if(selected) {
                 setNumSel(prevState => prevState -1);
@@ -19,7 +20,7 @@ const TableRow = ({record}) => {
                 setNumSel(prevState => prevState + 1);
                 selectedRecords.current.add(record);
             }
-        }}
+        } : undefined}
     >
         {colComponents.current.map((colChild, idx)=>(
             <td key={colChild.props.field + '-' + idx}

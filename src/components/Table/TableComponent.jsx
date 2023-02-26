@@ -32,6 +32,7 @@ export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEd
   const [numSel, setNumSel] = useState(0);
   const selectedRecords = useRef(new Set());
 
+  const selectable = useRef(false);
   const fieldNames = useRef([]);
   const pkField = useRef('');
   const colComponents = useRef([]);
@@ -96,12 +97,17 @@ export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEd
     let field;
     
     for(let i = 0; i < colComps.length; i++) {
+        //Add the fields for the search bar
         field = colComps[i].props.field;
         //Set the primary key
         if(colComps[i].props.isPrimaryKey === true) {
             pkField.current = field;
         }
         fnames.push(field);
+
+        //Check for a checkbox
+        if(colComps[i].props.type === 'checkbox')
+          selectable.current = true;
     }
     colComponents.current = colComps;
     fieldNames.current = fnames;
@@ -118,7 +124,7 @@ export const TableComponent = ({data, color, pageSettings, onDelete, onAdd, onEd
   }, [records]);
   
   return (
-    <TableContext.Provider value={{ allSel, setAllSel, colComponents, selectedRecords, setNumSel, handleSelAll }}>
+    <TableContext.Provider value={{ allSel, setAllSel, colComponents, selectedRecords, setNumSel, handleSelAll, selectable }}>
       <div id="table-component-wrapper" className="border">
 
         {/*Table Components*/}
