@@ -4,21 +4,14 @@ import { fetchItems } from '../../../data/APICalls';
 import { listItems } from '../../../graphql/queries';
 import { useStateContext } from '../../../contexts/ContextProvider';
 import { firstLetterUppercase } from '../../../utility/Strings';
-import { EH_COLOR_DARK, AUTH_MODE_IAM } from '../../../data/uidata';
+import { EH_COLOR_DARK, AUTH_MODE_IAM, AUTH_MODE_COGNITO } from '../../../data/uidata';
 
-const ITEM_CATEGORIES = {
-  "PLAQUE": [],
-  "GIFT": [],
-  "DRINKWARE": []
-};
-
-const ChooseItemTab = ({ selectedItem, setSelectedItem, initialItemChoices }) => {
-  const [ itemChoices, setItemChoices ] = useState(initialItemChoices);
+const ChooseItemTab = ({ selectedItem, setSelectedItem, choices, setChoices }) => {
   return (
     <CardSelector 
         color={EH_COLOR_DARK}
-        items={itemChoices} 
-        setItems={setItemChoices}
+        items={choices} 
+        setItems={setChoices}
         orientation="horizontal"
         selectedCard={selectedItem}
         setSelectedCard={setSelectedItem}
@@ -29,18 +22,30 @@ const ChooseItemTab = ({ selectedItem, setSelectedItem, initialItemChoices }) =>
 }
 const ChooseItemStep = ({ selectedItem, setSelectedItem }) => {
   const { opRes, setOpRes } = useStateContext();
-  const [itemChoicesMap, setItemChoicesMap] = useState(() => new Map(Object.entries(ITEM_CATEGORIES)));
+  const [plaques, setPlaques] = useState([]);
+  const [gifts, setGifts] = useState([]);
+  const [drinkware, setDrinkware] = useState([]);
 
   const fetchInventoryItems = async () => {
+    //Get items
     const items = await fetchItems(
       {listItems},
-      AUTH_MODE_IAM,
+      AUTH_MODE_COGNITO,
       err=>setOpRes({...opRes, failureMsg: "Error: Could not fetch items."})
     );
+
+    const ITEM_CATEGORIES = {
+      "PLAQUE": [],
+      "GIFT": [],
+      "DRINKWARE": []
+    };
     const itemMap = new Map(Object.entries(ITEM_CATEGORIES));
+
     //Add each item to the map based on category
     items.forEach(item => itemMap.get(item.category).push(item));
-    setItemChoicesMap(itemMap);
+    setPlaques(itemMap.get("PLAQUE"));
+    setGifts(itemMap.get("GIFT"));
+    setDrinkware(itemMap.get("DRINKWARE"));
   } 
   useEffect(()=>{
     fetchInventoryItems();
@@ -48,15 +53,30 @@ const ChooseItemStep = ({ selectedItem, setSelectedItem }) => {
 
   return (
     <Tabs>
-      {Object.keys(ITEM_CATEGORIES).map((category, idx) => (
-        <Tab title={firstLetterUppercase(category)} key={idx}>
+      <Tab title="Plaques">
           <ChooseItemTab 
             selectedItem={selectedItem} 
             setSelectedItem={setSelectedItem}
-            initialItemChoices={itemChoicesMap.get(category)}
+            choices={plaques}
+            setChoices={setPlaques}
           />
       </Tab>
-      ))}
+      <Tab title="Gifts">
+          <ChooseItemTab 
+            selectedItem={selectedItem} 
+            setSelectedItem={setSelectedItem}
+            choices={gifts}
+            setChoices={setGifts}
+          />
+      </Tab>
+      <Tab title="Drinkware">
+          <ChooseItemTab 
+            selectedItem={selectedItem} 
+            setSelectedItem={setSelectedItem}
+            choices={drinkware}
+            setChoices={setDrinkware}
+          />
+      </Tab>
     </Tabs>
     
   )
