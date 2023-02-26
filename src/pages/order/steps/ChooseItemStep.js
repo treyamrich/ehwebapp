@@ -25,7 +25,7 @@ const ChooseItemStep = ({ selectedItem, setSelectedItem }) => {
   const [plaques, setPlaques] = useState([]);
   const [gifts, setGifts] = useState([]);
   const [drinkware, setDrinkware] = useState([]);
-
+  
   const fetchInventoryItems = async () => {
     //Get items
     const items = await fetchItems(
@@ -52,8 +52,8 @@ const ChooseItemStep = ({ selectedItem, setSelectedItem }) => {
   }, []);
 
   return (
-    <Tabs>
-      <Tab title="Plaques">
+    <Tabs defaultActive={selectedItem.category}>
+      <Tab title="Plaques" name="PLAQUE">
           <ChooseItemTab 
             selectedItem={selectedItem} 
             setSelectedItem={setSelectedItem}
@@ -61,7 +61,7 @@ const ChooseItemStep = ({ selectedItem, setSelectedItem }) => {
             setChoices={setPlaques}
           />
       </Tab>
-      <Tab title="Gifts">
+      <Tab title="Gifts" name="GIFT">
           <ChooseItemTab 
             selectedItem={selectedItem} 
             setSelectedItem={setSelectedItem}
@@ -69,7 +69,7 @@ const ChooseItemStep = ({ selectedItem, setSelectedItem }) => {
             setChoices={setGifts}
           />
       </Tab>
-      <Tab title="Drinkware">
+      <Tab title="Drinkware" name="DRINKWARE">
           <ChooseItemTab 
             selectedItem={selectedItem} 
             setSelectedItem={setSelectedItem}

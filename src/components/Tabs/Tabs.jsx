@@ -18,9 +18,16 @@ const TabNav = ({ title, active, onClick }) => (
     </li>
 );
 
-const Tabs = ({ children }) => {
-    const [activeTab, setActiveTab] = useState(0);
+const Tabs = ({ children, defaultActive }) => {
     const childArr = Children.toArray(children);
+    const getActiveTabIdx = () => {
+        for(let i = 0; i < childArr.length; i++) {
+            if(childArr[i].props.name === defaultActive)
+                return i;
+        }
+        return 0;
+    }
+    const [activeTab, setActiveTab] = useState(getActiveTabIdx);
     
   return (
     <div id="tabs-wrapper">

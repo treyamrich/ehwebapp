@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Tab = ({ title, children }) => {
+const Tab = ({ children }) => {
   return (
     <>
         {children}
