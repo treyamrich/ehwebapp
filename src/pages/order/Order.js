@@ -6,24 +6,15 @@ import { useStateContext } from '../../contexts/ContextProvider';
 import { Bundles, Plaque, Bottle, Gift, ContactForm } from '.';
 import { order_links, EH_COLOR_DARK, EH_COLOR_LIGHT, InitCartItemState } from '../../data/uidata';
 
-//Database operation state
-const initialOpState = {
-    successMsg: "",
-    failureMsg: "",
-    succItems: [], 
-    failItems: [] 
-};
-
 const Order = () => {
   const [display, setDisplay] = useState('start'); //Control start, contact form, and order screen display
-  const [opRes, setOpRes] = useState(initialOpState);
   //On first render, instruct the RTE to center the text
   const [autoTxtCenter, setAutoTxtCenter] = useState(true);
   const [cartItem, setCartItem] = useState({...InitCartItemState});
   const [selItem, setSelItem] = useState(null);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
   const [editItemIdx, setEditItemIdx] = useState(-1); //-1 means no item is being edited
-  const { activeMenu, currentMode, popups, popPopUp, order, setOrder, handleClick, setIsClicked, initialClickState } = useStateContext();
+  const { activeMenu, currentMode, popups, popPopUp, order, setOrder, handleClick, setIsClicked, initialClickState, opRes, setOpRes, resetOpResState } = useStateContext();
 
   //Resets the entire customization process
   const resetState = () => {
@@ -66,7 +57,6 @@ const Order = () => {
     //Open cart
     handleClick('cart');
   }
-  const resetOpRes = () => setOpRes(initialOpState);
 
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
@@ -94,8 +84,8 @@ const Order = () => {
             handleEditCartItem={handleEditCartItem}
             editItemIdx={editItemIdx}
           />
-          {opRes.failureMsg !== "" ? <Alert variant="danger" dismissible onClose={resetOpRes}>{opRes.failureMsg}</Alert> : null}
-          {opRes.successMsg !== "" ? <Alert variant="success" dismissible onClose={resetOpRes}>{opRes.successMsg}</Alert> : null}
+          {opRes.failureMsg !== "" ? <Alert variant="danger" dismissible onClose={resetOpResState}>{opRes.failureMsg}</Alert> : null}
+          {opRes.successMsg !== "" ? <Alert variant="success" dismissible onClose={resetOpResState}>{opRes.successMsg}</Alert> : null}
         </div>
         <div>
           {popups.map((childElm, idx)=>(
@@ -113,7 +103,6 @@ const Order = () => {
               <Route path="bundles" element={<Bundles/>}/>
               <Route path="plaques-and-plates" element={
                 <Plaque 
-                  opRes={opRes} setOpRes={setOpRes}
                   selItem={selItem} setSelItem={setSelItem}
                   editorState={editorState} setEditorState={setEditorState}
                   autoTxtCenter={autoTxtCenter} setAutoTxtCenter={setAutoTxtCenter}

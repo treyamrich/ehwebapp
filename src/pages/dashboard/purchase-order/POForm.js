@@ -99,7 +99,7 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
             setIsFetching(false);
         } catch(e) {
             console.log(e);
-            setOpRes({...opRes, errorMsg:"Error: Could not fetch inventory"});
+            setOpRes({...opRes, failureMsg:"Error: Could not fetch inventory"});
         }
     }
     useEffect(()=>{

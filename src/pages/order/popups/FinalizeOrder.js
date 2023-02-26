@@ -1,13 +1,10 @@
 import React, {  useState } from 'react';
 import { MyInput, Alert, MyTextArea } from '../../../components';
 import { useStateContext } from '../../../contexts/ContextProvider';
-import { EH_COLOR_DARK } from '../../../data/uidata';
+import { EH_COLOR_DARK, AUTH_MODE_IAM } from '../../../data/uidata';
 import { convertToRaw } from 'draft-js';
 import { API } from 'aws-amplify';
 import { createOrders } from '../../../graphql/mutations';
-
-const AUTH_MODE_COGNITO = "AMAZON_COGNITO_USER_POOLS";
-const AUTH_MODE_IAM = "AWS_IAM'";
 
 //This component is for the employee to fill in additional information e.g order number
 const FinalizeOrder = () => {

@@ -166,6 +166,9 @@ export const orderColumns = [
   }
 ];
 
+
+export const AUTH_MODE_COGNITO = "AMAZON_COGNITO_USER_POOLS";
+export const AUTH_MODE_IAM = "AWS_IAM";
 export const DEFAULT_TABLE_PAGE_SETTINGS = {pageSize: 12, pageCount: 5};
 
 export const order_links = [

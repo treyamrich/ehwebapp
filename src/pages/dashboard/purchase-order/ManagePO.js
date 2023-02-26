@@ -76,7 +76,7 @@ function ManagePO({opRes, setOpRes}) {
             setPOForm({op: "view-po", po: poData.data.getPurchaseOrder});
         } catch(e) {
             console.log(e);
-            setOpRes({...opRes, errorMsg:"Error: Could not fetch single Purchase Order"});
+            setOpRes({...opRes, failureMsg:"Error: Could not fetch single Purchase Order"});
         }
     }
     async function fetchPO() {
@@ -101,7 +101,7 @@ function ManagePO({opRes, setOpRes}) {
             setClosedPO(closedPOData.data.listPurchaseOrders.items);
         } catch(e) {
             console.log(e);
-            setOpRes({...opRes, errorMsg:"Error: Could not fetch Purchase Orders"});
+            setOpRes({...opRes, failureMsg:"Error: Could not fetch Purchase Orders"});
         }
     }
     async function performOp(op, po=null, silentSuccess=false, silentFail=false) {

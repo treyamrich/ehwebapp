@@ -10,10 +10,8 @@ import { arrToString } from '../../../utility/Strings';
 import '../../../styles/inventory.css';
 
 import { useStateContext } from '../../../contexts/ContextProvider';
-import { inventoryColumns, DEFAULT_TABLE_PAGE_SETTINGS } from '../../../data/uidata'; 
+import { inventoryColumns, DEFAULT_TABLE_PAGE_SETTINGS, AUTH_MODE_COGNITO } from '../../../data/uidata'; 
 import { fetchItems } from '../../../data/APICalls';
-
-const AUTH_MODE_COGNITO = "AMAZON_COGNITO_USER_POOLS";
 
 function ManageInventory({opRes, setOpRes}) {
 
@@ -76,7 +74,7 @@ function ManageInventory({opRes, setOpRes}) {
     const fetchInventory = () => {
         return fetchItems({listItems}, 
             AUTH_MODE_COGNITO, 
-            err=>setOpRes({...opRes, errorMsg:"Error: Could not fetch inventory"})
+            err=>setOpRes({...opRes, failureMsg:"Error: Could not fetch inventory"})
         );
     }
 

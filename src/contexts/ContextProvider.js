@@ -10,6 +10,14 @@ const initialClickState = {
   notification: false,
 };
 
+//Database operation state
+const initialOpState = {
+  successMsg: "",
+  failureMsg: "",
+  succItems: [], 
+  failItems: [] 
+};
+
 export const ContextProvider = ({ children }) => {
   const [screenSize, setScreenSize] = useState(undefined);
   const [currentColor, setCurrentColor] = useState('#C39F7F');
@@ -17,6 +25,8 @@ export const ContextProvider = ({ children }) => {
   const [themeSettings, setThemeSettings] = useState(false);
   const [activeMenu, setActiveMenu] = useState(true);
   const [isClicked, setIsClicked] = useState(initialClickState);
+
+  const [opRes, setOpRes] = useState(initialOpState);
   const [order, setOrder] = useState(initialOrderState);
   const [popups, setPopUps] = useState([]); //PopUps are implemented as a stack
 
@@ -46,9 +56,11 @@ export const ContextProvider = ({ children }) => {
     document.documentElement.style.overflow = "hidden";
   }
 
+  const resetOpResState = () => setOpRes({...initialOpState});
+
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <StateContext.Provider value={{ currentColor, currentMode, activeMenu, screenSize, setScreenSize, handleClick, isClicked, initialClickState, setIsClicked, setActiveMenu, setCurrentColor, setCurrentMode, setMode, setColor, themeSettings, setThemeSettings, popups, popPopUp, pushPopUp, order, setOrder }}>
+    <StateContext.Provider value={{ currentColor, currentMode, activeMenu, screenSize, setScreenSize, handleClick, isClicked, initialClickState, setIsClicked, setActiveMenu, setCurrentColor, setCurrentMode, setMode, setColor, themeSettings, setThemeSettings, popups, popPopUp, pushPopUp, order, setOrder, opRes, setOpRes, resetOpResState }}>
       {children}
     </StateContext.Provider>
   );

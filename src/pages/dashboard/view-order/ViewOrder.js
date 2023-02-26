@@ -6,9 +6,8 @@ import { fetchItems } from '../../../data/APICalls';
 import { listOrders } from '../../../graphql/queries';
 
 import { useStateContext } from '../../../contexts/ContextProvider';
-import { orderColumns, DEFAULT_TABLE_PAGE_SETTINGS } from '../../../data/uidata';
+import { orderColumns, DEFAULT_TABLE_PAGE_SETTINGS, AUTH_MODE_COGNITO } from '../../../data/uidata';
 
-const AUTH_MODE_COGNITO = "AMAZON_COGNITO_USER_POOLS";
 
 const ViewOrder = ({ opRes, setOpRes }) => {
     const { currentColor } = useStateContext();
@@ -16,7 +15,7 @@ const ViewOrder = ({ opRes, setOpRes }) => {
     const fetchOrders = () => {
         return fetchItems({listOrders},
             AUTH_MODE_COGNITO,
-            err=>setOpRes({...opRes, errorMsg:"Error: Could not fetch orders"})
+            err=>setOpRes({...opRes, failureMsg:"Error: Could not fetch orders"})
         );
     }
   return (
