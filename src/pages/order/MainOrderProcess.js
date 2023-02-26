@@ -1,16 +1,16 @@
 import React from 'react';
-import { Header, StepProgressForm, RTE, ConfirmPopUp } from '../../../components';
-import PlaqueAddon from '../steps/PlaqueAddon';
-import ChooseItemStep from '../steps/ChooseItemStep';
-import ItemLayout from '../steps/ItemLayout';
-import AdditionalNotes from '../popups/AdditionalNotes';
-import {  EH_COLOR_DARK } from '../../../data/uidata';
-import { useStateContext } from '../../../contexts/ContextProvider';
+import { Header, StepProgressForm, RTE, ConfirmPopUp } from '../../components';
+import PlaqueAddon from './steps/PlaqueAddon';
+import ChooseItemStep from './steps/ChooseItemStep';
+import ItemLayout from './steps/ItemLayout';
+import AdditionalNotes from './popups/AdditionalNotes';
+import {  EH_COLOR_DARK } from '../../data/uidata';
+import { useStateContext } from '../../contexts/ContextProvider';
 
 const lineLimit = 5;
 const lineLenLimit = 65;
 
-const Plaque = ({ editItemIdx, cancelEditItem, cartItem, setCartItem, selItem, setSelItem, editorState, setEditorState, autoTxtCenter, setAutoTxtCenter, addToCart }) => {
+const MainOrderProcess = ({ editItemIdx, cancelEditItem, cartItem, setCartItem, selItem, setSelItem, editorState, setEditorState, autoTxtCenter, setAutoTxtCenter, addToCart }) => {
 
   const { popPopUp, pushPopUp } = useStateContext();
 
@@ -103,4 +103,4 @@ const Plaque = ({ editItemIdx, cancelEditItem, cartItem, setCartItem, selItem, s
   )
 }
 
-export default Plaque
+export default MainOrderProcess

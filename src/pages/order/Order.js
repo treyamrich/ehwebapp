@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { EditorState } from 'draft-js';
 import { Alert, Sidebar, Navbar, Footer, PopUp } from '../../components';
 import { useStateContext } from '../../contexts/ContextProvider';
-import { Bundles, Plaque, Bottle, Gift, ContactForm } from '.';
+import { Bundles, MainOrderProcess, ContactForm } from '.';
 import { order_links, EH_COLOR_DARK, EH_COLOR_LIGHT, InitCartItemState } from '../../data/uidata';
 
 const Order = () => {
@@ -102,7 +102,7 @@ const Order = () => {
               <Route path="/" element={<Bundles/>}/>
               <Route path="bundles" element={<Bundles/>}/>
               <Route path="plaques-and-plates" element={
-                <Plaque 
+                <MainOrderProcess
                   selItem={selItem} setSelItem={setSelItem}
                   editorState={editorState} setEditorState={setEditorState}
                   autoTxtCenter={autoTxtCenter} setAutoTxtCenter={setAutoTxtCenter}
@@ -112,8 +112,6 @@ const Order = () => {
                   cancelEditItem={()=>{resetState(); handleClick('cart')}}
                 />}
               />
-              <Route path="engravable-bottles" element={<Bottle opRes={opRes} setOpRes={setOpRes}/>}/>
-              <Route path="personalized-gifts" element={<Gift opRes={opRes} setOpRes={setOpRes}/>}/>
           </Routes>
         </div>
         <Footer />
