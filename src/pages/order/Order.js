@@ -16,7 +16,8 @@ const Order = () => {
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
   const [editItemIdx, setEditItemIdx] = useState(-1); //-1 means no item is being edited
   const navigate = useNavigate();
-  const { activeMenu, currentMode, popups, popPopUp, order, setOrder, handleClick, setIsClicked, initialClickState, opRes, resetOpResState } = useStateContext();
+  const { activeMenu, currentMode, popups, popPopUp, order, setOrder, handleClick, setIsClicked, 
+    initialClickState, opRes, resetOpResState, setActiveMenu } = useStateContext();
 
   //Resets the entire customization process
   const resetState = () => {
@@ -25,6 +26,7 @@ const Order = () => {
     setEditorState(EditorState.createEmpty());
     setAutoTxtCenter(true);
     setEditItemIdx(-1);
+    navigate('/order');
   }
   //itemIdx is the index in the cart
   const handleEditCartItem = (item, itemIdx) => {
@@ -40,6 +42,7 @@ const Order = () => {
     setIsClicked(initialClickState);
     setEditItemIdx(itemIdx);
     navigate('/order/customize');
+    setActiveMenu(false); //Hide the sidebar
   }
   const addToCart = () => {
     //Copy attributes when adding to cart
@@ -59,8 +62,6 @@ const Order = () => {
     resetState();
     //Open cart
     handleClick('cart');
-    //Navigate out of customize since no item will be selected
-    navigate('/order');
   }
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
