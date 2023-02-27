@@ -35,6 +35,7 @@ const Cart = ({ handleEditCartItem }) => {
       title="Order Summary"
     />)
   }
+  
   return (
     <div className="bg-half-transparent w-full fixed nav-item top-0 right-0 ">
       <div className="float-right h-screen duration-1000 ease-in-out dark:text-gray-200 transition-all dark:bg-[#484B52] bg-white md:w-400 w-full p-6">
@@ -61,7 +62,9 @@ const Cart = ({ handleEditCartItem }) => {
               order={order}
               setOrder={setOrder}
               getItemPrice={getItemPrice}
-              editCartItem={()=>handleEditCartItem(item, index)}
+              editCartItem={()=>{
+                handleEditCartItem(item, index);
+              }}
             />
           ))}
           </div>

@@ -52,7 +52,7 @@ const Navbar = ({ themeColor, user, showUserProfile, setDisplay, handleEditCartI
     <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
       <div className="flex gap-3">
         <NavButton title="Menu" customFunc={handleActiveMenu} color={themeColor} icon={<AiOutlineMenu />} />
-        {editItemIdx && editItemIdx !== -1 && (
+        {editItemIdx !== undefined && editItemIdx !== -1 && (
           <div className="opacity-50 text-center">
               <Alert variant="success" size="small">Edit Mode</Alert>
           </div>

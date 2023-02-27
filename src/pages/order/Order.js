@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { EditorState } from 'draft-js';
 import { Alert, Sidebar, Navbar, Footer, PopUp } from '../../components';
 import { useStateContext } from '../../contexts/ContextProvider';
@@ -15,7 +15,8 @@ const Order = () => {
   const [selItem, setSelItem] = useState(null);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
   const [editItemIdx, setEditItemIdx] = useState(-1); //-1 means no item is being edited
-  const { activeMenu, currentMode, popups, popPopUp, order, setOrder, handleClick, setIsClicked, initialClickState, opRes, setOpRes, resetOpResState } = useStateContext();
+  const navigate = useNavigate();
+  const { activeMenu, currentMode, popups, popPopUp, order, setOrder, handleClick, setIsClicked, initialClickState, opRes, resetOpResState } = useStateContext();
 
   //Resets the entire customization process
   const resetState = () => {
@@ -38,6 +39,7 @@ const Order = () => {
     setAutoTxtCenter(false); //Preserve editor state's centering
     setIsClicked(initialClickState);
     setEditItemIdx(itemIdx);
+    navigate('/order/customize');
   }
   const addToCart = () => {
     //Copy attributes when adding to cart
@@ -57,8 +59,9 @@ const Order = () => {
     resetState();
     //Open cart
     handleClick('cart');
+    //Navigate out of customize since no item will be selected
+    navigate('/order');
   }
-
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
       <div className="flex relative dark:bg-main-dark-bg">
