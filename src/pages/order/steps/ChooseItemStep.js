@@ -3,8 +3,7 @@ import { CardSelector, Tabs, Tab } from '../../../components';
 import { fetchItems } from '../../../data/APICalls';
 import { listItems } from '../../../graphql/queries';
 import { useStateContext } from '../../../contexts/ContextProvider';
-import { firstLetterUppercase } from '../../../utility/Strings';
-import { EH_COLOR_DARK, AUTH_MODE_IAM, AUTH_MODE_COGNITO } from '../../../data/uidata';
+import { EH_COLOR_DARK, AUTH_MODE_IAM } from '../../../data/uidata';
 
 const ChooseItemTab = ({ selectedItem, setSelectedItem, choices, setChoices }) => {
   return (
@@ -15,7 +14,7 @@ const ChooseItemTab = ({ selectedItem, setSelectedItem, choices, setChoices }) =
         orientation="horizontal"
         selectedCard={selectedItem}
         setSelectedCard={setSelectedItem}
-        isCardDisabled={()=>false}
+        isCardDisabled={item => item.qty < 1}
         cmpField="name"
       />
   )
@@ -30,7 +29,7 @@ const ChooseItemStep = ({ selectedItem, setSelectedItem }) => {
     //Get items
     const items = await fetchItems(
       {listItems},
-      AUTH_MODE_COGNITO,
+      AUTH_MODE_IAM,
       err=>setOpRes({...opRes, failureMsg: "Error: Could not fetch items."})
     );
 
@@ -52,7 +51,7 @@ const ChooseItemStep = ({ selectedItem, setSelectedItem }) => {
   }, []);
 
   return (
-    <Tabs defaultActive={selectedItem.category}>
+    <Tabs defaultActive={selectedItem ? selectedItem.category : undefined}>
       <Tab title="Plaques" name="PLAQUE">
           <ChooseItemTab 
             selectedItem={selectedItem} 

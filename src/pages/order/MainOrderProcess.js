@@ -56,7 +56,7 @@ const MainOrderProcess = ({ editItemIdx, cancelEditItem, cartItem, setCartItem, 
   }
   return (
     <div className="m-2 md:m-3 mt-16 p-2 md:p-10 rounded-3xl bg-slate-50">
-      <Header category="Customize" title="Plaques and Plates" />
+      <Header category="Plaques, Gifts and Drinkware" title="Customize" />
       <div className="mt-14">
         <StepProgressForm onSubmit={addNotesToItem} 
           onCancel={editItemIdx === -1 ? undefined : cancelEditItem} 
