@@ -82,6 +82,7 @@ const GraphicForm = ({ submitForm }) => {
                     disabled={emailGraphicFlag}
                     isCardDisabled={()=>false}
                     cmpField="name"
+                    highlightOnSelect={true}
                 />
             </div>
         </div>

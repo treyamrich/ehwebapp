@@ -3,13 +3,13 @@ import { SearchBar } from '..';
 import './card_selector.css';
 import { AiOutlineCheck } from 'react-icons/ai';
 
-const Card = ({ cardName, selected, onClick, disabled }) => {
+const Card = ({ cardName, selected, onClick, disabled, highlightOnSelect }) => {
     return (
         <div className="relative h-100 w-60 p-4 drop-shadow-md hover:drop-shadow-lg rounded-lg mr-4 mb-4 bg-white text-sm"
-            style={{minWidth: '15rem', outline: selected ? '1px solid blue' : '', opacity: disabled ? 0.3 : 1}}
+            style={{minWidth: '15rem', outline: selected && highlightOnSelect ? '1px solid blue' : '', opacity: disabled ? 0.3 : 1}}
             onClick={disabled ? null : onClick}
         >
-            {selected ? <div className="absolute top-3 right-3"><AiOutlineCheck color={'blue'}/></div> : null}
+            {selected && highlightOnSelect ? <div className="absolute top-3 right-3"><AiOutlineCheck color={'blue'}/></div> : null}
             <div className="p-5">
                 <img src="https://www.plaquemaker.com/site/images/Products/PL-ALM-PH_main-001.jpg" 
                     className="h-50 w-50"
@@ -35,8 +35,9 @@ Card Selector Props
 :disabled - boolean if the entire selector is disabled
 :isCardDisabled - a func which accepts the items[i] object to determine if it's disabled
 :cmpField - a field on the object to compare for reselection
+:highlightOnSelect - boolean to specify if a card should be highlighted when selected
 */
-const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedCard, onSelect, onReselect, disabled, isCardDisabled, color, cmpField }) => {
+const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedCard, onSelect, onReselect, disabled, isCardDisabled, color, cmpField, highlightOnSelect }) => {
     const isSameCard = card => {
         //Ensure a cards are passed
         return selectedCard && card[cmpField] === selectedCard[cmpField];
@@ -84,6 +85,7 @@ const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedC
                 selected={isSameCard(item)} 
                 onClick={()=>handleSelect(item)}
                 disabled={disabled || isCardDisabled(item)}
+                highlightOnSelect={highlightOnSelect}
             />
         ))}
         </div>

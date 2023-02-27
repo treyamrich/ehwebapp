@@ -1,7 +1,6 @@
 import React from 'react';
-import { Header, StepProgressForm, RTE, ConfirmPopUp } from '../../components';
+import { Page, StepProgressForm, RTE, ConfirmPopUp } from '../../components';
 import PlaqueAddon from './steps/PlaqueAddon';
-import ChooseItemStep from './steps/ChooseItemStep';
 import ItemLayout from './steps/ItemLayout';
 import AdditionalNotes from './popups/AdditionalNotes';
 import {  EH_COLOR_DARK } from '../../data/uidata';
@@ -10,19 +9,10 @@ import { useStateContext } from '../../contexts/ContextProvider';
 const lineLimit = 5;
 const lineLenLimit = 65;
 
-const MainOrderProcess = ({ editItemIdx, cancelEditItem, cartItem, setCartItem, selItem, setSelItem, editorState, setEditorState, autoTxtCenter, setAutoTxtCenter, addToCart }) => {
+const MainOrderProcess = ({ editItemIdx, cancelEditItem, cartItem, setCartItem, selItem, editorState, setEditorState, autoTxtCenter, setAutoTxtCenter, addToCart }) => {
 
   const { popPopUp, pushPopUp } = useStateContext();
 
-  const confirmSelItem = nextStepFunc => {
-    pushPopUp(<ConfirmPopUp
-      onSubmit={()=>{popPopUp(); nextStepFunc()}}
-      onCancel={popPopUp}
-      themeColor={EH_COLOR_DARK}
-      msg="Are you sure you want to proceed without choosing an item?"
-      title="No Item Selected"
-    />);
-  }
   const confirmLineCount = () => {
     pushPopUp(
     <div className="w-11/12 bg-gray-50 rounded-md drop-shadow-xl p-3 sm:p-5 m-auto overflow-y-auto"
@@ -55,8 +45,7 @@ const MainOrderProcess = ({ editItemIdx, cancelEditItem, cartItem, setCartItem, 
     />);
   }
   return (
-    <div className="m-2 md:m-3 mt-16 p-2 md:p-10 rounded-3xl bg-slate-50">
-      <Header category="Plaques, Gifts and Drinkware" title="Customize" />
+    <Page category={selItem.name} title="Customize">
       <div className="mt-14">
         <StepProgressForm onSubmit={addNotesToItem} 
           onCancel={editItemIdx === -1 ? undefined : cancelEditItem} 
@@ -65,15 +54,6 @@ const MainOrderProcess = ({ editItemIdx, cancelEditItem, cartItem, setCartItem, 
           shouldReset={()=>editItemIdx !== -1}
           resetHook={editItemIdx}
         >
-          <ChooseItemStep
-            selectedItem={selItem}
-            setSelectedItem={setSelItem}
-            stepName="Choose an item"
-            stepTip="Tip: Dimensions are listed in format: Width x Height (W x H) and in the units of inches"
-            skipStepAmt={2}
-            confirmStep={confirmSelItem}
-            shouldConfStep={selItem === null}
-          />
           <RTE stepName="Write your customized message"
             editorState={editorState}
             setEditorState={setEditorState}
@@ -99,7 +79,7 @@ const MainOrderProcess = ({ editItemIdx, cancelEditItem, cartItem, setCartItem, 
           />
         </StepProgressForm>
       </div>
-    </div>
+    </Page>
   )
 }
 

@@ -28,3 +28,4 @@ export { default as ConfirmPopUp } from './ConfirmPopUp';
 export { default as MyInput } from './MyInput/MyInput';
 export { default as MyCheckbox } from './MyCheckbox';
 export { default as MyTextArea } from './MyTextArea/MyTextArea';
+export { default as Page } from './Page';
