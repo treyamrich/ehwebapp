@@ -9,7 +9,7 @@ import { useStateContext } from '../../contexts/ContextProvider';
 const lineLimit = 5;
 const lineLenLimit = 65;
 
-const MainOrderProcess = ({ editItemIdx, cancelEditItem, cartItem, setCartItem, selItem, editorState, setEditorState, autoTxtCenter, setAutoTxtCenter, addToCart }) => {
+const CustomizeCartItem = ({ editItemIdx, cancelEditItem, cartItem, setCartItem, selItem, editorState, setEditorState, autoTxtCenter, setAutoTxtCenter, addToCart }) => {
 
   const { popPopUp, pushPopUp } = useStateContext();
 
@@ -83,4 +83,4 @@ const MainOrderProcess = ({ editItemIdx, cancelEditItem, cartItem, setCartItem, 
   )
 }
 
-export default MainOrderProcess
+export default CustomizeCartItem

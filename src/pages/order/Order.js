@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import { EditorState } from 'draft-js';
 import { Alert, Sidebar, Navbar, Footer, PopUp } from '../../components';
 import { useStateContext } from '../../contexts/ContextProvider';
-import { Bundles, MainOrderProcess, ContactForm } from '.';
+import { Bundles, CustomizeCartItem, ContactForm } from '.';
 import ItemPicker from './order-components/ItemPicker';
 import { order_links, EH_COLOR_DARK, EH_COLOR_LIGHT, InitCartItemState } from '../../data/uidata';
 
@@ -110,7 +110,7 @@ const Order = () => {
               <Route path="engravable-bottles" element={<ItemPicker itemCategory="DRINKWARE" selItem={selItem} setSelItem={setSelItem}/>}/>
               <Route path="plaques-and-plates" element={<ItemPicker itemCategory="PLAQUE" selItem={selItem} setSelItem={setSelItem}/>}/>
               <Route path="customize" element={
-                <MainOrderProcess
+                <CustomizeCartItem
                   selItem={selItem} setSelItem={setSelItem}
                   editorState={editorState} setEditorState={setEditorState}
                   autoTxtCenter={autoTxtCenter} setAutoTxtCenter={setAutoTxtCenter}
