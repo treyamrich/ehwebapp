@@ -1,4 +1,6 @@
 import { API } from "aws-amplify";
+import { getItems } from "../graphql/queries";
+import { updateItems } from "../graphql/mutations";
 
 /* Generic fetch items function with error handling  
 
@@ -25,4 +27,31 @@ export const fetchItems = async (query, authMode, errorCallbackFn, variables={})
         errorCallbackFn(e);
     }
     return [];
+}
+
+//Updates the qty with retry logic
+const NUM_RETRIES = 3;
+export const updateItemQty = async (item, authMode) => {
+    for(let i = 0; i < NUM_RETRIES; i++) {
+        try {
+            await API.graphql({ query: updateItems,
+                variables: {
+                    id: item.id
+                },
+                authMode: authMode
+            });
+            break;
+        } catch(e) {
+            console.log(e);
+            //Refetch item
+            try {
+                item = await API.graphql({ query: getItems,
+                    variables: { id: item.id }
+                });
+            } catch(e) {
+                
+            }
+            
+        }
+    }
 }

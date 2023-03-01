@@ -42,6 +42,8 @@ const FinalizeOrder = () => {
         });
 
         try {
+            //Update item counts
+            
             //Submit order
             await API.graphql({ query: createOrders,
                 variables: {
