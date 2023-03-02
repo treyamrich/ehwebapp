@@ -1,7 +1,12 @@
 import { API } from "aws-amplify";
-import { getItems } from "../graphql/queries";
-import { updateItems } from "../graphql/mutations";
-
+import { DynamoDBClient, ExecuteTransactionCommand } from "@aws-sdk/client-dynamodb";
+const client = new DynamoDBClient({
+    region: "your-region",
+    credentials: {
+      accessKeyId: "your-access-key",
+      secretAccessKey: "your-secret-key",
+    },
+  });
 /* Generic fetch items function with error handling  
 
 query: GraphQL query must be wrapped in an object {}. Ex: { fetchTodoItems }
@@ -29,29 +34,25 @@ export const fetchItems = async (query, authMode, errorCallbackFn, variables={})
     return [];
 }
 
-//Updates the qty with retry logic
-const NUM_RETRIES = 3;
-export const updateItemQty = async (item, authMode) => {
-    for(let i = 0; i < NUM_RETRIES; i++) {
-        try {
-            await API.graphql({ query: updateItems,
-                variables: {
-                    id: item.id
-                },
-                authMode: authMode
-            });
-            break;
-        } catch(e) {
-            console.log(e);
-            //Refetch item
-            try {
-                item = await API.graphql({ query: getItems,
-                    variables: { id: item.id }
-                });
-            } catch(e) {
-                
-            }
-            
-        }
-    }
+const getUpdateOperation = cartItem => {
+    return {
+        Update: {
+          TableName: "Items",
+          Key: {
+            id: { N: cartItem.code },
+          },
+          UpdateExpression: "set #qty = #qty - :decr",
+          ExpressionAttributeNames: { "#qty": "qty" },
+          ExpressionAttributeValues: { ":decr": { N: "1" } },
+        },
+      };
+}
+export const updateCartItemQuantities = async (items, authMode) => {
+    const operations = [];
+    items.forEach(cartitem => getUpdateOperation(cartItem));
+    const command = new ExecuteTransactionCommand({
+        TransactStatements: operations,
+      });
+    const response = await client.send(command);
+    console.log(response.TransactionItems);
 }
