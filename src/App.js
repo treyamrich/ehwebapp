@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { SessionLogout, PrivateRoutes } from './util-components/index';
 import Login from './pages/auth/Login.js';
 import { Dashboard, Home, Order } from './pages/index';
+import { createDynamoDBObj } from './libs/aws-dynamodb';
 
 const initialFormState = {
   phoneNum:'',
@@ -17,7 +18,7 @@ const initialFormState = {
   authCode: '',
   formType:'signIn',
   idToken:'',
-  //sesObj: {}
+  dynamodbObj: {}
 };
 
 const App = () => {
@@ -65,18 +66,17 @@ const App = () => {
     setIsAuthenticating(false);
   }
   //For sending emails
-  /*
+  
   useEffect(() => {
     //Upon sign in, the ses object is created for email capabilities
     if(isAuthenticated)
-      setFormState({...formState, sesObj: createSESObj(idToken)});
-  }, [isAuthenticated]);*/
+      setFormState({...formState, dynamodbObj: createDynamoDBObj(idToken)});
+  }, [isAuthenticated]);
 
   useEffect(() => {
     onLoad();
   }, []);
-  //const {sesObj, idToken, name, email} = formState;
-  const {name, email, phoneNum} = formState;
+  const {dynamodbObj, idToken, name} = formState;
 
   return (
     !isAuthenticating && (

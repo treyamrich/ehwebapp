@@ -1,12 +1,7 @@
 import { API } from "aws-amplify";
-import { DynamoDBClient, ExecuteTransactionCommand } from "@aws-sdk/client-dynamodb";
-const client = new DynamoDBClient({
-    region: "your-region",
-    credentials: {
-      accessKeyId: "your-access-key",
-      secretAccessKey: "your-secret-key",
-    },
-  });
+import { ExecuteTransactionCommand } from "@aws-sdk/client-dynamodb";
+import { createDynamoDBObj } from "../libs/aws-dynamodb";
+
 /* Generic fetch items function with error handling  
 
 query: GraphQL query must be wrapped in an object {}. Ex: { fetchTodoItems }
@@ -47,12 +42,12 @@ const getUpdateOperation = cartItem => {
         },
       };
 }
-export const updateCartItemQuantities = async (items, authMode) => {
+export const updateCartItemQuantities = async (dynamodbObj, items, authMode) => {
     const operations = [];
-    items.forEach(cartitem => getUpdateOperation(cartItem));
+    items.forEach(cartItem => getUpdateOperation(cartItem));
     const command = new ExecuteTransactionCommand({
         TransactStatements: operations,
       });
-    const response = await client.send(command);
+    const response = await dynamodbObj.send(command);
     console.log(response.TransactionItems);
 }
