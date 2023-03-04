@@ -30,19 +30,24 @@ export const fetchItems = async (query, authMode, errorCallbackFn, variables={})
 }
 
 const getUpdateOperation = cartItem => {
+  console.log(cartItem.qty.toString());
     return {
         Update: {
-          TableName: "Items",
+          TableName: "Items-7fr2sid2azbrrhnbb2ntqspzlu-dev",
           Key: {
             id: { N: cartItem.code },
           },
           UpdateExpression: "set #qty = #qty - :decr",
           ExpressionAttributeNames: { "#qty": "qty" },
-          ExpressionAttributeValues: { ":decr": { N: "1" } },
-        },
+          ExpressionAttributeValues: { 
+            ":decr": { 
+              N: cartItem.qty.toString() 
+            } 
+          }
+        }
       };
 }
-export const updateCartItemQuantities = async (dynamodbObj, items, authMode) => {
+export const updateItemQuantities = async (dynamodbObj, items) => {
     const operations = [];
     items.forEach(cartItem => getUpdateOperation(cartItem));
     const command = new ExecuteTransactionCommand({

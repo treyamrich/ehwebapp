@@ -7,6 +7,7 @@ import { SessionLogout, PrivateRoutes } from './util-components/index';
 import Login from './pages/auth/Login.js';
 import { Dashboard, Home, Order } from './pages/index';
 import { createDynamoDBObj } from './libs/aws-dynamodb';
+import { useStateContext } from './contexts/ContextProvider';
 
 const initialFormState = {
   phoneNum:'',
@@ -28,6 +29,7 @@ const App = () => {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [isEmp, setIsEmp] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const { setDynamodbObj } = useStateContext();
 
   async function signOut() {
     try {
@@ -70,7 +72,7 @@ const App = () => {
   useEffect(() => {
     //Upon sign in, the ses object is created for email capabilities
     if(isAuthenticated)
-      setFormState({...formState, dynamodbObj: createDynamoDBObj(idToken)});
+      setDynamodbObj(createDynamoDBObj(idToken));
   }, [isAuthenticated]);
 
   useEffect(() => {

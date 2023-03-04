@@ -5,13 +5,14 @@ import { EH_COLOR_DARK, AUTH_MODE_IAM } from '../../../data/uidata';
 import { convertToRaw } from 'draft-js';
 import { API } from 'aws-amplify';
 import { createOrders } from '../../../graphql/mutations';
+import { updateItemQuantities } from '../../../data/APICalls';
 
 //This component is for the employee to fill in additional information e.g order number
 const FinalizeOrder = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [falsePin, setFalsePin] = useState(false);
     const [empPin, setEmpPin] = useState(""); //Get employee pin
-    const { order, setOrder } = useStateContext();
+    const { order, setOrder, dynamodbObj } = useStateContext();
 
     //Recursively creates a deep copy of each cart itemm
     const getDeepCopy = items => {
@@ -43,6 +44,7 @@ const FinalizeOrder = () => {
 
         try {
             //Update item counts
+            updateItemQuantities(dynamodbObj, order.cart);
             
             //Submit order
             await API.graphql({ query: createOrders,
