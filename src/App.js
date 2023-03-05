@@ -6,8 +6,6 @@ import React, { useState, useEffect } from 'react';
 import { SessionLogout, PrivateRoutes } from './util-components/index';
 import Login from './pages/auth/Login.js';
 import { Dashboard, Home, Order } from './pages/index';
-import { createDynamoDBObj } from './libs/aws-dynamodb';
-import { useStateContext } from './contexts/ContextProvider';
 
 const initialFormState = {
   phoneNum:'',
@@ -29,7 +27,6 @@ const App = () => {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [isEmp, setIsEmp] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const { setDynamodbObj } = useStateContext();
 
   async function signOut() {
     try {
@@ -44,7 +41,8 @@ const App = () => {
     try {
       const user = await Auth.currentAuthenticatedUser();
       const groups = user.signInUserSession.accessToken.payload["cognito:groups"]; //Get user group to check if they're an organization
-      setFormState({...formState, phoneNum: user.username, name: user.attributes.name, email: user.attributes.email, idToken: user.signInUserSession.idToken});
+      //setFormState({...formState, phoneNum: user.username, name: user.attributes.name, email: user.attributes.email, idToken: user.signInUserSession.idToken});
+      setFormState({...formState, phoneNum: user.username, name: user.attributes.name, email: user.attributes.email});
       userHasAuthenticated(true);
       //Check for authorization
       if(groups) {
@@ -68,17 +66,17 @@ const App = () => {
     setIsAuthenticating(false);
   }
   //For sending emails
-  
+  /*
   useEffect(() => {
     //Upon sign in, the ses object is created for email capabilities
     if(isAuthenticated)
-      setDynamodbObj(createDynamoDBObj(idToken));
-  }, [isAuthenticated]);
+      setDynamodbObj(createDynamoDBObj());
+  }, [isAuthenticated]);*/
 
   useEffect(() => {
     onLoad();
   }, []);
-  const {dynamodbObj, idToken, name} = formState;
+  const { name } = formState;
 
   return (
     !isAuthenticating && (

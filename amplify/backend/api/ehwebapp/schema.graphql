@@ -128,8 +128,8 @@ type Vendor @model @auth(rules: [
 }
 type Items @model @auth(rules: [
   { allow: groups, groups: ["admin"], provider: userPools},
-  { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
-  { allow: public, provider: iam, operations: [read]}]) {
+  { allow: groups, groups: ["employee"], provider: userPools, operations: [read, update]},
+  { allow: public, provider: iam, operations: [read, update]}]) {
 
   code: String! @primaryKey
   name: String!

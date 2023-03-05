@@ -26,8 +26,6 @@ export const ContextProvider = ({ children }) => {
   const [activeMenu, setActiveMenu] = useState(true);
   const [isClicked, setIsClicked] = useState(initialClickState);
 
-  const [dynamodbObj, setDynamodbObj] = useState(null); //For database transactions
-
   const [opRes, setOpRes] = useState(initialOpState);
   const [order, setOrder] = useState(initialOrderState);
   const [popups, setPopUps] = useState([]); //PopUps are implemented as a stack
@@ -62,7 +60,7 @@ export const ContextProvider = ({ children }) => {
 
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <StateContext.Provider value={{ currentColor, currentMode, activeMenu, screenSize, setScreenSize, handleClick, isClicked, initialClickState, setIsClicked, setActiveMenu, setCurrentColor, setCurrentMode, setMode, setColor, themeSettings, setThemeSettings, popups, popPopUp, pushPopUp, order, setOrder, opRes, setOpRes, resetOpResState, dynamodbObj, setDynamodbObj }}>
+    <StateContext.Provider value={{ currentColor, currentMode, activeMenu, screenSize, setScreenSize, handleClick, isClicked, initialClickState, setIsClicked, setActiveMenu, setCurrentColor, setCurrentMode, setMode, setColor, themeSettings, setThemeSettings, popups, popPopUp, pushPopUp, order, setOrder, opRes, setOpRes, resetOpResState }}>
       {children}
     </StateContext.Provider>
   );

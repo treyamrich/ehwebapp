@@ -12,7 +12,7 @@ const FinalizeOrder = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [falsePin, setFalsePin] = useState(false);
     const [empPin, setEmpPin] = useState(""); //Get employee pin
-    const { order, setOrder, dynamodbObj } = useStateContext();
+    const { order, setOrder } = useStateContext();
 
     //Recursively creates a deep copy of each cart itemm
     const getDeepCopy = items => {
@@ -44,8 +44,8 @@ const FinalizeOrder = () => {
 
         try {
             //Update item counts
-            updateItemQuantities(dynamodbObj, order.cart);
-            
+            await updateItemQuantities(order.cart);
+
             //Submit order
             await API.graphql({ query: createOrders,
                 variables: {
@@ -54,13 +54,18 @@ const FinalizeOrder = () => {
                 authMode: AUTH_MODE_IAM
             });
             //Reset order state by refreshing page
-            window.location.reload();
+            //window.location.reload();
         } catch(e) {
-            console.log(e);
+            //This means an item is out of stock
+            if(e.name === 'TransactionCanceledException' && e.message.includes('ConditionalCheckFailed')) {
+                console.log('hi');
+            }
             //Restore the cart
             order.cart = deepCopy;
         }
+        order.cart = deepCopy;
     }
+    
     const handleCheckPin = () => {
         if(empPin === "1234") {
             setIsAuthenticated(true);

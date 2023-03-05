@@ -15,6 +15,9 @@
       "auth": {
         "ehwebappresources": {},
         "userPoolGroups": {}
+      },
+      "api": {
+        "ehwebapp": {}
       }
     }
   }

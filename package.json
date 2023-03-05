@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@aws-amplify/ui-react": "^2.19.1",
+    "@aws-sdk/client-dynamodb": "^3.284.0",
+    "@aws-sdk/credential-providers": "^3.282.0",
     "@syncfusion/ej2": "^19.4.48",
     "@syncfusion/ej2-react-calendars": "^19.4.48",
     "@syncfusion/ej2-react-charts": "^19.4.50",

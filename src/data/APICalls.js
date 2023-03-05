@@ -1,6 +1,6 @@
 import { API } from "aws-amplify";
 import { ExecuteTransactionCommand } from "@aws-sdk/client-dynamodb";
-import { createDynamoDBObj } from "../libs/aws-dynamodb";
+import { createDynamoDBObj } from '../libs/aws-dynamodb';
 
 /* Generic fetch items function with error handling  
 
@@ -29,30 +29,18 @@ export const fetchItems = async (query, authMode, errorCallbackFn, variables={})
     return [];
 }
 
-const getUpdateOperation = cartItem => {
-  console.log(cartItem.qty.toString());
-    return {
-        Update: {
-          TableName: "Items-7fr2sid2azbrrhnbb2ntqspzlu-dev",
-          Key: {
-            id: { N: cartItem.code },
-          },
-          UpdateExpression: "set #qty = #qty - :decr",
-          ExpressionAttributeNames: { "#qty": "qty" },
-          ExpressionAttributeValues: { 
-            ":decr": { 
-              N: cartItem.qty.toString() 
-            } 
-          }
-        }
-      };
-}
-export const updateItemQuantities = async (dynamodbObj, items) => {
-    const operations = [];
-    items.forEach(cartItem => getUpdateOperation(cartItem));
+export const updateItemQuantities = async items => {
+    const dynamodbClient = await createDynamoDBObj();
     const command = new ExecuteTransactionCommand({
-        TransactStatements: operations,
-      });
-    const response = await dynamodbObj.send(command);
-    console.log(response.TransactionItems);
+      TransactStatements: items.map(cartItem => {
+        let qty = cartItem.quantity.toString();
+        return {
+          Statement: `UPDATE "Items-7fr2sid2azbrrhnbb2ntqspzlu-dev" SET qty=qty-? WHERE code=? AND qty >= ?`,
+          Parameters: [
+            { N: qty }, {S: cartItem.code}, { N: qty }
+          ]
+        }; 
+      })
+    });
+    return dynamodbClient.send(command);
 }
