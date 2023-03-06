@@ -61,7 +61,7 @@ const Card = ({ idx, cardName, cardImg, options, onDeleteCard, onEditCard }) => 
     </div>
 )}
 
-const CardManager = ({ options, onDeleteCard, onAddCard, onEditCard}) => {
+const CardManager = ({ options, onDeleteCard, onAddCard, onEditCard }) => {
   return (
     <div className="h-52 border-1 rounded-sm overflow-x-auto">
       <div className="flex p-4 h-full items-center">
@@ -78,7 +78,7 @@ const CardManager = ({ options, onDeleteCard, onAddCard, onEditCard}) => {
         {options.map((option, idx)=>(
             <Card key={idx} 
               idx={idx}
-              cardName={option.name} 
+              cardName={option.label} 
               cardImg={option.img}
               options={options}
               onDeleteCard={onDeleteCard}

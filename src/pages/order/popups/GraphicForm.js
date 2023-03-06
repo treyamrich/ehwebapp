@@ -14,19 +14,15 @@ import { graphicColOpts, EH_COLOR_DARK, animatedComponents } from '../../../data
 const DEFAULT_COLOR = "Default - Same as other addons";
 const TEST_GRAPHICS = [{name: "LTC", link: 'asdf'}, {name: "ABC", link: 'asdf'}, {name: "gen", link: 'asdf'}, {name: "ki", link: 'asdf'}];//DELETE THIS LATER
 
-const initialGraphicState = {
-
-};
-
 const GraphicForm = ({ submitForm }) => {
-    const [selGraphic, setSelGraphic] = useState(null);
+    const [graphicItem, setGraphicItem] = useState(null); //From the items database table
+    const [selGraphic, setSelGraphic] = useState(null); //The Graphic object from Graphics table
     const [graphicColor, setGraphicColor ] = useState(DEFAULT_COLOR); 
     const [graphicSelection, setGraphicSelection] = useState(TEST_GRAPHICS);
     const [emailGraphicFlag, setEmailGraphicFlag] = useState(false);
 
     const canSubmit = emailGraphicFlag || selGraphic !== null;
-
-
+    
     const handleWillEmailGraphic = () => {
         //Reset selection and flip the flag
         setSelGraphic(null);
@@ -34,6 +30,18 @@ const GraphicForm = ({ submitForm }) => {
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
+        //From graphql schema
+        const completeGraphic = {
+            name: graphicItem.name,
+            code: graphicItem.code,
+            price: graphicItem.price,
+            quantity: 1,
+            color: graphicColor,
+            willEmail: emailGraphicFlag,
+            category: "GRAPHIC",
+            graphicName: selGraphic.name,
+            customGraphicUrl: null
+        };
         if(emailGraphicFlag) {
             submitForm({color: graphicColor, name: 'Sent via Email'});
         } else {

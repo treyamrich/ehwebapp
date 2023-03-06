@@ -37,6 +37,7 @@ export const createOrders = /* GraphQL */ `
           price
           quantity
           category
+          willEmail
           graphicName
           customGraphicUrl
         }
@@ -46,6 +47,7 @@ export const createOrders = /* GraphQL */ `
           price
           quantity
           category
+          willEmail
           graphicName
           customGraphicUrl
         }
@@ -108,6 +110,7 @@ export const updateOrders = /* GraphQL */ `
           price
           quantity
           category
+          willEmail
           graphicName
           customGraphicUrl
         }
@@ -117,6 +120,7 @@ export const updateOrders = /* GraphQL */ `
           price
           quantity
           category
+          willEmail
           graphicName
           customGraphicUrl
         }
@@ -179,6 +183,7 @@ export const deleteOrders = /* GraphQL */ `
           price
           quantity
           category
+          willEmail
           graphicName
           customGraphicUrl
         }
@@ -188,6 +193,7 @@ export const deleteOrders = /* GraphQL */ `
           price
           quantity
           category
+          willEmail
           graphicName
           customGraphicUrl
         }

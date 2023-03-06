@@ -53,6 +53,7 @@ const PlaqueAddon = ({ cartItem, setCartItem}) => {
           <div>
             <h4 className="text-lg font-semibold mb-1">Add your plate(s) here</h4>
             <CardManager 
+
               options={cartItem.subItems} 
               onDeleteCard={handleRemovePlate}
               onEditCard={(idx)=>pushPopUp(

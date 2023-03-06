@@ -71,6 +71,7 @@ type CartAddonGraphic {
   quantity: Int!
   category: ItemCategory!
 
+  willEmail: Boolean!
   graphicName: String #Pk from graphics table
   customGraphicUrl: String #Any custom graphic url
 }
