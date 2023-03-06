@@ -27,7 +27,6 @@ export const getOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
         }
         graphics {
           name
@@ -35,7 +34,8 @@ export const getOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
+          graphicName
+          customGraphicUrl
         }
         cutouts {
           name
@@ -43,7 +43,8 @@ export const getOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
+          graphicName
+          customGraphicUrl
         }
         subItems {
           name
@@ -128,6 +129,41 @@ export const listOrderChoices = /* GraphQL */ `
         type
         name
         id
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getGraphic = /* GraphQL */ `
+  query GetGraphic($name: String!) {
+    getGraphic(name: $name) {
+      name
+      imageName
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listGraphics = /* GraphQL */ `
+  query ListGraphics(
+    $name: String
+    $filter: ModelGraphicFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listGraphics(
+      name: $name
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        name
+        imageName
         createdAt
         updatedAt
       }

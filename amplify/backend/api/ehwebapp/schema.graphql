@@ -43,7 +43,7 @@ enum RushStatus {
   TWO_TO_THREE_DAYS
 }
 
-#Table for storing the locations, graphic names, and available fonts
+#Table for storing the locations and available fonts
 type OrderChoice @model @auth(rules: [
   { allow: groups, groups: ["admin"], provider: userPools},
   { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
@@ -54,16 +54,32 @@ type OrderChoice @model @auth(rules: [
 enum ChoiceType {
   LOCATION
   FONT
-  GRAPHIC
 }
 
-type CartAddon {
+type Graphic @model @auth(rules: [
+  { allow: groups, groups: ["admin"], provider: userPools},
+  { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
+  { allow: public, provider: iam, operations: [read]}]) {
+  name: String! @primaryKey
+  imageName: String! #The name in the AWS S3 bucket
+}
+
+type CartAddonGraphic {
   name: String!
   code: String!
   price: Float!
   quantity: Int!
   category: ItemCategory!
-  tag: String
+
+  graphicName: String #Pk from graphics table
+  customGraphicUrl: String #Any custom graphic url
+}
+type CartAddonService {
+  name: String!
+  code: String!
+  price: Float!
+  quantity: Int!
+  category: ItemCategory!
 }
 type CartItem {
   name: String!
@@ -71,9 +87,9 @@ type CartItem {
   price: Float!
   quantity: Int!
   category: ItemCategory!
-  services: [CartAddon!]
-  graphics: [CartAddon!]
-  cutouts: [CartAddon!]
+  services: [CartAddonService!]
+  graphics: [CartAddonGraphic!]
+  cutouts: [CartAddonGraphic!]
   subItems: [CartItem!]
 
   txtObj: String

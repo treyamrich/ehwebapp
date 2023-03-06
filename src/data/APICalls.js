@@ -48,36 +48,14 @@ export const updateItemQuantities = async items => {
 }
 
 //item in items is from the CartItem in the graphql schema
-export const uploadCartItemImages = async items => {
-    let errors = {
-        layouts: [],
-        graphics: []
-    };
-    let promises = [];
-    items.forEach(item => {
-        //Upload the layout
+export const uploadLayoutImages = async items => {
+    await Promise.all(items.map(item => {
         if(item.layoutImg) {
             let imgFile = item.layoutImg;
             item.layoutImg = imgFile.name;
-            promises.push(
-                Storage.put('layouts/' + imgFile.name, imgFile, { bucket: 'ehwebapp-customer-uploads'})
-                    .catch(() => errors.layouts.push({itemCode: item.code}) )
-            );
+            return Storage.put('layouts/' + imgFile.name, imgFile, { bucket: 'ehwebapp-customer-uploads'})
+                .catch(e => console.log(`Failed to upload layout for: ${item.code}\n${e.name}\n${e.message}`) );
         }
-        //Upload any custom graphics
-        item.graphics.forEach(graphic => {
-            if(graphic.type !== 'CUSTOM') return;
-            promises.push(
-                Storage.put('custom-graphics/' + graphic.img.name, graphic.img, { bucket: 'ehwebapp-customer-uploads'})
-                    .catch(() => errors.graphics.push({itemCode: item.code, graphicName: graphic.name}) )
-            );
-        })
-    });
-    await Promise.all(promises);
-
-    if(errors.layouts.length || errors.graphics.length) {
-        console.log("Error: Some images failed to upload");
-        console.log(errors);
-    }
-    return errors;
+        return null;
+    }));
 }

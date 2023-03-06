@@ -51,6 +51,7 @@ const ItemPicker = ({ itemCategory, selItem, setSelItem }) => {
                 isCardDisabled={item => item.qty < 1}
                 cmpField="name"
                 onSelect={()=>setRedirect(true)}
+                emptyMsg="No items"
             />
         </Page>
     )

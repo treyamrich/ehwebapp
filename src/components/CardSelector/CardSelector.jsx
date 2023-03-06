@@ -36,8 +36,10 @@ Card Selector Props
 :isCardDisabled - a func which accepts the items[i] object to determine if it's disabled
 :cmpField - a field on the object to compare for reselection
 :highlightOnSelect - boolean to specify if a card should be highlighted when selected
+:emptyMsg: a string that is displayed when no items are in the items array
+
 */
-const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedCard, onSelect, onReselect, disabled, isCardDisabled, color, cmpField, highlightOnSelect }) => {
+const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedCard, onSelect, onReselect, disabled, isCardDisabled, color, cmpField, highlightOnSelect, emptyMsg }) => {
     const isSameCard = card => {
         //Ensure a cards are passed
         return selectedCard && card[cmpField] === selectedCard[cmpField];
@@ -79,6 +81,7 @@ const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedC
         <div className={`flex p-1 h-full relative ${orientation === 'vertical' ? 'justify-center flex-wrap' : ''}`}
             style={{opacity: disabled ? 0.5 : 1}}
         >
+        {items.length > 0 ? null :  <p className="font-semibold text-sm text-slate-400">{emptyMsg}</p>}
         {items.map((item, idx) =>(
             <Card key={idx} 
                 cardName={item.name}

@@ -2,8 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateOrders = /* GraphQL */ `
-  subscription OnCreateOrders($filter: ModelSubscriptionOrdersFilterInput) {
-    onCreateOrders(filter: $filter) {
+  subscription OnCreateOrders {
+    onCreateOrders {
       id
       createdAt
       orderNum
@@ -27,7 +27,6 @@ export const onCreateOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
         }
         graphics {
           name
@@ -35,7 +34,8 @@ export const onCreateOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
+          graphicName
+          customGraphicUrl
         }
         cutouts {
           name
@@ -43,7 +43,8 @@ export const onCreateOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
+          graphicName
+          customGraphicUrl
         }
         subItems {
           name
@@ -69,8 +70,8 @@ export const onCreateOrders = /* GraphQL */ `
   }
 `;
 export const onUpdateOrders = /* GraphQL */ `
-  subscription OnUpdateOrders($filter: ModelSubscriptionOrdersFilterInput) {
-    onUpdateOrders(filter: $filter) {
+  subscription OnUpdateOrders {
+    onUpdateOrders {
       id
       createdAt
       orderNum
@@ -94,7 +95,6 @@ export const onUpdateOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
         }
         graphics {
           name
@@ -102,7 +102,8 @@ export const onUpdateOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
+          graphicName
+          customGraphicUrl
         }
         cutouts {
           name
@@ -110,7 +111,8 @@ export const onUpdateOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
+          graphicName
+          customGraphicUrl
         }
         subItems {
           name
@@ -136,8 +138,8 @@ export const onUpdateOrders = /* GraphQL */ `
   }
 `;
 export const onDeleteOrders = /* GraphQL */ `
-  subscription OnDeleteOrders($filter: ModelSubscriptionOrdersFilterInput) {
-    onDeleteOrders(filter: $filter) {
+  subscription OnDeleteOrders {
+    onDeleteOrders {
       id
       createdAt
       orderNum
@@ -161,7 +163,6 @@ export const onDeleteOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
         }
         graphics {
           name
@@ -169,7 +170,8 @@ export const onDeleteOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
+          graphicName
+          customGraphicUrl
         }
         cutouts {
           name
@@ -177,7 +179,8 @@ export const onDeleteOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
+          graphicName
+          customGraphicUrl
         }
         subItems {
           name
@@ -203,10 +206,8 @@ export const onDeleteOrders = /* GraphQL */ `
   }
 `;
 export const onCreateOrderChoice = /* GraphQL */ `
-  subscription OnCreateOrderChoice(
-    $filter: ModelSubscriptionOrderChoiceFilterInput
-  ) {
-    onCreateOrderChoice(filter: $filter) {
+  subscription OnCreateOrderChoice {
+    onCreateOrderChoice {
       type
       name
       id
@@ -216,10 +217,8 @@ export const onCreateOrderChoice = /* GraphQL */ `
   }
 `;
 export const onUpdateOrderChoice = /* GraphQL */ `
-  subscription OnUpdateOrderChoice(
-    $filter: ModelSubscriptionOrderChoiceFilterInput
-  ) {
-    onUpdateOrderChoice(filter: $filter) {
+  subscription OnUpdateOrderChoice {
+    onUpdateOrderChoice {
       type
       name
       id
@@ -229,10 +228,8 @@ export const onUpdateOrderChoice = /* GraphQL */ `
   }
 `;
 export const onDeleteOrderChoice = /* GraphQL */ `
-  subscription OnDeleteOrderChoice(
-    $filter: ModelSubscriptionOrderChoiceFilterInput
-  ) {
-    onDeleteOrderChoice(filter: $filter) {
+  subscription OnDeleteOrderChoice {
+    onDeleteOrderChoice {
       type
       name
       id
@@ -241,11 +238,39 @@ export const onDeleteOrderChoice = /* GraphQL */ `
     }
   }
 `;
+export const onCreateGraphic = /* GraphQL */ `
+  subscription OnCreateGraphic {
+    onCreateGraphic {
+      name
+      imageName
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateGraphic = /* GraphQL */ `
+  subscription OnUpdateGraphic {
+    onUpdateGraphic {
+      name
+      imageName
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteGraphic = /* GraphQL */ `
+  subscription OnDeleteGraphic {
+    onDeleteGraphic {
+      name
+      imageName
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreatePurchaseOrder = /* GraphQL */ `
-  subscription OnCreatePurchaseOrder(
-    $filter: ModelSubscriptionPurchaseOrderFilterInput
-  ) {
-    onCreatePurchaseOrder(filter: $filter) {
+  subscription OnCreatePurchaseOrder {
+    onCreatePurchaseOrder {
       id
       vendorId
       date
@@ -271,10 +296,8 @@ export const onCreatePurchaseOrder = /* GraphQL */ `
   }
 `;
 export const onUpdatePurchaseOrder = /* GraphQL */ `
-  subscription OnUpdatePurchaseOrder(
-    $filter: ModelSubscriptionPurchaseOrderFilterInput
-  ) {
-    onUpdatePurchaseOrder(filter: $filter) {
+  subscription OnUpdatePurchaseOrder {
+    onUpdatePurchaseOrder {
       id
       vendorId
       date
@@ -300,10 +323,8 @@ export const onUpdatePurchaseOrder = /* GraphQL */ `
   }
 `;
 export const onDeletePurchaseOrder = /* GraphQL */ `
-  subscription OnDeletePurchaseOrder(
-    $filter: ModelSubscriptionPurchaseOrderFilterInput
-  ) {
-    onDeletePurchaseOrder(filter: $filter) {
+  subscription OnDeletePurchaseOrder {
+    onDeletePurchaseOrder {
       id
       vendorId
       date
@@ -329,10 +350,8 @@ export const onDeletePurchaseOrder = /* GraphQL */ `
   }
 `;
 export const onCreateOwnerContact = /* GraphQL */ `
-  subscription OnCreateOwnerContact(
-    $filter: ModelSubscriptionOwnerContactFilterInput
-  ) {
-    onCreateOwnerContact(filter: $filter) {
+  subscription OnCreateOwnerContact {
+    onCreateOwnerContact {
       contactInfo {
         name
         phone
@@ -350,10 +369,8 @@ export const onCreateOwnerContact = /* GraphQL */ `
   }
 `;
 export const onUpdateOwnerContact = /* GraphQL */ `
-  subscription OnUpdateOwnerContact(
-    $filter: ModelSubscriptionOwnerContactFilterInput
-  ) {
-    onUpdateOwnerContact(filter: $filter) {
+  subscription OnUpdateOwnerContact {
+    onUpdateOwnerContact {
       contactInfo {
         name
         phone
@@ -371,10 +388,8 @@ export const onUpdateOwnerContact = /* GraphQL */ `
   }
 `;
 export const onDeleteOwnerContact = /* GraphQL */ `
-  subscription OnDeleteOwnerContact(
-    $filter: ModelSubscriptionOwnerContactFilterInput
-  ) {
-    onDeleteOwnerContact(filter: $filter) {
+  subscription OnDeleteOwnerContact {
+    onDeleteOwnerContact {
       contactInfo {
         name
         phone
@@ -392,8 +407,8 @@ export const onDeleteOwnerContact = /* GraphQL */ `
   }
 `;
 export const onCreateVendor = /* GraphQL */ `
-  subscription OnCreateVendor($filter: ModelSubscriptionVendorFilterInput) {
-    onCreateVendor(filter: $filter) {
+  subscription OnCreateVendor {
+    onCreateVendor {
       id
       vendorName
       contactInfo {
@@ -415,8 +430,8 @@ export const onCreateVendor = /* GraphQL */ `
   }
 `;
 export const onUpdateVendor = /* GraphQL */ `
-  subscription OnUpdateVendor($filter: ModelSubscriptionVendorFilterInput) {
-    onUpdateVendor(filter: $filter) {
+  subscription OnUpdateVendor {
+    onUpdateVendor {
       id
       vendorName
       contactInfo {
@@ -438,8 +453,8 @@ export const onUpdateVendor = /* GraphQL */ `
   }
 `;
 export const onDeleteVendor = /* GraphQL */ `
-  subscription OnDeleteVendor($filter: ModelSubscriptionVendorFilterInput) {
-    onDeleteVendor(filter: $filter) {
+  subscription OnDeleteVendor {
+    onDeleteVendor {
       id
       vendorName
       contactInfo {
@@ -461,8 +476,8 @@ export const onDeleteVendor = /* GraphQL */ `
   }
 `;
 export const onCreateItems = /* GraphQL */ `
-  subscription OnCreateItems($filter: ModelSubscriptionItemsFilterInput) {
-    onCreateItems(filter: $filter) {
+  subscription OnCreateItems {
+    onCreateItems {
       code
       name
       category
@@ -479,8 +494,8 @@ export const onCreateItems = /* GraphQL */ `
   }
 `;
 export const onUpdateItems = /* GraphQL */ `
-  subscription OnUpdateItems($filter: ModelSubscriptionItemsFilterInput) {
-    onUpdateItems(filter: $filter) {
+  subscription OnUpdateItems {
+    onUpdateItems {
       code
       name
       category
@@ -497,8 +512,8 @@ export const onUpdateItems = /* GraphQL */ `
   }
 `;
 export const onDeleteItems = /* GraphQL */ `
-  subscription OnDeleteItems($filter: ModelSubscriptionItemsFilterInput) {
-    onDeleteItems(filter: $filter) {
+  subscription OnDeleteItems {
+    onDeleteItems {
       code
       name
       category
@@ -515,10 +530,8 @@ export const onDeleteItems = /* GraphQL */ `
   }
 `;
 export const onCreateModifierGroups = /* GraphQL */ `
-  subscription OnCreateModifierGroups(
-    $filter: ModelSubscriptionModifierGroupsFilterInput
-  ) {
-    onCreateModifierGroups(filter: $filter) {
+  subscription OnCreateModifierGroups {
+    onCreateModifierGroups {
       id
       name
       modifiers
@@ -529,10 +542,8 @@ export const onCreateModifierGroups = /* GraphQL */ `
   }
 `;
 export const onUpdateModifierGroups = /* GraphQL */ `
-  subscription OnUpdateModifierGroups(
-    $filter: ModelSubscriptionModifierGroupsFilterInput
-  ) {
-    onUpdateModifierGroups(filter: $filter) {
+  subscription OnUpdateModifierGroups {
+    onUpdateModifierGroups {
       id
       name
       modifiers
@@ -543,10 +554,8 @@ export const onUpdateModifierGroups = /* GraphQL */ `
   }
 `;
 export const onDeleteModifierGroups = /* GraphQL */ `
-  subscription OnDeleteModifierGroups(
-    $filter: ModelSubscriptionModifierGroupsFilterInput
-  ) {
-    onDeleteModifierGroups(filter: $filter) {
+  subscription OnDeleteModifierGroups {
+    onDeleteModifierGroups {
       id
       name
       modifiers
@@ -557,8 +566,8 @@ export const onDeleteModifierGroups = /* GraphQL */ `
   }
 `;
 export const onCreateModifier = /* GraphQL */ `
-  subscription OnCreateModifier($filter: ModelSubscriptionModifierFilterInput) {
-    onCreateModifier(filter: $filter) {
+  subscription OnCreateModifier {
+    onCreateModifier {
       id
       name
       price
@@ -568,8 +577,8 @@ export const onCreateModifier = /* GraphQL */ `
   }
 `;
 export const onUpdateModifier = /* GraphQL */ `
-  subscription OnUpdateModifier($filter: ModelSubscriptionModifierFilterInput) {
-    onUpdateModifier(filter: $filter) {
+  subscription OnUpdateModifier {
+    onUpdateModifier {
       id
       name
       price
@@ -579,8 +588,8 @@ export const onUpdateModifier = /* GraphQL */ `
   }
 `;
 export const onDeleteModifier = /* GraphQL */ `
-  subscription OnDeleteModifier($filter: ModelSubscriptionModifierFilterInput) {
-    onDeleteModifier(filter: $filter) {
+  subscription OnDeleteModifier {
+    onDeleteModifier {
       id
       name
       price

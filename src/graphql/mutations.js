@@ -30,7 +30,6 @@ export const createOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
         }
         graphics {
           name
@@ -38,7 +37,8 @@ export const createOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
+          graphicName
+          customGraphicUrl
         }
         cutouts {
           name
@@ -46,7 +46,8 @@ export const createOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
+          graphicName
+          customGraphicUrl
         }
         subItems {
           name
@@ -100,7 +101,6 @@ export const updateOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
         }
         graphics {
           name
@@ -108,7 +108,8 @@ export const updateOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
+          graphicName
+          customGraphicUrl
         }
         cutouts {
           name
@@ -116,7 +117,8 @@ export const updateOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
+          graphicName
+          customGraphicUrl
         }
         subItems {
           name
@@ -170,7 +172,6 @@ export const deleteOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
         }
         graphics {
           name
@@ -178,7 +179,8 @@ export const deleteOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
+          graphicName
+          customGraphicUrl
         }
         cutouts {
           name
@@ -186,7 +188,8 @@ export const deleteOrders = /* GraphQL */ `
           price
           quantity
           category
-          tag
+          graphicName
+          customGraphicUrl
         }
         subItems {
           name
@@ -248,6 +251,45 @@ export const deleteOrderChoice = /* GraphQL */ `
       type
       name
       id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createGraphic = /* GraphQL */ `
+  mutation CreateGraphic(
+    $input: CreateGraphicInput!
+    $condition: ModelGraphicConditionInput
+  ) {
+    createGraphic(input: $input, condition: $condition) {
+      name
+      imageName
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateGraphic = /* GraphQL */ `
+  mutation UpdateGraphic(
+    $input: UpdateGraphicInput!
+    $condition: ModelGraphicConditionInput
+  ) {
+    updateGraphic(input: $input, condition: $condition) {
+      name
+      imageName
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteGraphic = /* GraphQL */ `
+  mutation DeleteGraphic(
+    $input: DeleteGraphicInput!
+    $condition: ModelGraphicConditionInput
+  ) {
+    deleteGraphic(input: $input, condition: $condition) {
+      name
+      imageName
       createdAt
       updatedAt
     }

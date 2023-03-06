@@ -5,7 +5,7 @@ import { EH_COLOR_DARK, AUTH_MODE_IAM } from '../../../data/uidata';
 import { convertToRaw } from 'draft-js';
 import { API } from 'aws-amplify';
 import { createOrders } from '../../../graphql/mutations';
-import { updateItemQuantities, uploadCartItemImages } from '../../../data/APICalls';
+import { updateItemQuantities, uploadLayoutImages } from '../../../data/APICalls';
 
 //This component is for the employee to fill in additional information e.g order number
 const FinalizeOrder = () => {
@@ -48,7 +48,7 @@ const FinalizeOrder = () => {
             //await updateItemQuantities(order.cart);
 
             //Upload any layouts or custom graphics
-            await uploadCartItemImages(order.cart);
+            await uploadLayoutImages(order.cart);
             
             //Submit order
             /*await API.graphql({ query: createOrders,
@@ -62,7 +62,7 @@ const FinalizeOrder = () => {
         } catch(e) {
             //This means an item is out of stock
             if(e.name === 'TransactionCanceledException' && e.message.includes('ConditionalCheckFailed')) {
-                console.log('hi');
+                console.log('Some items were out of stock.');
             }
             //Restore the cart
             order.cart = deepCopy;

@@ -14,6 +14,10 @@ import { graphicColOpts, EH_COLOR_DARK, animatedComponents } from '../../../data
 const DEFAULT_COLOR = "Default - Same as other addons";
 const TEST_GRAPHICS = [{name: "LTC", link: 'asdf'}, {name: "ABC", link: 'asdf'}, {name: "gen", link: 'asdf'}, {name: "ki", link: 'asdf'}];//DELETE THIS LATER
 
+const initialGraphicState = {
+
+};
+
 const GraphicForm = ({ submitForm }) => {
     const [selGraphic, setSelGraphic] = useState(null);
     const [graphicColor, setGraphicColor ] = useState(DEFAULT_COLOR); 
@@ -21,6 +25,7 @@ const GraphicForm = ({ submitForm }) => {
     const [emailGraphicFlag, setEmailGraphicFlag] = useState(false);
 
     const canSubmit = emailGraphicFlag || selGraphic !== null;
+
 
     const handleWillEmailGraphic = () => {
         //Reset selection and flip the flag
@@ -83,6 +88,7 @@ const GraphicForm = ({ submitForm }) => {
                     isCardDisabled={()=>false}
                     cmpField="name"
                     highlightOnSelect={true}
+                    emptyMsg="No graphics"
                 />
             </div>
         </div>
