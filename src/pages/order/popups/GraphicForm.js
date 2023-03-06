@@ -5,20 +5,23 @@ GraphicForm Props:
   :submitForm - a function to be called on form submission
 */
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CardSelector, MyCheckbox } from '../../../components';
+import { Storage } from 'aws-amplify';
+import { listGraphics } from '../../../graphql/queries';
+import { fetchItems, fetchS3Images } from '../../../data/APICalls';
+import { AUTH_MODE_IAM } from '../../../data/uidata';
 import Select from 'react-select';
 
 import { graphicColOpts, EH_COLOR_DARK, animatedComponents } from '../../../data/uidata';
 
 const DEFAULT_COLOR = "Default - Same as other addons";
-const TEST_GRAPHICS = [{name: "LTC", link: 'asdf'}, {name: "ABC", link: 'asdf'}, {name: "gen", link: 'asdf'}, {name: "ki", link: 'asdf'}];//DELETE THIS LATER
 
 const GraphicForm = ({ submitForm }) => {
     const [graphicItem, setGraphicItem] = useState(null); //From the items database table
     const [selGraphic, setSelGraphic] = useState(null); //The Graphic object from Graphics table
     const [graphicColor, setGraphicColor ] = useState(DEFAULT_COLOR); 
-    const [graphicSelection, setGraphicSelection] = useState(TEST_GRAPHICS);
+    const [graphicSelection, setGraphicSelection] = useState([]);
     const [emailGraphicFlag, setEmailGraphicFlag] = useState(false);
 
     const canSubmit = emailGraphicFlag || selGraphic !== null;
@@ -36,12 +39,16 @@ const GraphicForm = ({ submitForm }) => {
             code: graphicItem.code,
             price: graphicItem.price,
             quantity: 1,
+            
             color: graphicColor,
             willEmail: emailGraphicFlag,
             category: "GRAPHIC",
             graphicName: selGraphic.name,
-            customGraphicUrl: null
+            customGraphicUrl: null,
+            label: selGraphic.name
         };
+        submitForm(completeGraphic);
+        /*
         if(emailGraphicFlag) {
             submitForm({color: graphicColor, name: 'Sent via Email'});
         } else {
@@ -50,8 +57,20 @@ const GraphicForm = ({ submitForm }) => {
                     graphicColor : 
                     'Default Color'} - ${selGraphic.name}`
             });
-        }
+        }*/
     }
+    const fetchGraphicSelection = async () => {
+        //Get the graphics from the database to choose
+        const graphics = await fetchItems({listGraphics}, AUTH_MODE_IAM, () => {});
+        //Fetch images which adds the .image attribute to each graphic
+        await fetchS3Images(graphics, "imageName");
+        //Set the label for the card manager
+        graphics.forEach(graphic => graphic.label = graphic.name);
+        setGraphicSelection(graphics);
+    }
+    useEffect(()=> {
+        fetchGraphicSelection();
+    }, []);
   return (
     <div className="flex justify-center text-left flex-col"
       style={{maxHeight: '85vh'}}

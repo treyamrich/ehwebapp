@@ -59,3 +59,23 @@ export const uploadLayoutImages = async items => {
         return null;
     }));
 }
+
+/*
+    Sets the 'image' attribute/property on the obj in objs
+
+    objs: list of objects
+    imgNameField: field on the obj in objs that contains the key for the file on the s3 bucket
+    s3BucketName: 
+*/
+export const fetchS3Images = async (objs, imgNameField, s3BucketName=undefined) => {
+    return await Promise.all(objs.map(obj => {
+        return s3BucketName === undefined ? Storage.get(obj[imgNameField]) :
+            Storage.get(obj[imgNameField], { bucket: s3BucketName });
+    
+    })).then(resultingImgs => {
+        //Set the image attribute of the resulting url
+        objs.forEach((obj, index) => {
+            obj.image = resultingImgs[index];
+        });
+    });
+}

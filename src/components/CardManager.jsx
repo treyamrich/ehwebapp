@@ -54,13 +54,18 @@ const Card = ({ idx, cardName, cardImg, options, onDeleteCard, onEditCard }) => 
         <div className="w-full h-28 px-1 pb-1 mt-10 mb-1"
         >
           <div className="h-20 border-1 border-slate-300 mb-1">
-            <img src={cardImg}/>
+            <img src={cardImg}
+              alt="Image unavailable"
+            />
           </div>
           <p className="font-semibold">{cardName}</p>
         </div>
     </div>
 )}
 
+/*
+  The option objects in options must have a label and image property.
+*/
 const CardManager = ({ options, onDeleteCard, onAddCard, onEditCard }) => {
   return (
     <div className="h-52 border-1 rounded-sm overflow-x-auto">
@@ -79,7 +84,7 @@ const CardManager = ({ options, onDeleteCard, onAddCard, onEditCard }) => {
             <Card key={idx} 
               idx={idx}
               cardName={option.label} 
-              cardImg={option.img}
+              cardImg={option.image}
               options={options}
               onDeleteCard={onDeleteCard}
               onEditCard={onEditCard}

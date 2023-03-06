@@ -3,7 +3,7 @@ import { SearchBar } from '..';
 import './card_selector.css';
 import { AiOutlineCheck } from 'react-icons/ai';
 
-const Card = ({ cardName, selected, onClick, disabled, highlightOnSelect }) => {
+const Card = ({ cardName, cardImg, selected, onClick, disabled, highlightOnSelect }) => {
     return (
         <div className="relative h-100 w-60 p-4 drop-shadow-md hover:drop-shadow-lg rounded-lg mr-4 mb-4 bg-white text-sm"
             style={{minWidth: '15rem', outline: selected && highlightOnSelect ? '1px solid blue' : '', opacity: disabled ? 0.3 : 1}}
@@ -11,9 +11,9 @@ const Card = ({ cardName, selected, onClick, disabled, highlightOnSelect }) => {
         >
             {selected && highlightOnSelect ? <div className="absolute top-3 right-3"><AiOutlineCheck color={'blue'}/></div> : null}
             <div className="p-5">
-                <img src="https://www.plaquemaker.com/site/images/Products/PL-ALM-PH_main-001.jpg" 
+                <img src={cardImg} 
                     className="h-50 w-50"
-                    alt="Default Plaque"
+                    alt="Image unavailable"
                 />
             </div>
             <div>
@@ -37,6 +37,8 @@ Card Selector Props
 :cmpField - a field on the object to compare for reselection
 :highlightOnSelect - boolean to specify if a card should be highlighted when selected
 :emptyMsg: a string that is displayed when no items are in the items array
+
+*Each item in items must have a label and image property*
 
 */
 const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedCard, onSelect, onReselect, disabled, isCardDisabled, color, cmpField, highlightOnSelect, emptyMsg }) => {
@@ -75,7 +77,7 @@ const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedC
                 color={color}
                 records={items}
                 setRecords={setItems}
-                searchFields={['name']}
+                searchFields={['label']}
             />
         </div>
         <div className={`flex p-1 h-full relative ${orientation === 'vertical' ? 'justify-center flex-wrap' : ''}`}
@@ -84,11 +86,12 @@ const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedC
         {items.length > 0 ? null :  <p className="font-semibold text-sm text-slate-400">{emptyMsg}</p>}
         {items.map((item, idx) =>(
             <Card key={idx} 
-                cardName={item.name}
+                cardName={item.label}
                 selected={isSameCard(item)} 
                 onClick={()=>handleSelect(item)}
                 disabled={disabled || isCardDisabled(item)}
                 highlightOnSelect={highlightOnSelect}
+                cardImg={item.image}
             />
         ))}
         </div>

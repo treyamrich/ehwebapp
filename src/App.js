@@ -16,8 +16,7 @@ const initialFormState = {
   name: '',
   authCode: '',
   formType:'signIn',
-  idToken:'',
-  dynamodbObj: {}
+  idToken:''
 };
 
 const App = () => {
