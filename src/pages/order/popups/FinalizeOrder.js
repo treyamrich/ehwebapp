@@ -5,14 +5,14 @@ import { EH_COLOR_DARK, AUTH_MODE_IAM } from '../../../data/uidata';
 import { convertToRaw } from 'draft-js';
 import { API } from 'aws-amplify';
 import { createOrders } from '../../../graphql/mutations';
-import { updateItemQuantities } from '../../../data/APICalls';
+import { updateItemQuantities, uploadCartItemImages } from '../../../data/APICalls';
 
 //This component is for the employee to fill in additional information e.g order number
 const FinalizeOrder = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [falsePin, setFalsePin] = useState(false);
     const [empPin, setEmpPin] = useState(""); //Get employee pin
-    const { order, setOrder } = useStateContext();
+    const { order, setOrder, opRes, setOpRes } = useStateContext();
 
     //Recursively creates a deep copy of each cart itemm
     const getDeepCopy = items => {
@@ -32,6 +32,7 @@ const FinalizeOrder = () => {
         ));
         cartItem.subItems.forEach(subItem => serializeTxtObj(subItem));
     }
+    
     const submitOrder = async () => {
         console.log("ORDER SUBMITTED");
         console.log(order);
@@ -44,15 +45,18 @@ const FinalizeOrder = () => {
 
         try {
             //Update item counts
-            await updateItemQuantities(order.cart);
+            //await updateItemQuantities(order.cart);
 
+            //Upload any layouts or custom graphics
+            await uploadCartItemImages(order.cart);
+            
             //Submit order
-            await API.graphql({ query: createOrders,
+            /*await API.graphql({ query: createOrders,
                 variables: {
                     input: order
                 },
                 authMode: AUTH_MODE_IAM
-            });
+            });*/
             //Reset order state by refreshing page
             //window.location.reload();
         } catch(e) {

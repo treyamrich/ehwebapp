@@ -1,4 +1,4 @@
-import { API } from "aws-amplify";
+import { API, Storage } from "aws-amplify";
 import { ExecuteTransactionCommand } from "@aws-sdk/client-dynamodb";
 import { createDynamoDBObj } from '../libs/aws-dynamodb';
 
@@ -29,6 +29,8 @@ export const fetchItems = async (query, authMode, errorCallbackFn, variables={})
     return [];
 }
 
+//Performs a database transaction to update the items in an order
+//item in items is from the CartItem in the graphql schema
 export const updateItemQuantities = async items => {
     const dynamodbClient = await createDynamoDBObj();
     const command = new ExecuteTransactionCommand({
@@ -43,4 +45,39 @@ export const updateItemQuantities = async items => {
       })
     });
     return dynamodbClient.send(command);
+}
+
+//item in items is from the CartItem in the graphql schema
+export const uploadCartItemImages = async items => {
+    let errors = {
+        layouts: [],
+        graphics: []
+    };
+    let promises = [];
+    items.forEach(item => {
+        //Upload the layout
+        if(item.layoutImg) {
+            let imgFile = item.layoutImg;
+            item.layoutImg = imgFile.name;
+            promises.push(
+                Storage.put('layouts/' + imgFile.name, imgFile, { bucket: 'ehwebapp-customer-uploads'})
+                    .catch(() => errors.layouts.push({itemCode: item.code}) )
+            );
+        }
+        //Upload any custom graphics
+        item.graphics.forEach(graphic => {
+            if(graphic.type !== 'CUSTOM') return;
+            promises.push(
+                Storage.put('custom-graphics/' + graphic.img.name, graphic.img, { bucket: 'ehwebapp-customer-uploads'})
+                    .catch(() => errors.graphics.push({itemCode: item.code, graphicName: graphic.name}) )
+            );
+        })
+    });
+    await Promise.all(promises);
+
+    if(errors.layouts.length || errors.graphics.length) {
+        console.log("Error: Some images failed to upload");
+        console.log(errors);
+    }
+    return errors;
 }

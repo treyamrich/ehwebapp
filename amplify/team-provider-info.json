@@ -14,7 +14,8 @@
     "categories": {
       "auth": {
         "ehwebappresources": {},
-        "userPoolGroups": {}
+        "userPoolGroups": {},
+        "true": {}
       },
       "api": {
         "ehwebapp": {}

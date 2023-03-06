@@ -1,0 +1,15 @@
+{
+  "resourceName": "ehwebappaddongraphics",
+  "policyUUID": "13065130",
+  "bucketName": "ehwebapp-addon-graphics",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE"
+}
