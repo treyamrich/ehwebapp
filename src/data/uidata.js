@@ -39,6 +39,11 @@ export const graphicColOpts = [
   { value: 1, label: 'Default - Same as other addons'},
   { value: 2, label: 'Blue' }
 ];
+export const graphicSizeOpts = [
+  { value: 1, label: "Small"},
+  { value: 2, label: "Medium"},
+  { value: 3, label: "Large"}
+];
 
 export const dashboard_links = [
     {

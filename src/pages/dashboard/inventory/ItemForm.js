@@ -153,6 +153,26 @@ const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
                                     <span className="radio-inner"/>
                                 </div>
                         </label>
+                        <label className="text-lg font-semibold radio-container hover:drop-shadow-xl">
+                            Graphic
+                            <input className="border px-3 py-2 w-full rounded-sm" type="radio" name="item-category" value="GRAPHIC" 
+                                defaultChecked={item.category === "GRAPHIC"} 
+                                onClick={(e)=>setItem({...item, category: e.target.value})}
+                                required/>
+                               <div className="radio-outer flex items-center justify-center">
+                                    <span className="radio-inner"/>
+                                </div>
+                        </label>
+                        <label className="text-lg font-semibold radio-container hover:drop-shadow-xl">
+                            Service
+                            <input className="border px-3 py-2 w-full rounded-sm" type="radio" name="item-category" value="SERVICE" 
+                                defaultChecked={item.category === "SERVICE"} 
+                                onClick={(e)=>setItem({...item, category: e.target.value})}
+                                required/>
+                               <div className="radio-outer flex items-center justify-center">
+                                    <span className="radio-inner"/>
+                                </div>
+                        </label>
                     </div>
                 </div>
             </div>

@@ -25,11 +25,11 @@ const ItemPicker = ({ itemCategory, selItem, setSelItem }) => {
             AUTH_MODE_IAM,
             err=>setOpRes({...opRes, failureMsg: "Error: Could not fetch items."}),
             { //Query by item category
-            filter: {
-                category: {
-                    eq: itemCategory
+                filter: {
+                    category: {
+                        eq: itemCategory
+                    }
                 }
-            }
             }
         );
         setChoices(items);

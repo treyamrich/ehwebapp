@@ -7,57 +7,71 @@ GraphicForm Props:
 
 import React, { useState, useEffect } from 'react'
 import { CardSelector, MyCheckbox } from '../../../components';
-import { Storage } from 'aws-amplify';
-import { listGraphics } from '../../../graphql/queries';
+import { listGraphics, listItems } from '../../../graphql/queries';
 import { fetchItems, fetchS3Images } from '../../../data/APICalls';
 import { AUTH_MODE_IAM } from '../../../data/uidata';
 import Select from 'react-select';
 
-import { graphicColOpts, EH_COLOR_DARK, animatedComponents } from '../../../data/uidata';
+import { graphicColOpts, graphicSizeOpts, EH_COLOR_DARK, animatedComponents } from '../../../data/uidata';
 
-const DEFAULT_COLOR = "Default - Same as other addons";
+const DEFAULT_COLOR = "Default";
 
+const initialGraphicFormState = {
+    size: graphicSizeOpts[0],
+    color: DEFAULT_COLOR,
+    willEmail: false
+}
 const GraphicForm = ({ submitForm }) => {
-    const [graphicItem, setGraphicItem] = useState(null); //From the items database table
-    const [selGraphic, setSelGraphic] = useState(null); //The Graphic object from Graphics table
-    const [graphicColor, setGraphicColor ] = useState(DEFAULT_COLOR); 
-    const [graphicSelection, setGraphicSelection] = useState([]);
-    const [emailGraphicFlag, setEmailGraphicFlag] = useState(false);
+    const [selGraphic, setSelGraphic] = useState(null); //To get the graphic name from Graphics table
 
-    const canSubmit = emailGraphicFlag || selGraphic !== null;
+    const [graphicFormState, setGraphicFormState] = useState(initialGraphicFormState);
+
+    const [graphicSelection, setGraphicSelection] = useState([]);
+    const [graphicItems, setGraphicItems] = useState([]);
+
+    const { willEmail, color } = graphicFormState;
+    const canSubmit = willEmail || selGraphic !== null;
     
     const handleWillEmailGraphic = () => {
         //Reset selection and flip the flag
         setSelGraphic(null);
-        setEmailGraphicFlag(prev=>!prev);
+        setGraphicFormState(prev => { return {...graphicFormState, willEmail: !prev.willEmail }});
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
+        //Find the graphic item from the database based on the selected size
+        const graphicItem = graphicItems.length ? graphicItems[0] : {};
+
+        //graphicItems.forEach(item => item.name === graphicFormState.size);
+
         //From graphql schema
-        const completeGraphic = {
-            name: graphicItem.name,
-            code: graphicItem.code,
-            price: graphicItem.price,
-            quantity: 1,
-            
-            color: graphicColor,
-            willEmail: emailGraphicFlag,
-            category: "GRAPHIC",
-            graphicName: selGraphic.name,
-            customGraphicUrl: null,
-            label: selGraphic.name
-        };
-        submitForm(completeGraphic);
-        /*
-        if(emailGraphicFlag) {
-            submitForm({color: graphicColor, name: 'Sent via Email'});
-        } else {
-            submitForm({color: graphicColor, 
-                name: `${graphicColor !== DEFAULT_COLOR ? 
-                    graphicColor : 
-                    'Default Color'} - ${selGraphic.name}`
-            });
-        }*/
+        const submitGraphic = {...graphicFormState};
+        submitGraphic.name = graphicItem.name;
+        submitGraphic.code = graphicItem.code;
+        submitGraphic.price = graphicItem.price;
+        submitGraphic.quantity = 1;
+        submitGraphic.category = "GRAPHIC";
+        submitGraphic.graphicName = selGraphic.name;
+        submitGraphic.customGraphicUrl = null;
+        //Check if a custom graphic link was pasted
+
+        //Set the label for the card name
+        submitGraphic.label = `Color: ${color} - Graphic:${graphicFormState.willEmail ? 'Sending via email' :
+            selGraphic.name}`;
+        submitForm(submitGraphic);
+    }
+    const fetchGraphicItems = async () => {
+        setGraphicItems(await fetchItems({ listItems }, 
+            AUTH_MODE_IAM, 
+            () => {}, 
+            { //Get all graphics
+                filter: {
+                    category: {
+                        eq: "GRAPHIC"
+                    }
+                }
+            }
+        ));
     }
     const fetchGraphicSelection = async () => {
         //Get the graphics from the database to choose
@@ -70,12 +84,28 @@ const GraphicForm = ({ submitForm }) => {
     }
     useEffect(()=> {
         fetchGraphicSelection();
+        fetchGraphicItems();
     }, []);
   return (
     <div className="flex justify-center text-left flex-col"
       style={{maxHeight: '85vh'}}
     >
         <div className="w-11/12 bg-gray-50 rounded-md drop-shadow-xl p-3 sm:p-5 m-auto overflow-y-auto">
+            <div className="py-2 px-1">
+                <h4 className="text-lg font-semibold mb-1">Size</h4>
+                <Select
+                    isSearchable={false}
+                    closeMenuOnSelect={true}
+                    components={animatedComponents}
+                    defaultValue={[graphicSizeOpts[0]]}
+                    options={graphicSizeOpts}
+                    onChange={option => setGraphicFormState({...graphicFormState, size: option.label})}
+                    className="mb-3"
+                />
+                <div className="text-center">
+                    <p className="text-sm text-slate-400"><strong>Tip:</strong> The default "color" is the same colorfill chosen for your engraved message. If you would like your graphic to be a different color, please specify here.</p>
+                </div>
+            </div>
             <div className="py-2 px-1">
                 <h4 className="text-lg font-semibold mb-1">Color</h4>
                 <Select
@@ -84,7 +114,7 @@ const GraphicForm = ({ submitForm }) => {
                     components={animatedComponents}
                     defaultValue={[graphicColOpts[0]]}
                     options={graphicColOpts}
-                    onChange={option => setGraphicColor(option.label)}
+                    onChange={option => setGraphicFormState({...graphicFormState, color: option.label})}
                     className="mb-3"
                 />
                 <div className="text-center">
@@ -95,7 +125,7 @@ const GraphicForm = ({ submitForm }) => {
                 <label className="text-lg font-semibold" htmlFor="item-code">Post Order</label>
                 <div className="p-1 rounded-sm">
                     <label className="mr-1">I will send the graphic via email</label>
-                    <MyCheckbox checked={emailGraphicFlag}
+                    <MyCheckbox checked={willEmail}
                         customFunc={handleWillEmailGraphic}
                     />
                 </div>
@@ -111,7 +141,7 @@ const GraphicForm = ({ submitForm }) => {
                     selectedCard={selGraphic}
                     setSelectedCard={setSelGraphic}
                     orientation="vertical"
-                    disabled={emailGraphicFlag}
+                    disabled={willEmail}
                     isCardDisabled={()=>false}
                     cmpField="name"
                     highlightOnSelect={true}
