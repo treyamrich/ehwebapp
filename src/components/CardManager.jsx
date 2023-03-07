@@ -54,7 +54,7 @@ const Card = ({ idx, cardName, cardImg, options, onDeleteCard, onEditCard }) => 
         <div className="flex flex-col">
           <div className="p-2">
               <img src={cardImg} 
-                  style={{maxWidth: "150px", maxHeight: "150px"}}
+                  style={{maxHeight: "150px"}}
                   alt={`${cardName} unavailable`}
               />
           </div>

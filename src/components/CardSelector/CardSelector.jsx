@@ -12,7 +12,7 @@ const Card = ({ cardName, cardImg, selected, onClick, disabled, highlightOnSelec
             {selected && highlightOnSelect ? <div className="absolute top-3 right-3"><AiOutlineCheck color={'blue'}/></div> : null}
             <div className="p-1">
                 <img src={cardImg} 
-                    style={{maxWidth: "200px", maxHeight: "200px"}}
+                    style={{maxHeight: "200px"}}
                     alt={`${cardName} unavailable`}
                 />
             </div>
