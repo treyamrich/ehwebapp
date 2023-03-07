@@ -20,7 +20,7 @@ const Card = ({ idx, cardName, cardImg, options, onDeleteCard, onEditCard }) => 
   const handleRemoveCard = () => {
     let newOpts = [];
     for(let i = 0; i < options.length; i++) {
-      if(i == idx) continue;
+      if(i === idx) continue;
       newOpts.push(options[i]);
     }
     onDeleteCard(newOpts);
@@ -55,7 +55,7 @@ const Card = ({ idx, cardName, cardImg, options, onDeleteCard, onEditCard }) => 
           <div className="p-2">
               <img src={cardImg} 
                   style={{maxWidth: "150px", maxHeight: "150px"}}
-                  alt="Image unavailable"
+                  alt={`${cardName} unavailable`}
               />
           </div>
           <div>
