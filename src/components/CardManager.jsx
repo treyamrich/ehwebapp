@@ -26,7 +26,7 @@ const Card = ({ idx, cardName, cardImg, options, onDeleteCard, onEditCard }) => 
     onDeleteCard(newOpts);
   }
   return (
-    <div className="relative px-2 hover:drop-shadow-lg rounded-lg mr-4 bg-white text-sm"
+    <div className="relative w-60 px-4 pt-4 pb-1 drop-shadow-md hover:drop-shadow-lg rounded-lg bg-white text-sm"
       style={{minWidth: '12rem'}}
     >
         <div className="absolute top-1 right-1">
@@ -51,14 +51,16 @@ const Card = ({ idx, cardName, cardImg, options, onDeleteCard, onEditCard }) => 
           </button>
         </div>
         )}
-        <div className="w-full h-28 px-1 pb-1 mt-10 mb-1"
-        >
-          <div className="h-20 border-1 border-slate-300 mb-1">
-            <img src={cardImg}
-              alt="Image unavailable"
-            />
+        <div className="flex flex-col">
+          <div className="p-2">
+              <img src={cardImg} 
+                  className="h-50 w-50"
+                  alt="Image unavailable"
+              />
           </div>
-          <p className="font-semibold">{cardName}</p>
+          <div>
+              <p className="font-semibold">{ cardName }</p>
+          </div>
         </div>
     </div>
 )}
@@ -69,8 +71,8 @@ const Card = ({ idx, cardName, cardImg, options, onDeleteCard, onEditCard }) => 
 const CardManager = ({ options, onDeleteCard, onAddCard, onEditCard }) => {
   return (
     <div className="h-52 border-1 rounded-sm overflow-x-auto">
-      <div className="flex p-4 h-full items-center">
-        <div className="flex justify-center items-center p-4 rounded-lg mr-4 text-sm hover:text-gray-400 bg-gray-200 text-gray-500 box-border"
+      <div className="flex px-4 h-full items-center gap-4">
+        <div className="flex justify-center items-center p-4 rounded-lg text-sm hover:text-gray-400 bg-gray-200 text-gray-500 box-border"
           style={{ minWidth: '5rem'}}
           onClick={onAddCard}
         >

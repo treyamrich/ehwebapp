@@ -26,14 +26,11 @@ export const getOrders = /* GraphQL */ `
           code
           price
           quantity
-          category
         }
         graphics {
           name
           code
           price
-          quantity
-          category
           willEmail
           graphicName
           customGraphicUrl
@@ -42,8 +39,6 @@ export const getOrders = /* GraphQL */ `
           name
           code
           price
-          quantity
-          category
           willEmail
           graphicName
           customGraphicUrl

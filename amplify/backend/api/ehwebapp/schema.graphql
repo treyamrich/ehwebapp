@@ -68,8 +68,6 @@ type CartAddonGraphic {
   name: String!
   code: String!
   price: Float!
-  quantity: Int!
-  category: ItemCategory!
 
   willEmail: Boolean!
   graphicName: String #Pk from graphics table
@@ -80,7 +78,6 @@ type CartAddonService {
   code: String!
   price: Float!
   quantity: Int!
-  category: ItemCategory!
 }
 type CartItem {
   name: String!

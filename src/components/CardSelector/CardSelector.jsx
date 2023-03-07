@@ -5,12 +5,12 @@ import { AiOutlineCheck } from 'react-icons/ai';
 
 const Card = ({ cardName, cardImg, selected, onClick, disabled, highlightOnSelect }) => {
     return (
-        <div className="relative h-100 w-60 p-4 drop-shadow-md hover:drop-shadow-lg rounded-lg mr-4 mb-4 bg-white text-sm"
+        <div className="relative w-60 px-4 pt-4 pb-1 drop-shadow-md hover:drop-shadow-lg rounded-lg bg-white text-sm"
             style={{minWidth: '15rem', outline: selected && highlightOnSelect ? '1px solid blue' : '', opacity: disabled ? 0.3 : 1}}
             onClick={disabled ? null : onClick}
         >
             {selected && highlightOnSelect ? <div className="absolute top-3 right-3"><AiOutlineCheck color={'blue'}/></div> : null}
-            <div className="p-5">
+            <div className="p-1">
                 <img src={cardImg} 
                     className="h-50 w-50"
                     alt="Image unavailable"
@@ -80,7 +80,7 @@ const CardSelector = ({ items, setItems, orientation, selectedCard, setSelectedC
                 searchFields={['label']}
             />
         </div>
-        <div className={`flex p-1 h-full relative ${orientation === 'vertical' ? 'justify-center flex-wrap' : ''}`}
+        <div className={`flex p-1 h-full relative gap-4 ${orientation === 'vertical' ? 'justify-center flex-wrap' : ''}`}
             style={{opacity: disabled ? 0.5 : 1}}
         >
         {items.length > 0 ? null :  <p className="font-semibold text-sm text-slate-400">{emptyMsg}</p>}

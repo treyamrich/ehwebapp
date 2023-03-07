@@ -19,6 +19,9 @@
       },
       "api": {
         "ehwebapp": {}
+      },
+      "storage": {
+        "ehwebappaddongraphics": {}
       }
     }
   }

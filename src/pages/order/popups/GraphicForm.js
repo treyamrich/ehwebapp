@@ -40,17 +40,21 @@ const GraphicForm = ({ submitForm }) => {
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
         //Find the graphic item from the database based on the selected size
-        const graphicItem = graphicItems.length ? graphicItems[0] : {};
-
-        //graphicItems.forEach(item => item.name === graphicFormState.size);
+        let graphicItem = {};
+        graphicItems.forEach(item => {
+            if(item.name.includes('Small')) {
+                graphicItem = item;
+            }
+        });
+        console.log('Found');
+        console.log(graphicItem);
 
         //From graphql schema
         const submitGraphic = {...graphicFormState};
         submitGraphic.name = graphicItem.name;
         submitGraphic.code = graphicItem.code;
         submitGraphic.price = graphicItem.price;
-        submitGraphic.quantity = 1;
-        submitGraphic.category = "GRAPHIC";
+    
         submitGraphic.graphicName = selGraphic.name;
         submitGraphic.customGraphicUrl = null;
         //Check if a custom graphic link was pasted
@@ -58,6 +62,11 @@ const GraphicForm = ({ submitForm }) => {
         //Set the label for the card name
         submitGraphic.label = `Color: ${color} - Graphic:${graphicFormState.willEmail ? 'Sending via email' :
             selGraphic.name}`;
+        //Set the image for the card image
+        submitGraphic.image = selGraphic.image;
+        
+        console.log('Submitting');
+        console.log(submitGraphic);
         submitForm(submitGraphic);
     }
     const fetchGraphicItems = async () => {
@@ -86,6 +95,7 @@ const GraphicForm = ({ submitForm }) => {
         fetchGraphicSelection();
         fetchGraphicItems();
     }, []);
+    
   return (
     <div className="flex justify-center text-left flex-col"
       style={{maxHeight: '85vh'}}
