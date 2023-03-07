@@ -9,7 +9,7 @@ import React, { useState, useEffect } from 'react'
 import { CardSelector, MyCheckbox } from '../../../components';
 import { listGraphics, listItems } from '../../../graphql/queries';
 import { fetchItems, fetchS3Images } from '../../../data/APICalls';
-import { AUTH_MODE_IAM } from '../../../data/uidata';
+import { AUTH_MODE_IAM, woodcutoutSizeOpts } from '../../../data/uidata';
 import Select from 'react-select';
 import willEmailGraphic from '../../../data/email-img.svg';
 
@@ -22,7 +22,7 @@ const initialGraphicFormState = {
     color: DEFAULT_COLOR,
     willEmail: false
 }
-const GraphicForm = ({ submitForm }) => {
+const GraphicForm = ({ submitForm, isWoodcutoutForm }) => {
     const [selGraphic, setSelGraphic] = useState(null); //To get the graphic name from Graphics table
 
     const [graphicFormState, setGraphicFormState] = useState(initialGraphicFormState);
@@ -41,14 +41,19 @@ const GraphicForm = ({ submitForm }) => {
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
         //Find the graphic item from the database based on the selected size
-        let graphicItem = {};
-        graphicItems.forEach(item => {
-            if((item.code.includes('SM') && graphicFormState.size.includes("Small")) ||
-                (item.code.includes('LG') && graphicFormState.size.includes("Large"))
-            ) {
-                graphicItem = item;
-            }
-        });
+        let graphicItem = { name: '', code: '', price: -1000000};
+        if(isWoodcutoutForm && graphicItems.length > 0) {
+            //Only 1 size available for wood cutouts
+            graphicItem = graphicItems[0];
+        } else {
+            graphicItems.forEach(item => {
+                if((item.code.includes('SM') && graphicFormState.size.includes("Small")) ||
+                    (item.code.includes('LG') && graphicFormState.size.includes("Large"))
+                ) {
+                    graphicItem = item;
+                }
+            });
+        }
 
         //From graphql schema
         const submitGraphic = {...graphicFormState};
@@ -66,23 +71,23 @@ const GraphicForm = ({ submitForm }) => {
             submitGraphic.label = `${color} - ${selGraphic.name}`;
             submitGraphic.image = selGraphic.image;
         }
-        
+
         submitForm(submitGraphic);
     }
     const fetchGraphicItems = async () => {
+        const itemCodeFilter = isWoodcutoutForm ? {eq: "WOODCUTOUTSM"} : 
+            { beginsWith: "ADDGRAPHIC"};
         setGraphicItems(await fetchItems({ listItems }, 
             AUTH_MODE_IAM, 
             () => {}, 
             { //Get all graphics
                 filter: {
-                    and: [
-                        { category: { eq: "SERVICE" }},
-                        { code: { beginsWith: "ADDGRAPHIC"}}
-                    ]
+                    code: itemCodeFilter
                 }
             }
         ));
     }
+
     const fetchGraphicSelection = async () => {
         //Get the graphics from the database to choose
         const graphics = await fetchItems({listGraphics}, AUTH_MODE_IAM, () => {});
@@ -96,6 +101,8 @@ const GraphicForm = ({ submitForm }) => {
         fetchGraphicSelection();
         fetchGraphicItems();
     }, []);
+
+    const sizeOptions = isWoodcutoutForm ? woodcutoutSizeOpts : graphicSizeOpts;
   return (
     <div className="flex justify-center text-left flex-col"
       style={{maxHeight: '85vh'}}
@@ -107,8 +114,8 @@ const GraphicForm = ({ submitForm }) => {
                     isSearchable={false}
                     closeMenuOnSelect={true}
                     components={animatedComponents}
-                    defaultValue={[graphicSizeOpts[0]]}
-                    options={graphicSizeOpts}
+                    defaultValue={[sizeOptions[0]]}
+                    options={sizeOptions}
                     onChange={option => setGraphicFormState({...graphicFormState, size: option.label})}
                     className="mb-3"
                 />

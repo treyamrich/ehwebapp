@@ -128,6 +128,7 @@ const PlaqueAddon = ({ cartItem, setCartItem}) => {
               onAddCard={()=>pushPopUp(
                 <GraphicForm title="Add Cutout" 
                   submitForm={handleAddCutout}
+                  isWoodcutoutForm={true}
                 />
               )}
             />

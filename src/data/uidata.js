@@ -43,6 +43,9 @@ export const graphicSizeOpts = [
   { value: 1, label: "Small ~ smaller than (2.5x2.5\")"},
   { value: 2, label: "Large ~ bigger than (2.5x2.5\")"}
 ];
+export const woodcutoutSizeOpts = [
+  { value: 1, label: "Small"}
+];
 
 export const dashboard_links = [
     {
