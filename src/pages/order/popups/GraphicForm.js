@@ -6,7 +6,7 @@ GraphicForm Props:
 */
 
 import React, { useState, useEffect } from 'react'
-import { CardSelector, MyCheckbox, MyInput } from '../../../components';
+import { CardSelector, MyCheckbox } from '../../../components';
 import { listGraphics, listItems } from '../../../graphql/queries';
 import { fetchItems, fetchS3Images } from '../../../data/APICalls';
 import { AUTH_MODE_IAM } from '../../../data/uidata';
@@ -43,7 +43,9 @@ const GraphicForm = ({ submitForm }) => {
         //Find the graphic item from the database based on the selected size
         let graphicItem = {};
         graphicItems.forEach(item => {
-            if(item.name.includes('Small')) {
+            if((item.code.includes('SM') && graphicFormState.size.includes("Small")) ||
+                (item.code.includes('LG') && graphicFormState.size.includes("Large"))
+            ) {
                 graphicItem = item;
             }
         });
@@ -57,13 +59,14 @@ const GraphicForm = ({ submitForm }) => {
         submitGraphic.price = graphicItem.price;
     
         //If the customer is not emailing, set the graphic name or custom url
-        if(!willEmail) {
+        if(willEmail) {
+            submitGraphic.label = `${color} color - Sending via email`;
+            submitGraphic.image = willEmailGraphic;
+            
+        } else {
             submitGraphic.graphicName = selGraphic.name;
             submitGraphic.label = `${color} - Graphic: ${selGraphic.name}`;
             submitGraphic.image = selGraphic.image;
-        } else {
-            submitGraphic.label = `${color} color - Sending via email`;
-            submitGraphic.image = willEmailGraphic;
         }
         
         console.log('Submitting');
