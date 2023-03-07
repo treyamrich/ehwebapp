@@ -163,6 +163,9 @@ enum ItemCategory {
   DRINKWARE
   GIFT
   SERVICE
+  GRAPHICADDON
+  CUTOUTADDON
+  CUSTOM
 }
 
 type ModifierGroups @model @auth(rules: [

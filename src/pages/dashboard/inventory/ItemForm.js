@@ -1,12 +1,15 @@
 import React, { useState, useRef } from 'react';
+import Select from 'react-select';
+import { animatedComponents, itemCategoryOptions } from '../../../data/uidata';
 import './itemform.css'; 
 
+const DEFAULT_CATEGORY = "PLAQUE";
 const initialItemState = {
   code: "",
   name: "",
   price: 0.0,
   cost: 0.0,
-  category: "PLAQUE",
+  category: DEFAULT_CATEGORY,
   qty: null,
   qtyThresh: null,
   maxAddon: null
@@ -29,7 +32,7 @@ const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
           item.qtyThresh = thresh.current.value !== "" ? thresh.current.value : null;
           item.maxAddon = maxAddon.current.value !== "" ? maxAddon.current.value : null;
       }
-        
+
       //API call to add/edit item in database
       dbOperation(mode, item);
       
@@ -40,12 +43,13 @@ const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
           name: "",
           price: 0.0,
           cost: 0.0,
-          category: "PLAQUE",
+          category: DEFAULT_CATEGORY,
           qty: null,
           qtyThresh: null,
           maxAddon: null
       });
   }
+
   return (
     <div className="flex justify-center text-left flex-col"
       style={{maxHeight: '85vh'}}
@@ -118,53 +122,16 @@ const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
                     defaultValue={item.maxAddon}/>
             </div>
             <div className="p-3">
-                <div className="flex text-center">
-                    <label className="text-lg font-semibold" htmlFor="item-category">Item Category:</label>
-                    <div className="flex justify-evenly w-4/5 items-center">
-                        <label className="text-lg font-semibold radio-container hover:drop-shadow-xl">
-                            Plaque
-                            <input className="border px-3 py-2 w-full rounded-sm" 
-                                style={{background: 'red', outline: 'none'}}
-                                type="radio" name="item-category" value="PLAQUE" 
-                                defaultChecked={mode === "add" || item.category === "PLAQUE"} 
-                                onClick={(e)=>setItem({...item, category: e.target.value})}
-                                required/>
-                                <div className="radio-outer flex items-center justify-center">
-                                    <span className="radio-inner"/>
-                                </div>
-                        </label>
-                        <label className="text-lg font-semibold radio-container hover:drop-shadow-xl">
-                            Drinkware
-                            <input className="border px-3 py-2 w-full rounded-sm" type="radio" name="item-category" value="DRINKWARE" 
-                                defaultChecked={item.category === "DRINKWARE"} 
-                                onClick={(e)=>setItem({...item, category: e.target.value})}
-                                required/>
-                               <div className="radio-outer flex items-center justify-center">
-                                    <span className="radio-inner"/>
-                                </div>
-                        </label>
-                        <label className="text-lg font-semibold radio-container hover:drop-shadow-xl">
-                            Gift
-                            <input className="border px-3 py-2 w-full rounded-sm" type="radio" name="item-category" value="GIFT" 
-                                defaultChecked={item.category === "GIFT"} 
-                                onClick={(e)=>setItem({...item, category: e.target.value})}
-                                required/>
-                               <div className="radio-outer flex items-center justify-center">
-                                    <span className="radio-inner"/>
-                                </div>
-                        </label>
-                        <label className="text-lg font-semibold radio-container hover:drop-shadow-xl">
-                            Service
-                            <input className="border px-3 py-2 w-full rounded-sm" type="radio" name="item-category" value="SERVICE" 
-                                defaultChecked={item.category === "SERVICE"} 
-                                onClick={(e)=>setItem({...item, category: e.target.value})}
-                                required/>
-                               <div className="radio-outer flex items-center justify-center">
-                                    <span className="radio-inner"/>
-                                </div>
-                        </label>
-                    </div>
-                </div>
+                <label className="text-lg font-semibold" htmlFor="item-category">Item Category:</label>
+                <Select
+                    className="w-full"
+                    isSearchable={false}
+                    closeMenuOnSelect={true}
+                    components={animatedComponents}
+                    options={itemCategoryOptions}
+                    onChange={e => setItem({...item, category: e.label})}
+                    defaultValue={ mode === 'edit' ? [{value: -1, label: editObj.category }] : itemCategoryOptions[0]}
+                />
             </div>
         </div>
         <div id="submit-popup-form" className='flex justify-end items-center p-4 ml-4'>

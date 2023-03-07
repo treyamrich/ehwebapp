@@ -75,14 +75,15 @@ const GraphicForm = ({ submitForm, isWoodcutoutForm }) => {
         submitForm(submitGraphic);
     }
     const fetchGraphicItems = async () => {
-        const itemCodeFilter = isWoodcutoutForm ? {eq: "WOODCUTOUTSM"} : 
-            { beginsWith: "ADDGRAPHIC"};
+        const itemCategoryFilter = isWoodcutoutForm ? "CUTOUTADDON" : "GRAPHICADDON";
         setGraphicItems(await fetchItems({ listItems }, 
             AUTH_MODE_IAM, 
             () => {}, 
             { //Get all graphics
                 filter: {
-                    code: itemCodeFilter
+                    category: {
+                        eq: itemCategoryFilter
+                    }
                 }
             }
         ));

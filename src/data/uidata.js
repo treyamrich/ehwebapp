@@ -47,6 +47,15 @@ export const woodcutoutSizeOpts = [
   { value: 1, label: "Small"}
 ];
 
+export const itemCategoryOptions = [
+  {value: 1, label: "PLAQUE"},
+  {value: 2, label: "DRINKWARE"},
+  {value: 3, label: "GIFT"},
+  {value: 4, label: "SERVICE"},
+  {value: 5, label: "GRAPHICADDON"},
+  {value: 6, label: "CUTOUTADDON"}
+];
+
 export const dashboard_links = [
     {
       title: 'Dashboard',
