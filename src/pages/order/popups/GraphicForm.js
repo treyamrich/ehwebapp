@@ -15,10 +15,10 @@ import willEmailGraphic from '../../../data/email-img.svg';
 
 import { graphicColOpts, graphicSizeOpts, EH_COLOR_DARK, animatedComponents } from '../../../data/uidata';
 
-const DEFAULT_COLOR = "Default";
+const DEFAULT_COLOR = "Default color";
 
 const initialGraphicFormState = {
-    size: graphicSizeOpts[0],
+    size: graphicSizeOpts[0].label,
     color: DEFAULT_COLOR,
     willEmail: false
 }
@@ -49,8 +49,6 @@ const GraphicForm = ({ submitForm }) => {
                 graphicItem = item;
             }
         });
-        console.log('Found');
-        console.log(graphicItem);
 
         //From graphql schema
         const submitGraphic = {...graphicFormState};
@@ -60,17 +58,15 @@ const GraphicForm = ({ submitForm }) => {
     
         //If the customer is not emailing, set the graphic name or custom url
         if(willEmail) {
-            submitGraphic.label = `${color} color - Sending via email`;
+            submitGraphic.label = `${color} - Sending via email`;
             submitGraphic.image = willEmailGraphic;
             
         } else {
             submitGraphic.graphicName = selGraphic.name;
-            submitGraphic.label = `${color} - Graphic: ${selGraphic.name}`;
+            submitGraphic.label = `${color} - ${selGraphic.name}`;
             submitGraphic.image = selGraphic.image;
         }
         
-        console.log('Submitting');
-        console.log(submitGraphic);
         submitForm(submitGraphic);
     }
     const fetchGraphicItems = async () => {
@@ -79,9 +75,10 @@ const GraphicForm = ({ submitForm }) => {
             () => {}, 
             { //Get all graphics
                 filter: {
-                    category: {
-                        eq: "GRAPHIC"
-                    }
+                    and: [
+                        { category: { eq: "SERVICE" }},
+                        { code: { beginsWith: "ADDGRAPHIC"}}
+                    ]
                 }
             }
         ));
@@ -99,7 +96,6 @@ const GraphicForm = ({ submitForm }) => {
         fetchGraphicSelection();
         fetchGraphicItems();
     }, []);
-    
   return (
     <div className="flex justify-center text-left flex-col"
       style={{maxHeight: '85vh'}}

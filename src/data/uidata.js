@@ -40,8 +40,8 @@ export const graphicColOpts = [
   { value: 2, label: 'Blue' }
 ];
 export const graphicSizeOpts = [
-  { value: 1, label: "Small (2.5x2.5\")"},
-  { value: 2, label: "Large"}
+  { value: 1, label: "Small ~ smaller than (2.5x2.5\")"},
+  { value: 2, label: "Large ~ bigger than (2.5x2.5\")"}
 ];
 
 export const dashboard_links = [
