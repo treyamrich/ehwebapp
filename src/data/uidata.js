@@ -29,12 +29,6 @@ export const pltSizes = [
   { value: 8, label: 'Custom'}
 ];
 
-export const serviceOpts = [
-  { value: {name: 'Coin Mount', price: 5}, label: 'Coin Mount' },
-  { value: {name: 'Item Mount', price: 5}, label: 'Item Mount'},
-  { value: {name: 'Color Fill', price: 10}, label: 'Color Fill'}
-];
-
 export const graphicColOpts = [
   { value: 1, label: 'Default - Same as other addons'},
   { value: 2, label: 'Blue' }

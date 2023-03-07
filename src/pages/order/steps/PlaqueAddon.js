@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 
 import GraphicForm from '../popups/GraphicForm';
 import PlateForm from '../popups/PlateForm';
 import { CardManager, Tabs, Tab } from '../../../components';
 import { useStateContext } from '../../../contexts/ContextProvider';
+import { fetchItems } from '../../../data/APICalls';
+import { listItems } from '../../../graphql/queries';
 
-import { serviceOpts, animatedComponents } from '../../../data/uidata';
+import { animatedComponents, AUTH_MODE_IAM } from '../../../data/uidata';
 
 const PlaqueAddon = ({ cartItem, setCartItem}) => {
   const { pushPopUp, popPopUp } = useStateContext();
+  const [serviceOptions, setServiceOptions] = useState([]);
 
   const handleAddPlate = pltObj => {
     popPopUp();
@@ -38,9 +41,20 @@ const PlaqueAddon = ({ cartItem, setCartItem}) => {
   const handleRemoveCutout = newArr => setCartItem({...cartItem, cutouts: [...newArr]});
   const handleUpdateServices = newServices => {
     //Grab the service object in the value field
-    setCartItem({...cartItem, services: newServices.map(selectOpt => selectOpt.value)});
+    setCartItem({...cartItem, services: [...newServices]});
   }
   
+  const fetchServiceOptions = async () => {
+    const services = await fetchItems({ listItems }, AUTH_MODE_IAM, ()=>{}, 
+      { filter: { category: { eq: "SERVICE" }}}
+    );
+    //Convert each object into an option-value object for the React-Select component
+    services.forEach(service => {service.value = -1; service.label = service.name});
+    setServiceOptions(services);
+  }
+  useEffect(() => {
+    fetchServiceOptions();
+  }, []);
   return (
     <div>
       <Tabs>
@@ -83,9 +97,9 @@ const PlaqueAddon = ({ cartItem, setCartItem}) => {
               closeMenuOnSelect={true}
               components={animatedComponents}
               isMulti
-              options={serviceOpts}
+              options={serviceOptions}
               onChange={handleUpdateServices}
-              defaultValue={serviceOpts.filter(opt => {
+              defaultValue={serviceOptions.filter(opt => {
                 for(let i = 0; i < cartItem.services.length; i++)
                   if(cartItem.services[i].name === opt.label) return true
                 return false;
