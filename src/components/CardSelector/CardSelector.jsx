@@ -13,7 +13,7 @@ const Card = ({ cardName, cardImg, selected, onClick, disabled, highlightOnSelec
             <div className="p-1">
                 <img src={cardImg} 
                     style={{maxHeight: "200px"}}
-                    alt={`${cardName} unavailable`}
+                    alt={`${cardName} img unavailable`}
                 />
             </div>
             <div>

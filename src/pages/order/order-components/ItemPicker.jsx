@@ -32,6 +32,8 @@ const ItemPicker = ({ itemCategory, selItem, setSelItem }) => {
                 }
             }
         );
+        //Set the label for the Cardselector component
+        items.forEach(item => item.label = item.name);
         setChoices(items);
     } 
     useEffect(()=>{

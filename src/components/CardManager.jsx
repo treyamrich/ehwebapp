@@ -55,7 +55,7 @@ const Card = ({ idx, cardName, cardImg, options, onDeleteCard, onEditCard }) => 
           <div className="p-2">
               <img src={cardImg} 
                   style={{maxHeight: "120px"}}
-                  alt={`${cardName} unavailable`}
+                  alt={`${cardName} img unavailable`}
               />
           </div>
           <div>
