@@ -33,7 +33,6 @@ export const onCreateOrders = /* GraphQL */ `
           price
           willEmail
           graphicName
-          customGraphicUrl
         }
         cutouts {
           name
@@ -41,7 +40,6 @@ export const onCreateOrders = /* GraphQL */ `
           price
           willEmail
           graphicName
-          customGraphicUrl
         }
         subItems {
           name
@@ -98,7 +96,6 @@ export const onUpdateOrders = /* GraphQL */ `
           price
           willEmail
           graphicName
-          customGraphicUrl
         }
         cutouts {
           name
@@ -106,7 +103,6 @@ export const onUpdateOrders = /* GraphQL */ `
           price
           willEmail
           graphicName
-          customGraphicUrl
         }
         subItems {
           name
@@ -163,7 +159,6 @@ export const onDeleteOrders = /* GraphQL */ `
           price
           willEmail
           graphicName
-          customGraphicUrl
         }
         cutouts {
           name
@@ -171,7 +166,6 @@ export const onDeleteOrders = /* GraphQL */ `
           price
           willEmail
           graphicName
-          customGraphicUrl
         }
         subItems {
           name

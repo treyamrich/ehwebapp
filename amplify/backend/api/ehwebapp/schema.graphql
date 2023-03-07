@@ -71,7 +71,6 @@ type CartAddonGraphic {
 
   willEmail: Boolean!
   graphicName: String #Pk from graphics table
-  customGraphicUrl: String #Any custom graphic url
 }
 type CartAddonService {
   name: String!

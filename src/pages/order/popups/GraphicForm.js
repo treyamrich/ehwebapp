@@ -6,11 +6,12 @@ GraphicForm Props:
 */
 
 import React, { useState, useEffect } from 'react'
-import { CardSelector, MyCheckbox } from '../../../components';
+import { CardSelector, MyCheckbox, MyInput } from '../../../components';
 import { listGraphics, listItems } from '../../../graphql/queries';
 import { fetchItems, fetchS3Images } from '../../../data/APICalls';
 import { AUTH_MODE_IAM } from '../../../data/uidata';
 import Select from 'react-select';
+import willEmailGraphic from '../../../data/email-img.svg';
 
 import { graphicColOpts, graphicSizeOpts, EH_COLOR_DARK, animatedComponents } from '../../../data/uidata';
 
@@ -55,15 +56,15 @@ const GraphicForm = ({ submitForm }) => {
         submitGraphic.code = graphicItem.code;
         submitGraphic.price = graphicItem.price;
     
-        submitGraphic.graphicName = selGraphic.name;
-        submitGraphic.customGraphicUrl = null;
-        //Check if a custom graphic link was pasted
-
-        //Set the label for the card name
-        submitGraphic.label = `Color: ${color} - Graphic:${graphicFormState.willEmail ? 'Sending via email' :
-            selGraphic.name}`;
-        //Set the image for the card image
-        submitGraphic.image = selGraphic.image;
+        //If the customer is not emailing, set the graphic name or custom url
+        if(!willEmail) {
+            submitGraphic.graphicName = selGraphic.name;
+            submitGraphic.label = `${color} - Graphic: ${selGraphic.name}`;
+            submitGraphic.image = selGraphic.image;
+        } else {
+            submitGraphic.label = `${color} color - Sending via email`;
+            submitGraphic.image = willEmailGraphic;
+        }
         
         console.log('Submitting');
         console.log(submitGraphic);
@@ -112,9 +113,6 @@ const GraphicForm = ({ submitForm }) => {
                     onChange={option => setGraphicFormState({...graphicFormState, size: option.label})}
                     className="mb-3"
                 />
-                <div className="text-center">
-                    <p className="text-sm text-slate-400"><strong>Tip:</strong> The default "color" is the same colorfill chosen for your engraved message. If you would like your graphic to be a different color, please specify here.</p>
-                </div>
             </div>
             <div className="py-2 px-1">
                 <h4 className="text-lg font-semibold mb-1">Color</h4>
@@ -139,9 +137,9 @@ const GraphicForm = ({ submitForm }) => {
                         customFunc={handleWillEmailGraphic}
                     />
                 </div>
-            </div>
-            <div className="text-center">
-                <p className="text-sm text-slate-400"><strong>Emailed Graphic Tips:</strong> Small graphics with high detail don't engrave well; a small graphic is any image smaller than 1.5x1.5". Make sure it's <strong>black/white clip art</strong> with the highest resolution available. Ask us if you have any questions!</p>
+                <div className="text-center">
+                    <p className="text-sm text-slate-400"><strong>Emailed Graphic Tips:</strong> Small graphics with high detail don't engrave well; a small graphic is any image smaller than 1.5x1.5". Make sure it's <strong>black/white clip art</strong> with the highest resolution available. Ask us if you have any questions!</p>
+                </div>
             </div>
             <div className="py-2 px-1">
                 <h4 className="text-lg font-semibold mb-3">Choose a Graphic</h4>

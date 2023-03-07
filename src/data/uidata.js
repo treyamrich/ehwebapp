@@ -40,7 +40,7 @@ export const graphicColOpts = [
   { value: 2, label: 'Blue' }
 ];
 export const graphicSizeOpts = [
-  { value: 1, label: "Small"},
+  { value: 1, label: "Small (2.5x2.5\")"},
   { value: 2, label: "Medium"},
   { value: 3, label: "Large"}
 ];

@@ -5,19 +5,19 @@ import { AiOutlineCheck } from 'react-icons/ai';
 
 const Card = ({ cardName, cardImg, selected, onClick, disabled, highlightOnSelect }) => {
     return (
-        <div className="relative w-60 px-4 pt-4 pb-1 drop-shadow-md hover:drop-shadow-lg rounded-lg bg-white text-sm"
+        <div className="relative w-60 h-full px-4 pt-4 pb-1 drop-shadow-md hover:drop-shadow-lg rounded-lg bg-white text-sm"
             style={{minWidth: '15rem', outline: selected && highlightOnSelect ? '1px solid blue' : '', opacity: disabled ? 0.3 : 1}}
             onClick={disabled ? null : onClick}
         >
             {selected && highlightOnSelect ? <div className="absolute top-3 right-3"><AiOutlineCheck color={'blue'}/></div> : null}
             <div className="p-1">
                 <img src={cardImg} 
-                    className="h-50 w-50"
+                    style={{maxWidth: "200px", maxHeight: "200px"}}
                     alt="Image unavailable"
                 />
             </div>
             <div>
-                <p className="font-semibold">{ cardName }</p>
+                <p className="font-semibold text-xs">{ cardName }</p>
             </div>
         </div>
     )

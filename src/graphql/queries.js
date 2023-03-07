@@ -33,7 +33,6 @@ export const getOrders = /* GraphQL */ `
           price
           willEmail
           graphicName
-          customGraphicUrl
         }
         cutouts {
           name
@@ -41,7 +40,6 @@ export const getOrders = /* GraphQL */ `
           price
           willEmail
           graphicName
-          customGraphicUrl
         }
         subItems {
           name

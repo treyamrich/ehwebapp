@@ -54,12 +54,12 @@ const Card = ({ idx, cardName, cardImg, options, onDeleteCard, onEditCard }) => 
         <div className="flex flex-col">
           <div className="p-2">
               <img src={cardImg} 
-                  className="h-50 w-50"
+                  style={{maxWidth: "150px", maxHeight: "150px"}}
                   alt="Image unavailable"
               />
           </div>
           <div>
-              <p className="font-semibold">{ cardName }</p>
+              <p className="font-semibold text-xs">{ cardName }</p>
           </div>
         </div>
     </div>
