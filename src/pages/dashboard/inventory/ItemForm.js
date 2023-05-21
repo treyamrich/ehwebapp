@@ -26,13 +26,11 @@ const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
     function checkNullFirst(e) {
       e.preventDefault();
   
-      if(mode === 'edit') {
         //Remove any empty strings and set to null
-          item.qty = qty.current.value !== "" ? qty.current.value : null;
-          item.qtyThresh = thresh.current.value !== "" ? thresh.current.value : null;
-          item.maxAddon = maxAddon.current.value !== "" ? maxAddon.current.value : null;
-      }
-
+        item.qty = qty.current.value !== "" ? qty.current.value : null;
+        item.qtyThresh = thresh.current.value !== "" ? thresh.current.value : null;
+        item.maxAddon = maxAddon.current.value !== "" ? maxAddon.current.value : null;
+      
       //API call to add/edit item in database
       dbOperation(mode, item);
       
