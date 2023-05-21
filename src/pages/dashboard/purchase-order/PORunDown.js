@@ -114,7 +114,7 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
             proms.push( 
                 API.graphql({ query: getItems, 
                     variables: {
-                        code: iCode
+                        itemCode: iCode
                     }, 
                     authMode: "AMAZON_COGNITO_USER_POOLS"
                 }).catch((e)=> {
@@ -122,7 +122,7 @@ function PORunDown({poForm, setPOForm, opRes, setOpRes, performOp}) {
                     return true;
                 }).then((resp)=> {
                     if(resp === true) return;
-                    InvItemMap.set(resp.data.getItems.code, resp.data.getItems);
+                    InvItemMap.set(resp.data.getItems.itemCode, resp.data.getItems);
                 })
             );
         }

@@ -17,34 +17,29 @@ export const getOrders = /* GraphQL */ `
       rushStatus
       cart {
         name
-        code
-        price
+        itemCode
         quantity
         category
         services {
           name
-          code
-          price
+          itemCode
           quantity
         }
         graphics {
           name
-          code
-          price
+          itemCode
           willEmail
           graphicName
         }
         cutouts {
           name
-          code
-          price
+          itemCode
           willEmail
           graphicName
         }
         subItems {
           name
-          code
-          price
+          itemCode
           quantity
           category
           txtObj
@@ -85,8 +80,7 @@ export const listOrders = /* GraphQL */ `
         rushStatus
         cart {
           name
-          code
-          price
+          itemCode
           quantity
           category
           txtObj
@@ -321,9 +315,9 @@ export const listVendors = /* GraphQL */ `
   }
 `;
 export const getItems = /* GraphQL */ `
-  query GetItems($code: String!) {
-    getItems(code: $code) {
-      code
+  query GetItems($itemCode: String!) {
+    getItems(itemCode: $itemCode) {
+      itemCode
       name
       category
       price
@@ -340,21 +334,21 @@ export const getItems = /* GraphQL */ `
 `;
 export const listItems = /* GraphQL */ `
   query ListItems(
-    $code: String
+    $itemCode: String
     $filter: ModelItemsFilterInput
     $limit: Int
     $nextToken: String
     $sortDirection: ModelSortDirection
   ) {
     listItems(
-      code: $code
+      itemCode: $itemCode
       filter: $filter
       limit: $limit
       nextToken: $nextToken
       sortDirection: $sortDirection
     ) {
       items {
-        code
+        itemCode
         name
         category
         price

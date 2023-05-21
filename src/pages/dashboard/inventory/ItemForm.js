@@ -5,7 +5,7 @@ import './itemform.css';
 
 const DEFAULT_CATEGORY = "PLAQUE";
 const initialItemState = {
-  code: "",
+  itemCode: "",
   name: "",
   price: 0.0,
   cost: 0.0,
@@ -39,7 +39,7 @@ const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
       //Call the submit form to close the component and add to the table
       submitForm(item);
       setItem({
-          code: "",
+          itemCode: "",
           name: "",
           price: 0.0,
           cost: 0.0,
@@ -60,8 +60,8 @@ const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
                 <input className={`border px-3 py-2 w-full rounded-sm ${mode === "edit" ? "disabled" : ''}`} 
                     type="text" name="item-code" 
                     placeholder="DCP11013" 
-                    onChange={(e)=>setItem({...item, code: e.target.value})}
-                    value={item.code}
+                    onChange={(e)=>setItem({...item, itemCode: e.target.value})}
+                    value={item.itemCode}
                     required
                     disabled={mode === "edit"}/>
             </div>

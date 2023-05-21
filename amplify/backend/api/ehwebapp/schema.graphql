@@ -66,28 +66,26 @@ type Graphic @model @auth(rules: [
 
 type CartAddonGraphic {
   name: String!
-  code: String!
-  price: Float!
+  itemCode: String!
 
   willEmail: Boolean!
   graphicName: String #Pk from graphics table
 }
 type CartAddonService {
   name: String!
-  code: String!
-  price: Float!
+  itemCode: String!
   quantity: Int!
 }
 type CartItem {
   name: String!
-  code: String!
-  price: Float!
+  itemCode: String!
+
   quantity: Int!
   category: ItemCategory!
   services: [CartAddonService!]
   graphics: [CartAddonGraphic!]
   cutouts: [CartAddonGraphic!]
-  subItems: [CartItem!]
+  subItems: [CartItem!] #For plates
 
   txtObj: String
   layoutImg: String
@@ -144,7 +142,7 @@ type Items @model @auth(rules: [
   { allow: groups, groups: ["employee"], provider: userPools, operations: [read, update]},
   { allow: public, provider: iam, operations: [read, update]}]) {
 
-  code: String! @primaryKey
+  itemCode: String! @primaryKey
   name: String!
   category: ItemCategory!
 

@@ -52,7 +52,7 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
         } catch(e) {
             console.log(e);
             setOpRes({...opRes, failureMsg: 
-                "Error: Item " + item.code + " could not be added to the inventory"});
+                "Error: Item " + item.itemCode + " could not be added to the inventory"});
             return false;
         }
     }
@@ -64,7 +64,7 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
             poItem = po.orderedProducts[i];
             if(!invMap.has(poItem.itemCode)) {
                 newItem = {
-                    code: poItem.itemCode,
+                    itemCode: poItem.itemCode,
                     name: poItem.itemName,
                     price: 0.0,
                     cost: poItem.unitCost,
@@ -93,7 +93,7 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
             const items = inventoryData.data.listItems.items;
             const InvMap = new Map();
             for(let i = 0; i < items.length; i++) {
-                InvMap.set(items[i].code, items[i]);
+                InvMap.set(items[i].itemCode, items[i]);
             }
             setInvMap(InvMap);
             setIsFetching(false);

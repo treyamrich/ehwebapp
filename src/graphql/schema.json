@@ -408,7 +408,7 @@
           "name" : "getItems",
           "description" : null,
           "args" : [ {
-            "name" : "code",
+            "name" : "itemCode",
             "description" : null,
             "type" : {
               "kind" : "NON_NULL",
@@ -432,7 +432,7 @@
           "name" : "listItems",
           "description" : null,
           "args" : [ {
-            "name" : "code",
+            "name" : "itemCode",
             "description" : null,
             "type" : {
               "kind" : "SCALAR",
@@ -942,7 +942,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "code",
+          "name" : "itemCode",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -951,21 +951,6 @@
             "ofType" : {
               "kind" : "SCALAR",
               "name" : "String",
-              "ofType" : null
-            }
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "price",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "Float",
               "ofType" : null
             }
           },
@@ -1147,15 +1132,6 @@
         "possibleTypes" : null
       }, {
         "kind" : "SCALAR",
-        "name" : "Float",
-        "description" : "Built-in Float",
-        "fields" : null,
-        "inputFields" : null,
-        "interfaces" : null,
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
-        "kind" : "SCALAR",
         "name" : "Int",
         "description" : "Built-in Int",
         "fields" : null,
@@ -1227,7 +1203,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "code",
+          "name" : "itemCode",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1236,21 +1212,6 @@
             "ofType" : {
               "kind" : "SCALAR",
               "name" : "String",
-              "ofType" : null
-            }
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "price",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "Float",
               "ofType" : null
             }
           },
@@ -1296,7 +1257,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "code",
+          "name" : "itemCode",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1305,21 +1266,6 @@
             "ofType" : {
               "kind" : "SCALAR",
               "name" : "String",
-              "ofType" : null
-            }
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "price",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "Float",
               "ofType" : null
             }
           },
@@ -2693,6 +2639,15 @@
         "enumValues" : null,
         "possibleTypes" : null
       }, {
+        "kind" : "SCALAR",
+        "name" : "Float",
+        "description" : "Built-in Float",
+        "fields" : null,
+        "inputFields" : null,
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
         "kind" : "OBJECT",
         "name" : "POItemAdjustment",
         "description" : null,
@@ -3414,7 +3369,7 @@
         "name" : "Items",
         "description" : null,
         "fields" : [ {
-          "name" : "code",
+          "name" : "itemCode",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -3631,7 +3586,7 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "code",
+          "name" : "itemCode",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -5479,7 +5434,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "code",
+          "name" : "itemCode",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -5487,19 +5442,6 @@
             "ofType" : {
               "kind" : "SCALAR",
               "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "price",
-          "description" : null,
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "Float",
               "ofType" : null
             }
           },
@@ -5674,7 +5616,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "code",
+          "name" : "itemCode",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -5682,19 +5624,6 @@
             "ofType" : {
               "kind" : "SCALAR",
               "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "price",
-          "description" : null,
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "Float",
               "ofType" : null
             }
           },
@@ -5735,7 +5664,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "code",
+          "name" : "itemCode",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -5743,19 +5672,6 @@
             "ofType" : {
               "kind" : "SCALAR",
               "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "price",
-          "description" : null,
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "Float",
               "ofType" : null
             }
           },
@@ -7248,7 +7164,7 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "code",
+          "name" : "itemCode",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -7500,7 +7416,7 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "code",
+          "name" : "itemCode",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -7611,7 +7527,7 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "code",
+          "name" : "itemCode",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -9297,7 +9213,7 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "code",
+          "name" : "itemCode",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -10537,9 +10453,17 @@
         "onFragment" : false,
         "onField" : true
       }, {
-        "name" : "aws_auth",
-        "description" : "Directs the schema to enforce authorization on a field",
-        "locations" : [ "FIELD_DEFINITION" ],
+        "name" : "aws_lambda",
+        "description" : "Tells the service this field/object has access authorized by a Lambda Authorizer.",
+        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
+        "args" : [ ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
+        "name" : "aws_cognito_user_pools",
+        "description" : "Tells the service this field/object has access authorized by a Cognito User Pools token.",
+        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
         "args" : [ {
           "name" : "cognito_groups",
           "description" : "List of cognito user pool groups which have access on this field",
@@ -10558,10 +10482,23 @@
         "onFragment" : false,
         "onField" : false
       }, {
-        "name" : "aws_iam",
-        "description" : "Tells the service this field/object has access authorized by sigv4 signing.",
-        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
-        "args" : [ ],
+        "name" : "aws_publish",
+        "description" : "Tells the service which subscriptions will be published to when this mutation is called. This directive is deprecated use @aws_susbscribe directive instead.",
+        "locations" : [ "FIELD_DEFINITION" ],
+        "args" : [ {
+          "name" : "subscriptions",
+          "description" : "List of subscriptions which will be published to when this mutation is called.",
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        } ],
         "onOperation" : false,
         "onFragment" : false,
         "onField" : false
@@ -10587,17 +10524,9 @@
         "onFragment" : false,
         "onField" : false
       }, {
-        "name" : "aws_oidc",
-        "description" : "Tells the service this field/object has access authorized by an OIDC token.",
-        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
-        "args" : [ ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
-        "name" : "aws_cognito_user_pools",
-        "description" : "Tells the service this field/object has access authorized by a Cognito User Pools token.",
-        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
+        "name" : "aws_auth",
+        "description" : "Directs the schema to enforce authorization on a field",
+        "locations" : [ "FIELD_DEFINITION" ],
         "args" : [ {
           "name" : "cognito_groups",
           "description" : "List of cognito user pool groups which have access on this field",
@@ -10612,6 +10541,14 @@
           },
           "defaultValue" : null
         } ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
+        "name" : "aws_oidc",
+        "description" : "Tells the service this field/object has access authorized by an OIDC token.",
+        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
+        "args" : [ ],
         "onOperation" : false,
         "onFragment" : false,
         "onField" : false
@@ -10641,31 +10578,10 @@
         "onFragment" : false,
         "onField" : false
       }, {
-        "name" : "aws_lambda",
-        "description" : "Tells the service this field/object has access authorized by a Lambda Authorizer.",
+        "name" : "aws_iam",
+        "description" : "Tells the service this field/object has access authorized by sigv4 signing.",
         "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
         "args" : [ ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
-        "name" : "aws_publish",
-        "description" : "Tells the service which subscriptions will be published to when this mutation is called. This directive is deprecated use @aws_susbscribe directive instead.",
-        "locations" : [ "FIELD_DEFINITION" ],
-        "args" : [ {
-          "name" : "subscriptions",
-          "description" : "List of subscriptions which will be published to when this mutation is called.",
-          "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        } ],
         "onOperation" : false,
         "onFragment" : false,
         "onField" : false

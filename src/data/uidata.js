@@ -96,7 +96,7 @@ export const dashboard_links = [
 
 export const inventoryColumns = [
     { type: 'checkbox', width: '50' },
-    { field: 'code',
+    { field: 'itemCode',
       isPrimaryKey: true,
       headerText: 'Item Code',
       width: '150',
@@ -230,7 +230,7 @@ export const initialOrderState = {
 
 export const InitCartItemState = {
   name: "",
-  code: "",
+  itemCode: "",
   price: 0.0,
   services: [],
   graphics: [],

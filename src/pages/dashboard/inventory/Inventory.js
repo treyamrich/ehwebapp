@@ -27,7 +27,7 @@ function ManageInventory({opRes, setOpRes}) {
                     query: deleteItems, 
                     variables: { 
                         input: { 
-                            code: pk
+                            itemCode: pk
                         }
                     },
                     authMode: AUTH_MODE_COGNITO
@@ -35,7 +35,7 @@ function ManageInventory({opRes, setOpRes}) {
                 opRes.failItems.push(pk); 
                 console.log(e);
                 return true;
-            }).then(err => {if(err !== true) opRes.succItems.push(err.data.deleteItems.code)});
+            }).then(err => {if(err !== true) opRes.succItems.push(err.data.deleteItems.itemCode)});
             promises.push(respPromise);
         });
         //Wait for all of the requests to finish
@@ -51,11 +51,11 @@ function ManageInventory({opRes, setOpRes}) {
             });
         }
         catch (e) {
-            opRes.failItems.push(item.code);
+            opRes.failItems.push(item.itemCode);
             console.log(e);
             return;
         }
-        opRes.succItems.push(item.code);
+        opRes.succItems.push(item.itemCode);
     }
     async function addItem(item) {
         //Adds a SINGLE item to the database
@@ -65,11 +65,11 @@ function ManageInventory({opRes, setOpRes}) {
                 authMode: AUTH_MODE_COGNITO
             });
         } catch(e) {
-            opRes.failItems.push(item.code);
+            opRes.failItems.push(item.itemCode);
             console.log(e);
             return;
         }
-        opRes.succItems.push(item.code);
+        opRes.succItems.push(item.itemCode);
     }
     const fetchInventory = () => {
         return fetchItems({listItems}, 

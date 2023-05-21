@@ -11,9 +11,9 @@ Ex 1: 5x2" B/G Plate
 Ex 2: Custom 10x15" G/B plate
 */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { EditorState } from 'draft-js';
-import { pltSizes, pltColors, InitCartItemState, EH_COLOR_DARK, animatedComponents } from '../../../data/uidata';
+import { pltSizes, pltColors, EH_COLOR_DARK, animatedComponents, AUTH_MODE_IAM } from '../../../data/uidata';
 
 import { CardManager, RTE, MyInput, ConfirmPopUp } from '../../../components';
 import GraphicForm from './GraphicForm';
@@ -22,48 +22,35 @@ import { useStateContext } from '../../../contexts/ContextProvider';
 import Select from 'react-select';
 import { MyTextArea } from '../../../components';
 import "../../../styles/hidescrollbar.css";
+import { listItems } from '../../../graphql/queries';
+import { fetchItems } from '../../../data/APICalls';
 
 const InitialPlateState = {
-    name: "",
+    itemCode: "",
+    itemPrice: 0,
     pltSize: "",
     customW: "",
     customH: "",
     pltColor: pltColors[0].label,
     pltGraphics: [],
-    notes: ""
+    notes: "",
+    label: ""
 };
 
 const lineLimit = 5;
 const lineLenLimit = 65;
 
+/* Plate's names are conventionally named [SIZE] [COLOR] Plate. For parsing reasons*/
 const PlateForm = ({ submitForm, editPlate }) => {
+
+    const [plateSelection, setPlateSelection] = useState([]);
     //RTE state
     const [editorState, setEditorState] = useState(() => editPlate ? editPlate.txtObj : EditorState.createEmpty(),);
     //Center text on first render. If there is a plate to edit, preserve the alignment.
     const [autoTxtCenter, setAutoTxtCenter] = useState(editPlate === undefined); 
     const { pushPopUp, popPopUp } = useStateContext();
 
-    const [cartItem, setCartItem] = useState(editPlate ? editPlate : {...InitCartItemState});
-    const [plate, setPlate] = useState(()=>{
-        const newPltObj = {...InitialPlateState};
-        if(editPlate) {
-           //Parse the plate name for size and color
-           let tokens = editPlate.name.split(' ');
-           if(tokens[0] === 'Custom') {
-            let sizeTokens = tokens[1].split('x');
-            newPltObj.customW = sizeTokens[0];
-            newPltObj.customH = sizeTokens[1].substring(0, sizeTokens[1].length-1);
-            newPltObj.pltSize = tokens[0];
-           } else {
-            newPltObj.pltSize = tokens[0];
-            newPltObj.pltColor = tokens[1];
-           }
-           newPltObj.notes = cartItem.notes;
-           newPltObj.pltGraphics = cartItem.graphics;
-           newPltObj.name = cartItem.name;
-        }
-        return newPltObj;
-    });
+    const [plate, setPlate] = useState(editPlate ? editPlate : {...InitialPlateState});
 
     const handleAddPltGraphic = graphicObj => {
         popPopUp();
@@ -82,14 +69,32 @@ const PlateForm = ({ submitForm, editPlate }) => {
     }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
-        cartItem.txtObj = editorState;
-        cartItem.name = plate.pltSize === 'Custom' ? 
+        //GET THE PLATE WHEN SUBMITTING FROM THE DATABASE
+
+        plateSelection.forEach(item => {
+            let itemCode = item.itemCode;
+            let isCustomPlate = itemCode.includes('Custom') && plate.pltSize === 'Custom';
+            let isPlateMatch = itemCode.includes(plate.pltColor) && itemCode.includes(plate.pltSize);
+            if(isCustomPlate || isPlateMatch) {
+                plate.itemCode = itemCode;
+                plate.price = item.price;
+            }
+        });
+        plate.label = plate.pltSize === 'Custom' ? 
             `Custom ${plate.customW}x${plate.customH}" ${plate.pltColor} plate` :
             `${plate.pltSize} ${plate.pltColor} plate`;
-        cartItem.graphics = plate.pltGraphics;
-        cartItem.notes = plate.notes;
-        submitForm(cartItem);
+        plate.name = plate.label;
+        plate.txtObj = editorState;
+        plate.graphics = plate.pltGraphics;
+        submitForm(plate);
     }
+    const fetchPlates = async () => {
+        const resp = await fetchItems({ listItems }, AUTH_MODE_IAM, ()=>{}, 
+            { filter: {name: { contains: "Plate" }}}
+        );
+        setPlateSelection(resp);
+    }
+    useEffect(() => fetchPlates(), []);
     const canSubmit = (plate.pltSize !== "" && plate.pltSize !== "Custom") || (plate.customW !== "" && plate.customH !== "");
   return (
     <div className="flex justify-center text-left flex-col"
@@ -194,8 +199,8 @@ const PlateForm = ({ submitForm, editPlate }) => {
                         lineLenLimit={lineLenLimit}
                         autoTxtCenter={autoTxtCenter}
                         setAutoTxtCenter={setAutoTxtCenter}
-                        cartItem={cartItem}
-                        setCartItem={setCartItem}
+                        cartItem={plate}
+                        setCartItem={setPlate}
                     />
                 </div>
                 <p className="text-sm text-slate-400">Note: Plates are limited by the amount of lines</p>

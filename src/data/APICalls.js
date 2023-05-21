@@ -37,9 +37,9 @@ export const updateItemQuantities = async items => {
       TransactStatements: items.map(cartItem => {
         let qty = cartItem.quantity.toString();
         return {
-          Statement: `UPDATE "Items-7fr2sid2azbrrhnbb2ntqspzlu-dev" SET qty=qty-? WHERE code=? AND qty >= ?`,
+          Statement: `UPDATE "Items-7fr2sid2azbrrhnbb2ntqspzlu-dev" SET qty=qty-? WHERE itemCode=? AND qty >= ?`,
           Parameters: [
-            { N: qty }, {S: cartItem.code}, { N: qty }
+            { N: qty }, {S: cartItem.itemCode}, { N: qty }
           ]
         }; 
       })
@@ -54,7 +54,7 @@ export const uploadLayoutImages = async items => {
             let imgFile = item.layoutImg;
             item.layoutImg = imgFile.name;
             return Storage.put('layouts/' + imgFile.name, imgFile, { bucket: 'ehwebapp-customer-uploads'})
-                .catch(e => console.log(`Failed to upload layout for: ${item.code}\n${e.name}\n${e.message}`) );
+                .catch(e => console.log(`Failed to upload layout for: ${item.itemCode}\n${e.name}\n${e.message}`) );
         }
         return null;
     }));

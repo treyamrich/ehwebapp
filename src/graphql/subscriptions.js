@@ -17,34 +17,29 @@ export const onCreateOrders = /* GraphQL */ `
       rushStatus
       cart {
         name
-        code
-        price
+        itemCode
         quantity
         category
         services {
           name
-          code
-          price
+          itemCode
           quantity
         }
         graphics {
           name
-          code
-          price
+          itemCode
           willEmail
           graphicName
         }
         cutouts {
           name
-          code
-          price
+          itemCode
           willEmail
           graphicName
         }
         subItems {
           name
-          code
-          price
+          itemCode
           quantity
           category
           txtObj
@@ -80,34 +75,29 @@ export const onUpdateOrders = /* GraphQL */ `
       rushStatus
       cart {
         name
-        code
-        price
+        itemCode
         quantity
         category
         services {
           name
-          code
-          price
+          itemCode
           quantity
         }
         graphics {
           name
-          code
-          price
+          itemCode
           willEmail
           graphicName
         }
         cutouts {
           name
-          code
-          price
+          itemCode
           willEmail
           graphicName
         }
         subItems {
           name
-          code
-          price
+          itemCode
           quantity
           category
           txtObj
@@ -143,34 +133,29 @@ export const onDeleteOrders = /* GraphQL */ `
       rushStatus
       cart {
         name
-        code
-        price
+        itemCode
         quantity
         category
         services {
           name
-          code
-          price
+          itemCode
           quantity
         }
         graphics {
           name
-          code
-          price
+          itemCode
           willEmail
           graphicName
         }
         cutouts {
           name
-          code
-          price
+          itemCode
           willEmail
           graphicName
         }
         subItems {
           name
-          code
-          price
+          itemCode
           quantity
           category
           txtObj
@@ -481,7 +466,7 @@ export const onDeleteVendor = /* GraphQL */ `
 export const onCreateItems = /* GraphQL */ `
   subscription OnCreateItems($filter: ModelSubscriptionItemsFilterInput) {
     onCreateItems(filter: $filter) {
-      code
+      itemCode
       name
       category
       price
@@ -499,7 +484,7 @@ export const onCreateItems = /* GraphQL */ `
 export const onUpdateItems = /* GraphQL */ `
   subscription OnUpdateItems($filter: ModelSubscriptionItemsFilterInput) {
     onUpdateItems(filter: $filter) {
-      code
+      itemCode
       name
       category
       price
@@ -517,7 +502,7 @@ export const onUpdateItems = /* GraphQL */ `
 export const onDeleteItems = /* GraphQL */ `
   subscription OnDeleteItems($filter: ModelSubscriptionItemsFilterInput) {
     onDeleteItems(filter: $filter) {
-      code
+      itemCode
       name
       category
       price

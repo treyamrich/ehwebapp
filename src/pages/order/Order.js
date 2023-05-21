@@ -32,7 +32,7 @@ const Order = () => {
   const handleEditCartItem = (item, itemIdx) => {
     setSelItem({
       name: item.name,
-      code: item.code,
+      itemCode: item.itemCode,
       category: item.category,
       price: item.price
     });
@@ -48,7 +48,7 @@ const Order = () => {
     //Copy attributes when adding to cart
     if(selItem) { //If an item was selected
       cartItem.name = selItem.name;
-      cartItem.code = selItem.code;
+      cartItem.itemCode = selItem.itemCode;
       cartItem.category = selItem.category;
       cartItem.price = selItem.price;
     }

@@ -41,14 +41,14 @@ const GraphicForm = ({ submitForm, isWoodcutoutForm }) => {
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
         //Find the graphic item from the database based on the selected size
-        let graphicItem = { name: '', code: '', price: -1000000};
+        let graphicItem = { name: '', itemCode: '', price: -1000000};
         if(isWoodcutoutForm && graphicItems.length > 0) {
             //Only 1 size available for wood cutouts
             graphicItem = graphicItems[0];
         } else {
             graphicItems.forEach(item => {
-                if((item.code.includes('SM') && graphicFormState.size.includes("Small")) ||
-                    (item.code.includes('LG') && graphicFormState.size.includes("Large"))
+                if((item.itemCode.includes('SM') && graphicFormState.size.includes("Small")) ||
+                    (item.itemCode.includes('LG') && graphicFormState.size.includes("Large"))
                 ) {
                     graphicItem = item;
                 }
@@ -58,7 +58,7 @@ const GraphicForm = ({ submitForm, isWoodcutoutForm }) => {
         //From graphql schema
         const submitGraphic = {...graphicFormState};
         submitGraphic.name = graphicItem.name;
-        submitGraphic.code = graphicItem.code;
+        submitGraphic.itemCode = graphicItem.itemCode;
         submitGraphic.price = graphicItem.price;
     
         //If the customer is not emailing, set the graphic name or custom url
