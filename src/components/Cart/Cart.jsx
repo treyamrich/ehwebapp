@@ -12,19 +12,21 @@ const Cart = ({ handleEditCartItem }) => {
 
   //Recursively calculates the total given a cart item
   const getItemPrice = item => {
-    let itemCost = item.price ? item.price : 0;
+    let itemCost = item.itemPrice ? item.itemPrice : 0;
 
     //Current item cost
     addonFields.forEach(addonField => {
       //Skip subitems
-      if(addonField === 'subItems') return;
-      item[addonField].forEach(addon => itemCost += addon.price ? addon.price : 0);
+      if(addonField === 'subItems' || item[addonField] == undefined) return;
+      item[addonField].forEach(addon => itemCost += addon.itemPrice ? addon.itemPrice : 0);
     });
 
     //Text lines DEAL WITH THIS LATER
 
-    //Add cost of children items
-    item.subItems.forEach(subItem => itemCost += getItemPrice(subItem));
+    //Add the price of children plates
+    if(item.subItems)
+      item.subItems.forEach(subItem => itemCost += getItemPrice(subItem));
+
     return itemCost * item.quantity;
   }
   

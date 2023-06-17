@@ -6,11 +6,12 @@ PlateForm Props:
     an object.
 
 
-Plate .name attribute format as a cartItem: [Custom] {SIZE}" {COLOR} plate 
+Plate .name attribute format as a cartItem: {SIZE}" {COLOR} plate 
 Ex 1: 5x2" B/G Plate
 Ex 2: Custom 10x15" G/B plate
 */
 
+//NOTE: Custom plates aren't supported here, instead they are supported as an independent custom item
 import React, { useState, useEffect } from 'react';
 import { EditorState } from 'draft-js';
 import { pltSizes, pltColors, EH_COLOR_DARK, animatedComponents, AUTH_MODE_IAM } from '../../../data/uidata';
@@ -27,10 +28,8 @@ import { fetchItems } from '../../../data/APICalls';
 
 const InitialPlateState = {
     itemCode: "",
-    itemPrice: 0,
+    price: 0,
     pltSize: "",
-    customW: "",
-    customH: "",
     pltColor: pltColors[0].label,
     pltGraphics: [],
     notes: "",
@@ -67,22 +66,25 @@ const PlateForm = ({ submitForm, editPlate }) => {
           title="Confirm Plate Verbage"
         />)
     }
+    //Postcondition: Converts 'Black/Gold' to 'B/G'
+    const getPlateColorAbbreviation = () => {
+        let tokens = plate.pltColor.split('/');
+        return `${tokens[0][0]}/${tokens[1][0]}`
+    }
     //Postcondition: Calls the onAdd (with the selected index) and submitForm callback funcs
     const handleSubmit = () => {
-        //GET THE PLATE WHEN SUBMITTING FROM THE DATABASE
-
+        
         plateSelection.forEach(item => {
+            //ADDD ITEMS TO DATABASE SUCH THAT THE PLATE CAN BE MATCHED TO GET THE PRICE AND CODE
             let itemCode = item.itemCode;
-            let isCustomPlate = itemCode.includes('Custom') && plate.pltSize === 'Custom';
-            let isPlateMatch = itemCode.includes(plate.pltColor) && itemCode.includes(plate.pltSize);
-            if(isCustomPlate || isPlateMatch) {
+            let pltColor = getPlateColorAbbreviation(plate.pltColor);
+            let isPlateMatch = itemCode.includes(pltColor) && itemCode.includes(plate.pltSize);
+            if(isPlateMatch) {
                 plate.itemCode = itemCode;
                 plate.price = item.price;
             }
         });
-        plate.label = plate.pltSize === 'Custom' ? 
-            `Custom ${plate.customW}x${plate.customH}" ${plate.pltColor} plate` :
-            `${plate.pltSize} ${plate.pltColor} plate`;
+        plate.label = `${plate.pltSize} ${plate.pltColor} plate`;
         plate.name = plate.label;
         plate.txtObj = editorState;
         plate.graphics = plate.pltGraphics;
@@ -94,8 +96,8 @@ const PlateForm = ({ submitForm, editPlate }) => {
         );
         setPlateSelection(resp);
     }
-    useEffect(() => fetchPlates(), []);
-    const canSubmit = (plate.pltSize !== "" && plate.pltSize !== "Custom") || (plate.customW !== "" && plate.customH !== "");
+    useEffect(() => {fetchPlates();}, []);
+    const canSubmit = plate.pltSize !== "";
   return (
     <div className="flex justify-center text-left flex-col"
       style={{maxHeight: '85vh'}}
@@ -127,39 +129,6 @@ const PlateForm = ({ submitForm, editPlate }) => {
                     onChange={option=>setPlate({...plate, pltSize: option.label})}
                     className="mb-3"
                 />
-                {plate.pltSize === "Custom" && (
-                    <div className="text-center mb-3">
-                        <p className="text-sm text-slate-400 mb-2">Please enter the dimensions in inches</p>
-                        <div className="flex justify-center">
-                            <div className="flex mr-4">
-                                <label className="mr-2 font-semibold" 
-                                    htmlFor="custom-w">Width:
-                                </label>
-                                <MyInput 
-                                    type="number"
-                                    onChange={(e)=>setPlate({...plate, customW: e.target.value})} 
-                                    value={plate.customW}
-                                    id="custom-w"
-                                    color={EH_COLOR_DARK}
-                                    style={{width: '75px'}}
-                                />
-                            </div>
-                            <div className="flex">
-                                <label className="mr-2 font-semibold" 
-                                    htmlFor="custom-h">Height:
-                                </label>
-                                <MyInput
-                                    type="number"
-                                    value={plate.customH}
-                                    onChange={(e)=>setPlate({...plate, customH: e.target.value})}
-                                    id="custom-h"
-                                    color={EH_COLOR_DARK}
-                                    style={{width: '75px'}}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                )}
                 <div className="text-center">
                     <p className="text-sm text-slate-400"><strong>Note:</strong> Plates are limited by the amount lines</p>
                 </div>

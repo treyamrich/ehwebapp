@@ -18,6 +18,7 @@ export const pltColors = [
   { value: 4, label: 'Silver/Black' },
   { value: 5, label: 'Red/Gold' }
 ];
+
 export const pltSizes = [
   { value: 1, label: '3x1.5"'},
   { value: 2, label: '4x3"'},
@@ -25,8 +26,7 @@ export const pltSizes = [
   { value: 4, label: '6x3"'},
   { value: 5, label: '6x4"'},
   { value: 6, label: '5x7"'},
-  { value: 7, label: '8x10"'},
-  { value: 8, label: 'Custom'}
+  { value: 7, label: '8x10"'}
 ];
 
 export const graphicColOpts = [
