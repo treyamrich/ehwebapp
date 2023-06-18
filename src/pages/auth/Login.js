@@ -258,7 +258,7 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
 			)}
 			{formType === 'changePassword' && (
 					<Form className="text-center p-4 p-sm-5" onSubmit={changePassword}>
-						<h3>Please check your phone <br/>for the authentication code.</h3>
+						<h3>Please check your email <br/>for the authentication code.</h3>
 							<Form.Group className="mb-3">
 								<Form.Label>Enter Code</Form.Label>
 								<Form.Control onChange={(e)=>setFormState({...formState, authCode: e.target.value})}
