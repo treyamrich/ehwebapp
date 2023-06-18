@@ -81,7 +81,7 @@ type CartItem {
   itemCode: String!
 
   quantity: Int!
-  category: ItemCategory!
+  category: String!
   services: [CartAddonService!]
   graphics: [CartAddonGraphic!]
   cutouts: [CartAddonGraphic!]
@@ -144,42 +144,11 @@ type Items @model @auth(rules: [
 
   itemCode: String! @primaryKey
   name: String!
-  category: ItemCategory!
+  category: String!
 
   price: Float!
   cost: Float!
   
   qty: Int
   numOrdered: Int
-  qtyThresh: Int
-  maxAddon: Int
-
-  modifierGroups: [String!]
-}
-enum ItemCategory {
-  PLAQUE
-  DRINKWARE
-  GIFT
-  SERVICE
-  GRAPHICADDON
-  CUTOUTADDON
-  CUSTOM
-}
-
-type ModifierGroups @model @auth(rules: [
-  { allow: groups, groups: ["admin"], provider: userPools}, 
-  { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
-  { allow: public, provider: iam, operations: [read]}]) {
-  id: ID!
-  name: String!
-  modifiers: [String!]!
-  items: [String!]
-}
-type Modifier @model @auth(rules: [
-  { allow: groups, groups: ["admin"], provider: userPools}, 
-  { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
-  { allow: public, provider: iam, operations: [read]}]) {
-  id: ID!
-  name: String!
-  price: Float!
 }

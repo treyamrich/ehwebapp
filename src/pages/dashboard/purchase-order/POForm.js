@@ -69,9 +69,7 @@ function POForm({poForm, setPOForm, opRes, setOpRes, performOp}) {
                     price: 0.0,
                     cost: poItem.unitCost,
                     category: poItem.category,
-                    qty: 0,
-                    qtyThresh: null,
-                    maxAddon: null
+                    qty: 0
                 }
                 //Stop if error occurs
                 if(!(await createNewItem(newItem)))

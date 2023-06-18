@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
 import { Auth } from 'aws-amplify';
 import {Navigate} from 'react-router-dom';
-import {formatPhoneNum} from '../../utility/PhoneFormat.js';
 import { Alert, Form, Button, Container} from 'react-bootstrap';
 import "../../styles/login.css";
 
 function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
 	
-	const {phoneNum, password, newPw, confNewPw, email, name, authCode, formType} = formState;
+	const {password, newPw, confNewPw, email, name, authCode, formType} = formState;
 	const [redirect, setRedirect] = useState(false);
 	const [error, setError] = useState("none");
 
@@ -18,9 +17,7 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
 			setError("Passwords do not match!");
 			return;
 		}
-		console.log(phoneNum);
-		let username = formatPhoneNum(phoneNum);
-		console.log(username);
+		let username = email;
 
     	//If all checks pass try signing up
 	    try {
@@ -42,7 +39,7 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
   		//Sends sign up auth code to user's phone
 
   		e.preventDefault();
-  		let username = formatPhoneNum(phoneNum);
+  		let username = email;
 
   		try {
   			await Auth.confirmSignUp(
@@ -63,7 +60,7 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
 			return;
 		}
 
-		let username = formatPhoneNum(phoneNum);
+		let username = email;
 
 		try {
 			await Auth.forgotPasswordSubmit(username, authCode, newPw);
@@ -77,7 +74,7 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
   		//Sends password reset code to user's phone
 
   		e.preventDefault();
-  		let username = formatPhoneNum(phoneNum);
+  		let username = email;
 
   		// Send confirmation code to user's phone number
   		try {
@@ -94,12 +91,12 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
   	}
   	async function signIn(e) {
   		e.preventDefault();
-  		let username = formatPhoneNum(phoneNum);
+  		let username = email;
 
 	    try {
 	        const user = await Auth.signIn(username, password);
 	        const groups = user.signInUserSession.accessToken.payload["cognito:groups"];
-	        setFormState({...formState, formType: 'signnedIn', phoneNum: username, email: email, name: user.attributes.name, idToken: user.signInUserSession.idToken}); //Parent component doesn't rerender, so pass info
+	        setFormState({...formState, formType: 'signnedIn', email: username, email: email, name: user.attributes.name, idToken: user.signInUserSession.idToken}); //Parent component doesn't rerender, so pass info
 	        setAuth(true);
 	        //Check for authorization
 			if(groups) {
@@ -129,14 +126,13 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
 			<Form className="text-center p-4 p-sm-5" onSubmit={signIn}>
 				<h1 className="mb-3">Sign In</h1>
 					<Form.Group className="mb-3">
-						<Form.Label> Phone Number </Form.Label>
-						<Form.Control onChange={(e)=>setFormState({...formState, phoneNum: e.target.value.toLowerCase()})}
-							type="tel" 
-							pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-							placeholder="xxx-xxx-xxxx"
-							value={phoneNum}
+						<Form.Label>Email</Form.Label>
+						<Form.Control onChange={(e)=>setFormState({...formState, email: e.target.value.toLowerCase()})}
+							placeholder="johnnyappleseed@gmail.com"
+							value={email}
+							type="email"
 							required
-							name="phone"
+							name="signup_email" 
 						/>
 						<Form.Text className="text-muted">
 					      <span id="disclaim"> We'll never share your information with anyone. </span>
@@ -153,7 +149,7 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
 					</Form.Group>
 				<Button variant="dark" className="mb-3" type="submit">Login</Button>
 				<p>
-					<a className="link-button" onClick={()=>{setFormState({...formState, phoneNum: '', password: '', confNewPw:'', formType: 'signUp'}); setError("none");}}>
+					<a className="link-button" onClick={()=>{setFormState({...formState, email: '', password: '', confNewPw:'', formType: 'signUp'}); setError("none");}}>
 						Sign Up
 					</a>
 					<a className="link-button" onClick={()=>setFormState({...formState, formType:'forgotPassword'})}> 
@@ -173,17 +169,6 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
 							type="text" 
 							required
 							name="signup_name"
-						/>
-					</Form.Group>
-					<Form.Group className="mb-3">
-						<Form.Label>Phone Number</Form.Label> 
-						<Form.Control onChange={(e)=>setFormState({...formState, phoneNum: e.target.value.toLowerCase()})}
-							placeholder="xxx-xxx-xxxx"
-							pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-							value={phoneNum}
-							type="tel"
-							required
-							name="signup_phone" 
 						/>
 					</Form.Group>
 					<Form.Group className="mb-3">
@@ -218,7 +203,7 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
 					</Form.Group>
 				<Button variant="dark" className="mb-3" type="submit"> Confirm </Button>
 				<p> Already have an account? 
-					<a onClick={()=>{setFormState({...formState, password: '', confNewPw:'', phoneNum:'', name:'', formType: 'signIn'}); setError("none");}}
+					<a onClick={()=>{setFormState({...formState, password: '', confNewPw:'', email:'', name:'', formType: 'signIn'}); setError("none");}}
 						className="link-button"> Login 
 					</a>
 				</p>
@@ -239,7 +224,7 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
 					</Form.Group>
 					<Button variant="dark" className="mb-3" type="submit">Submit</Button>
 					<p>
-						<a className="link-button" onClick={()=>{setFormState({...formState, phoneNum:'', name:'', email: '', password:'', authCode:'', formType: 'signIn'});setError("none")}}> 
+						<a className="link-button" onClick={()=>{setFormState({...formState, email:'', name:'', password:'', authCode:'', formType: 'signIn'});setError("none")}}> 
 							Back to login </a>
 					</p>
 				</Form>
@@ -247,7 +232,7 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
 			{formType === 'signUpSuccess' && (
 				<Container>
 					<Alert variant="success">You've successfully signed up!</Alert>
-					<Button variant="dark" className="mb-3 login" type="button" onClick={()=>setFormState({...formState, confNewPw:'', phoneNum:'', email, name:'', password:'', authCode:'', formType: 'signIn'})}> 
+					<Button variant="dark" className="mb-3 login" type="button" onClick={()=>setFormState({...formState, confNewPw:'', email: '', name:'', password:'', authCode:'', formType: 'signIn'})}> 
 						Back To Login </Button>
 				</Container>
 			)}
@@ -255,19 +240,18 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
 					<Form className="text-center p-4 p-sm-5" onSubmit={sendCode}>
 						<h2 className="mb-3">Forgot Password</h2>
 						<Form.Group className="mb-3">
-							<Form.Label>Phone Number</Form.Label>
-							<Form.Control onChange={(e)=>setFormState({...formState, phoneNum: e.target.value})}
-								placeholder="xxx-xxx-xxxx"
-								value={phoneNum}
-								type="tel"
-								pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+							<Form.Label>Email</Form.Label>
+							<Form.Control onChange={(e)=>setFormState({...formState, email: e.target.value.toLowerCase()})}
+								placeholder="johnnyappleseed@gmail.com"
+								value={email}
+								type="email"
 								required
-								name="forgot_password_email" 
-								/>
+								name="signup_email" 
+							/>
 						</Form.Group>
 						<Button variant="dark" className="mb-3" type="submit">Send Code</Button>
 						<p>
-							<a className="link-button" onClick={()=>{setFormState({...formState, phoneNum:'', name:'', email: '', password:'', authCode:'', formType: 'signIn'});setError("none")}}> 
+							<a className="link-button" onClick={()=>{setFormState({...formState, email:'', name:'', email: '', password:'', authCode:'', formType: 'signIn'});setError("none")}}> 
 								Back to login </a>
 						</p>
 					</Form>
@@ -307,7 +291,7 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
 							</Form.Group>
 						<Button variant="dark" className="mb-3" type="submit">Change Password</Button>
 						<p>
-							<a className="link-button" onClick={()=>{setFormState({...formState, phoneNum:'', email:'', name:'', newPw:'', confNewPw:'', authCode:'', formType: 'signIn'});setError("none")}}>
+							<a className="link-button" onClick={()=>{setFormState({...formState, email:'', email:'', name:'', newPw:'', confNewPw:'', authCode:'', formType: 'signIn'});setError("none")}}>
 								Cancel
 							</a>
 						</p>
@@ -316,7 +300,7 @@ function Login({formState, setFormState, setAuth, setIsAdmin, setIsEmp}) {
 			{formType === 'pwChangeSuccess' && (
 				<Container>
 					<Alert variant="success">Password Successfully Changed.</Alert>
-						<Button variant="dark" className="mb-3" type="button" onClick={()=>setFormState({...formState, phoneNum:'', email: '', name:'', password:'', authCode:'', formType: 'signIn'})}> 
+						<Button variant="dark" className="mb-3" type="button" onClick={()=>setFormState({...formState, email:'', email: '', name:'', password:'', authCode:'', formType: 'signIn'})}> 
 									Back To Login </Button>
 				</Container>
 			)}

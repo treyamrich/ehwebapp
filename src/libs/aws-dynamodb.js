@@ -1,10 +1,13 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
+import awsmobile from "../aws-exports";
 
 export const createDynamoDBObj = async () => {
     const REGION = "us-west-2";
-    const IDENTITY_POOL_ID = 'us-west-2:27ed1493-4d9e-4655-8a43-e2aca015bc88';
+    const IDENTITY_POOL_ID = awsmobile["aws_cognito_identity_pool_id"];
+    console.log(IDENTITY_POOL_ID);
+    console.log('HI')
     //Get temp credentials
     const cognitoClient = new CognitoIdentityClient({ region: REGION });
     const creds = fromCognitoIdentityPool({

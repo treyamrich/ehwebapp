@@ -3,16 +3,14 @@
   "serviceConfiguration": {
     "apiName": "ehwebapp",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "C:\\Users\\treya\\Documents\\ehwebapp\\amplify\\backend\\api\\ehwebapp\\schema.graphql",
     "defaultAuthType": {
-      "mode": "AWS_IAM"
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authehwebapp3c1734b1"
     },
     "additionalAuthTypes": [
       {
-        "mode": "AMAZON_COGNITO_USER_POOLS",
-        "cognitoUserPoolId": "authehwebappresources"
+        "mode": "AWS_IAM"
       }
-    ],
-    "conflictResolution": {}
+    ]
   }
 }

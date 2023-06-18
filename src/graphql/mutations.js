@@ -23,34 +23,6 @@ export const createOrders = /* GraphQL */ `
         itemCode
         quantity
         category
-        services {
-          name
-          itemCode
-          quantity
-        }
-        graphics {
-          name
-          itemCode
-          willEmail
-          graphicName
-        }
-        cutouts {
-          name
-          itemCode
-          willEmail
-          graphicName
-        }
-        subItems {
-          name
-          itemCode
-          quantity
-          category
-          txtObj
-          layoutImg
-          notes
-          postTxt
-          postLayout
-        }
         txtObj
         layoutImg
         notes
@@ -84,34 +56,6 @@ export const updateOrders = /* GraphQL */ `
         itemCode
         quantity
         category
-        services {
-          name
-          itemCode
-          quantity
-        }
-        graphics {
-          name
-          itemCode
-          willEmail
-          graphicName
-        }
-        cutouts {
-          name
-          itemCode
-          willEmail
-          graphicName
-        }
-        subItems {
-          name
-          itemCode
-          quantity
-          category
-          txtObj
-          layoutImg
-          notes
-          postTxt
-          postLayout
-        }
         txtObj
         layoutImg
         notes
@@ -145,34 +89,6 @@ export const deleteOrders = /* GraphQL */ `
         itemCode
         quantity
         category
-        services {
-          name
-          itemCode
-          quantity
-        }
-        graphics {
-          name
-          itemCode
-          willEmail
-          graphicName
-        }
-        cutouts {
-          name
-          itemCode
-          willEmail
-          graphicName
-        }
-        subItems {
-          name
-          itemCode
-          quantity
-          category
-          txtObj
-          layoutImg
-          notes
-          postTxt
-          postLayout
-        }
         txtObj
         layoutImg
         notes
@@ -283,11 +199,6 @@ export const createPurchaseOrder = /* GraphQL */ `
         numReceived
         receivedDate
         goodTill
-        adjustments {
-          adjAmt
-          reason
-          adjDate
-        }
       }
       isOpen
       createdAt
@@ -313,11 +224,6 @@ export const updatePurchaseOrder = /* GraphQL */ `
         numReceived
         receivedDate
         goodTill
-        adjustments {
-          adjAmt
-          reason
-          adjDate
-        }
       }
       isOpen
       createdAt
@@ -343,11 +249,6 @@ export const deletePurchaseOrder = /* GraphQL */ `
         numReceived
         receivedDate
         goodTill
-        adjustments {
-          adjAmt
-          reason
-          adjDate
-        }
       }
       isOpen
       createdAt
@@ -512,9 +413,6 @@ export const createItems = /* GraphQL */ `
       cost
       qty
       numOrdered
-      qtyThresh
-      maxAddon
-      modifierGroups
       createdAt
       updatedAt
     }
@@ -533,9 +431,6 @@ export const updateItems = /* GraphQL */ `
       cost
       qty
       numOrdered
-      qtyThresh
-      maxAddon
-      modifierGroups
       createdAt
       updatedAt
     }
@@ -554,96 +449,6 @@ export const deleteItems = /* GraphQL */ `
       cost
       qty
       numOrdered
-      qtyThresh
-      maxAddon
-      modifierGroups
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createModifierGroups = /* GraphQL */ `
-  mutation CreateModifierGroups(
-    $input: CreateModifierGroupsInput!
-    $condition: ModelModifierGroupsConditionInput
-  ) {
-    createModifierGroups(input: $input, condition: $condition) {
-      id
-      name
-      modifiers
-      items
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateModifierGroups = /* GraphQL */ `
-  mutation UpdateModifierGroups(
-    $input: UpdateModifierGroupsInput!
-    $condition: ModelModifierGroupsConditionInput
-  ) {
-    updateModifierGroups(input: $input, condition: $condition) {
-      id
-      name
-      modifiers
-      items
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteModifierGroups = /* GraphQL */ `
-  mutation DeleteModifierGroups(
-    $input: DeleteModifierGroupsInput!
-    $condition: ModelModifierGroupsConditionInput
-  ) {
-    deleteModifierGroups(input: $input, condition: $condition) {
-      id
-      name
-      modifiers
-      items
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createModifier = /* GraphQL */ `
-  mutation CreateModifier(
-    $input: CreateModifierInput!
-    $condition: ModelModifierConditionInput
-  ) {
-    createModifier(input: $input, condition: $condition) {
-      id
-      name
-      price
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateModifier = /* GraphQL */ `
-  mutation UpdateModifier(
-    $input: UpdateModifierInput!
-    $condition: ModelModifierConditionInput
-  ) {
-    updateModifier(input: $input, condition: $condition) {
-      id
-      name
-      price
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteModifier = /* GraphQL */ `
-  mutation DeleteModifier(
-    $input: DeleteModifierInput!
-    $condition: ModelModifierConditionInput
-  ) {
-    deleteModifier(input: $input, condition: $condition) {
-      id
-      name
-      price
       createdAt
       updatedAt
     }

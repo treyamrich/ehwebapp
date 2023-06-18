@@ -20,34 +20,6 @@ export const getOrders = /* GraphQL */ `
         itemCode
         quantity
         category
-        services {
-          name
-          itemCode
-          quantity
-        }
-        graphics {
-          name
-          itemCode
-          willEmail
-          graphicName
-        }
-        cutouts {
-          name
-          itemCode
-          willEmail
-          graphicName
-        }
-        subItems {
-          name
-          itemCode
-          quantity
-          category
-          txtObj
-          layoutImg
-          notes
-          postTxt
-          postLayout
-        }
         txtObj
         layoutImg
         notes
@@ -78,17 +50,6 @@ export const listOrders = /* GraphQL */ `
         location
         status
         rushStatus
-        cart {
-          name
-          itemCode
-          quantity
-          category
-          txtObj
-          layoutImg
-          notes
-          postTxt
-          postLayout
-        }
         notes
         updatedAt
       }
@@ -175,11 +136,6 @@ export const getPurchaseOrder = /* GraphQL */ `
         numReceived
         receivedDate
         goodTill
-        adjustments {
-          adjAmt
-          reason
-          adjDate
-        }
       }
       isOpen
       createdAt
@@ -198,16 +154,6 @@ export const listPurchaseOrders = /* GraphQL */ `
         id
         vendorId
         date
-        orderedProducts {
-          itemCode
-          itemName
-          numPurchased
-          unitCost
-          totalCost
-          numReceived
-          receivedDate
-          goodTill
-        }
         isOpen
         createdAt
         updatedAt
@@ -243,16 +189,6 @@ export const listOwnerContacts = /* GraphQL */ `
   ) {
     listOwnerContacts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        contactInfo {
-          name
-          phone
-          faxPhone
-          email
-          address
-          city
-          state
-          zip
-        }
         id
         createdAt
         updatedAt
@@ -294,16 +230,6 @@ export const listVendors = /* GraphQL */ `
       items {
         id
         vendorName
-        contactInfo {
-          name
-          phone
-          faxPhone
-          email
-          address
-          city
-          state
-          zip
-        }
         shTerms
         salesTaxTerms
         notes
@@ -324,9 +250,6 @@ export const getItems = /* GraphQL */ `
       cost
       qty
       numOrdered
-      qtyThresh
-      maxAddon
-      modifierGroups
       createdAt
       updatedAt
     }
@@ -355,69 +278,6 @@ export const listItems = /* GraphQL */ `
         cost
         qty
         numOrdered
-        qtyThresh
-        maxAddon
-        modifierGroups
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getModifierGroups = /* GraphQL */ `
-  query GetModifierGroups($id: ID!) {
-    getModifierGroups(id: $id) {
-      id
-      name
-      modifiers
-      items
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listModifierGroups = /* GraphQL */ `
-  query ListModifierGroups(
-    $filter: ModelModifierGroupsFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listModifierGroups(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        modifiers
-        items
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getModifier = /* GraphQL */ `
-  query GetModifier($id: ID!) {
-    getModifier(id: $id) {
-      id
-      name
-      price
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listModifiers = /* GraphQL */ `
-  query ListModifiers(
-    $filter: ModelModifierFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listModifiers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        price
         createdAt
         updatedAt
       }

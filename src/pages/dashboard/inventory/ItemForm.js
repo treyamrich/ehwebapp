@@ -10,9 +10,7 @@ const initialItemState = {
   price: 0.0,
   cost: 0.0,
   category: DEFAULT_CATEGORY,
-  qty: null,
-  qtyThresh: null,
-  maxAddon: null
+  qty: null
 };
 
 const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
@@ -28,8 +26,6 @@ const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
   
         //Remove any empty strings and set to null
         item.qty = qty.current.value !== "" ? qty.current.value : null;
-        item.qtyThresh = thresh.current.value !== "" ? thresh.current.value : null;
-        item.maxAddon = maxAddon.current.value !== "" ? maxAddon.current.value : null;
       
       //API call to add/edit item in database
       dbOperation(mode, item);
@@ -42,9 +38,7 @@ const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
           price: 0.0,
           cost: 0.0,
           category: DEFAULT_CATEGORY,
-          qty: null,
-          qtyThresh: null,
-          maxAddon: null
+          qty: null
       });
   }
 
@@ -100,24 +94,6 @@ const ItemForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
                     step="1"
                     ref={qty}
                     defaultValue={item.qty}/>
-            </div>
-            <div className="p-3">
-                <label className="text-lg font-semibold" htmlFor="item-rethresh">Reorder Threshold:</label>
-                <input className="border px-3 py-2 w-full rounded-sm" type="number" name="item-rethresh" 
-                    placeholder="Enter the item qty. threshold" 
-                    min="0" 
-                    step="1"
-                    ref={thresh}
-                    defaultValue={item.qtyThresh}/>
-            </div>
-            <div className="p-3">
-                <label className="text-lg font-semibold" htmlFor="item-max-addon">Max Amount of Addons:</label>
-                <input className="border px-3 py-2 w-full rounded-sm" type="number" name="item-max-addon" 
-                    placeholder="Enter the cumulative max amount of lines, plates, cutouts, etc." 
-                    min="0" 
-                    step="1"
-                    ref={maxAddon}
-                    defaultValue={item.maxAddon}/>
             </div>
             <div className="p-3">
                 <label className="text-lg font-semibold" htmlFor="item-category">Item Category:</label>

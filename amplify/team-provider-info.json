@@ -13,15 +13,14 @@
     },
     "categories": {
       "auth": {
-        "ehwebappresources": {},
-        "userPoolGroups": {},
-        "true": {}
-      },
-      "api": {
-        "ehwebapp": {}
+        "true": {},
+        "ehwebapp3c1734b1": {}
       },
       "storage": {
         "ehwebappaddongraphics": {}
+      },
+      "api": {
+        "ehwebapp": {}
       }
     }
   }

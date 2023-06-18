@@ -1,18 +1,13 @@
 export type AmplifyDependentResourcesAttributes = {
     "auth": {
-        "userPoolGroups": {
-            "employeeGroupRole": "string",
-            "adminGroupRole": "string"
-        },
-        "ehwebappresources": {
+        "ehwebapp3c1734b1": {
             "IdentityPoolId": "string",
             "IdentityPoolName": "string",
             "UserPoolId": "string",
             "UserPoolArn": "string",
             "UserPoolName": "string",
             "AppClientIDWeb": "string",
-            "AppClientID": "string",
-            "CreatedSNSRole": "string"
+            "AppClientID": "string"
         }
     },
     "api": {

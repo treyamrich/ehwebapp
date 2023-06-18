@@ -33,11 +33,12 @@ export const fetchItems = async (query, authMode, errorCallbackFn, variables={})
 //item in items is from the CartItem in the graphql schema
 export const updateItemQuantities = async items => {
     const dynamodbClient = await createDynamoDBObj();
+    const tableName = "Items-7fr2sid2azbrrhnbb2ntqspzlu-dev";
     const command = new ExecuteTransactionCommand({
       TransactStatements: items.map(cartItem => {
         let qty = cartItem.quantity.toString();
         return {
-          Statement: `UPDATE "Items-7fr2sid2azbrrhnbb2ntqspzlu-dev" SET qty=qty-? WHERE itemCode=? AND qty >= ?`,
+          Statement: `UPDATE "${tableName}" SET qty=qty-? WHERE itemCode=? AND qty >= ?`,
           Parameters: [
             { N: qty }, {S: cartItem.itemCode}, { N: qty }
           ]

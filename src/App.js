@@ -8,7 +8,6 @@ import Login from './pages/auth/Login.js';
 import { Dashboard, Home, Order } from './pages/index';
 
 const initialFormState = {
-  phoneNum:'',
   password:'',
   newPw:'',
   confNewPw:'',
