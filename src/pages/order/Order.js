@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { EditorState } from 'draft-js';
 import { Alert, Sidebar, Navbar, Footer, PopUp } from '../../components';
@@ -6,6 +6,8 @@ import { useStateContext } from '../../contexts/ContextProvider';
 import { Bundles, CustomizeCartItem, ContactForm } from '.';
 import ItemPicker from './order-components/ItemPicker';
 import { order_links, EH_COLOR_DARK, EH_COLOR_LIGHT, InitCartItemState } from '../../data/uidata';
+import { fetchItems } from '../../data/APICalls';
+import { listItemCategories } from '../../graphql/queries';
 
 const Order = () => {
   const [display, setDisplay] = useState('start'); //Control start, contact form, and order screen display
@@ -63,6 +65,7 @@ const Order = () => {
     //Open cart
     handleClick('cart');
   }
+  useEffect(()=>{ fetch}, []);
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
       <div className="flex relative dark:bg-main-dark-bg">

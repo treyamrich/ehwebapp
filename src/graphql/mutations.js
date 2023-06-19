@@ -397,6 +397,45 @@ export const deleteOrderChoice = /* GraphQL */ `
     }
   }
 `;
+export const createItemCategory = /* GraphQL */ `
+  mutation CreateItemCategory(
+    $input: CreateItemCategoryInput!
+    $condition: ModelItemCategoryConditionInput
+  ) {
+    createItemCategory(input: $input, condition: $condition) {
+      categoryName
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateItemCategory = /* GraphQL */ `
+  mutation UpdateItemCategory(
+    $input: UpdateItemCategoryInput!
+    $condition: ModelItemCategoryConditionInput
+  ) {
+    updateItemCategory(input: $input, condition: $condition) {
+      categoryName
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteItemCategory = /* GraphQL */ `
+  mutation DeleteItemCategory(
+    $input: DeleteItemCategoryInput!
+    $condition: ModelItemCategoryConditionInput
+  ) {
+    deleteItemCategory(input: $input, condition: $condition) {
+      categoryName
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createGraphic = /* GraphQL */ `
   mutation CreateGraphic(
     $input: CreateGraphicInput!

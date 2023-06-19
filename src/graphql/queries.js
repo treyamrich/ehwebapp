@@ -239,6 +239,33 @@ export const listOrderChoices = /* GraphQL */ `
     }
   }
 `;
+export const getItemCategory = /* GraphQL */ `
+  query GetItemCategory($id: ID!) {
+    getItemCategory(id: $id) {
+      categoryName
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listItemCategories = /* GraphQL */ `
+  query ListItemCategories(
+    $filter: ModelItemCategoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listItemCategories(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        categoryName
+        id
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getGraphic = /* GraphQL */ `
   query GetGraphic($name: String!) {
     getGraphic(name: $name) {

@@ -385,6 +385,42 @@ export const onDeleteOrderChoice = /* GraphQL */ `
     }
   }
 `;
+export const onCreateItemCategory = /* GraphQL */ `
+  subscription OnCreateItemCategory(
+    $filter: ModelSubscriptionItemCategoryFilterInput
+  ) {
+    onCreateItemCategory(filter: $filter) {
+      categoryName
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateItemCategory = /* GraphQL */ `
+  subscription OnUpdateItemCategory(
+    $filter: ModelSubscriptionItemCategoryFilterInput
+  ) {
+    onUpdateItemCategory(filter: $filter) {
+      categoryName
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteItemCategory = /* GraphQL */ `
+  subscription OnDeleteItemCategory(
+    $filter: ModelSubscriptionItemCategoryFilterInput
+  ) {
+    onDeleteItemCategory(filter: $filter) {
+      categoryName
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateGraphic = /* GraphQL */ `
   subscription OnCreateGraphic($filter: ModelSubscriptionGraphicFilterInput) {
     onCreateGraphic(filter: $filter) {
