@@ -24,6 +24,90 @@ export const createOrders = /* GraphQL */ `
         itemCode
         quantity
         category
+        services {
+          name
+          itemCode
+          quantity
+        }
+        graphics {
+          name
+          itemCode
+          willEmail
+          graphicName
+        }
+        cutouts {
+          name
+          itemCode
+          willEmail
+          graphicName
+        }
+        subItems {
+          name
+          itemCode
+          quantity
+          category
+          services {
+            name
+            itemCode
+            quantity
+          }
+          graphics {
+            name
+            itemCode
+            willEmail
+            graphicName
+          }
+          cutouts {
+            name
+            itemCode
+            willEmail
+            graphicName
+          }
+          subItems {
+            name
+            itemCode
+            quantity
+            category
+            services {
+              name
+              itemCode
+              quantity
+            }
+            graphics {
+              name
+              itemCode
+              willEmail
+              graphicName
+            }
+            cutouts {
+              name
+              itemCode
+              willEmail
+              graphicName
+            }
+            subItems {
+              name
+              itemCode
+              quantity
+              category
+              txtObj
+              layoutImg
+              notes
+              postTxt
+              postLayout
+            }
+            txtObj
+            layoutImg
+            notes
+            postTxt
+            postLayout
+          }
+          txtObj
+          layoutImg
+          notes
+          postTxt
+          postLayout
+        }
         txtObj
         layoutImg
         notes
@@ -58,6 +142,90 @@ export const updateOrders = /* GraphQL */ `
         itemCode
         quantity
         category
+        services {
+          name
+          itemCode
+          quantity
+        }
+        graphics {
+          name
+          itemCode
+          willEmail
+          graphicName
+        }
+        cutouts {
+          name
+          itemCode
+          willEmail
+          graphicName
+        }
+        subItems {
+          name
+          itemCode
+          quantity
+          category
+          services {
+            name
+            itemCode
+            quantity
+          }
+          graphics {
+            name
+            itemCode
+            willEmail
+            graphicName
+          }
+          cutouts {
+            name
+            itemCode
+            willEmail
+            graphicName
+          }
+          subItems {
+            name
+            itemCode
+            quantity
+            category
+            services {
+              name
+              itemCode
+              quantity
+            }
+            graphics {
+              name
+              itemCode
+              willEmail
+              graphicName
+            }
+            cutouts {
+              name
+              itemCode
+              willEmail
+              graphicName
+            }
+            subItems {
+              name
+              itemCode
+              quantity
+              category
+              txtObj
+              layoutImg
+              notes
+              postTxt
+              postLayout
+            }
+            txtObj
+            layoutImg
+            notes
+            postTxt
+            postLayout
+          }
+          txtObj
+          layoutImg
+          notes
+          postTxt
+          postLayout
+        }
         txtObj
         layoutImg
         notes
@@ -92,6 +260,90 @@ export const deleteOrders = /* GraphQL */ `
         itemCode
         quantity
         category
+        services {
+          name
+          itemCode
+          quantity
+        }
+        graphics {
+          name
+          itemCode
+          willEmail
+          graphicName
+        }
+        cutouts {
+          name
+          itemCode
+          willEmail
+          graphicName
+        }
+        subItems {
+          name
+          itemCode
+          quantity
+          category
+          services {
+            name
+            itemCode
+            quantity
+          }
+          graphics {
+            name
+            itemCode
+            willEmail
+            graphicName
+          }
+          cutouts {
+            name
+            itemCode
+            willEmail
+            graphicName
+          }
+          subItems {
+            name
+            itemCode
+            quantity
+            category
+            services {
+              name
+              itemCode
+              quantity
+            }
+            graphics {
+              name
+              itemCode
+              willEmail
+              graphicName
+            }
+            cutouts {
+              name
+              itemCode
+              willEmail
+              graphicName
+            }
+            subItems {
+              name
+              itemCode
+              quantity
+              category
+              txtObj
+              layoutImg
+              notes
+              postTxt
+              postLayout
+            }
+            txtObj
+            layoutImg
+            notes
+            postTxt
+            postLayout
+          }
+          txtObj
+          layoutImg
+          notes
+          postTxt
+          postLayout
+        }
         txtObj
         layoutImg
         notes
@@ -202,6 +454,11 @@ export const createPurchaseOrder = /* GraphQL */ `
         numReceived
         receivedDate
         goodTill
+        adjustments {
+          adjAmt
+          reason
+          adjDate
+        }
       }
       isOpen
       createdAt
@@ -227,6 +484,11 @@ export const updatePurchaseOrder = /* GraphQL */ `
         numReceived
         receivedDate
         goodTill
+        adjustments {
+          adjAmt
+          reason
+          adjDate
+        }
       }
       isOpen
       createdAt
@@ -252,6 +514,11 @@ export const deletePurchaseOrder = /* GraphQL */ `
         numReceived
         receivedDate
         goodTill
+        adjustments {
+          adjAmt
+          reason
+          adjDate
+        }
       }
       isOpen
       createdAt

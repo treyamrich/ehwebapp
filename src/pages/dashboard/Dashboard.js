@@ -70,7 +70,7 @@ const Dashboard = () => {
                     <Route path="/" element={<Metrics/>}/>
                     <Route path="metrics" element={<Metrics/>}/>
                     <Route path="inventory" element={<Inventory opRes={opRes} setOpRes={setOpRes}/>}/>
-                    <Route path="purchase-order" element={<ManagePO opRes={opRes} setOpRes={setOpRes}/>}/>
+                    <Route path="purchase-orders" element={<ManagePO opRes={opRes} setOpRes={setOpRes}/>}/>
                     <Route path="orders" element={<ViewOrder opRes={opRes} setOpRes={setOpRes}/>}/>
                 </Routes>
               </div>

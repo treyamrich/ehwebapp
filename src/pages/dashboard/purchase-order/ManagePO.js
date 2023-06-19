@@ -4,6 +4,8 @@ import { listItems, listPurchaseOrders, getPurchaseOrder } from '../../../graphq
 import { POForm, PORunDown } from './index';
 import { createPurchaseOrder, updatePurchaseOrder, deletePurchaseOrder } from '../../../graphql/mutations';
 import { arrToString } from '../../../utility/Strings';
+import { fetchItems } from '../../../data/APICalls';
+import { AUTH_MODE_COGNITO } from '../../../data/uidata';
 
 const initialPOFormState = {
     op: "view-all",
@@ -80,29 +82,34 @@ function ManagePO({opRes, setOpRes}) {
         }
     }
     async function fetchPO() {
-        try {
-            const openPOData = await API.graphql({query: listPurchaseOrders,
-                variables: {
-                    filter: {
-                        isOpen: {
-                            eq: true
-                        }
+        const openPORes = await fetchItems(
+            {listPurchaseOrders},
+            AUTH_MODE_COGNITO,
+            err=>setOpRes({...opRes, failureMsg:"Error: Could not fetch Purchase Orders"}),
+            {
+                filter: {
+                    isOpen: {
+                        eq: true
                     }
-                }, authMode: 'AMAZON_COGNITO_USER_POOLS'});
-            const closedPOData = await API.graphql({query: listPurchaseOrders, 
-                variables: {
-                    filter: {
-                        isOpen: {
-                            eq: false
-                        }
+                }
+            }
+        );
+        const closedPORes = await fetchItems(
+            {listPurchaseOrders},
+            AUTH_MODE_COGNITO,
+            err=>setOpRes({...opRes, failureMsg:"Error: Could not fetch Purchase Orders"}),
+            {
+                filter: {
+                    isOpen: {
+                        eq: false
                     }
-                }, authMode: 'AMAZON_COGNITO_USER_POOLS'});
-            setOpenPO(openPOData.data.listPurchaseOrders.items);
-            setClosedPO(closedPOData.data.listPurchaseOrders.items);
-        } catch(e) {
-            console.log(e);
-            setOpRes({...opRes, failureMsg:"Error: Could not fetch Purchase Orders"});
-        }
+                }
+            }
+        );
+        console.log(openPORes);
+        console.log(closedPORes);
+        setOpenPO(openPORes);
+        setClosedPO(closedPORes);
     }
     async function performOp(op, po=null, silentSuccess=false, silentFail=false) {
         //Performs a database operation, displays the result, resets state

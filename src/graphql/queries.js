@@ -21,6 +21,90 @@ export const getOrders = /* GraphQL */ `
         itemCode
         quantity
         category
+        services {
+          name
+          itemCode
+          quantity
+        }
+        graphics {
+          name
+          itemCode
+          willEmail
+          graphicName
+        }
+        cutouts {
+          name
+          itemCode
+          willEmail
+          graphicName
+        }
+        subItems {
+          name
+          itemCode
+          quantity
+          category
+          services {
+            name
+            itemCode
+            quantity
+          }
+          graphics {
+            name
+            itemCode
+            willEmail
+            graphicName
+          }
+          cutouts {
+            name
+            itemCode
+            willEmail
+            graphicName
+          }
+          subItems {
+            name
+            itemCode
+            quantity
+            category
+            services {
+              name
+              itemCode
+              quantity
+            }
+            graphics {
+              name
+              itemCode
+              willEmail
+              graphicName
+            }
+            cutouts {
+              name
+              itemCode
+              willEmail
+              graphicName
+            }
+            subItems {
+              name
+              itemCode
+              quantity
+              category
+              txtObj
+              layoutImg
+              notes
+              postTxt
+              postLayout
+            }
+            txtObj
+            layoutImg
+            notes
+            postTxt
+            postLayout
+          }
+          txtObj
+          layoutImg
+          notes
+          postTxt
+          postLayout
+        }
         txtObj
         layoutImg
         notes
@@ -52,6 +136,73 @@ export const listOrders = /* GraphQL */ `
         status
         dateCompleted
         rushStatus
+        cart {
+          name
+          itemCode
+          quantity
+          category
+          services {
+            name
+            itemCode
+            quantity
+          }
+          graphics {
+            name
+            itemCode
+            willEmail
+            graphicName
+          }
+          cutouts {
+            name
+            itemCode
+            willEmail
+            graphicName
+          }
+          subItems {
+            name
+            itemCode
+            quantity
+            category
+            services {
+              name
+              itemCode
+              quantity
+            }
+            graphics {
+              name
+              itemCode
+              willEmail
+              graphicName
+            }
+            cutouts {
+              name
+              itemCode
+              willEmail
+              graphicName
+            }
+            subItems {
+              name
+              itemCode
+              quantity
+              category
+              txtObj
+              layoutImg
+              notes
+              postTxt
+              postLayout
+            }
+            txtObj
+            layoutImg
+            notes
+            postTxt
+            postLayout
+          }
+          txtObj
+          layoutImg
+          notes
+          postTxt
+          postLayout
+        }
         notes
         updatedAt
       }
@@ -138,6 +289,11 @@ export const getPurchaseOrder = /* GraphQL */ `
         numReceived
         receivedDate
         goodTill
+        adjustments {
+          adjAmt
+          reason
+          adjDate
+        }
       }
       isOpen
       createdAt
@@ -156,6 +312,21 @@ export const listPurchaseOrders = /* GraphQL */ `
         id
         vendorId
         date
+        orderedProducts {
+          itemCode
+          itemName
+          numPurchased
+          unitCost
+          totalCost
+          numReceived
+          receivedDate
+          goodTill
+          adjustments {
+            adjAmt
+            reason
+            adjDate
+          }
+        }
         isOpen
         createdAt
         updatedAt
@@ -191,6 +362,16 @@ export const listOwnerContacts = /* GraphQL */ `
   ) {
     listOwnerContacts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        contactInfo {
+          name
+          phone
+          faxPhone
+          email
+          address
+          city
+          state
+          zip
+        }
         id
         createdAt
         updatedAt
@@ -232,6 +413,16 @@ export const listVendors = /* GraphQL */ `
       items {
         id
         vendorName
+        contactInfo {
+          name
+          phone
+          faxPhone
+          email
+          address
+          city
+          state
+          zip
+        }
         shTerms
         salesTaxTerms
         notes
