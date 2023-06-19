@@ -57,6 +57,14 @@ enum ChoiceType {
   FONT
 }
 
+#The admin can control what item categories are shown in the ordering UI
+type ItemCategory @model @auth(rules: [
+  { allow: groups, groups: ["admin"], provider: userPools},
+  { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
+  { allow: public, provider: iam, operations: [read]}]) {
+  categoryName: String!
+}
+
 type Graphic @model @auth(rules: [
   { allow: groups, groups: ["admin"], provider: userPools},
   { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
