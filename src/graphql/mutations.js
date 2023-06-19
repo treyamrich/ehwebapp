@@ -17,6 +17,7 @@ export const createOrders = /* GraphQL */ `
       timeNeeded
       location
       status
+      dateCompleted
       rushStatus
       cart {
         name
@@ -50,6 +51,7 @@ export const updateOrders = /* GraphQL */ `
       timeNeeded
       location
       status
+      dateCompleted
       rushStatus
       cart {
         name
@@ -83,6 +85,7 @@ export const deleteOrders = /* GraphQL */ `
       timeNeeded
       location
       status
+      dateCompleted
       rushStatus
       cart {
         name

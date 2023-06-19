@@ -14,6 +14,7 @@ export const getOrders = /* GraphQL */ `
       timeNeeded
       location
       status
+      dateCompleted
       rushStatus
       cart {
         name
@@ -49,6 +50,7 @@ export const listOrders = /* GraphQL */ `
         timeNeeded
         location
         status
+        dateCompleted
         rushStatus
         notes
         updatedAt

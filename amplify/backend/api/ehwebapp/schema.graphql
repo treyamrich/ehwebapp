@@ -15,6 +15,7 @@ type Orders @model @auth(rules: [
   location: String!
 
   status: OrderStatus!
+  dateCompleted: AWSDate
   rushStatus: RushStatus!
 
   cart: [CartItem]!
