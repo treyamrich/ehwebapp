@@ -5,21 +5,28 @@ import { Alert, Sidebar, Navbar, Footer, PopUp } from '../../components';
 import { useStateContext } from '../../contexts/ContextProvider';
 import { Bundles, CustomizeCartItem, ContactForm } from '.';
 import ItemPicker from './order-components/ItemPicker';
-import { order_links, EH_COLOR_DARK, EH_COLOR_LIGHT, InitCartItemState } from '../../data/uidata';
+import { order_links, EH_COLOR_DARK, EH_COLOR_LIGHT, InitCartItemState, AUTH_MODE_IAM } from '../../data/uidata';
 import { fetchItems } from '../../data/APICalls';
 import { listItemCategories } from '../../graphql/queries';
+
+const initialItemCategories = [{
+  title: 'Customize',
+  links: []
+}];
 
 const Order = () => {
   const [display, setDisplay] = useState('start'); //Control start, contact form, and order screen display
   //On first render, instruct the RTE to center the text
   const [autoTxtCenter, setAutoTxtCenter] = useState(true);
   const [cartItem, setCartItem] = useState({...InitCartItemState});
+  const [itemCategories, setItemCategories] = useState([]);
+  const [orderLinks, setOrderLinks] = useState(initialItemCategories);
   const [selItem, setSelItem] = useState(null);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
   const [editItemIdx, setEditItemIdx] = useState(-1); //-1 means no item is being edited
   const navigate = useNavigate();
   const { activeMenu, currentMode, popups, popPopUp, order, setOrder, handleClick, setIsClicked, 
-    initialClickState, opRes, resetOpResState, setActiveMenu } = useStateContext();
+    initialClickState, opRes, setOpRes, resetOpResState, setActiveMenu } = useStateContext();
 
   //Resets the entire customization process
   const resetState = () => {
@@ -65,19 +72,31 @@ const Order = () => {
     //Open cart
     handleClick('cart');
   }
-  useEffect(()=>{ fetch}, []);
+  const fetchItemCategories = async () => {
+    let categories = await fetchItems(
+      { listItemCategories },
+      AUTH_MODE_IAM,
+      err=>setOpRes({...opRes, failureMsg: "Error: Could not item categories."})
+    );
+    categories = categories.map(category => category.categoryName);
+    setItemCategories(categories);
+    const newLinks = [];
+    categories.forEach(category => {
+      newLinks.push({
+          name: category,
+          to: category,
+          icon: null
+        });
+    });
+    setOrderLinks([{title: 'Customize', links: [...newLinks]}]);
+  }
+  useEffect(()=>{ fetchItemCategories(); }, []);
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
       <div className="flex relative dark:bg-main-dark-bg">
-        {activeMenu ? (
-          <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-            <Sidebar themeColor={EH_COLOR_LIGHT} links={order_links}/>
-          </div>
-        ) : (
-          <div className="w-0 dark:bg-secondary-dark-bg">
-            <Sidebar themeColor={EH_COLOR_LIGHT} links={order_links}/>
-          </div>
-        )}
+        <div className={`dark:bg-secondary-dark-bg ${activeMenu ? "w-72 fixed sidebar bg-white" : "w-0"}`}>
+            <Sidebar themeColor={EH_COLOR_LIGHT} links={orderLinks}/>
+        </div>
         <div
           className={
             activeMenu
@@ -109,6 +128,9 @@ const Order = () => {
           <Routes>
               <Route path="/" element={<Bundles/>}/>
               <Route path="bundles" element={<Bundles/>}/>
+              {itemCategories.map((category, idx) => (
+                <Route key={idx} path={category} element={<ItemPicker itemCategory={category} selItem={selItem} setSelItem={setSelItem}/>}/>
+              ))}
               <Route path="personalized-gifts" element={<ItemPicker itemCategory="GIFT" selItem={selItem} setSelItem={setSelItem}/>}/>
               <Route path="engravable-bottles" element={<ItemPicker itemCategory="DRINKWARE" selItem={selItem} setSelItem={setSelItem}/>}/>
               <Route path="plaques-and-plates" element={<ItemPicker itemCategory="PLAQUE" selItem={selItem} setSelItem={setSelItem}/>}/>

@@ -62,7 +62,7 @@ type ItemCategory @model @auth(rules: [
   { allow: groups, groups: ["admin"], provider: userPools},
   { allow: groups, groups: ["employee"], provider: userPools, operations: [read]},
   { allow: public, provider: iam, operations: [read]}]) {
-  categoryName: String!
+  categoryName: String! @primaryKey
 }
 
 type Graphic @model @auth(rules: [
