@@ -4,7 +4,7 @@ import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { Alert, Sidebar, Navbar, Footer, ThemeSettings } from '../../components/index';
 import { useStateContext } from '../../contexts/ContextProvider';
-
+import ManageVendor from './manage-vendor/ManageVendor'; 
 import { Metrics, Inventory, ViewOrder } from './index';
 import ManagePO from './purchase-order/ManagePO';
 import { dashboard_links } from '../../data/uidata';
@@ -65,13 +65,13 @@ const Dashboard = () => {
               </div>
               <div>
                 {themeSettings && (<ThemeSettings />)}
-  
                 <Routes>
                     <Route path="/" element={<Metrics/>}/>
                     <Route path="metrics" element={<Metrics/>}/>
                     <Route path="inventory" element={<Inventory opRes={opRes} setOpRes={setOpRes}/>}/>
                     <Route path="purchase-orders" element={<ManagePO opRes={opRes} setOpRes={setOpRes}/>}/>
                     <Route path="orders" element={<ViewOrder opRes={opRes} setOpRes={setOpRes}/>}/>
+                    <Route path="manage-vendor" element={<ManageVendor opRes={opRes} setOpRes={setOpRes}/>}/>
                 </Routes>
               </div>
               <Footer />

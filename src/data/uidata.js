@@ -82,7 +82,7 @@ export const dashboard_links = [
         },
         {
           name: 'Vendors',
-          to: 'vendors',
+          to: 'manage-vendor',
           icon: <BsBoxSeam />,
         },
         {

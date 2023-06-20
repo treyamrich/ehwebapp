@@ -1,25 +1,25 @@
 export type AmplifyDependentResourcesAttributes = {
-    "auth": {
-        "ehwebapp3c1734b1": {
-            "IdentityPoolId": "string",
-            "IdentityPoolName": "string",
-            "UserPoolId": "string",
-            "UserPoolArn": "string",
-            "UserPoolName": "string",
-            "AppClientIDWeb": "string",
-            "AppClientID": "string"
-        }
-    },
-    "api": {
-        "ehwebapp": {
-            "GraphQLAPIIdOutput": "string",
-            "GraphQLAPIEndpointOutput": "string"
-        }
-    },
-    "storage": {
-        "ehwebappaddongraphics": {
-            "BucketName": "string",
-            "Region": "string"
-        }
+  "api": {
+    "ehwebapp": {
+      "GraphQLAPIEndpointOutput": "string",
+      "GraphQLAPIIdOutput": "string"
     }
+  },
+  "auth": {
+    "ehwebapp3c1734b1": {
+      "AppClientID": "string",
+      "AppClientIDWeb": "string",
+      "IdentityPoolId": "string",
+      "IdentityPoolName": "string",
+      "UserPoolArn": "string",
+      "UserPoolId": "string",
+      "UserPoolName": "string"
+    }
+  },
+  "storage": {
+    "ehwebappaddongraphics": {
+      "BucketName": "string",
+      "Region": "string"
+    }
+  }
 }
