@@ -68,7 +68,7 @@ function ManageInventory({opRes, setOpRes}) {
             opRes.failItems.push(item.itemCode);
             console.log(e);
             return;
-        }
+        }   
         opRes.succItems.push(item.itemCode);
     }
     const fetchInventory = () => {

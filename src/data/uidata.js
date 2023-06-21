@@ -130,6 +130,33 @@ export const inventoryColumns = [
       textAlign: 'Center',
     },
 ];
+export const vendorColumns = [
+  { type: 'checkbox', width: '50' },
+  { field: 'vendorName',
+    isPrimaryKey: true,
+    headerText: 'Vendor Name',
+    width: '150',
+    textAlign: 'Center' },
+  { field: 'contactInfo',
+    headerText: 'Contact Info',
+    width: '150',
+    textAlign: 'Center' },
+  { field: 'shTerms',
+    headerText: 'Shipping Terms',
+    width: '75',
+    textAlign: 'Center'},
+  {
+    field: 'salesTaxTerms',
+    headerText: 'Sales Tax Terms',
+    width: '75',
+    textAlign: 'Center'
+  },
+  { field: 'notes',
+    headerText: 'Notes',
+    width: '100',
+    textAlign: 'Center' 
+  },
+];
 
 export const orderColumns = [
   { field: 'orderNum',
