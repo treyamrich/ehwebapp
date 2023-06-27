@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, {useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-//import { listVendors } from '../../../graphql/queries';
+import { listVendors } from '../../../graphql/queries';
 import { createVendor } from '../../../graphql/mutations';
 
 
-import VendorForm from './VendorForm';
+import ItemForm from '../inventory/ItemForm';
+import VendorForm from './vendorForm'
 import { TableComponent, ColumnHeader } from '../../../components/Table/TableIndex';
 //import { fetchItems } from '../../../data/APICalls';
 
@@ -17,11 +18,21 @@ import { arrToString } from '../../../utility/Strings';
 function ManageVendor({opRes, setOpRes}) {
   const { currentColor } = useStateContext();
   //const [vendorData, setVendorData] = useState([]);
-
+  const [vendorData, setVendorData] = useState([]);
+  
   useEffect(() => {
-    //fetch vendor data when loading page
-    //fetchVendorData();
-  }, []);
+    fetchVendorData();
+}, []);
+
+const fetchVendorData = async () => {
+    try {
+        const data = await API.graphql({ query: listVendors, authMode: AUTH_MODE_COGNITO });
+        setVendorData(data.data.listVendors.items);
+    } catch (err) {
+        setOpRes({...opRes, failureMsg:"Error: Could not fetch vendor data"});
+        console.log(err);
+    }
+}
 
   //maybe? wtf is this
 //   const fetchVendorData = () => {

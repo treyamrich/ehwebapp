@@ -2,10 +2,19 @@ import React, { useState, useRef } from 'react';
 import Select from 'react-select';
 import { animatedComponents, itemCategoryOptions } from '../../../data/uidata';
 
-const DEFAULT_CATEGORY = "PLAQUE";
 const initialVendorState = {
   vendorCode: "",
   vendorName: "",
+  contactInfo: {
+    name: "",
+    phone: "",
+    faxPhone: "",
+    email: "",
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
+  },
   shTerms: "",
   salesTaxTerms: "",
   notes: "",
@@ -33,6 +42,7 @@ const VendorForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
       setVendorData({
         vendorCode: "",
         vendorName: "",
+        contactInfo: {},
         shTerms: "",
         salesTaxTerms: "",
         notes: "",
@@ -55,42 +65,72 @@ const VendorForm = ({btnBgColor, mode, dbOperation, submitForm, editObj}) => {
                     disabled={mode === "edit"}/>
             </div>
             <div className="p-3">
-                <label className="text-lg font-semibold" htmlFor="vendor-name">Vendor Name:</label>
-                <input className="border px-3 py-2 w-full rounded-sm" type="text" name="vendor-name" 
+                <label className="text-lg font-semibold" htmlFor="vendorName">Vendor Name:</label>
+                <input className="border px-3 py-2 w-full rounded-sm" type="text" name="vendorName" 
                     placeholder="Cherry 10x13 Plaque" 
-                    onChange={(e)=>setVendorData({...vendor, name: e.target.value})}
+                    onChange={(e)=>setVendorData({...vendor, vendorName: e.target.value})}
                     value={vendor.vendorName}
                     required
                 />
             </div>
             <div className="p-3">
-                <label className="text-lg font-semibold" htmlFor="vendor-price">Vendor Price:</label>
-                <input className="border px-3 py-2 w-full rounded-sm" type="number" name="itvendorem-price" 
-                    placeholder="Enter the vendor price" 
-                    min="0.0" 
-                    step="0.01"
-                    onChange={(e)=>setVendorData({...vendor, price: e.target.value})}
+                <label className="text-lg font-semibold" htmlFor="shTerms">Shipping Terms:</label>
+                <input className="border px-3 py-2 w-full rounded-sm" type="text" name="shTerms" 
+                    placeholder="Cherry 10x13 Plaque" 
+                    onChange={(e)=>setVendorData({...vendor, shTerms: e.target.value})}
                     value={vendor.shTerms}
-                    required/>
+                    required
+                />
             </div>
             <div className="p-3">
-                <label className="text-lg font-semibold" htmlFor="vendor-cost">Vendor Cost:</label>
-                <input className="border px-3 py-2 w-full rounded-sm" type="number" name="vendor-cost" 
-                    placeholder="Enter the vendor cost" 
-                    min="0.0" 
-                    step="0.01"
-                    onChange={(e)=>setVendorData({...vendor, cost: e.target.value})}
-                    value={vemdpr.salesTaxTerms}
-                    required/>
+                <label className="text-lg font-semibold" htmlFor="salesTaxTerms">Sales Tax Terms:</label>
+                <input className="border px-3 py-2 w-full rounded-sm" type="text" name="salesTaxTerms" 
+                    placeholder="Cherry 10x13 Plaque" 
+                    onChange={(e)=>setVendorData({...vendor, salesTaxTerms: e.target.value})}
+                    value={vendor.salesTaxTerms}
+                    required
+                />
             </div>
             <div className="p-3">
-                <label className="text-lg font-semibold" htmlFor="vendor-qty">Vendor Qty:</label>
-                <input className="border px-3 py-2 w-full rounded-sm" type="number" name="vendor-qty" 
-                    placeholder="Enter the vendor qty." 
-                    min="0" 
-                    step="1"
-                    ref={qty}
-                    defaultValue={vendor.notes}/>
+                <label className="text-lg font-semibold" htmlFor="notes">Ntoes:</label>
+                <input className="border px-3 py-2 w-full rounded-sm" type="text" name="notes" 
+                    placeholder="Cherry 10x13 Plaque" 
+                    onChange={(e)=>setVendorData({...vendor, notes: e.target.value})}
+                    value={vendor.notes}
+                    required    
+                />
+            </div>
+            <div className="p-3">
+                <label className="text-lg font-semibold" htmlFor="contactName">Contact Name:</label>
+                <input className="border px-3 py-2 w-full rounded-sm" type="text" name="contactName" 
+                    placeholder="Contact Name"
+                    onChange={(e)=>setVendorData({...vendor, contactInfo: { ...vendor.contactInfo, name: e.target.value }})}
+                    value={vendor.contactInfo.name}  
+                />
+            </div>
+            <div className="p-3">
+                <label className="text-lg font-semibold" htmlFor="phone">Phone:</label>
+                <input className="border px-3 py-2 w-full rounded-sm" type="text" name="phone" 
+                    placeholder="Phone"
+                    onChange={(e)=>setVendorData({...vendor, contactInfo: { ...vendor.contactInfo, phone: e.target.value }})}
+                    value={vendor.contactInfo.phone}  
+                />
+            </div>
+            <div className="p-3">
+                <label className="text-lg font-semibold" htmlFor="faxPhone">Fax Phone:</label>
+                <input className="border px-3 py-2 w-full rounded-sm" type="text" name="faxPhone" 
+                    placeholder="Fax Phone"
+                    onChange={(e)=>setVendorData({...vendor, contactInfo: { ...vendor.contactInfo, faxPhone: e.target.value }})}
+                    value={vendor.contactInfo.faxPhone}  
+                />
+            </div>
+            <div className="p-3">
+                <label className="text-lg font-semibold" htmlFor="email">Email:</label>
+                <input className="border px-3 py-2 w-full rounded-sm" type="email" name="email" 
+                    placeholder="Email"
+                    onChange={(e)=>setVendorData({...vendor, contactInfo: { ...vendor.contactInfo, email: e.target.value }})}
+                    value={vendor.contactInfo.email}  
+                />
             </div>
         </div>
         <div id="submit-popup-form" className='flex justify-end vendor-center p-4 ml-4'>

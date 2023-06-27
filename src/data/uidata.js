@@ -137,7 +137,7 @@ export const vendorColumns = [
     headerText: 'Vendor Name',
     width: '150',
     textAlign: 'Center' },
-  { field: 'contactInfo',
+  { field: 'contactInfo.name',
     headerText: 'Contact Info',
     width: '150',
     textAlign: 'Center' },
